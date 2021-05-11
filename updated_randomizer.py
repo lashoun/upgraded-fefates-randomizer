@@ -32,7 +32,8 @@ parser.add_argument('-dcs', '--disable-class-spread', action='store_true', help=
 parser.add_argument('-dgd', '--disable-gunter-def', action='store_true', help="disable Gunter's replacement's enforced higher Def than Res")
 parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze's replacement's enforced Locktouch skill")
 parser.add_argument('-ds', '--disable-songstress', action='store_true', help="disable Azura's replacement's enforced Songstress class")
-parser.add_argument('-dsr', '--disable-staff-retainer', action='store_true', help="disable Jakob and Felicia's enforced healing class")
+parser.add_argument('-dsr', '--disable-staff-retainer', action='store_true', help="disable Jakob and Felicia's replacement's enforced healing class")
+parser.add_argument('-dss', '--disable-staff-sister', action='store_true', help="disable Sakura and/or Elise's replacement's enforced healing class")
 parser.add_argument('-ema', '--enforce-mozu-aptitude', action='store_true', help="enforce Mozu (herself) having Aptitude")
 parser.add_argument('-emoc', '--enable-mag-only-corrin', action='store_true', help="enables Corrin to get a Mag only class")
 parser.add_argument('-esc', '--enforce-sword-corrin', action='store_true', help="enforces Corrin to get a sword-wielding final class")
@@ -128,7 +129,8 @@ class FatesRandomizer:
         forceGunterDef=True,  # will force Gunter's replacement to have higher Def
         forceLocktouch=True,  # will force Kaze's replacement to get Locktouch
         forceMozuAptitude=False,  # will force Mozu (not her replacement) to get Aptitude
-        forceStaffRetainer=True,  # will force the retainer to get a promoted class with a staff
+        forceStaffRetainer=True,  # will force the retainer's replacement to get a promoted class with a staff
+        forceStaffSister=True,  # will force the little sister's replacement (Sakura in BR or RV / Elise in CQ) to get a healing class 
         forceStatDecrease=False,  # force stat decrase in adjustBaseStatsAndGrowths
         forceSongstress=True,  # will force Azura's replacement to be a Songstress
         forceStrCorrin=True,  # will force Corrin to have a class that wields at least one Str weapon
@@ -166,6 +168,7 @@ class FatesRandomizer:
         self.forceLocktouch = forceLocktouch
         self.forceMozuAptitude = forceMozuAptitude
         self.forceStaffRetainer = forceStaffRetainer
+        self.forceStaffSister = forceStaffSister
         self.forceStatDecrease = forceStatDecrease
         self.forceSongstress = forceSongstress
         self.forceStrCorrin = forceStrCorrin
@@ -193,6 +196,7 @@ class FatesRandomizer:
                                 'Falcon Knight', 'Adventurer', 'Strategist', 'Maid']
         self.JAKOB_CLASSES = ['Hoshido Noble', 'Onmyoji', 'Great Master', 
                               'Falcon Knight', 'Adventurer', 'Strategist', 'Butler']
+        self.SISTER_CLASS = ['Onmyoji', 'Priestess', 'Strategist', 'Maid']
 
         self.MALE_CLASSES = ['Great Master', 'Butler', 'Lodestar', 'Vanguard', 'Grandmaster', 'Ballistician']
         self.FEMALE_CLASSES = ['Priestess', 'Maid', 'Witch', 'Great Lord']
@@ -461,6 +465,17 @@ class FatesRandomizer:
                     self.setCharacterClass(character, self.readBaseClass(newClass, characterName))
 
         else:
+            
+            # Staff Sister Check
+            if switchingCharacterName == 'Sakura' and self.forceStaffSister and self.gameRoute != 'Conquest':
+                staffClassSet = self.SISTER_CLASS
+                staffClass = self.rng.choice(staffClassSet)
+                self.setCharacterClass(character, self.readBaseClass(newClass, characterName))
+            if switchingCharacterName == 'Elise' and self.forceStaffSister and self.gameRoute == 'Conquest':
+                staffClassSet = self.SISTER_CLASS
+                staffClass = self.rng.choice(staffClassSet)
+                self.setCharacterClass(character, self.readBaseClass(newClass, characterName))
+        
             # Staff Retainer Check
             if switchingCharacterName in ['Jakob', 'Felicia'] and self.forceStaffRetainer:
                 staffClassSet = self.JAKOB_CLASSES
@@ -581,10 +596,15 @@ class FatesRandomizer:
         if len(self.corrinClass) > 0:
             self.randomizedClasses['Corrin'] = self.corrinClass
         else:
-            corrinClass = self.rng.choice(self.FINAL_CLASSES)
-            if self.forceStrCorrin:
-                while corrinClass in self.MAGICAL_CLASSES:
+            if self.forceSwordCorrin:
+                corrinClass = self.rng.choice(self.SWORD_CLASSES)
+            else:
+                corrinClass = self.rng.choice(self.FINAL_CLASSES)
+                while corrinClass == 'Songstress':
                     corrinClass = self.rng.choice(self.FINAL_CLASSES)
+                if self.forceStrCorrin:
+                    while corrinClass in self.MAGICAL_CLASSES or corrinClass == 'Songstress':
+                        corrinClass = self.rng.choice(self.FINAL_CLASSES)
             self.randomizedClasses['Corrin'] = corrinClass
 
         if self.gameRoute == 'Birthright':
@@ -600,18 +620,34 @@ class FatesRandomizer:
         classes.pop(classes.index(self.randomizedClasses['Corrin']))
         self.rng.shuffle(classes)  # in place
         classesBis = self.FINAL_CLASSES.copy()
-        classesBis.pop(classes.index('Songstress'))  # one Songstress max
+        classesBis.pop(classesBis.index('Songstress'))  # one Songstress max
         self.rng.shuffle(classesBis)  # in place
         classes = classes + classesBis
         classes = classes[:len(characters)]
+        
+        # Staff Sister Check
+        if self.forceStaffSister:
+            sisterClass = self.rng.choice(self.SISTER_CLASS)
+            if self.gameRoute == 'Conquest':
+                self.randomizedClasses['Elise'] = sisterClass
+                characters.pop(characters.index('Elise'))
+                classes.pop(classes.index(sisterClass))
+            else:
+                self.randomizedClasses['Sakura'] = sisterClass
+                characters.pop(characters.index('Sakura'))
+                classes.pop(classes.index(sisterClass))
 
         # Staff Retainer Check
         if self.forceStaffRetainer:
             jakobClass = self.rng.choice(self.JAKOB_CLASSES)
-            self.randomizedClasses['Jakob'] = jakobClass
+            if self.forceStaffSister:
+                while jakobClass == sisterClass:
+                    jakobClass = self.rng.choice(self.JAKOB_CLASSES)
             feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
-            while feliciaClass == jakobClass:
-                feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
+            if self.forceStaffSister:
+                while feliciaClass == sisterClass or feliciaClass == jakobClass:
+                    feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
+            self.randomizedClasses['Jakob'] = jakobClass
             self.randomizedClasses['Felicia'] = feliciaClass
             characters.pop(characters.index('Jakob'))
             characters.pop(characters.index('Felicia'))
@@ -934,6 +970,7 @@ if __name__ == "__main__":
         forceLocktouch=(not args.disable_locktouch),
         forceMozuAptitude=(args.enforce_mozu_aptitude),
         forceStaffRetainer=(not args.disable_staff_retainer),
+        forceStaffSister=(not args.disable_staff_sister),
         forceStatDecrease=args.enforce_stat_decrease,
         forceSongstress=(not args.disable_songstress),
         forceStrCorrin=(not args.enable_mag_only_corrin),
