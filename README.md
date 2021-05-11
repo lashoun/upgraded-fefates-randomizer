@@ -1,4 +1,4 @@
-# FEFates Upgraded Randomizer
+# Upgraded FEFates Randomizer
 
 This is a barbaric but working improvement of thane89's [Fire Emblem Fates Randomizer](https://gbatemp.net/threads/wip-fire-emblem-fates-randomizer.452268/).
 
