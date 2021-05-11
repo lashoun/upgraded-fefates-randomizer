@@ -62,7 +62,11 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
 
 ### Requirements
 
-You will need to install [Python](https://www.python.org/) and the [xmltodict](https://github.com/martinblech/xmltodict) module.
+You will need to install [Python](https://www.python.org/), [numpy](https://numpy.org/) and the [xmltodict](https://github.com/martinblech/xmltodict) module. I advise using virtual environments but for the layman a simple
+```
+pip install numpy xmltodict
+```
+should do the trick.
 The instructions can look daunting but once you understand how it works it takes fewer than 5 minutes to do. Some experience with Python and/or tinkering with files will obviously help though.
 
 1. First, choose which version of Fates you want to play:
