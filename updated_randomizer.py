@@ -462,6 +462,16 @@ class FatesRandomizer:
                 if newPromotionLevel > 0 or (switchingCharacterName in ['Jakob', 'Felicia']):
                     self.setCharacterClass(character, newClass)
                 else:
+                    if switchingCharacterName == 'Sakura' and self.forceStaffSister and self.gameRoute != 'Conquest':
+                        if newClass in ['Onmyoji', 'Priestess']:
+                            self.setCharacterClass(character, 'Shrine Maiden')
+                        else:
+                            self.setCharacterClass(character, 'Troubadour')
+                    elif switchingCharacterName == 'Elise' and self.forceStaffSister and self.gameRoute == 'Conquest':
+                        if newClass in ['Onmyoji', 'Priestess']:
+                            self.setCharacterClass(character, 'Shrine Maiden')
+                        else:
+                            self.setCharacterClass(character, 'Troubadour')
                     self.setCharacterClass(character, self.readBaseClass(newClass, characterName))
 
         else:
@@ -470,11 +480,17 @@ class FatesRandomizer:
             if switchingCharacterName == 'Sakura' and self.forceStaffSister and self.gameRoute != 'Conquest':
                 staffClassSet = self.SISTER_CLASS
                 staffClass = self.rng.choice(staffClassSet)
-                self.setCharacterClass(character, self.readBaseClass(newClass, characterName))
+                if staffClass in ['Onmyoji', 'Priestess']:
+                    self.setCharacterClass(character, 'Shrine Maiden')
+                else:
+                    self.setCharacterClass(character, 'Troubadour')
             if switchingCharacterName == 'Elise' and self.forceStaffSister and self.gameRoute == 'Conquest':
                 staffClassSet = self.SISTER_CLASS
                 staffClass = self.rng.choice(staffClassSet)
-                self.setCharacterClass(character, self.readBaseClass(newClass, characterName))
+                if staffClass in ['Onmyoji', 'Priestess']:
+                    self.setCharacterClass(character, 'Shrine Maiden')
+                else:
+                    self.setCharacterClass(character, 'Troubadour')
         
             # Staff Retainer Check
             if switchingCharacterName in ['Jakob', 'Felicia'] and self.forceStaffRetainer:
