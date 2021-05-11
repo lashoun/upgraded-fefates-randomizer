@@ -38,9 +38,9 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
 	- B 96 -> 52
 	- A 161 -> 97
 	- S 251 -> 162
-- Weapon Updates: increased the difference between Hoshidan and Nohrian weapons. Nerfed the hell out of those busted hidden weapons. Doubled Staff Exp for convenience.
-	- Swords, Lances, Yumis, Scrolls: +1 Mt, -5 Hit, -10 Avo, +2 Crit
-	- Katanas, Naginatas, Bows, Tomes: -1 Mt, +10 Hit, +5 Avo, +5 Ddg
+- Weapon Updates: increased the difference between Hoshidan and Nohrian weapons, nerfed the hell out of those busted hidden weapons, doubled Staff Exp for convenience.
+	- Swords, Lances, Yumis, Scrolls: +1 Mt, -5 Hit, -5 Avo
+	- Katanas, Naginatas, Bows, Tomes: -1 Mt, +10 Hit, +5 Avo
 	- Axes: +1 Mt, -5 Hit, -10 Avo
 	- Clubs: -1 Mt, +5 Avo, +5 Crit
 	- Daggers: -2 Mt, -5 Hit
