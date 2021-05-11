@@ -76,15 +76,19 @@ The extracted folder will be referred to as the "romfs" folder.
 4. Hit "Randomize" and let the program sit. When the program finishes, a little notification will pop up in the corner of the window.
 5. Close `Fates Randomizer Beta 5-5.jar`.
 6. Copy the `RandomizerSettings.xml` file from the romfs folder to the `data` folder.
-7. Open a command prompt in the same folder as `updated_randomizer.py`. Run `python updated_randomizer`. If you want to know about the options, type
+7. Open a command prompt in the same folder as `updated_randomizer.py`. Run
+```
+python updated_randomizer
+```
+If you want to know about the options, type
 ```
 python updated_randomizer.py -h
 ```
-If the script ran successfully, you should have two files named `RandomizerSettingsUpdated.xml` and `ClassSpread.csv` in the data folder. Otherwise, try to run one more time, and if it fails again, raise an issue.
-8. Repeat steps 2-5 but choose a Custom Path and select `RandomizerSettingsUpdated.xml`. Don't forget to check the Join Order options if you did previously.
-9. Close `Fates Randomizer Beta 5-5.jar`. Open `FEAT.exe`. Drag the romfs folder into FEAT: this will recompress the files. Once FEAT is done, you can close it.
-10. Phew! You're done! Now you can copy your roms folder to the mods folder of your gaming medium.
-11. As a final note, DO NOT use this on top of an existing save or branch of fate. Use a fresh save starting from the very beginning if you want a stable playthrough.
+8. If the script ran successfully, you should have two files named `RandomizerSettingsUpdated.xml` and `ClassSpread.csv` in the data folder. Otherwise, try to run one more time, and if it fails again, raise an issue on this repository.
+9. Repeat steps 2-5 but choose a Custom Path and select `RandomizerSettingsUpdated.xml`. Don't forget to check the Join Order options if you did previously.
+10. Close `Fates Randomizer Beta 5-5.jar`. Open `FEAT.exe`. Drag the romfs folder into FEAT: this will recompress the files. Once FEAT is done, you can close it.
+11. Phew! You're done! Now you can copy your roms folder to the mods folder of your gaming medium.
+12. As a final note, DO NOT use this on top of an existing save or branch of fate. Use a fresh save starting from the very beginning if you want a stable playthrough.
 
 ## Troubleshooting
 
