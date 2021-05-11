@@ -1,0 +1,67 @@
+"Name","Attack Type","HP Growth","Str Growth","Mag Growth","Skl Growth","Spd Growth","Lck Growth","Def Growth","Res Growth","Base Class 1","Base Class 2"
+"Hoshido Noble","Mixed",15,15,10,10,10,10,15,0,"Nohr Prince","Nohr Princess"
+"Samurai","Str",10,10,0,15,20,15,0,10,,
+"Swordmaster","Str",10,10,5,15,20,15,0,10,"Samurai",
+"Master of Arms","Str",20,15,0,10,10,10,10,0,"Samurai","Villager"
+"Oni Savage","Str",20,20,10,0,10,0,20,0,,
+"Oni Chieftain","Mixed",10,20,15,0,10,0,20,5,"Oni Savage",
+"Blacksmith","Str",20,15,0,15,10,5,15,0,"Oni Savage",
+"Spear Fighter","Str",15,15,0,15,15,5,10,5,,
+"Spear Master","Str",15,15,0,15,15,5,10,5,"Spear Fighter",
+"Basara","Mixed",20,10,10,10,10,15,5,10,"Spear Fighter","Diviner"
+"Diviner","Mag",0,5,15,10,15,5,0,10,,
+"Onmyoji","Mag",0,0,20,10,15,0,0,15,"Diviner","Monk"
+"Shrine Maiden","Mixed",0,5,10,10,15,15,0,20,,
+"Monk","Mixed",0,5,10,10,15,15,0,20,,
+"Great Master","Mixed",10,15,5,5,15,15,10,10,"Monk",
+"Priestess","Mixed",10,10,10,5,15,15,0,20,"Shrine Maiden",
+"Sky Knight","Str",0,10,0,10,15,20,0,20,,
+"Falcon Knight","Mixed",0,10,10,10,15,20,0,20,"Sky Knight",
+"Kinshi Knight","Str",0,5,0,15,15,15,0,15,"Sky Knight","Archer"
+"Archer","Str",10,15,0,15,15,5,10,0,,
+"Sniper","Str",10,15,0,20,15,5,10,0,"Archer",
+"Ninja","Str",5,5,0,20,20,0,5,15,,
+"Master Ninja","Str",5,5,0,20,20,0,5,20,"Ninja",
+"Mechanist","Str",10,10,0,15,10,5,5,15,"Apothecary","Ninja"
+"Apothecary","Str",20,20,0,10,10,5,10,5,,
+"Merchant","Str",20,20,0,10,5,15,10,5,"Apothecary","Villager"
+"Kitsune","Str",10,10,0,15,20,10,0,20,,
+"Nine-Tails","Str",10,10,0,15,20,10,0,20,"Kitsune",
+"Songstress","Str",0,10,0,20,20,20,0,0,,
+"Villager","Str",10,10,0,10,10,20,10,0,,
+"Nohr Prince","Str",15,15,10,10,10,10,10,5,,
+"Nohr Princess","Str",15,15,10,10,10,10,10,5,,
+"Nohr Noble","Mixed",15,10,15,5,15,5,5,15,"Nohr Prince","Nohr Princess"
+"Cavalier","Str",10,15,0,10,10,15,10,5,,
+"Paladin","Str",10,15,0,10,10,15,10,10,"Cavalier",
+"Great Knight","Str",20,20,0,10,5,5,20,0,"Cavalier","Knight"
+"Knight","Str",20,20,0,15,5,10,20,0,,
+"General","Str",25,20,0,15,0,10,20,5,"Knight",
+"Fighter","Str",20,20,0,15,15,5,5,0,,
+"Berserker","Str",30,25,0,15,15,0,0,0,"Fighter",
+"Mercenary","Str",10,15,0,20,15,5,10,5,,
+"Hero","Str",20,15,0,20,15,5,10,0,"Fighter","Mercenary"
+"Bow Knight","Str",10,10,0,15,15,10,0,10,"Mercenary","Outlaw"
+"Outlaw","Str",0,10,5,10,20,0,0,20,,
+"Adventurer","Mixed",0,5,15,5,20,0,0,20,"Outlaw",
+"Wyvern Rider","Str",10,15,5,10,10,5,20,0,,
+"Wyvern Lord","Str",10,15,0,15,10,5,20,0,"Wyvern Rider",
+"Malig Knight","Mixed",0,15,15,10,5,0,10,15,"Wyvern Rider",
+"Dark Mage","Mag",0,10,20,0,10,0,5,10,,
+"Sorcerer","Mag",0,0,25,0,10,0,5,15,"Dark Mage",
+"Dark Knight","Mixed",15,20,10,5,5,5,15,5,"Dark Mage",
+"Troubadour","Mixed",0,0,10,20,10,15,0,15,,
+"Strategist","Mag",0,0,15,5,10,20,0,15,"Troubadour",
+"Maid","Mixed",0,10,10,15,15,10,5,10,"Troubadour",
+"Butler","Mixed",0,10,10,15,15,10,5,10,"Troubadour",
+"Wolfskin","Str",20,20,0,5,15,5,10,0,,
+"Wolfssegner","Str",20,20,0,5,15,5,10,0,"Wolfskin",
+"Dread Fighter","Str",15,15,5,5,15,0,5,20,,
+"Dark Falcon","Mixed",0,10,15,5,15,15,0,20,,
+"Ballistician","Str",5,25,0,15,0,10,5,5,,
+"Witch","Mag",5,0,25,5,20,5,0,10,,
+"Lodestar","Str",15,10,0,20,10,25,5,5,,
+"Vanguard","Str",20,20,0,5,5,10,15,0,,
+"Great Lord","Str",15,15,0,10,10,15,10,5,,
+"Grandmaster","Mixed",10,15,15,15,5,0,5,15,,
+"Pegasus Knight","Str",0,10,0,15,20,20,0,20,,
