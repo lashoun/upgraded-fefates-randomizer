@@ -90,7 +90,7 @@ If you want to know about the options, type
 python updated_randomizer.py -h
 ```
 8. If the script ran successfully, you should have two files named `RandomizerSettingsUpdated.xml` and `ClassSpread.csv` in the data folder. Otherwise, try to run one more time, and if it fails again, raise an issue on this repository.
-    - `ClassSpread.csv` contains the original character, their replacement and the assigned classes to each replacement. I recommend respecting the file's assignements for more fun and challenge.
+    - `ClassSpread.csv` contains on each line the original character, their replacement and the class assigned to the replacement. I recommend respecting the file's assignements for more fun and challenge.
     - `RandomizerSettingsUpdated.xml` contains the detailed information of the randomized run. For each character, the `StringData` and `ClassData` fields are tied to the character while the other fields are tied to their spot. If Ryoma has as "switchingCharacter" Hinata, he will have the stats that are written in Hinata's `Stats` field (but those stats will have been computed as Ryoma's "expected" stats at this spot). I recommend not looking at it for more fun.
 10. Repeat steps 2-5 but choose a Custom Path and select `RandomizerSettingsUpdated.xml`. Don't forget to check the Join Order options if you did previously.
 11. Close `Fates Randomizer Beta 5-5.jar`. Open `FEAT.exe`. Drag the romfs folder into FEAT: this will recompress the files. Once FEAT is done, you can close it.
