@@ -1,0 +1,856 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<Config addToJoin="true" amiibo="true" anna="true" children="true" heroBattles="true" route="AllRoutes"></Config>
+	<Character>
+		<StringData name="Felicia" newChapter="C016" originalChapter="A002 or Join" pid="PID_フェリシア" sound="FELICIA" switchingCharacter="Setsuna" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Fighter" isChild="false" isMale="false" reclassOne="Diviner" reclassTwo="Nohr Princess"></ClassData>
+		<LevelData characterIdentifier="4" internalLevel="0" level="1"></LevelData>
+		<Stats values="5,3,3,1,1,2,3,0"></Stats>
+		<Growths values="50,55,35,30,45,65,30,0"></Growths>
+		<Modifiers values="1,2,0,1,-1,0,0,-2"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="37,11,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Jakob" newChapter="C016" originalChapter="A002 or Join" pid="PID_ジョーカー" sound="JOKER" switchingCharacter="Azama" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Fighter" isChild="false" isMale="true" reclassOne="Spear Fighter" reclassTwo="Wyvern Rider"></ClassData>
+		<LevelData characterIdentifier="5" internalLevel="0" level="1"></LevelData>
+		<Stats values="3,2,0,2,1,2,2,7"></Stats>
+		<Growths values="50,30,0,65,40,20,30,50"></Growths>
+		<Modifiers values="0,1,0,2,-2,1,0,-1"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="68,131,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Flora" newChapter="C016" originalChapter="Join" pid="PID_フローラ" sound="FLORA" switchingCharacter="Hinoka" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_フローラ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Mercenary" isChild="false" isMale="false" reclassOne="Sky Knight" reclassTwo="Nohr Princess"></ClassData>
+		<LevelData characterIdentifier="47" internalLevel="-1" level="5"></LevelData>
+		<Stats values="15,13,3,16,16,22,9,14"></Stats>
+		<Growths values="50,35,5,50,35,10,60,40"></Growths>
+		<Modifiers values="0,0,0,0,1,-1,1,0"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="69,71,132,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Fuga" newChapter="C017" originalChapter="Join" pid="PID_フウガ" sound="FUUGA" switchingCharacter="Niles" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_C009_ボス,PID_C009_イベント用フウガ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Vanguard" isChild="false" isMale="true" reclassOne="Wyvern Rider" reclassTwo="Cavalier"></ClassData>
+		<LevelData characterIdentifier="45" internalLevel="-1" level="10"></LevelData>
+		<Stats values="25,17,8,17,24,23,16,7"></Stats>
+		<Growths values="55,35,35,55,55,30,45,20"></Growths>
+		<Modifiers values="0,1,0,1,1,-1,-1,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="40,78,34,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Yukimura" newChapter="C008" originalChapter="Join" pid="PID_ユキムラ" sound="YUKIMURA" switchingCharacter="Kaze" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ユキムラ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Troubadour" isChild="false" isMale="true" reclassOne="Mercenary" reclassTwo="Knight"></ClassData>
+		<LevelData characterIdentifier="46" internalLevel="-1" level="10"></LevelData>
+		<Stats values="27,26,10,20,8,4,10,7"></Stats>
+		<Growths values="75,25,10,35,0,70,40,15"></Growths>
+		<Modifiers values="1,2,0,0,-2,-1,-1,2"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="63,31,58,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Izana" newChapter="Join" originalChapter="Join" pid="PID_イザナ" sound="IZANA" switchingCharacter="Izana" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Falcon Knight" isChild="false" isMale="true" reclassOne="Ninja" reclassTwo="Wyvern Rider"></ClassData>
+		<LevelData characterIdentifier="44" internalLevel="-1" level="5"></LevelData>
+		<Stats values="15,9,14,21,11,14,18,11"></Stats>
+		<Growths values="50,5,35,60,40,40,40,25"></Growths>
+		<Modifiers values="0,0,1,1,-2,0,1,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="89,23,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Azura" newChapter="C011" originalChapter="C006" pid="PID_アクア" sound="AQUA" switchingCharacter="Kagero" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Nohr Princess" isChild="false" isMale="false" reclassOne="Nohr Princess" reclassTwo="Fighter"></ClassData>
+		<LevelData characterIdentifier="9" internalLevel="-1" level="1"></LevelData>
+		<Stats values="2,5,1,0,2,-1,3,5"></Stats>
+		<Growths values="30,65,5,60,25,10,25,50"></Growths>
+		<Modifiers values="-1,3,0,1,-1,-1,-1,1"></Modifiers>
+		<Bitflags values="1,0,0,0,8,64,0,0"></Bitflags>
+		<Skills values="32,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Hana" newChapter="C014" originalChapter="C008" pid="PID_カザハナ" sound="KAZAHANA" switchingCharacter="Elise" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_カザハナ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Shrine Maiden" isChild="false" isMale="false" reclassOne="Fighter" reclassTwo="Diviner"></ClassData>
+		<LevelData characterIdentifier="10" internalLevel="-1" level="4"></LevelData>
+		<Stats values="5,5,-1,2,2,5,4,6"></Stats>
+		<Growths values="30,45,20,40,35,45,20,45"></Growths>
+		<Modifiers values="0,1,-1,0,2,-1,-1,1"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="4,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Subaki" newChapter="C014" originalChapter="C008" pid="PID_ツバキ" sound="TSUBAKI" switchingCharacter="Arthur" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ツバキ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Nohr Prince" isChild="false" isMale="true" reclassOne="Nohr Prince" reclassTwo="Mercenary"></ClassData>
+		<LevelData characterIdentifier="11" internalLevel="-1" level="5"></LevelData>
+		<Stats values="8,7,1,7,6,4,2,1"></Stats>
+		<Growths values="45,25,20,20,65,40,15,40"></Growths>
+		<Modifiers values="-1,0,-1,-1,4,0,-2,1"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="28,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Sakura" newChapter="A002 or Join" originalChapter="C008" pid="PID_サクラ" sound="SAKURA" switchingCharacter="Felicia" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_サクラ,PID_A004_サクラ,PID_C006_サクラ,PID_C_サクラ,PID_C008_EDイベント用サクラ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Adventurer" isChild="false" isMale="false" reclassOne="Samurai" reclassTwo="Shrine Maiden"></ClassData>
+		<LevelData characterIdentifier="8" internalLevel="-1" level="1"></LevelData>
+		<Stats values="3,1,0,0,1,1,0,2"></Stats>
+		<Growths values="30,45,0,45,50,35,20,45"></Growths>
+		<Modifiers values="1,3,-1,-1,-1,1,-3,2"></Modifiers>
+		<Bitflags values="1,0,0,0,8,64,0,0"></Bitflags>
+		<Skills values="136,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Kaze" newChapter="M002" originalChapter="C008" pid="PID_スズカゼ" sound="SUZUKAZE" switchingCharacter="Ike" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A002_ボス,PID_A002_スズカゼ,PID_C008_EDイベント用スズカゼ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Wyvern Rider" isChild="false" isMale="true" reclassOne="Nohr Prince" reclassTwo="Mercenary"></ClassData>
+		<LevelData characterIdentifier="7" internalLevel="-1" level="3"></LevelData>
+		<Stats values="5,6,0,3,4,0,3,7"></Stats>
+		<Growths values="40,45,5,45,10,40,55,30"></Growths>
+		<Modifiers values="0,0,0,2,-2,0,0,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="8,0,0,0,112"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Rinkah" newChapter="C014" originalChapter="C009" pid="PID_リンカ" sound="RINKA" switchingCharacter="Charlotte" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_リンカ,PID_A002_リンカ,PID_C009_OPイベント用リンカ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Sky Knight" isChild="false" isMale="false" reclassOne="Ninja" reclassTwo="Diviner"></ClassData>
+		<LevelData characterIdentifier="6" internalLevel="-1" level="4"></LevelData>
+		<Stats values="3,2,2,2,0,6,4,2"></Stats>
+		<Growths values="30,50,5,35,50,60,35,30"></Growths>
+		<Modifiers values="0,2,0,-1,2,0,-1,-1"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="6,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Hayato" newChapter="C009" originalChapter="C009" pid="PID_ツクヨミ" sound="TSUKUYOMI" switchingCharacter="Hayato" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ツクヨミ,PID_C_ツクヨミ,PID_C009_ツクヨミ,PID_C009_EDイベント用ツクヨミ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Archer" isChild="false" isMale="true" reclassOne="Knight" reclassTwo="Samurai"></ClassData>
+		<LevelData characterIdentifier="18" internalLevel="-1" level="1"></LevelData>
+		<Stats values="0,1,0,0,1,7,4,2"></Stats>
+		<Growths values="40,40,25,20,70,55,45,20"></Growths>
+		<Modifiers values="-1,1,0,-2,3,0,1,-1"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="71,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Takumi" newChapter="A002 or Join" originalChapter="C010" pid="PID_タクミ" sound="TAKUMI" switchingCharacter="Jakob" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_タクミ,PID_C006_タクミ,PID_P006_イベント用タクミ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Great Master" isChild="false" isMale="true" reclassOne="Fighter" reclassTwo="Diviner"></ClassData>
+		<LevelData characterIdentifier="21" internalLevel="-1" level="11"></LevelData>
+		<Stats values="13,8,8,5,4,0,8,1"></Stats>
+		<Growths values="55,60,0,45,45,35,35,15"></Growths>
+		<Modifiers values="0,1,0,2,2,1,-2,-3"></Modifiers>
+		<Bitflags values="0,0,0,64,8,64,0,0"></Bitflags>
+		<Skills values="45,59,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Oboro" newChapter="C008" originalChapter="C010" pid="PID_オボロ" sound="OBORO" switchingCharacter="Hana" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_オボロ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Mercenary" isChild="false" isMale="false" reclassOne="Shrine Maiden" reclassTwo="Nohr Princess"></ClassData>
+		<LevelData characterIdentifier="19" internalLevel="-1" level="10"></LevelData>
+		<Stats values="3,7,0,6,6,4,5,3"></Stats>
+		<Growths values="30,45,0,50,50,45,40,30"></Growths>
+		<Modifiers values="0,2,-2,2,0,1,0,-2"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="81,52,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Hinata" newChapter="C007" originalChapter="C010" pid="PID_ヒナタ" sound="HINATA" switchingCharacter="Gunter" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ヒナタ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Merchant" isChild="false" isMale="true" reclassOne="Samurai" reclassTwo="Knight"></ClassData>
+		<LevelData characterIdentifier="20" internalLevel="-1" level="10"></LevelData>
+		<Stats values="10,5,0,8,5,6,6,9"></Stats>
+		<Growths values="60,55,0,30,45,35,25,30"></Growths>
+		<Modifiers values="0,4,0,0,-2,0,1,-2"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="79,51,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Saizo" newChapter="C014" originalChapter="C011" pid="PID_サイゾウ" sound="SAIZOU" switchingCharacter="Silas" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_サイゾウ,PID_A003_EDイベント用サイゾウ,PID_C_サイゾウ,PID_C008_サイゾウ,PID_C008_EDイベント用サイゾウ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Wyvern Rider" isChild="false" isMale="true" reclassOne="Spear Fighter" reclassTwo="Nohr Prince"></ClassData>
+		<LevelData characterIdentifier="13" internalLevel="-1" level="7"></LevelData>
+		<Stats values="11,8,8,5,3,1,9,8"></Stats>
+		<Growths values="40,60,25,30,35,45,40,50"></Growths>
+		<Modifiers values="-1,3,-3,0,-3,0,2,2"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="6,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Orochi" newChapter="C017" originalChapter="C011" pid="PID_オロチ" sound="OROCHI" switchingCharacter="Peri" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_オロチ,PID_C008_オロチ,PID_C008_EDイベント用オロチ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Mercenary" isChild="false" isMale="false" reclassOne="Diviner" reclassTwo="Sky Knight"></ClassData>
+		<LevelData characterIdentifier="14" internalLevel="-1" level="5"></LevelData>
+		<Stats values="3,6,4,-2,7,4,10,4"></Stats>
+		<Growths values="35,55,10,15,70,65,20,35"></Growths>
+		<Modifiers values="0,2,1,-2,1,1,-3,0"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="97,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Reina" newChapter="C012" originalChapter="C011" pid="PID_ユウギリ" sound="YUUGIRI" switchingCharacter="Selena" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ユウギリ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Dark Falcon" isChild="false" isMale="false" reclassOne="Outlaw" reclassTwo="Archer"></ClassData>
+		<LevelData characterIdentifier="23" internalLevel="15" level="1"></LevelData>
+		<Stats values="9,5,8,10,9,7,8,7"></Stats>
+		<Growths values="40,5,45,60,45,40,30,40"></Growths>
+		<Modifiers values="0,-1,2,0,1,0,-2,1"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="134,17,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Kagero" newChapter="C006" originalChapter="C011" pid="PID_カゲロウ" sound="KAGEROU" switchingCharacter="Azura" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_カゲロウ,PID_A003_EDイベント用カゲロウ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Songstress" isChild="false" isMale="false" reclassOne="Sky Knight" reclassTwo="Fighter"></ClassData>
+		<LevelData characterIdentifier="22" internalLevel="-1" level="10"></LevelData>
+		<Stats values="4,7,5,7,9,7,4,7"></Stats>
+		<Growths values="25,55,25,55,65,10,50,25"></Growths>
+		<Modifiers values="0,0,0,0,3,-2,0,0"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="135,129,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Camilla" newChapter="Unavailable" originalChapter="C012" pid="PID_カミラ" sound="CAMILLA" switchingCharacter="Anna" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_カミラ,PID_A003_EDイベント用カミラ,PID_C006_カミラ,PID_P006_OPイベント用カミラ,PID_C012_イベント用カミラ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Oni Savage" isChild="false" isMale="false" reclassOne="Oni Savage" reclassTwo="Shrine Maiden"></ClassData>
+		<LevelData characterIdentifier="34" internalLevel="15" level="1"></LevelData>
+		<Stats values="7,1,9,7,0,6,6,6"></Stats>
+		<Growths values="30,15,45,55,30,35,30,30"></Growths>
+		<Modifiers values="0,-2,2,1,-1,0,2,-1"></Modifiers>
+		<Bitflags values="1,0,0,0,8,64,0,0"></Bitflags>
+		<Skills values="47,111,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Selena" newChapter="C015" originalChapter="C012" pid="PID_ルーナ" sound="LUNA" switchingCharacter="Nyx" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ルーナ,PID_C012_EDイベント用ルーナ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Archer" isChild="false" isMale="false" reclassOne="Archer" reclassTwo="Sky Knight"></ClassData>
+		<LevelData characterIdentifier="35" internalLevel="-1" level="10"></LevelData>
+		<Stats values="6,12,4,1,11,9,6,4"></Stats>
+		<Growths values="60,70,20,10,55,10,25,20"></Growths>
+		<Modifiers values="0,2,1,0,2,-1,-3,-1"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="58,109,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Beruka" newChapter="M004" originalChapter="C012" pid="PID_ベルカ" sound="BERKA" switchingCharacter="Lucina" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ベルカ,PID_C012_EDイベント用ベルカ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Wolfskin" isChild="false" isMale="false" reclassOne="Samurai" reclassTwo="Cavalier"></ClassData>
+		<LevelData characterIdentifier="36" internalLevel="-1" level="9"></LevelData>
+		<Stats values="10,6,0,6,6,6,5,0"></Stats>
+		<Growths values="75,45,10,40,50,35,20,0"></Growths>
+		<Modifiers values="1,1,0,1,2,0,-1,-3"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="136,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Kaden" newChapter="C013" originalChapter="C013" pid="PID_ニシキ" sound="NISHIKI" switchingCharacter="Keaton" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ニシキ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Dread Fighter" isChild="false" isMale="true" reclassOne="Cavalier" reclassTwo="Sky Knight"></ClassData>
+		<LevelData characterIdentifier="24" internalLevel="-1" level="14"></LevelData>
+		<Stats values="8,9,0,9,10,7,9,5"></Stats>
+		<Growths values="35,45,0,50,50,30,50,25"></Growths>
+		<Modifiers values="-1,1,0,1,2,-1,1,-2"></Modifiers>
+		<Bitflags values="0,0,0,1,0,64,0,0"></Bitflags>
+		<Skills values="21,27,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Keaton" newChapter="C010" originalChapter="C013" pid="PID_フランネル" sound="FLANNEL" switchingCharacter="Hinata" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_フランネル"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Troubadour" isChild="false" isMale="true" reclassOne="Mercenary" reclassTwo="Ninja"></ClassData>
+		<LevelData characterIdentifier="42" internalLevel="-1" level="15"></LevelData>
+		<Stats values="15,12,1,7,11,9,7,11"></Stats>
+		<Growths values="40,50,10,35,50,45,25,35"></Growths>
+		<Modifiers values="0,2,0,-2,1,0,-2,2"></Modifiers>
+		<Bitflags values="0,0,0,1,0,64,0,0"></Bitflags>
+		<Skills values="129,55,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Elise" newChapter="C011" originalChapter="C014" pid="PID_エリーゼ" sound="ELISE" switchingCharacter="Orochi" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_エリーゼ,PID_A003_EDイベント用エリーゼ,PID_C006_エリーゼ,PID_P006_OPイベント用エリーゼ,PID_C_エリーゼ,PID_C014_OPイベント用エリーゼ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Wyvern Rider" isChild="false" isMale="false" reclassOne="Mercenary" reclassTwo="Ninja"></ClassData>
+		<LevelData characterIdentifier="28" internalLevel="-1" level="5"></LevelData>
+		<Stats values="1,6,1,8,2,3,4,6"></Stats>
+		<Growths values="15,55,20,55,55,30,20,20"></Growths>
+		<Modifiers values="-1,1,1,2,2,-1,-3,0"></Modifiers>
+		<Bitflags values="1,0,0,0,8,64,0,0"></Bitflags>
+		<Skills values="45,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Arthur" newChapter="C015" originalChapter="C014" pid="PID_ハロルド" sound="HAROLD" switchingCharacter="Shura" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ハロルド,PID_C_ハロルド,PID_C014_OPイベント用ハロルド"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Master of Arms" isChild="false" isMale="true" reclassOne="Spear Fighter" reclassTwo="Mercenary"></ClassData>
+		<LevelData characterIdentifier="29" internalLevel="-1" level="7"></LevelData>
+		<Stats values="7,8,4,1,8,3,9,3"></Stats>
+		<Growths values="55,45,30,10,55,20,45,10"></Growths>
+		<Modifiers values="0,0,-1,-3,3,-2,3,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="44,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Effie" newChapter="C009" originalChapter="C014" pid="PID_エルフィ" sound="ELFI" switchingCharacter="Rinkah" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_エルフィ,PID_C_エルフィ,PID_C014_OPイベント用エルフィ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Sky Knight" isChild="false" isMale="false" reclassOne="Wyvern Rider" reclassTwo="Diviner"></ClassData>
+		<LevelData characterIdentifier="30" internalLevel="-1" level="6"></LevelData>
+		<Stats values="7,0,3,1,6,5,3,7"></Stats>
+		<Growths values="35,10,55,15,55,40,10,50"></Growths>
+		<Modifiers values="1,0,0,-3,1,1,-1,2"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="108,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Charlotte" newChapter="C012" originalChapter="C014" pid="PID_シャーロッテ" sound="CHARLOTTE" switchingCharacter="Beruka" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_シャーロッテ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Knight" isChild="false" isMale="false" reclassOne="Diviner" reclassTwo="Knight"></ClassData>
+		<LevelData characterIdentifier="40" internalLevel="-1" level="10"></LevelData>
+		<Stats values="3,3,0,9,6,10,6,5"></Stats>
+		<Growths values="45,20,5,65,45,30,50,10"></Growths>
+		<Modifiers values="1,0,-2,-1,0,0,2,0"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="141,143,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Benny" newChapter="M001" originalChapter="C014" pid="PID_ブノワ" sound="BENOIT" switchingCharacter="Marth" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ブノワ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Samurai" isChild="false" isMale="true" reclassOne="Diviner" reclassTwo="Nohr Prince"></ClassData>
+		<LevelData characterIdentifier="39" internalLevel="-1" level="15"></LevelData>
+		<Stats values="13,10,0,7,8,12,8,10"></Stats>
+		<Growths values="75,35,5,25,40,45,10,35"></Growths>
+		<Modifiers values="0,1,0,-1,0,0,0,1"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="90,27,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Silas" newChapter="C013" originalChapter="C014" pid="PID_サイラス" sound="SILAS" switchingCharacter="Kaden" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_C_サイラス,PID_C014_ボス,PID_C014_イベント用サイラス"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Kitsune" isChild="false" isMale="true" reclassOne="Outlaw" reclassTwo="Archer"></ClassData>
+		<LevelData characterIdentifier="12" internalLevel="-1" level="6"></LevelData>
+		<Stats values="7,8,2,5,2,3,6,9"></Stats>
+		<Growths values="35,50,40,55,25,5,60,65"></Growths>
+		<Modifiers values="0,1,-1,3,-1,-2,1,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="50,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Shura" newChapter="C008" originalChapter="C015" pid="PID_アシュラ" sound="ASYURA" switchingCharacter="Subaki" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Samurai" isChild="false" isMale="true" reclassOne="Nohr Prince" reclassTwo="Outlaw"></ClassData>
+		<LevelData characterIdentifier="27" internalLevel="-1" level="10"></LevelData>
+		<Stats values="19,18,1,19,13,4,7,17"></Stats>
+		<Growths values="50,50,10,50,45,0,10,55"></Growths>
+		<Modifiers values="-1,2,1,3,0,-4,-2,2"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="20,14,100,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Nyx" newChapter="C008" originalChapter="C015" pid="PID_ニュクス" sound="NYX" switchingCharacter="Sakura" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ニュクス"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Apothecary" isChild="false" isMale="false" reclassOne="Outlaw" reclassTwo="Knight"></ClassData>
+		<LevelData characterIdentifier="33" internalLevel="-1" level="9"></LevelData>
+		<Stats values="5,8,5,3,9,7,4,6"></Stats>
+		<Growths values="35,45,10,20,55,35,40,30"></Growths>
+		<Modifiers values="0,2,-1,-2,2,0,0,0"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="79,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Hinoka" newChapter="C011" originalChapter="C016" pid="PID_ヒノカ" sound="HINOKA" switchingCharacter="Reina" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ヒノカ,PID_A004_ヒノカ,PID_C006_ヒノカ,PID_P006_イベント用ヒノカ,PID_C_ヒノカ,PID_C016_OPイベント用ヒノカ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Oni Chieftain" isChild="false" isMale="false" reclassOne="Wyvern Rider" reclassTwo="Knight"></ClassData>
+		<LevelData characterIdentifier="15" internalLevel="-1" level="8"></LevelData>
+		<Stats values="4,8,5,7,2,-1,3,12"></Stats>
+		<Growths values="25,50,20,55,40,35,15,30"></Growths>
+		<Modifiers values="-2,1,-1,3,0,-1,1,0"></Modifiers>
+		<Bitflags values="1,0,0,0,8,64,0,0"></Bitflags>
+		<Skills values="37,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Azama" newChapter="C017" originalChapter="C016" pid="PID_アサマ" sound="ASAMA" switchingCharacter="Odin" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_アサマ,PID_C_アサマ,PID_C016_OPイベント用アサマ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Grandmaster" isChild="false" isMale="true" reclassOne="Mercenary" reclassTwo="Archer"></ClassData>
+		<LevelData characterIdentifier="16" internalLevel="-1" level="7"></LevelData>
+		<Stats values="6,7,2,6,11,5,3,1"></Stats>
+		<Growths values="30,30,25,45,50,50,30,10"></Growths>
+		<Modifiers values="0,2,-1,2,0,-1,0,-2"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="28,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Setsuna" newChapter="A013" originalChapter="C016" pid="PID_セツナ" sound="SETSUNA" switchingCharacter="Scarlet" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_セツナ,PID_C_セツナ,PID_C016_OPイベント用セツナ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Nine-Tails" isChild="false" isMale="false" reclassOne="Nohr Princess" reclassTwo="Sky Knight"></ClassData>
+		<LevelData characterIdentifier="17" internalLevel="-1" level="3"></LevelData>
+		<Stats values="3,4,1,2,9,0,0,6"></Stats>
+		<Growths values="60,45,10,40,50,15,10,40"></Growths>
+		<Modifiers values="3,2,-2,0,0,-2,-2,2"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="92,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Ryoma" newChapter="C010" originalChapter="C016" pid="PID_リョウマ" sound="RYOUMA" switchingCharacter="Takumi" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_リョウマ,PID_A004_リョウマ,PID_A005_リョウマ,PID_A006_リョウマ,PID_C013_リョウマ,PID_P006_イベント用リョウマ,PID_C006_イベント用リョウマ,PID_C013_イベント用リョウマ,PID_C016_OPイベント用リョウマ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Oni Savage" isChild="false" isMale="true" reclassOne="Oni Savage" reclassTwo="Wyvern Rider"></ClassData>
+		<LevelData characterIdentifier="25" internalLevel="-1" level="4"></LevelData>
+		<Stats values="17,13,7,16,15,12,10,14"></Stats>
+		<Growths values="40,40,25,45,40,20,25,50"></Growths>
+		<Modifiers values="1,0,-1,-1,3,-3,0,2"></Modifiers>
+		<Bitflags values="0,0,0,-128,8,64,0,0"></Bitflags>
+		<Skills values="82,70,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Leo" newChapter="C011" originalChapter="C017" pid="PID_レオン" sound="LEON" switchingCharacter="Saizo" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_レオン,PID_A003_EDイベント用レオン,PID_C006_レオン,PID_P006_OPイベント用レオン,PID_C010_EDイベント用レオン"></Aliases>
+		<BevAliases values="法衣裏返しレオン,"></BevAliases>
+		<ClassData class="Ninja" isChild="false" isMale="true" reclassOne="Wyvern Rider" reclassTwo="Monk"></ClassData>
+		<LevelData characterIdentifier="41" internalLevel="18" level="2"></LevelData>
+		<Stats values="9,9,7,12,8,12,6,10"></Stats>
+		<Growths values="35,45,20,45,35,25,20,45"></Growths>
+		<Modifiers values="1,2,0,-1,0,-1,-2,2"></Modifiers>
+		<Bitflags values="0,0,0,0,9,64,0,0"></Bitflags>
+		<Skills values="73,27,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Odin" newChapter="Join" originalChapter="C017" pid="PID_オーディン" sound="ODIN" switchingCharacter="Fuga" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_オーディン,PID_C_オーディン"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Hero" isChild="false" isMale="true" reclassOne="Wyvern Rider" reclassTwo="Cavalier"></ClassData>
+		<LevelData characterIdentifier="31" internalLevel="-1" level="5"></LevelData>
+		<Stats values="5,8,2,4,7,4,5,6"></Stats>
+		<Growths values="45,50,10,40,45,40,35,45"></Growths>
+		<Modifiers values="-1,2,-5,1,1,0,3,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="94,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Niles" newChapter="C016" originalChapter="C017" pid="PID_ゼロ" sound="ZERO" switchingCharacter="Ryoma" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ゼロ,PID_C_ゼロ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Lodestar" isChild="false" isMale="true" reclassOne="Mercenary" reclassTwo="Knight"></ClassData>
+		<LevelData characterIdentifier="32" internalLevel="-1" level="8"></LevelData>
+		<Stats values="4,7,0,3,9,4,15,3"></Stats>
+		<Growths values="25,65,15,35,50,30,25,25"></Growths>
+		<Modifiers values="-1,3,-1,0,0,0,2,-2"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="144,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Xander" newChapter="M003" originalChapter="C017" pid="PID_マークス" sound="MARKS" switchingCharacter="Robin" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ボス,PID_A001_ボス,PID_A003_EDイベント用マークス,PID_C006_マークス,PID_C013_マークス,PID_P006_OPイベント用マークス,PID_C013_イベント用マークス"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Kitsune" isChild="false" isMale="true" reclassOne="Outlaw" reclassTwo="Samurai"></ClassData>
+		<LevelData characterIdentifier="43" internalLevel="-1" level="4"></LevelData>
+		<Stats values="21,13,3,17,18,16,11,10"></Stats>
+		<Growths values="70,30,0,60,50,35,35,20"></Growths>
+		<Modifiers values="1,0,-1,1,0,1,0,-1"></Modifiers>
+		<Bitflags values="0,0,0,0,10,64,0,0"></Bitflags>
+		<Skills values="77,68,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Laslow" newChapter="C017" originalChapter="C017" pid="PID_ラズワルド" sound="LAZWARD" switchingCharacter="Laslow" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ラズワルド,PID_C013_ラズワルド,PID_C_ラズワルド,PID_C013_イベント用ラズワルド"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Outlaw" isChild="false" isMale="true" reclassOne="Diviner" reclassTwo="Cavalier"></ClassData>
+		<LevelData characterIdentifier="37" internalLevel="-1" level="12"></LevelData>
+		<Stats values="10,11,11,8,9,0,4,5"></Stats>
+		<Growths values="45,50,5,45,35,55,35,15"></Growths>
+		<Modifiers values="0,1,0,2,-1,1,-1,-1"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="41,102,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Scarlet" newChapter="C012" originalChapter="A013" pid="PID_クリムゾン" sound="CRIMSON" switchingCharacter="Camilla" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_C_クリムゾン,PID_C013_イベント用クリムゾン,PID_C016_OPイベント用クリムゾン,PID_C023_クリムゾン"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Sorcerer" isChild="false" isMale="false" reclassOne="Oni Savage" reclassTwo="Cavalier"></ClassData>
+		<LevelData characterIdentifier="26" internalLevel="-1" level="1"></LevelData>
+		<Stats values="9,9,0,11,22,13,3,14"></Stats>
+		<Growths values="30,30,0,45,75,30,20,40"></Growths>
+		<Modifiers values="-1,0,0,1,4,0,-2,-1"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="92,37,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Peri" newChapter="C014" originalChapter="C017" pid="PID_ピエリ" sound="PIERI" switchingCharacter="Effie" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ピエリ,PID_C013_ピエリ,PID_C_ピエリ,PID_C013_イベント用ピエリ"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Troubadour" isChild="false" isMale="false" reclassOne="Sky Knight" reclassTwo="Fighter"></ClassData>
+		<LevelData characterIdentifier="38" internalLevel="-1" level="10"></LevelData>
+		<Stats values="8,6,2,8,2,6,11,7"></Stats>
+		<Growths values="40,55,15,40,15,35,50,25"></Growths>
+		<Modifiers values="0,3,0,1,-2,-1,1,-1"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="93,35,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Gunter" newChapter="Join" originalChapter="C007" pid="PID_ギュンター" sound="GUNTHER" switchingCharacter="Yukimura" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values="PID_A000_ギュンター,PID_A002_ギュンター,PID_A003_ギュンター,PID_C026_ボス"></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Wolfssegner" isChild="false" isMale="true" reclassOne="Knight" reclassTwo="Wyvern Rider"></ClassData>
+		<LevelData characterIdentifier="3" internalLevel="5" level="3"></LevelData>
+		<Stats values="8,4,2,7,2,4,8,0"></Stats>
+		<Growths values="55,10,5,65,40,25,50,20"></Growths>
+		<Modifiers values="0,1,0,0,-1,-2,2,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="130,61,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Mozu" newChapter="C010" originalChapter="X001" pid="PID_モズメ" sound="MOZUME" switchingCharacter="Oboro" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Apothecary" isChild="false" isMale="false" reclassOne="Fighter" reclassTwo="Mercenary"></ClassData>
+		<LevelData characterIdentifier="48" internalLevel="-1" level="1"></LevelData>
+		<Stats values="3,3,4,0,1,10,9,3"></Stats>
+		<Growths values="30,55,75,15,40,30,60,20"></Growths>
+		<Modifiers values="-1,1,3,-2,-1,-1,4,-2"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="36,0,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Anna" newChapter="Join" originalChapter="Unavailable" pid="PID_アンナ" sound="ANNA" switchingCharacter="Mozu" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Dark Mage" isChild="false" isMale="false" reclassOne="Wyvern Rider" reclassTwo="Shrine Maiden"></ClassData>
+		<LevelData characterIdentifier="71" internalLevel="-1" level="10"></LevelData>
+		<Stats values="12,13,7,7,14,12,10,10"></Stats>
+		<Growths values="25,55,35,45,55,15,35,60"></Growths>
+		<Modifiers values="0,1,0,0,1,-2,1,0"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="53,143,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Marth" newChapter="C017" originalChapter="M001" pid="PID_マルス" sound="MARTH" switchingCharacter="Xander" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Mechanist" isChild="false" isMale="true" reclassOne="Fighter" reclassTwo="Archer"></ClassData>
+		<LevelData characterIdentifier="250" internalLevel="-1" level="15"></LevelData>
+		<Stats values="11,4,1,9,12,5,8,10"></Stats>
+		<Growths values="45,30,15,40,45,10,65,35"></Growths>
+		<Modifiers values="0,0,-1,-1,-3,1,3,2"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="41,129,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Lucina" newChapter="Join" originalChapter="M004" pid="PID_ルキナ" sound="LUCINA" switchingCharacter="Flora" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Paladin" isChild="false" isMale="false" reclassOne="Sky Knight" reclassTwo="Mercenary"></ClassData>
+		<LevelData characterIdentifier="252" internalLevel="-1" level="15"></LevelData>
+		<Stats values="12,11,0,12,8,8,12,8"></Stats>
+		<Growths values="55,35,5,65,30,25,40,25"></Growths>
+		<Modifiers values="0,0,-1,1,-2,-1,4,-1"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="63,107,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Robin" newChapter="C017" originalChapter="M003" pid="PID_ルフレ" sound="REFLET" switchingCharacter="Leo" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Lodestar" isChild="false" isMale="true" reclassOne="Ninja" reclassTwo="Spear Fighter"></ClassData>
+		<LevelData characterIdentifier="253" internalLevel="-1" level="15"></LevelData>
+		<Stats values="14,9,1,6,10,7,9,6"></Stats>
+		<Growths values="50,65,5,25,60,35,30,20"></Growths>
+		<Modifiers values="0,1,-1,-1,2,-1,1,-1"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="80,19,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Ike" newChapter="C014" originalChapter="M002" pid="PID_アイク" sound="IKE" switchingCharacter="Benny" switchingParent="" tiedCharacter=""></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Oni Savage" isChild="false" isMale="true" reclassOne="Mercenary" reclassTwo="Spear Fighter"></ClassData>
+		<LevelData characterIdentifier="251" internalLevel="-1" level="15"></LevelData>
+		<Stats values="11,11,0,13,7,8,6,9"></Stats>
+		<Growths values="45,45,5,65,40,35,20,25"></Growths>
+		<Modifiers values="0,1,-2,3,2,-2,-2,1"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="61,14,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Shigure" newChapter="X017" originalChapter="X003" pid="PID_シグレ" sound="SHIGURE" switchingCharacter="Ignatius" switchingParent="Ike" tiedCharacter="Azura"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Ninja" isChild="true" isMale="true" reclassOne="Mercenary" reclassTwo="Wyvern Rider"></ClassData>
+		<LevelData characterIdentifier="51" internalLevel="-1" level="10"></LevelData>
+		<Stats values="8,6,5,7,3,3,9,7"></Stats>
+		<Growths values="40,35,25,40,30,25,35,40"></Growths>
+		<Modifiers values="0,-1,-1,1,1,0,0,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="50,105,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Dwyer" newChapter="X003" originalChapter="X004" pid="PID_ディーア" sound="DEERE" switchingCharacter="Shigure" switchingParent="Kagero" tiedCharacter="Jakob"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Knight" isChild="true" isMale="true" reclassOne="Cavalier" reclassTwo="Fighter"></ClassData>
+		<LevelData characterIdentifier="52" internalLevel="-1" level="10"></LevelData>
+		<Stats values="6,5,6,7,4,6,3,6"></Stats>
+		<Growths values="30,20,45,55,30,50,40,25"></Growths>
+		<Modifiers values="0,0,2,1,0,0,-2,-1"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="79,97,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Sophie" newChapter="X012" originalChapter="X005" pid="PID_ゾフィー" sound="SOPHIE" switchingCharacter="Mitama" switchingParent="Jakob" tiedCharacter="Silas"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Fighter" isChild="true" isMale="false" reclassOne="Nohr Princess" reclassTwo="Cavalier"></ClassData>
+		<LevelData characterIdentifier="53" internalLevel="-1" level="10"></LevelData>
+		<Stats values="7,8,8,7,7,7,1,6"></Stats>
+		<Growths values="50,45,50,40,55,30,25,20"></Growths>
+		<Modifiers values="0,0,1,0,1,-1,-1,0"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="132,48,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Midori" newChapter="X013" originalChapter="X006" pid="PID_ミドリコ" sound="MIDORIKO" switchingCharacter="Caeldori" switchingParent="Shura" tiedCharacter="Kaze"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Spear Fighter" isChild="true" isMale="false" reclassOne="Samurai" reclassTwo="Oni Savage"></ClassData>
+		<LevelData characterIdentifier="54" internalLevel="-1" level="10"></LevelData>
+		<Stats values="7,5,3,8,8,2,13,5"></Stats>
+		<Growths values="45,35,20,45,50,20,65,25"></Growths>
+		<Modifiers values="0,0,0,1,0,-1,0,0"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="21,142,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Shiro" newChapter="X019" originalChapter="X007" pid="PID_シノノメ" sound="SHINONOME" switchingCharacter="Percy" switchingParent="Subaki" tiedCharacter="Ryoma"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Spear Fighter" isChild="true" isMale="true" reclassOne="Mercenary" reclassTwo="Spear Fighter"></ClassData>
+		<LevelData characterIdentifier="55" internalLevel="-1" level="10"></LevelData>
+		<Stats values="4,6,1,7,5,5,5,6"></Stats>
+		<Growths values="55,45,5,40,40,30,25,30"></Growths>
+		<Modifiers values="0,1,0,0,1,0,-2,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="10,141,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Kiragi" newChapter="X016" originalChapter="X008" pid="PID_キサラギ" sound="KISARAGI" switchingCharacter="Forrest" switchingParent="Robin" tiedCharacter="Takumi"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Troubadour" isChild="true" isMale="true" reclassOne="Samurai" reclassTwo="Outlaw"></ClassData>
+		<LevelData characterIdentifier="56" internalLevel="-1" level="10"></LevelData>
+		<Stats values="6,4,3,7,9,7,3,4"></Stats>
+		<Growths values="40,45,5,35,70,45,20,20"></Growths>
+		<Modifiers values="0,0,0,1,1,-2,0,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="100,131,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Asugi" newChapter="X015" originalChapter="X009" pid="PID_グレイ" sound="GUREI" switchingCharacter="Siegbert" switchingParent="Marth" tiedCharacter="Saizo"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Wyvern Rider" isChild="true" isMale="true" reclassOne="Nohr Prince" reclassTwo="Mercenary"></ClassData>
+		<LevelData characterIdentifier="57" internalLevel="-1" level="10"></LevelData>
+		<Stats values="10,9,5,0,5,3,9,10"></Stats>
+		<Growths values="60,70,0,10,35,30,30,60"></Growths>
+		<Modifiers values="1,0,0,-1,0,-1,0,1"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="65,10,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Selkie" newChapter="X021" originalChapter="X010" pid="PID_キヌ" sound="KINU" switchingCharacter="Soleil" switchingParent="Laslow" tiedCharacter="Kaden"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Great Lord" isChild="true" isMale="false" reclassOne="Fighter" reclassTwo="Wyvern Rider"></ClassData>
+		<LevelData characterIdentifier="58" internalLevel="-1" level="10"></LevelData>
+		<Stats values="6,7,8,4,11,3,3,9"></Stats>
+		<Growths values="40,20,50,30,55,40,20,45"></Growths>
+		<Modifiers values="1,0,0,0,0,-1,0,0"></Modifiers>
+		<Bitflags values="1,0,0,1,0,64,0,0"></Bitflags>
+		<Skills values="107,76,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Hisame" newChapter="X007" originalChapter="X011" pid="PID_ヒサメ" sound="HISAME" switchingCharacter="Shiro" switchingParent="Niles" tiedCharacter="Hinata"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Monk" isChild="true" isMale="true" reclassOne="Cavalier" reclassTwo="Monk"></ClassData>
+		<LevelData characterIdentifier="59" internalLevel="-1" level="10"></LevelData>
+		<Stats values="5,4,0,15,6,7,9,5"></Stats>
+		<Growths values="25,25,0,70,45,60,55,15"></Growths>
+		<Modifiers values="-1,0,-1,1,1,0,0,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="19,129,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Mitama" newChapter="X005" originalChapter="X012" pid="PID_ミタマ" sound="MITAMA" switchingCharacter="Sophie" switchingParent="Saizo" tiedCharacter="Azama"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Shrine Maiden" isChild="true" isMale="false" reclassOne="Nohr Princess" reclassTwo="Sky Knight"></ClassData>
+		<LevelData characterIdentifier="60" internalLevel="-1" level="10"></LevelData>
+		<Stats values="8,6,2,6,8,5,5,5"></Stats>
+		<Growths values="45,30,15,45,55,35,25,30"></Growths>
+		<Modifiers values="1,1,0,-1,0,-1,1,-1"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="21,51,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Caeldori" newChapter="X014" originalChapter="X013" pid="PID_マトイ" sound="MATOI" switchingCharacter="Rhajat" switchingParent="Hayato" tiedCharacter="Subaki"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Kitsune" isChild="true" isMale="false" reclassOne="Diviner" reclassTwo="Mercenary"></ClassData>
+		<LevelData characterIdentifier="61" internalLevel="-1" level="10"></LevelData>
+		<Stats values="9,8,2,11,6,7,4,0"></Stats>
+		<Growths values="50,40,5,55,45,40,25,15"></Growths>
+		<Modifiers values="-1,1,1,0,2,-1,0,-2"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="51,94,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Rhajat" newChapter="X018" originalChapter="X014" pid="PID_シャラ" sound="SYALLA" switchingCharacter="Velouria" switchingParent="Kaden" tiedCharacter="Hayato"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Fighter" isChild="true" isMale="false" reclassOne="Samurai" reclassTwo="Spear Fighter"></ClassData>
+		<LevelData characterIdentifier="62" internalLevel="-1" level="10"></LevelData>
+		<Stats values="10,6,3,7,5,9,7,4"></Stats>
+		<Growths values="55,15,15,35,50,45,35,35"></Growths>
+		<Modifiers values="1,-1,-1,0,0,1,1,-1"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="49,32,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Siegbert" newChapter="X008" originalChapter="X015" pid="PID_ジークベルト" sound="SIEGBERT" switchingCharacter="Kiragi" switchingParent="Ryoma" tiedCharacter="Xander"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Monk" isChild="true" isMale="true" reclassOne="Oni Savage" reclassTwo="Archer"></ClassData>
+		<LevelData characterIdentifier="63" internalLevel="-1" level="10"></LevelData>
+		<Stats values="8,11,3,5,6,5,7,5"></Stats>
+		<Growths values="35,60,45,45,55,45,25,25"></Growths>
+		<Modifiers values="0,2,0,0,0,-1,0,-1"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="12,99,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Forrest" newChapter="X009" originalChapter="X016" pid="PID_フォレオ" sound="FOLEO" switchingCharacter="Asugi" switchingParent="Leo" tiedCharacter="Leo"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Wyvern Rider" isChild="true" isMale="true" reclassOne="Fighter" reclassTwo="Sky Knight"></ClassData>
+		<LevelData characterIdentifier="64" internalLevel="-1" level="10"></LevelData>
+		<Stats values="7,4,10,4,7,0,2,3"></Stats>
+		<Growths values="50,30,50,30,55,5,30,30"></Growths>
+		<Modifiers values="0,-1,0,0,0,1,0,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="35,42,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Ignatius" newChapter="X004" originalChapter="X017" pid="PID_イグニス" sound="IGNIS" switchingCharacter="Dwyer" switchingParent="Takumi" tiedCharacter="Benny"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Grandmaster" isChild="true" isMale="true" reclassOne="Oni Savage" reclassTwo="Monk"></ClassData>
+		<LevelData characterIdentifier="65" internalLevel="-1" level="10"></LevelData>
+		<Stats values="10,6,2,8,7,4,6,8"></Stats>
+		<Growths values="45,50,10,50,40,25,30,20"></Growths>
+		<Modifiers values="0,0,0,-1,0,0,1,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="129,8,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Velouria" newChapter="X022" originalChapter="X018" pid="PID_ベロア" sound="VELOUR" switchingCharacter="Nina" switchingParent="Fuga" tiedCharacter="Keaton"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Shrine Maiden" isChild="true" isMale="false" reclassOne="Mercenary" reclassTwo="Shrine Maiden"></ClassData>
+		<LevelData characterIdentifier="66" internalLevel="-1" level="10"></LevelData>
+		<Stats values="10,9,5,4,7,2,4,11"></Stats>
+		<Growths values="50,60,25,5,50,20,20,40"></Growths>
+		<Modifiers values="0,0,0,0,0,0,0,0"></Modifiers>
+		<Bitflags values="1,0,0,1,0,64,0,0"></Bitflags>
+		<Skills values="8,38,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Percy" newChapter="X011" originalChapter="X019" pid="PID_ルッツ" sound="LUTZ" switchingCharacter="Hisame" switchingParent="Keaton" tiedCharacter="Arthur"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Knight" isChild="true" isMale="true" reclassOne="Nohr Prince" reclassTwo="Diviner"></ClassData>
+		<LevelData characterIdentifier="67" internalLevel="-1" level="10"></LevelData>
+		<Stats values="7,7,1,4,2,6,5,10"></Stats>
+		<Growths values="55,40,10,35,30,35,35,45"></Growths>
+		<Modifiers values="0,0,0,-1,0,0,1,0"></Modifiers>
+		<Bitflags values="0,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="24,103,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Ophelia" newChapter="X006" originalChapter="X020" pid="PID_オフェリア" sound="OPHELIA" switchingCharacter="Midori" switchingParent="Yukimura" tiedCharacter="Odin"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Mercenary" isChild="true" isMale="false" reclassOne="Diviner" reclassTwo="Knight"></ClassData>
+		<LevelData characterIdentifier="68" internalLevel="-1" level="10"></LevelData>
+		<Stats values="4,3,7,2,9,6,4,4"></Stats>
+		<Growths values="20,0,75,25,55,40,35,25"></Growths>
+		<Modifiers values="0,0,0,0,0,0,0,0"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,1,0"></Bitflags>
+		<Skills values="40,139,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Soleil" newChapter="X020" originalChapter="X021" pid="PID_ソレイユ" sound="SOLEIL" switchingCharacter="Ophelia" switchingParent="Azama" tiedCharacter="Laslow"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Witch" isChild="true" isMale="false" reclassOne="Sky Knight" reclassTwo="Wyvern Rider"></ClassData>
+		<LevelData characterIdentifier="69" internalLevel="-1" level="10"></LevelData>
+		<Stats values="9,5,1,7,5,11,7,8"></Stats>
+		<Growths values="40,30,5,60,55,45,30,45"></Growths>
+		<Modifiers values="0,0,-1,1,0,0,1,-1"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="23,47,0,0,0"></Skills>
+	</Character>
+	<Character>
+		<StringData name="Nina" newChapter="X010" originalChapter="X022" pid="PID_エポニーヌ" sound="EPONINE" switchingCharacter="Selkie" switchingParent="Silas" tiedCharacter="Niles"></StringData>
+		<Aliases values=""></Aliases>
+		<BevAliases values=""></BevAliases>
+		<ClassData class="Diviner" isChild="true" isMale="false" reclassOne="Fighter" reclassTwo="Diviner"></ClassData>
+		<LevelData characterIdentifier="70" internalLevel="-1" level="10"></LevelData>
+		<Stats values="3,1,4,5,5,13,10,11"></Stats>
+		<Growths values="40,0,50,40,30,40,55,35"></Growths>
+		<Modifiers values="-1,-1,1,0,-1,1,1,0"></Modifiers>
+		<Bitflags values="1,0,0,0,0,64,0,0"></Bitflags>
+		<Skills values="29,43,0,0,0"></Skills>
+	</Character>
+</root>
