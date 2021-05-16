@@ -1,4 +1,7 @@
 full_updated_randomizer.7z
-data/RandomizerSettings.xml
-data/RandomizerSettingsUpdated.xml
-data/ClassSpread.csv
+data/
+!data/fates_base_stats.csv
+!data/fates_class_data.csv
+!data/fates_data_hub.csv
+!data/fates_data_hub.ods
+romfs/
