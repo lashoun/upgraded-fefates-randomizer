@@ -115,6 +115,9 @@ I advise using the Infinite Movement cheat code for this chapter. If you can pla
 ### Conquest Chapter 9: Talking with Nyx crashes the game!
 Break the wall near Nyx before talking to her. 
 
+### Revelations Chapter 8: Hayato was not replaced!
+This is an issue from the original randomizer; I can't fix it myself. This can amusingly lead to recruiting two Hayatos.
+
 # Original README by thane98
 
 This is an early version of a class + join order randomizer for Fire Emblem Fates. Keep in mind that the entire tool is a work-in-progress at the moment, so some features may not work as intended. In fact, you could potentially experience crashes depending on which features you are using. A breakdown of features, options, and tool usage can be found below.
