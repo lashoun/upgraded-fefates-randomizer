@@ -32,7 +32,7 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
     - Skl / Spd (default: 20% chance)
     - Def / Res (default: 20% chance)
     - Lck / ? (default: [Lck Growth]% chance, only if Lck stat / growth / mod is superior)
-- Fixed skill randomization and removed unbalanced ones (Bold Stance (120), Point Blank (121), Winged Shield (122), Paragon (138), Armor Shield (139), Beast Shield (140), Taker Skills (142->148), Ballistician skills (149->152), Warp (154))
+- Fixed skill randomization and removed unbalanced ones (Aptitude (108), Bold Stance (120), Point Blank (121), Winged Shield (122), Paragon (138), Armor Shield (139), Beast Shield (140), Taker Skills (142->148), Ballistician skills (149->152), Warp (154))
 - "Catch 'em all" mode: minimize duplicate final classes according to the chosen route.
 
 ### Upgraded Fates Features

@@ -17,14 +17,14 @@ parser.add_argument('-ab', '--allow-ballistician', action='store_true', help="al
 parser.add_argument('-bss', '--base-stats-sum', type=int, default=25, help="if adjusting growths, lowering stats sum to that value")
 parser.add_argument('-bw', '--ban-witch', action='store_true', help="ban Witch class from the randomization")
 parser.add_argument('-c', '--corrin-class', choices=[
-    'Hoshido Noble', 'Swordmaster', 'Master of Arms', 'Oni Chieftain', 
-    'Blacksmith', 'Spear Master', 'Basara', 'Onmyoji', 'Great Master', 
-    'Priestess', 'Falcon Knight', 'Kinshi Knight', 'Sniper', 
-    'Master Ninja', 'Mechanist', 'Merchant', 'Nine-Tails', 'Nohr Noble', 
-    'Paladin', 'Great Knight', 'General', 'Berserker', 'Hero', 
-    'Bow Knight', 'Adventurer', 'Wyvern Lord', 'Malig Knight', 
-    'Sorcerer', 'Dark Knight', 'Strategist', 'Maid', 'Butler', 
-    'Wolfssegner', 'Songstress', 'Dread Fighter', 'Dark Falcon', 
+    'Hoshido Noble', 'Swordmaster', 'Master of Arms', 'Oni Chieftain',
+    'Blacksmith', 'Spear Master', 'Basara', 'Onmyoji', 'Great Master',
+    'Priestess', 'Falcon Knight', 'Kinshi Knight', 'Sniper',
+    'Master Ninja', 'Mechanist', 'Merchant', 'Nine-Tails', 'Nohr Noble',
+    'Paladin', 'Great Knight', 'General', 'Berserker', 'Hero',
+    'Bow Knight', 'Adventurer', 'Wyvern Lord', 'Malig Knight',
+    'Sorcerer', 'Dark Knight', 'Strategist', 'Maid', 'Butler',
+    'Wolfssegner', 'Songstress', 'Dread Fighter', 'Dark Falcon',
     'Ballistician', 'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster'
 ],
                     default='', help="Corrin's final class", metavar="CORRIN_CLASS")
@@ -130,7 +130,7 @@ class FatesRandomizer:
         forceLocktouch=True,  # will force Kaze's replacement to get Locktouch
         forceMozuAptitude=False,  # will force Mozu (not her replacement) to get Aptitude
         forceStaffRetainer=True,  # will force the retainer's replacement to get a promoted class with a staff
-        forceStaffSister=True,  # will force the little sister's replacement (Sakura in BR or RV / Elise in CQ) to get a healing class 
+        forceStaffSister=True,  # will force the little sister's replacement (Sakura in BR or RV / Elise in CQ) to get a healing class
         forceStatDecrease=False,  # force stat decrase in adjustBaseStatsAndGrowths
         forceSongstress=True,  # will force Azura's replacement to be a Songstress
         forceStrCorrin=True,  # will force Corrin to have a class that wields at least one Str weapon
@@ -188,13 +188,13 @@ class FatesRandomizer:
         self.swapSklSpdP = swapSklSpdP
         self.swapStrMagP = swapStrMagP
         self.verbose=verbose
-        
+
         self.BEAST_CLASSES = ['Wolfskin', 'Wolfssegner', 'Kitsune', 'Nine-Tails']
         self.DRAGON_CLASSES = ['Nohr Prince', 'Nohr Princess', 'Nohr Noble', 'Hoshido Noble']
 
-        self.FELICIA_CLASSES = ['Hoshido Noble', 'Onmyoji', 'Priestess', 
+        self.FELICIA_CLASSES = ['Hoshido Noble', 'Onmyoji', 'Priestess',
                                 'Falcon Knight', 'Adventurer', 'Strategist', 'Maid']
-        self.JAKOB_CLASSES = ['Hoshido Noble', 'Onmyoji', 'Great Master', 
+        self.JAKOB_CLASSES = ['Hoshido Noble', 'Onmyoji', 'Great Master',
                               'Falcon Knight', 'Adventurer', 'Strategist', 'Butler']
         self.SISTER_CLASS = ['Onmyoji', 'Priestess', 'Strategist', 'Maid']
 
@@ -202,14 +202,14 @@ class FatesRandomizer:
         self.FEMALE_CLASSES = ['Priestess', 'Maid', 'Witch', 'Great Lord']
 
         self.FINAL_CLASSES = [
-            'Hoshido Noble', 'Swordmaster', 'Master of Arms', 'Oni Chieftain', 
-            'Blacksmith', 'Spear Master', 'Basara', 'Onmyoji', 'Great Master', 
-            'Priestess', 'Falcon Knight', 'Kinshi Knight', 'Sniper', 
-            'Master Ninja', 'Mechanist', 'Merchant', 'Nine-Tails', 'Nohr Noble', 
-            'Paladin', 'Great Knight', 'General', 'Berserker', 'Hero', 
-            'Bow Knight', 'Adventurer', 'Wyvern Lord', 'Malig Knight', 
-            'Sorcerer', 'Dark Knight', 'Strategist', 'Maid', 'Butler', 
-            'Wolfssegner', 'Songstress', 'Dread Fighter', 'Dark Falcon', 
+            'Hoshido Noble', 'Swordmaster', 'Master of Arms', 'Oni Chieftain',
+            'Blacksmith', 'Spear Master', 'Basara', 'Onmyoji', 'Great Master',
+            'Priestess', 'Falcon Knight', 'Kinshi Knight', 'Sniper',
+            'Master Ninja', 'Mechanist', 'Merchant', 'Nine-Tails', 'Nohr Noble',
+            'Paladin', 'Great Knight', 'General', 'Berserker', 'Hero',
+            'Bow Knight', 'Adventurer', 'Wyvern Lord', 'Malig Knight',
+            'Sorcerer', 'Dark Knight', 'Strategist', 'Maid', 'Butler',
+            'Wolfssegner', 'Songstress', 'Dread Fighter', 'Dark Falcon',
             'Ballistician', 'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster'
         ]
         self.MAGICAL_CLASSES = [
@@ -217,70 +217,70 @@ class FatesRandomizer:
         ]
         self.SWORD_CLASSES = [
             'Hoshido Noble', 'Swordmaster', 'Master of Arms', 'Blacksmith',
-            'Master Ninja', 'Nohr Noble', 'Paladin', 'Great Knight', 'Hero', 
-            'Bow Knight', 'Dark Knight', 'Dread Fighter', 'Lodestar', 
+            'Master Ninja', 'Nohr Noble', 'Paladin', 'Great Knight', 'Hero',
+            'Bow Knight', 'Dark Knight', 'Dread Fighter', 'Lodestar',
             'Vanguard', 'Great Lord', 'Grandmaster'
         ]
         self.PROMOTED_CLASSES = [
-            'Hoshido Noble', 'Swordmaster', 'Master of Arms', 'Oni Chieftain', 
-            'Blacksmith', 'Spear Master', 'Basara', 'Onmyoji', 'Great Master', 
-            'Priestess', 'Falcon Knight', 'Kinshi Knight', 'Sniper', 'Master Ninja', 
-            'Mechanist', 'Merchant', 'Nine-Tails', 'Nohr Noble', 'Paladin', 
-            'Great Knight', 'General', 'Berserker', 'Hero', 'Bow Knight', 
-            'Adventurer', 'Wyvern Lord', 'Malig Knight', 'Sorcerer', 'Dark Knight', 
+            'Hoshido Noble', 'Swordmaster', 'Master of Arms', 'Oni Chieftain',
+            'Blacksmith', 'Spear Master', 'Basara', 'Onmyoji', 'Great Master',
+            'Priestess', 'Falcon Knight', 'Kinshi Knight', 'Sniper', 'Master Ninja',
+            'Mechanist', 'Merchant', 'Nine-Tails', 'Nohr Noble', 'Paladin',
+            'Great Knight', 'General', 'Berserker', 'Hero', 'Bow Knight',
+            'Adventurer', 'Wyvern Lord', 'Malig Knight', 'Sorcerer', 'Dark Knight',
             'Strategist', 'Maid', 'Butler', 'Wolfssegner'
         ]
         self.UNPROMOTED_CLASSES = [
-            'Samurai', 'Oni Savage', 'Spear Fighter', 'Diviner', 'Shrine Maiden', 
-            'Monk', 'Sky Knight', 'Archer', 'Ninja', 'Apothecary', 'Kitsune', 
-            'Songstress', 'Villager', 'Nohr Prince', 'Nohr Princess', 'Cavalier', 
-            'Knight', 'Fighter', 'Mercenary', 'Outlaw', 'Wyvern Rider', 'Dark Mage', 
-            'Troubadour', 'Wolfskin', 'Dread Fighter', 'Dark Falcon', 'Ballistician', 
+            'Samurai', 'Oni Savage', 'Spear Fighter', 'Diviner', 'Shrine Maiden',
+            'Monk', 'Sky Knight', 'Archer', 'Ninja', 'Apothecary', 'Kitsune',
+            'Songstress', 'Villager', 'Nohr Prince', 'Nohr Princess', 'Cavalier',
+            'Knight', 'Fighter', 'Mercenary', 'Outlaw', 'Wyvern Rider', 'Dark Mage',
+            'Troubadour', 'Wolfskin', 'Dread Fighter', 'Dark Falcon', 'Ballistician',
             'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster'
         ]
 
         self.BIRTHRIGHT_CHARACTERS = [
-            'Felicia', 'Jakob', 'Kaze', 'Rinkah', 'Azura', 'Sakura', 'Hana', 'Subaki', 
-            'Silas', 'Saizo', 'Orochi', 'Anna', 'Mozu', 'Hinoka', 'Azama', 'Setsuna', 
-            'Hayato', 'Oboro', 'Hinata', 'Takumi', 'Kagero', 'Reina', 'Kaden', 'Ryoma', 
-            'Scarlet', 'Izana', 'Shura', 'Yukimura', 'Shigure', 'Dwyer', 'Sophie', 
-            'Midori', 'Shiro', 'Kiragi', 'Asugi', 'Selkie', 'Hisame', 'Mitama', 'Caeldori', 
+            'Felicia', 'Jakob', 'Kaze', 'Rinkah', 'Azura', 'Sakura', 'Hana', 'Subaki',
+            'Silas', 'Saizo', 'Orochi', 'Anna', 'Mozu', 'Hinoka', 'Azama', 'Setsuna',
+            'Hayato', 'Oboro', 'Hinata', 'Takumi', 'Kagero', 'Reina', 'Kaden', 'Ryoma',
+            'Scarlet', 'Izana', 'Shura', 'Yukimura', 'Shigure', 'Dwyer', 'Sophie',
+            'Midori', 'Shiro', 'Kiragi', 'Asugi', 'Selkie', 'Hisame', 'Mitama', 'Caeldori',
             'Rhajat', 'Marth', 'Lucina', 'Robin', 'Ike'
         ]
         self.CONQUEST_CHARACTERS = [
-            'Felicia', 'Jakob', 'Elise', 'Silas', 'Arthur', 'Effie', 'Anna', 'Mozu', 
-            'Odin', 'Niles', 'Azura', 'Nyx', 'Camilla', 'Selena', 'Beruka', 'Kaze', 
-            'Laslow', 'Peri', 'Benny', 'Charlotte', 'Leo', 'Keaton', 'Gunter', 
-            'Xander', 'Shura', 'Flora', 'Izana', 'Shigure', 'Dwyer', 'Sophie', 
-            'Midori', 'Siegbert', 'Forrest', 'Ignatius', 'Velouria', 'Percy', 
-            'Ophelia', 'Soleil', 'Nina', 'Marth', 'Lucina', 'Robin', 'Ike', 
+            'Felicia', 'Jakob', 'Elise', 'Silas', 'Arthur', 'Effie', 'Anna', 'Mozu',
+            'Odin', 'Niles', 'Azura', 'Nyx', 'Camilla', 'Selena', 'Beruka', 'Kaze',
+            'Laslow', 'Peri', 'Benny', 'Charlotte', 'Leo', 'Keaton', 'Gunter',
+            'Xander', 'Shura', 'Flora', 'Izana', 'Shigure', 'Dwyer', 'Sophie',
+            'Midori', 'Siegbert', 'Forrest', 'Ignatius', 'Velouria', 'Percy',
+            'Ophelia', 'Soleil', 'Nina', 'Marth', 'Lucina', 'Robin', 'Ike',
         ]
         self.REVELATION_CHARACTERS = [
-            'Azura', 'Felicia', 'Jakob', 'Gunter', 'Anna', 'Mozu', 'Sakura', 'Hana', 
-            'Subaki', 'Kaze', 'Rinkah', 'Hayato', 'Takumi', 'Oboro', 'Hinata', 
-            'Saizo', 'Orochi', 'Reina', 'Kagero', 'Camilla', 'Selena', 'Beruka', 
-            'Kaden', 'Keaton', 'Elise', 'Arthur', 'Effie', 'Charlotte', 'Benny', 
-            'Silas', 'Shura', 'Nyx', 'Hinoka', 'Azama', 'Setsuna', 'Ryoma', 
-            'Scarlet', 'Leo', 'Xander', 'Odin', 'Niles', 'Laslow', 'Peri', 
-            'Flora', 'Fuga', 'Shigure', 'Dwyer', 'Sophie', 'Midori', 'Shiro', 
-            'Kiragi', 'Asugi', 'Selkie', 'Hisame', 'Mitama', 'Caeldori', 'Rhajat', 
-            'Siegbert', 'Forrest', 'Ignatius', 'Velouria', 'Percy', 'Ophelia', 
+            'Azura', 'Felicia', 'Jakob', 'Gunter', 'Anna', 'Mozu', 'Sakura', 'Hana',
+            'Subaki', 'Kaze', 'Rinkah', 'Hayato', 'Takumi', 'Oboro', 'Hinata',
+            'Saizo', 'Orochi', 'Reina', 'Kagero', 'Camilla', 'Selena', 'Beruka',
+            'Kaden', 'Keaton', 'Elise', 'Arthur', 'Effie', 'Charlotte', 'Benny',
+            'Silas', 'Shura', 'Nyx', 'Hinoka', 'Azama', 'Setsuna', 'Ryoma',
+            'Scarlet', 'Leo', 'Xander', 'Odin', 'Niles', 'Laslow', 'Peri',
+            'Flora', 'Fuga', 'Shigure', 'Dwyer', 'Sophie', 'Midori', 'Shiro',
+            'Kiragi', 'Asugi', 'Selkie', 'Hisame', 'Mitama', 'Caeldori', 'Rhajat',
+            'Siegbert', 'Forrest', 'Ignatius', 'Velouria', 'Percy', 'Ophelia',
             'Soleil', 'Nina', 'Marth', 'Lucina', 'Robin', 'Ike'
         ]
-        
+
         self.MALE_CHARACTERS = [
-            'Jakob', 'Fuga', 'Yukimura', 'Izana', 'Subaki', 'Kaze', 'Hayato', 
-            'Takumi', 'Hinata', 'Saizo', 'Kaden', 'Keaton', 'Arthur', 'Benny', 
-            'Silas', 'Shura', 'Azama', 'Ryoma', 'Leo', 'Odin', 'Niles', 
-            'Xander', 'Laslow', 'Gunter', 'Marth', 'Robin', 'Ike', 'Shigure', 
-            'Dwyer', 'Shiro', 'Kiragi', 'Asugi', 'Hisame', 'Siegbert', 
+            'Jakob', 'Fuga', 'Yukimura', 'Izana', 'Subaki', 'Kaze', 'Hayato',
+            'Takumi', 'Hinata', 'Saizo', 'Kaden', 'Keaton', 'Arthur', 'Benny',
+            'Silas', 'Shura', 'Azama', 'Ryoma', 'Leo', 'Odin', 'Niles',
+            'Xander', 'Laslow', 'Gunter', 'Marth', 'Robin', 'Ike', 'Shigure',
+            'Dwyer', 'Shiro', 'Kiragi', 'Asugi', 'Hisame', 'Siegbert',
             'Forrest', 'Ignatius', 'Percy'
         ]
-        self.FEMALE_CHARACTERS = ['Felicia', 'Flora', 'Azura', 'Hana', 'Sakura', 
-            'Rinkah', 'Oboro', 'Orochi', 'Reina', 'Kagero', 'Camilla', 'Selena', 
-            'Beruka', 'Elise', 'Effie', 'Charlotte', 'Nyx', 'Hinoka', 'Setsuna', 
-            'Scarlet', 'Peri', 'Mozu', 'Anna', 'Lucina', 'Sophie', 'Midori', 
-            'Selkie', 'Mitama', 'Caeldori', 'Rhajat', 'Velouria', 'Ophelia', 
+        self.FEMALE_CHARACTERS = ['Felicia', 'Flora', 'Azura', 'Hana', 'Sakura',
+            'Rinkah', 'Oboro', 'Orochi', 'Reina', 'Kagero', 'Camilla', 'Selena',
+            'Beruka', 'Elise', 'Effie', 'Charlotte', 'Nyx', 'Hinoka', 'Setsuna',
+            'Scarlet', 'Peri', 'Mozu', 'Anna', 'Lucina', 'Sophie', 'Midori',
+            'Selkie', 'Mitama', 'Caeldori', 'Rhajat', 'Velouria', 'Ophelia',
             'Soleil', 'Nina'
         ]
         self.ROYALS = ['Azura', 'Sakura', 'Hinoka', 'Elise', 'Camilla', 'Takumi',
@@ -336,10 +336,10 @@ class FatesRandomizer:
         return growths, stats, mods
 
     def adjustBaseStatsAndGrowths(self, characterData):
-        """ 
-        - If the character's growths are too low (e.g. Fuga, Gunter), raise 
-        them up to a total sum of `self.growthsSumMin`. 
-        - In counterpart, if growths are increased, decrease base stats down 
+        """
+        - If the character's growths are too low (e.g. Fuga, Gunter), raise
+        them up to a total sum of `self.growthsSumMin`.
+        - In counterpart, if growths are increased, decrease base stats down
         to a total sum of `self.baseStatsSumMax`.
         """
         growths = np.copy(characterData['Growths'])
@@ -452,7 +452,7 @@ class FatesRandomizer:
         characterName = self.readCharacterName(character)
         switchingCharacterName = self.readSwitchingCharacterName(character)
         switchingCharacter = self.getCharacter(switchingCharacterName)
-        
+
         newLevel = self.readCharacterLevel(switchingCharacterName)
         newPromotionLevel = self.readCharacterPromotionLevel(switchingCharacterName)
 
@@ -475,7 +475,7 @@ class FatesRandomizer:
                     self.setCharacterClass(character, self.readBaseClass(newClass, characterName))
 
         else:
-            
+
             # Staff Sister Check
             if switchingCharacterName == 'Sakura' and self.forceStaffSister and self.gameRoute != 'Conquest':
                 staffClassSet = self.SISTER_CLASS
@@ -491,7 +491,7 @@ class FatesRandomizer:
                     self.setCharacterClass(character, 'Shrine Maiden')
                 else:
                     self.setCharacterClass(character, 'Troubadour')
-        
+
             # Staff Retainer Check
             if switchingCharacterName in ['Jakob', 'Felicia'] and self.forceStaffRetainer:
                 staffClassSet = self.JAKOB_CLASSES
@@ -499,11 +499,11 @@ class FatesRandomizer:
                     staffClassSet = self.FELICIA_CLASSES
                 staffClass = self.rng.choice(staffClassSet)
                 self.setCharacterClass(character, staffClass)
-                
+
             # Songstress Check
             if switchingCharacterName == 'Azura' and self.forceSongstress:
                 self.setCharacterClass(character, 'Songstress')
-        
+
         # Villager Check
         if switchingCharacterName == 'Mozu' and self.forceVillager:
             self.setCharacterClass(character, 'Villager')
@@ -535,7 +535,7 @@ class FatesRandomizer:
         # if switchingCharacterName in self.ROYALS:
         #     bitflags[4] += 8
         # if switchingCharacterName == 'Takumi':
-        #     bitflags[3] += 64 
+        #     bitflags[3] += 64
         # elif switchingCharacterName == 'Ryoma':
         #     bitflags[3] -= 128
         # elif switchingCharacterName == 'Leo':
@@ -546,9 +546,18 @@ class FatesRandomizer:
         #     bitflags[6] += 1
         # self.setCharacterBitflags(switchingCharacter, bitflags)  # --- DOESN'T WORK
         # self.setCharacterBitflags(character, bitflags)  # --- DOESN'T WORK
-    
+
         # Adjust Base Stats and Growths
         self.adjustBaseStatsAndGrowths(characterData)
+
+        # Add Variance to Data
+        self.addVarianceToData(characterData['Stats'], characterData['Growths'], characterData['Modifiers'])
+
+        # Swap Stats
+        self.swapCharacterLck(characterData)
+        self.swapCharacterDefRes(characterData)
+        self.swapCharacterSklSpd(characterData)
+        self.swapCharacterStrMag(characterData)
 
         # Scale Stats to New Level
         characterBaseStats = characterData['BaseStats']
@@ -575,15 +584,6 @@ class FatesRandomizer:
             print("plusStats: {}".format(plusStats))
             print("BaseStats: {}".format(characterData['BaseStats']))
             print("Stats: {}".format(characterData['Stats']))
-
-        # Add Variance to Data
-        self.addVarianceToData(characterData['Stats'], characterData['Growths'], characterData['Modifiers'])
-
-        # Swap Stats
-        self.swapCharacterLck(characterData)
-        self.swapCharacterDefRes(characterData)
-        self.swapCharacterSklSpd(characterData)
-        self.swapCharacterStrMag(characterData)
 
         if self.verbose:
             print("--- Update ---")
@@ -640,7 +640,7 @@ class FatesRandomizer:
         self.rng.shuffle(classesBis)  # in place
         classes = classes + classesBis
         classes = classes[:len(characters)]
-        
+
         # Staff Sister Check
         if self.forceStaffSister:
             sisterClass = self.rng.choice(self.SISTER_CLASS)
@@ -669,13 +669,13 @@ class FatesRandomizer:
             characters.pop(characters.index('Felicia'))
             classes.pop(classes.index(jakobClass))
             classes.pop(classes.index(feliciaClass))
-        
+
         # Songstress Check
         if self.forceSongstress:
             self.randomizedClasses['Azura'] = 'Songstress'
             characters.pop(characters.index('Azura'))
             classes.pop(classes.index('Songstress'))
-        
+
         # Villager Check
         if self.forceVillager:
             villagerPromoted = self.rng.choice(['Master of Arms', 'Merchant'])
@@ -803,22 +803,26 @@ class FatesRandomizer:
         return character['StringData']['@switchingCharacter']
 
     def sampleSkills(self, nSkills):
-        """ Player-available skills: 1->112, 120->122, 128->159 
+        """ Player-available skills: 1->112, 120->122, 128->159
         (147 skills total)
-        Excludes Bold Stance (120), Point Blank (121), Winged Shield (122),
+        Excludes Aptitude (108), Bold Stance (120), Point Blank (121), Winged Shield (122),
         Paragon (138), Armor Shield (139), Beast Shield (140), Taker Skills (142->148),
         Ballistician skills (149->152), Warp (154).
-        Remaining Skills: 1->112, 128->137, 141, 153, 155->159 (129 skills) """
-        skills = self.rng.choice(129, 5, replace=False) + 1
+        Remaining Skills: 1->107, 109->112, 128->137, 141, 153, 155->159 (128 skills) """
+        skills = self.rng.choice(128, 5, replace=False) + 1
         for i, s in enumerate(skills):
-            if s >= 125:
-                skills[i] = s + 30
-            if s == 124:
-                skills[i] = 153
+            if s >= 124:
+                skills[i] = s + 31
             if s == 123:
+                skills[i] = 153
+            if s == 122:
                 skills[i] = 141
-            elif s >= 113:
-                skills[i] = s + 15
+            elif s >= 112:
+                skills[i] = s + 16
+            elif s >= 108:
+                skills[i] = s + 1
+            elif s == 0:
+                skills[i] = 159
         for i in range(nSkills, 5):  # erase added skills if needed
             skills[i] = 0
         return skills
@@ -826,7 +830,7 @@ class FatesRandomizer:
     def setCharacterBitflags(self, character, bitflags):
         character['Bitflags']['@values'] = self.dataToString(bitflags)
         return character
-        
+
     def setCharacterClass(self, character, className):
         character['ClassData']['@class'] = className
         return character
@@ -973,9 +977,9 @@ class FatesRandomizer:
 
 if __name__ == "__main__":
     fatesRandomizer = FatesRandomizer(
-        allCharacterData, 
-        classData, 
-        settings, 
+        allCharacterData,
+        classData,
+        settings,
         addmaxPow=args.addmax_pow,
         banBallistician=(not args.allow_ballistician),
         banWitch=args.ban_witch,
