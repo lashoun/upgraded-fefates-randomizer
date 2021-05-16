@@ -813,9 +813,9 @@ class FatesRandomizer:
         for i, s in enumerate(skills):
             if s >= 124:
                 skills[i] = s + 31
-            if s == 123:
+            elif s == 123:
                 skills[i] = 153
-            if s == 122:
+            elif s == 122:
                 skills[i] = 141
             elif s >= 112:
                 skills[i] = s + 16
