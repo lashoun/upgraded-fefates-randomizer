@@ -90,7 +90,7 @@ The extracted folder will be referred to as the "romfs" folder.
 6. Copy the `RandomizerSettings.xml` file from the romfs folder to the `data` folder.
 7. Open a command prompt in the same folder as `updated_randomizer.py`. Run
 ```
-python updated_randomizer
+python updated_randomizer.py
 ```
 If you want to know about the options, type
 ```
