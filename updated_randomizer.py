@@ -557,6 +557,15 @@ class FatesRandomizer:
         # Adjust Base Stats and Growths
         self.adjustBaseStatsAndGrowths(characterData)
 
+        # Add Variance to Data
+        self.addVarianceToData(characterData['Stats'], characterData['Growths'], characterData['Modifiers'])
+
+        # Swap Stats
+        self.swapCharacterLck(characterData)
+        self.swapCharacterDefRes(characterData)
+        self.swapCharacterSklSpd(characterData)
+        self.swapCharacterStrMag(characterData)
+
         # Scale Stats to New Level
         characterBaseStats = characterData['BaseStats']
         characterGrowths = characterData['Growths']
@@ -582,15 +591,6 @@ class FatesRandomizer:
             print("plusStats: {}".format(plusStats))
             print("BaseStats: {}".format(characterData['BaseStats']))
             print("Stats: {}".format(characterData['Stats']))
-
-        # Add Variance to Data
-        self.addVarianceToData(characterData['Stats'], characterData['Growths'], characterData['Modifiers'])
-
-        # Swap Stats
-        self.swapCharacterLck(characterData)
-        self.swapCharacterDefRes(characterData)
-        self.swapCharacterSklSpd(characterData)
-        self.swapCharacterStrMag(characterData)
 
         if self.verbose:
             print("--- Update ---")
@@ -812,20 +812,24 @@ class FatesRandomizer:
     def sampleSkills(self, nSkills):
         """ Player-available skills: 1->112, 120->122, 128->159
         (147 skills total)
-        Excludes Bold Stance (120), Point Blank (121), Winged Shield (122),
+        Excludes Aptitude (108), Bold Stance (120), Point Blank (121), Winged Shield (122),
         Paragon (138), Armor Shield (139), Beast Shield (140), Taker Skills (142->148),
         Ballistician skills (149->152), Warp (154).
-        Remaining Skills: 1->112, 128->137, 141, 153, 155->159 (129 skills) """
-        skills = self.rng.choice(129, 5, replace=False) + 1
+        Remaining Skills: 1->107, 109->112, 128->137, 141, 153, 155->159 (128 skills) """
+        skills = self.rng.choice(128, 5, replace=False) + 1
         for i, s in enumerate(skills):
-            if s >= 125:
-                skills[i] = s + 30
-            if s == 124:
+            if s >= 124:
+                skills[i] = s + 31
+            elif s == 123:
                 skills[i] = 153
-            if s == 123:
+            elif s == 122:
                 skills[i] = 141
-            elif s >= 113:
-                skills[i] = s + 15
+            elif s >= 112:
+                skills[i] = s + 16
+            elif s >= 108:
+                skills[i] = s + 1
+            elif s == 0:
+                skills[i] = 159
         for i in range(nSkills, 5):  # erase added skills if needed
             skills[i] = 0
         return skills

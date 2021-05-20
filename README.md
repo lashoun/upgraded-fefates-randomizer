@@ -32,7 +32,7 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
     - Skl / Spd (default: 20% chance)
     - Def / Res (default: 20% chance)
     - Lck / ? (default: [Lck Growth]% chance, only if Lck stat / growth / mod is superior)
-- Fixed skill randomization and removed unbalanced ones (Bold Stance (120), Point Blank (121), Winged Shield (122), Paragon (138), Armor Shield (139), Beast Shield (140), Taker Skills (142->148), Ballistician skills (149->152), Warp (154))
+- Fixed skill randomization and removed unbalanced ones (Aptitude (108), Bold Stance (120), Point Blank (121), Winged Shield (122), Paragon (138), Armor Shield (139), Beast Shield (140), Taker Skills (142->148), Ballistician skills (149->152), Warp (154))
 - "Catch 'em all" mode: minimize duplicate final classes according to the chosen route.
 
 ### Upgraded Fates Features
@@ -90,7 +90,7 @@ The extracted folder will be referred to as the "romfs" folder.
 6. Copy the `RandomizerSettings.xml` file from the romfs folder to the `data` folder.
 7. Open a command prompt in the same folder as `updated_randomizer.py`. Run
 ```
-python updated_randomizer
+python updated_randomizer.py
 ```
 If you want to know about the options, type
 ```
@@ -114,6 +114,9 @@ I advise using the Infinite Movement cheat code for this chapter. If you can pla
 
 ### Conquest Chapter 9: Talking with Nyx crashes the game!
 Break the wall near Nyx before talking to her. 
+
+### Revelations Chapter 8: Hayato was not replaced!
+This is an issue from the original randomizer; I can't fix it myself. This can amusingly lead to recruiting two Hayatos.
 
 # Original README by thane98
 
