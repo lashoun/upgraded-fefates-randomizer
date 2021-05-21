@@ -181,6 +181,19 @@ optional arguments:
   -v, --verbose         print verbose stuff
 ```
 
+### Example Custom Run
+
+```
+python updated_randomizer.py -bss 25 -c "Malig Knight" -esc -esi -g "Conquest" -gsm 350 -ns 5
+```
+
+This example command will ensure the following:
+- all units will have a total Lvl 1 base stats sum of 25
+- all units will have a total growth rates sum of 350
+- all units will have 5 randomized skills
+- Corrin will get Malig Knight in `ClassSpread.csv` and other characters will have fewer chances to get that class
+- only Conquest replacement units will be updated; in particular, they should all have different final classes (except maybe children).
+
 ## Troubleshooting
 
 ### Chapter 2: There's an immobile "phantom" unit near the top left corner!
