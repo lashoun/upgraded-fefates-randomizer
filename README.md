@@ -84,7 +84,7 @@ The instructions can look daunting but once you understand how it works it takes
     - **_Good Guy Garon Upgraded Gay Fates_ (recommended)**: _Upgraded Gay Fates_ with the [Good Guy Garon Edition patch](https://gbatemp.net/threads/release-conquest-story-overhaul-fire-emblem-fates-good-guy-garon-edition.487117/). Extract `fates_gay_upgraded_GGG_decompressed.7z`.
 The extracted folder will be referred to as the "romfs" folder.
 2. Run `Fates Randomizer Beta 5-5.jar`, click "Open and Verify", and select the romfs folder. You should see a new window pop up with options. If you do not, the window will show you which file was not found.
-3. Select a path and options. Refer to the original readme below if you do not understand an option. I recommend selecting `All Routes` (even if you plan to play Birthright or Conquest, the Python script has route options too)  and all options except the experimental ones and the stat randomization.
+3. Select a path and options. Options "Anna", "Amiibo Units", and "Children" must be selected. Refer to the original readme below if you do not understand an option. I recommend selecting `All Routes` (even if you plan to play Birthright or Conquest, the Python script has route options too) and all options except the experimental ones and the stat randomization.
 4. Hit "Randomize" and let the program sit. When the program finishes, a little notification will pop up in the corner of the window.
 5. Close `Fates Randomizer Beta 5-5.jar`.
 6. Copy the `RandomizerSettings.xml` file from the romfs folder to the `data` folder.
