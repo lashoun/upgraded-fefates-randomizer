@@ -35,6 +35,7 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
 - Fixed skill randomization and removed unbalanced ones (Aptitude (108), Bold Stance (120), Point Blank (121), Winged Shield (122), Paragon (138), Armor Shield (139), Beast Shield (140), Taker Skills (142->148), Ballistician skills (149->152), Warp (154))
 - "Catch 'em all" mode: minimize duplicate final classes according to the chosen route.
 
+
 ### Upgraded Fates Features
 - Dawn / Dusk Armories and Rod / Staff shops available in every route
 - Changes to weapon triangles: Tome <-> Axe, Dagger <-> Sword, and Bow <-> Lance become neutral
@@ -92,10 +93,12 @@ The extracted folder will be referred to as the "romfs" folder.
 ```
 python updated_randomizer.py
 ```
-If you want to know about the options, type
+  - If you want to know about the options, type:
 ```
 python updated_randomizer.py -h
 ```
+  - Refer to the section "All Options" below for the details.
+
 8. If the script ran successfully, you should have two files named `RandomizerSettingsUpdated.xml` and `ClassSpread.csv` in the data folder. Otherwise, try to run one more time, and if it fails again, raise an issue on this repository.
     - `ClassSpread.csv` contains on each line the original character, their replacement and the class assigned to the replacement. I recommend respecting the file's assignements for more fun and challenge.
     - `RandomizerSettingsUpdated.xml` contains the detailed information of the randomized run. For each character, the `StringData` and `ClassData` fields are tied to the character while the other fields are tied to their spot. If Ryoma has as "switchingCharacter" Hinata, he will have the stats that are written in Hinata's `Stats` field (but those stats will have been computed as Ryoma's "expected" stats at this spot). I recommend not looking at it for more fun.
@@ -103,6 +106,80 @@ python updated_randomizer.py -h
 11. Close `Fates Randomizer Beta 5-5.jar`. Open `FEAT.exe`. Drag the romfs folder into FEAT: this will recompress the files. Once FEAT is done, you can close it.
 12. Phew! You're done! Now you can copy your roms folder to the mods folder of your gaming medium.
 13. As a final note, DO NOT use this on top of an existing save or branch of fate. Use a fresh save starting from the very beginning if you want a stable playthrough.
+
+## All Options
+```
+usage: updated_randomizer.py [-h] [-ap ADDMAX_POW] [-ab] [-bss BASE_STATS_SUM] [-bw] [-c CORRIN_CLASS] [-dcs] [-dgd]
+                             [-dl] [-ds] [-dsr] [-dss] [-ema] [-emoc] [-esc] [-esd] [-esi] [-ev]
+                             [-g {Revelations,Birthright,Conquest}] [-gc GROWTH_CAP] [-gp GROWTH_P]
+                             [-gsm GROWTHS_SUM_MIN] [-mp MOD_P] [-np N_PASSES] [-ns {-1,0,1,2,3,4,5}] [-s SEED]
+                             [-sp STAT_P] [-sdrp SWAP_DEF_RES_P] [-slp SWAP_LCK_P] [-sssp SWAP_SKL_SPD_P]
+                             [-ssmp SWAP_STR_MAG_P] [-v]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -ap ADDMAX_POW, --addmax-pow ADDMAX_POW
+                        the lower the more uniform growth adjustment
+  -ab, --allow-ballistician
+                        allow Ballistician class in the randomization
+  -bss BASE_STATS_SUM, --base-stats-sum BASE_STATS_SUM
+                        if adjusting growths, lowering stats sum to that value
+  -bw, --ban-witch      ban Witch class from the randomization
+  -c CORRIN_CLASS, --corrin-class CORRIN_CLASS
+                        Corrin's final class
+  -dcs, --disable-class-spread
+                        disable diverse class reroll
+  -dgd, --disable-gunter-def
+                        disable Gunter's replacement's enforced higher Def than Res
+  -dl, --disable-locktouch
+                        disable Kaze's replacement's enforced Locktouch skill
+  -ds, --disable-songstress
+                        disable Azura's replacement's enforced Songstress class
+  -dsr, --disable-staff-retainer
+                        disable Jakob and Felicia's replacement's enforced healing class
+  -dss, --disable-staff-sister
+                        disable Sakura and/or Elise's replacement's enforced healing class
+  -ema, --enforce-mozu-aptitude
+                        enforce Mozu (herself) having Aptitude
+  -emoc, --enable-mag-only-corrin
+                        enables Corrin to get a Mag only class
+  -esc, --enforce-sword-corrin
+                        enforces Corrin to get a sword-wielding final class
+  -esd, --enforce-stat-decrease
+                        enforces stat decrease regardless of growth increase
+  -esi, --enforce-stat-increase
+                        enforces stat increase
+  -ev, --enforce-villager
+                        enforce Mozu's replacement being a Villager with Aptitude
+  -g {Revelations,Birthright,Conquest}, --game-route {Revelations,Birthright,Conquest}
+                        game route
+  -gc GROWTH_CAP, --growth-cap GROWTH_CAP
+                        adjusted growths cap
+  -gp GROWTH_P, --growth-p GROWTH_P
+                        probability of editing growths in a variability pass
+  -gsm GROWTHS_SUM_MIN, --growths-sum-min GROWTHS_SUM_MIN
+                        will adjust grwoths until sum is higher than specified value
+  -mp MOD_P, --mod-p MOD_P
+                        probability of editing modifiers in a variability pass
+  -np N_PASSES, --n-passes N_PASSES
+                        number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass
+  -ns {-1,0,1,2,3,4,5}, --n-skills {-1,0,1,2,3,4,5}
+                        number of randomized skills; if -1, randomize existing skills
+  -s SEED, --seed SEED  RNG seed
+  -sp STAT_P, --stat-p STAT_P
+                        probability of editing stats in a variability pass
+  -sdrp SWAP_DEF_RES_P, --swap-def-res-p SWAP_DEF_RES_P
+                        probability of swapping Def and Res growths / stats / modifiers
+  -slp SWAP_LCK_P, --swap-lck-p SWAP_LCK_P
+                        probability of swapping Lck and a random stat's growths / stats / modifiers; random if between
+                        0 and 1, else [(Lck Growth)% and swap only if Lck is superior]
+  -sssp SWAP_SKL_SPD_P, --swap-skl-spd-p SWAP_SKL_SPD_P
+                        probability of swapping Skl and Spd growths / stats / modifiers
+  -ssmp SWAP_STR_MAG_P, --swap-str-mag-p SWAP_STR_MAG_P
+                        probability of swapping Str and Mag growths / stats / modifiers; random if between 0 and 1,
+                        else according to class (coin flip for mixed classes)
+  -v, --verbose         print verbose stuff
+```
 
 ## Troubleshooting
 
