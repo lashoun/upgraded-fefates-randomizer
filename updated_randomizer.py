@@ -14,6 +14,10 @@ path = './data'
 parser = argparse.ArgumentParser()
 parser.add_argument('-ap', '--addmax-pow', type=float, default=1., help="the lower the more uniform growth adjustment")
 parser.add_argument('-ab', '--allow-ballistician', action='store_true', help="allow Ballistician class in the randomization")
+parser.add_argument('-ba', '--ban-anna', action='store_true', help="ban Anna")
+parser.add_argument('-bac', '--ban-amiibo-characters', action='store_true', help="ban Amiibo characters (Marth, Lucina, Robin, Ike)")
+parser.add_argument('-bc', '--ban-children', action='store_true', help="ban children characters")
+parser.add_argument('-bdc', '--ban-dlc-classes', action='store_true', help="ban DLC classes")
 parser.add_argument('-bss', '--base-stats-sum', type=int, default=25, help="if adjusting growths, lowering stats sum to that value")
 parser.add_argument('-bw', '--ban-witch', action='store_true', help="ban Witch class from the randomization")
 parser.add_argument('-c', '--corrin-class', choices=[
@@ -123,7 +127,11 @@ class FatesRandomizer:
         classData,
         settings,
         addmaxPow=1,
+        banAmiiboCharacters=False,
+        banAnna=False,
         banBallistician=True,
+        banChildren=False,
+        banDLCClasses=False,
         banWitch=False,
         baseStatsSumMax=25,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
         corrinClass='',
@@ -163,7 +171,11 @@ class FatesRandomizer:
         assert nSkills <= 5, "nSkills must be <= 5"
 
         self.addmaxPow = addmaxPow
+        self.banAmiiboCharacters = banAmiiboCharacters
+        self.banAnna = banAnna
+        self.banChildren = banChildren
         self.banBallistician = banBallistician
+        self.banDLCClasses = banDLCClasses
         self.banWitch = banWitch
         self.baseStatsSumMax = baseStatsSumMax
         self.corrinClass = corrinClass
@@ -207,6 +219,9 @@ class FatesRandomizer:
         self.MALE_CLASSES = ['Great Master', 'Butler', 'Lodestar', 'Vanguard', 'Grandmaster', 'Ballistician']
         self.FEMALE_CLASSES = ['Priestess', 'Maid', 'Witch', 'Great Lord']
 
+        self.DLC_CLASSES = ['Dread Fighter', 'Dark Falcon', 'Ballistician',
+            'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster']
+
         self.FINAL_CLASSES = [
             'Hoshido Noble', 'Swordmaster', 'Master of Arms', 'Oni Chieftain',
             'Blacksmith', 'Spear Master', 'Basara', 'Onmyoji', 'Great Master',
@@ -245,6 +260,8 @@ class FatesRandomizer:
             'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster'
         ]
 
+        self.AMIIBO_CHARACTERS = ['Marth', 'Lucina', 'Robin', 'Ike']
+
         self.BIRTHRIGHT_CHARACTERS = [
             'Felicia', 'Jakob', 'Kaze', 'Rinkah', 'Azura', 'Sakura', 'Hana', 'Subaki',
             'Silas', 'Saizo', 'Orochi', 'Anna', 'Mozu', 'Hinoka', 'Azama', 'Setsuna',
@@ -274,6 +291,11 @@ class FatesRandomizer:
             'Soleil', 'Nina', 'Marth', 'Lucina', 'Robin', 'Ike'
         ]
 
+        self.CHILDREN_CHARACTERS = ['Shigure', 'Dwyer', 'Sophie', 'Midori', 'Shiro',
+            'Kiragi', 'Asugi', 'Selkie', 'Hisame', 'Mitama', 'Caeldori', 'Rhajat',
+            'Siegbert', 'Forrest', 'Ignatius', 'Velouria', 'Percy', 'Ophelia',
+            'Soleil', 'Nina']
+
         self.MALE_CHARACTERS = [
             'Jakob', 'Fuga', 'Yukimura', 'Izana', 'Subaki', 'Kaze', 'Hayato',
             'Takumi', 'Hinata', 'Saizo', 'Kaden', 'Keaton', 'Arthur', 'Benny',
@@ -294,15 +316,54 @@ class FatesRandomizer:
 
         self.randomizedClasses = None
 
-        if self.banBallistician:
-            self.MALE_CLASSES.pop(self.MALE_CLASSES.index('Ballistician'))
-            self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Ballistician'))
-            self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index('Ballistician'))
-        if self.banWitch:
-            self.FEMALE_CLASSES.pop(self.FEMALE_CLASSES.index('Witch'))
-            self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Witch'))
-            self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index('Witch'))
-            self.MAGICAL_CLASSES.pop(self.MAGICAL_CLASSES.index('Witch'))
+        if self.banAmiiboCharacters:
+            for characterName in self.AMIIBO_CHARACTERS:
+                if characterName != 'Lucina':
+                    self.MALE_CHARACTERS.pop(self.MALE_CHARACTERS.index(characterName))
+                else:
+                    self.FEMALE_CHARACTERS.pop(self.FEMALE_CHARACTERS.index(characterName))
+                self.BIRTHRIGHT_CHARACTERS.pop(self.BIRTHRIGHT_CHARACTERS.index(characterName))
+                self.CONQUEST_CHARACTERS.pop(self.CONQUEST_CHARACTERS.index(characterName))
+                self.REVELATION_CHARACTERS.pop(self.REVELATION_CHARACTERS.index(characterName))
+        if self.banAnna:
+            self.FEMALE_CHARACTERS.pop(self.FEMALE_CHARACTERS.index('Anna'))
+            self.BIRTHRIGHT_CHARACTERS.pop(self.BIRTHRIGHT_CHARACTERS.index('Anna'))
+            self.CONQUEST_CHARACTERS.pop(self.CONQUEST_CHARACTERS.index('Anna'))
+            self.REVELATION_CHARACTERS.pop(self.REVELATION_CHARACTERS.index('Anna'))
+        if self.banChildren:
+            for characterName in self.CHILDREN_CHARACTERS:
+                if characterName in self.MALE_CHARACTERS:
+                    self.MALE_CHARACTERS.pop(self.MALE_CHARACTERS.index(characterName))
+                if characterName in self.FEMALE_CHARACTERS:
+                    self.FEMALE_CHARACTERS.pop(self.FEMALE_CHARACTERS.index(characterName))
+                if characterName in self.BIRTHRIGHT_CHARACTERS:
+                    self.BIRTHRIGHT_CHARACTERS.pop(self.BIRTHRIGHT_CHARACTERS.index(characterName))
+                if characterName in self.CONQUEST_CHARACTERS:
+                    self.CONQUEST_CHARACTERS.pop(self.CONQUEST_CHARACTERS.index(characterName))
+                self.REVELATION_CHARACTERS.pop(self.REVELATION_CHARACTERS.index(characterName))
+
+        if self.banDLCClasses:
+            for className in self.DLC_CLASSES:
+                if className in self.MALE_CLASSES:
+                    self.MALE_CLASSES.pop(self.MALE_CLASSES.index(className))
+                if className in self.FEMALE_CLASSES:
+                    self.FEMALE_CLASSES.pop(self.FEMALE_CLASSES.index(className))
+                self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index(className))
+                self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index(className))
+                if className in self.MAGICAL_CLASSES:
+                    self.MAGICAL_CLASSES.pop(self.MAGICAL_CLASSES.index(className))
+                if className in self.SWORD_CLASSES:
+                    self.SWORD_CLASSES.pop(self.SWORD_CLASSES.index(className))
+        else:
+            if self.banBallistician:
+                self.MALE_CLASSES.pop(self.MALE_CLASSES.index('Ballistician'))
+                self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Ballistician'))
+                self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index('Ballistician'))
+            if self.banWitch:
+                self.FEMALE_CLASSES.pop(self.FEMALE_CLASSES.index('Witch'))
+                self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Witch'))
+                self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index('Witch'))
+                self.MAGICAL_CLASSES.pop(self.MAGICAL_CLASSES.index('Witch'))
 
         if self.gameRoute == 'Birthright':
             self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Nohr Noble'))
@@ -647,12 +708,10 @@ class FatesRandomizer:
 
         classes = self.FINAL_CLASSES.copy()
         classes.pop(classes.index(self.randomizedClasses['Corrin']))
-        self.rng.shuffle(classes)  # in place
         classesBis = self.FINAL_CLASSES.copy()
         classesBis.pop(classesBis.index('Songstress'))  # one Songstress max
-        self.rng.shuffle(classesBis)  # in place
         classes = classes + classesBis
-        classes = classes[:len(characters)]
+        classes = classes[:max(len(classesBis), len(characters))]
 
         # Staff Sister Check
         if self.forceStaffSister:
@@ -697,18 +756,21 @@ class FatesRandomizer:
             classes.pop(classes.index(villagerPromoted))
 
         # prioritize variance in parent classes
-        childrenStart = characters.index('Shigure')
-        parentCharacters = characters[:childrenStart]
-        childrenCharacters = characters[childrenStart:]
-        parentClasses = classes[:childrenStart]
-        childrenClasses = classes[childrenStart:]
-        self.rng.shuffle(parentClasses)  # in place
-        self.rng.shuffle(childrenClasses)  # in place
-
-        self.checkGender(parentCharacters, parentClasses)
-        self.checkGender(childrenCharacters, childrenClasses)
-
-        classes = parentClasses + childrenClasses
+        if self.banChildren:
+            self.rng.shuffle(classes)
+            classes = classes[:len(characters)]
+            self.checkGender(characters, classes)
+        else:
+            childrenStart = characters.index('Shigure')
+            parentCharacters = characters[:childrenStart]
+            childrenCharacters = characters[childrenStart:]
+            parentClasses = classes[:childrenStart]
+            childrenClasses = classes[childrenStart:]
+            self.rng.shuffle(parentClasses)  # in place
+            self.rng.shuffle(childrenClasses)  # in place
+            self.checkGender(parentCharacters, parentClasses)
+            self.checkGender(childrenCharacters, childrenClasses)
+            classes = parentClasses + childrenClasses
 
         for i, className in enumerate(classes):
             self.randomizedClasses[characters[i]] = className
@@ -994,7 +1056,11 @@ if __name__ == "__main__":
         classData,
         settings,
         addmaxPow=args.addmax_pow,
+        banAmiiboCharacters=args.ban_amiibo_characters,
+        banAnna=args.ban_anna,
         banBallistician=(not args.allow_ballistician),
+        banChildren=args.ban_children,
+        banDLCClasses=args.ban_dlc_classes,
         banWitch=args.ban_witch,
         baseStatsSumMax=args.base_stats_sum,
         corrinClass=args.corrin_class,
