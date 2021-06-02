@@ -31,6 +31,7 @@ parser.add_argument('-c', '--corrin-class', choices=[
 parser.add_argument('-dcs', '--disable-class-spread', action='store_true', help="disable diverse class reroll")
 parser.add_argument('-dgd', '--disable-gunter-def', action='store_true', help="disable Gunter's replacement's enforced higher Def than Res")
 parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze's replacement's enforced Locktouch skill")
+parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
 parser.add_argument('-ds', '--disable-songstress', action='store_true', help="disable Azura's replacement's enforced Songstress class")
 parser.add_argument('-dsr', '--disable-staff-retainer', action='store_true', help="disable Jakob and Felicia's replacement's enforced healing class")
 parser.add_argument('-dss', '--disable-staff-sister', action='store_true', help="disable Sakura and/or Elise's replacement's enforced healing class")
@@ -126,6 +127,7 @@ class FatesRandomizer:
         banWitch=False,
         baseStatsSumMax=25,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
         corrinClass='',
+        disableModelSwitch=False,  # will disable model switching
         forceClassSpread=True,  # will limit class duplicates
         forceGunterDef=True,  # will force Gunter's replacement to have higher Def
         forceLocktouch=True,  # will force Kaze's replacement to get Locktouch
@@ -165,6 +167,7 @@ class FatesRandomizer:
         self.banWitch = banWitch
         self.baseStatsSumMax = baseStatsSumMax
         self.corrinClass = corrinClass
+        self.disableModelSwitch = disableModelSwitch
         self.forceClassSpread = forceClassSpread
         self.forceGunterDef = forceGunterDef
         self.forceLocktouch = forceLocktouch
@@ -459,6 +462,9 @@ class FatesRandomizer:
         characterName = self.readCharacterName(character)
         switchingCharacterName = self.readSwitchingCharacterName(character)
         switchingCharacter = self.getCharacter(switchingCharacterName)
+
+        if self.disableModelSwitch:
+            character = switchingCharacter
 
         newLevel = self.readCharacterLevel(switchingCharacterName)
         newPromotionLevel = self.readCharacterPromotionLevel(switchingCharacterName)
@@ -992,6 +998,7 @@ if __name__ == "__main__":
         banWitch=args.ban_witch,
         baseStatsSumMax=args.base_stats_sum,
         corrinClass=args.corrin_class,
+        disableModelSwitch=args.disable_model_switch,
         forceClassSpread=(not args.disable_class_spread),
         forceGunterDef=(not args.disable_gunter_def),
         forceLocktouch=(not args.disable_locktouch),
