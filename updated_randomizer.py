@@ -50,6 +50,7 @@ parser.add_argument('-g', '--game-route', choices=['Revelations', 'Birthright', 
 parser.add_argument('-gc', '--growth-cap', type=int, default=70, help="adjusted growths cap")
 parser.add_argument('-gp', '--growth-p', type=float, default=1., help="probability of editing growths in a variability pass")
 parser.add_argument('-gsm', '--growths-sum-min', type=int, default=270, help="will adjust grwoths until sum is higher than specified value")
+parser.add_argument('-mc', '--modifier-coefficient', type=int, default=0, help="will increase all modifiers by specified coefficient")
 parser.add_argument('-mp', '--mod-p', type=float, default=0.25, help="probability of editing modifiers in a variability pass")
 parser.add_argument('-np', '--n-passes', type=int, default=10, help="number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass")
 parser.add_argument('-ns', '--n-skills', type=int, default=-1, choices=[-1, 0, 1, 2, 3, 4, 5], help="number of randomized skills; if -1, randomize existing skills")
@@ -152,7 +153,8 @@ class FatesRandomizer:
         gameRoute='Revelations',  # 'Birthright', 'Conquest' or 'Revelations', used in randomizeClasses
         growthCap=70,  # growth cap in adjustBaseStatsAndGrowths
         growthP=1,  # proba of editing growths in AddVariancetoData
-        growthsSumMin=270,   # in adjustBaseStatsAndGrowths, will increase growths sum up to said value
+        growthsSumMin=270,  # in adjustBaseStatsAndGrowths, will increase growths sum up to said value
+        modifierCoefficient=0,  # value by which all modifiers will be increased
         modP=0.25,  # proba of editing modifiers in AddVariancetoData
         nPasses=10,  # number of passes in AddVariancetoData
         nSkills=-1,  # if -1, randomize existing skills
@@ -196,6 +198,7 @@ class FatesRandomizer:
         self.growthCap = growthCap
         self.growthP = growthP
         self.growthsSumMin = growthsSumMin
+        self.modifierCoefficient = modifierCoefficient
         self.modP = modP
         self.nPasses = nPasses
         self.nSkills = nSkills
@@ -664,6 +667,9 @@ class FatesRandomizer:
             print("Growths: {}".format(characterData['Growths']))
             print("Stats: {}".format(characterData['Stats']))
 
+        # Increase Modifiers
+        self.increaseModifiers(characterData['Modifiers'])
+
         # Set Data
         self.setCharacterStats(switchingCharacter, characterData['Stats'])
         self.setCharacterGrowths(switchingCharacter, characterData['Growths'])
@@ -680,6 +686,12 @@ class FatesRandomizer:
             if character['StringData']['@name'] == characterName:
                 return character
         raise ValueError('Character named "{}" not found'.format(characterName))
+
+    def increaseModifiers(self, mods):
+        """ Increases modifiers """
+        for i in range(len(mods)):
+            mods[i] += self.modifierCoefficient
+        return mods
 
     def randomizeAllClasses(self):
         self.randomizedClasses = {}
@@ -1081,6 +1093,7 @@ if __name__ == "__main__":
         growthCap=args.growth_cap,
         growthP=args.growth_p,
         growthsSumMin=args.growths_sum_min,
+        modifierCoefficient=args.modifier_coefficient,
         modP=args.mod_p,
         nPasses=args.n_passes,
         nSkills=args.n_skills,
