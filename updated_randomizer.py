@@ -529,6 +529,7 @@ class FatesRandomizer:
 
         if self.disableModelSwitch:
             character = switchingCharacter
+            characterName = switchingCharacterName
 
         newLevel = self.readCharacterLevel(switchingCharacterName)
         newPromotionLevel = self.readCharacterPromotionLevel(switchingCharacterName)
@@ -549,7 +550,8 @@ class FatesRandomizer:
                             self.setCharacterClass(character, 'Shrine Maiden')
                         else:
                             self.setCharacterClass(character, 'Troubadour')
-                    self.setCharacterClass(character, self.readBaseClass(newClass, characterName))
+                    else:
+                        self.setCharacterClass(character, self.readBaseClass(newClass, characterName))
 
         else:
 
@@ -817,8 +819,10 @@ class FatesRandomizer:
         if className in ['Nohr Noble', 'Hoshido Noble']:
             if characterName in self.MALE_CHARACTERS:
                 return 'Nohr Prince'
-            else:
+            elif characterName in self.FEMALE_CHARACTERS:
                 return 'Nohr Princess'
+            else:
+                raise ValueError('Character named "{}" not found in MALE_CHARACTERS or FEMALE_CHARACTERS'.format(characterName))
         elif className == 'Onmyoji':
             baseClass = self.rng.choice(['Diviner', 'Monk'])
             if baseClass == 'Monk' and characterName in self.FEMALE_CHARACTERS:
