@@ -524,6 +524,8 @@ class FatesRandomizer:
         """ Fixes the switchingCharacter's data so that the character's model
         and values fit """
         characterName = self.readCharacterName(character)
+        characterOriginal = character
+        characterNameOriginal = self.readCharacterName(character)
         switchingCharacterName = self.readSwitchingCharacterName(character)
         switchingCharacter = self.getCharacter(switchingCharacterName)
 
@@ -679,6 +681,9 @@ class FatesRandomizer:
 
         # Randomize Skills
         self.randomizeSkills(switchingCharacter, characterName)
+
+        if self.disableModelSwitch:
+            self.setSwitchingCharacterName(characterOriginal, characterNameOriginal)
 
         return switchingCharacter
 
@@ -940,6 +945,10 @@ class FatesRandomizer:
 
     def setCharacterSkills(self, character, skills):
         character['Skills']['@values'] = self.dataToString(skills)
+        return character
+
+    def setSwitchingCharacterName(self, character, switchingCharacterName):
+        character['StringData']['@switchingCharacter'] = switchingCharacterName
         return character
 
     def swapCharacterDefRes(self, characterData):
