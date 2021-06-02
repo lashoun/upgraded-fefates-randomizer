@@ -14,10 +14,12 @@ path = './data'
 parser = argparse.ArgumentParser()
 parser.add_argument('-ap', '--addmax-pow', type=float, default=1., help="the lower the more uniform growth adjustment")
 parser.add_argument('-ab', '--allow-ballistician', action='store_true', help="allow Ballistician class in the randomization")
+parser.add_argument('-ads', '--allow-dlc-skills', action='store_true', help="allow DLC skills in skill randomization")
 parser.add_argument('-ba', '--ban-anna', action='store_true', help="ban Anna")
 parser.add_argument('-bac', '--ban-amiibo-characters', action='store_true', help="ban Amiibo characters (Marth, Lucina, Robin, Ike)")
 parser.add_argument('-bc', '--ban-children', action='store_true', help="ban children characters")
 parser.add_argument('-bdc', '--ban-dlc-classes', action='store_true', help="ban DLC classes")
+parser.add_argument('-bdcs', '--ban-dlc-class-skills', action='store_true', help="ban DLC class skills in skill randomization")
 parser.add_argument('-bss', '--base-stats-sum', type=int, default=25, help="if adjusting growths, lowering stats sum to that value")
 parser.add_argument('-bw', '--ban-witch', action='store_true', help="ban Witch class from the randomization")
 parser.add_argument('-c', '--corrin-class', choices=[
@@ -32,6 +34,7 @@ parser.add_argument('-c', '--corrin-class', choices=[
     'Ballistician', 'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster'
 ],
                     default='', help="Corrin's final class", metavar="CORRIN_CLASS")
+parser.add_argument('-dbsr', '--disable-balanced-skill-randomization', action='store_true', help="disable balanced skill randomization; skill randomization will be completely random")
 parser.add_argument('-dcs', '--disable-class-spread', action='store_true', help="disable diverse class reroll")
 parser.add_argument('-dgd', '--disable-gunter-def', action='store_true', help="disable Gunter's replacement's enforced higher Def than Res")
 parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze's replacement's enforced Locktouch skill")
@@ -128,14 +131,17 @@ class FatesRandomizer:
         classData,
         settings,
         addmaxPow=1,
+        allowDLCSkills=False,
         banAmiiboCharacters=False,
         banAnna=False,
         banBallistician=True,
         banChildren=False,
         banDLCClasses=False,
+        banDLCClassSkills=False,
         banWitch=False,
         baseStatsSumMax=25,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
         corrinClass='',
+        disableBalancedSkillRandomization=False,
         disableModelSwitch=False,  # will disable model switching
         forceClassSpread=True,  # will limit class duplicates
         forceGunterDef=True,  # will force Gunter's replacement to have higher Def
@@ -173,14 +179,17 @@ class FatesRandomizer:
         assert nSkills <= 5, "nSkills must be <= 5"
 
         self.addmaxPow = addmaxPow
+        self.allowDLCSkills = allowDLCSkills
         self.banAmiiboCharacters = banAmiiboCharacters
         self.banAnna = banAnna
         self.banChildren = banChildren
         self.banBallistician = banBallistician
         self.banDLCClasses = banDLCClasses
+        self.banDLCClassSkills = banDLCClassSkills
         self.banWitch = banWitch
         self.baseStatsSumMax = baseStatsSumMax
         self.corrinClass = corrinClass
+        self.disableBalancedSkillRandomization = disableBalancedSkillRandomization
         self.disableModelSwitch = disableModelSwitch
         self.forceClassSpread = forceClassSpread
         self.forceGunterDef = forceGunterDef
@@ -904,23 +913,51 @@ class FatesRandomizer:
         Excludes Aptitude (108), Bold Stance (120), Point Blank (121), Winged Shield (122),
         Paragon (138), Armor Shield (139), Beast Shield (140), Taker Skills (142->148),
         Ballistician skills (149->152), Warp (154).
-        Remaining Skills: 1->107, 109->112, 128->137, 141, 153, 155->159 (128 skills) """
-        skills = self.rng.choice(128, 5, replace=False) + 1
-        for i, s in enumerate(skills):
-            if s >= 124:
-                skills[i] = s + 31
-            elif s == 123:
-                skills[i] = 153
-            elif s == 122:
-                skills[i] = 141
-            elif s >= 112:
-                skills[i] = s + 16
-            elif s >= 108:
-                skills[i] = s + 1
-            elif s == 0:
-                skills[i] = 159
+        Remaining Skills: 1->107, 109->112, 128->137, 141, 153, 155->159 (128 skills)
+        Bookmarks: Draconic Hex (10), Luna (30), Strong Riposte (50), Tomefaire (70), Quixotic (90), Even Keel (128)"""
+        baseSkills1 = [1, 2, 4, 5, 6, 7, 8, 14, 15, 36, 51, 53, 54, 57, 58, 89, 91, 99]
+        baseSkills2 = [9, 20, 28, 39, 44, 45, 46, 47, 49, 50, 52, 73, 74, 76, 85, 86, 93, 101, 107, 109]
+        promotedSkills1 = [10, 11, 12, 13, 16, 17, 18, 19, 21, 22, 25, 27, 29, 30, 31, 32, 33, 34, 35, 41, 59, 60, 64, 71, 77, 87, 88, 94, 95, 96, 100, 102, 104, 105]
+        promotedSkills2 = [33, 34, 37, 38, 42, 43, 48, 55, 56, 61, 62, 63, 65, 66, 67, 68, 69, 70, 75, 79, 80, 81, 82, 83, 84, 90, 97, 98, 103, 111]
+        dlcBaseSkills1 = [3, 128, 132, 134, 141, 156, 158]
+        dlcBaseSkills2 = [72, 92, 129, 135, 153, 159]
+        dlcPromotedSkills1 = [23, 26, 130, 136, 157]
+        dlcPromotedSkills2 = [110, 131, 133, 137, 142, 145, 155]
+        dlcSkills = [120, 121, 122, 138, 139, 143, 144, 146, 147, 148]
+        specificSkills = [24, 40, 78, 106, 108, 112, 149, 150, 151, 152, 154] # Inspiring Song (24), Beastbane (40), Foreign Princess (78), Nobility (106), Aptitude (108), Locktouch (112)
+
+        if self.banDLCClassSkills:
+            allBaseSkills1 = baseSkills1
+            allBaseSkills2 = baseSkills2
+            allPromotedSkills1 = promotedSkills1
+            allPromotedSkills2 = promotedSkills2
+        else:
+            allBaseSkills1 = baseSkills1 + dlcBaseSkills1
+            allBaseSkills2 = baseSkills2 + dlcBaseSkills2
+            allPromotedSkills1 = promotedSkills1 + dlcPromotedSkills1
+            allPromotedSkills2 = promotedSkills2 + dlcPromotedSkills2
+
+        allSkills = allBaseSkills1 + allBaseSkills2 + allPromotedSkills1 + allPromotedSkills2
+
+        if self.allowDLCSkills:
+            allSkills += dlcSkills
+
+        if self.disableBalancedSkillRandomization:
+            skills = self.rng.choice(allSkills, 5, replace=False)
+        else:
+            skills = []
+            skills.append(self.rng.choice(allBaseSkills1))
+            skills.append(self.rng.choice(allBaseSkills2))
+            skills.append(self.rng.choice(allPromotedSkills1))
+            skills.append(self.rng.choice(allPromotedSkills2))
+            lastSkill = skills[0]
+            while lastSkill in skills:
+                lastSkill = self.rng.choice(allSkills)
+            skills.append(lastSkill)
+
         for i in range(nSkills, 5):  # erase added skills if needed
             skills[i] = 0
+
         return skills
 
     def setCharacterBitflags(self, character, bitflags):
@@ -1081,14 +1118,17 @@ if __name__ == "__main__":
         classData,
         settings,
         addmaxPow=args.addmax_pow,
+        allowDLCSkills=args.allow_dlc_skills,
         banAmiiboCharacters=args.ban_amiibo_characters,
         banAnna=args.ban_anna,
         banBallistician=(not args.allow_ballistician),
         banChildren=args.ban_children,
         banDLCClasses=args.ban_dlc_classes,
+        banDLCClassSkills=args.ban_dlc_class_skills,
         banWitch=args.ban_witch,
         baseStatsSumMax=args.base_stats_sum,
         corrinClass=args.corrin_class,
+        disableBalancedSkillRandomization=args.disable_balanced_skill_randomization,
         disableModelSwitch=args.disable_model_switch,
         forceClassSpread=(not args.disable_class_spread),
         forceGunterDef=(not args.disable_gunter_def),
