@@ -85,7 +85,7 @@ The instructions can look daunting but once you understand how it works it takes
     - **_Good Guy Garon Upgraded Gay Fates_ (recommended)**: _Upgraded Gay Fates_ with the [Good Guy Garon Edition patch](https://gbatemp.net/threads/release-conquest-story-overhaul-fire-emblem-fates-good-guy-garon-edition.487117/). Extract `fates_gay_upgraded_GGG_decompressed.7z`.
 The extracted folder will be referred to as the "romfs" folder.
 2. Run `Fates Randomizer Beta 5-5.jar`, click "Open and Verify", and select the romfs folder. You should see a new window pop up with options. If you do not, the window will show you which file was not found. Make sure that the selected folder has folders named `castle`, `GameData`, `m`, `Scripts` directly inside it.
-3. Select a path and options. Options "Anna", "Amiibo Units", and "Children" must be selected. Refer to the original readme below if you do not understand an option. I recommend selecting `All Routes` (even if you plan to play Birthright or Conquest, the Python script has route options too) and all options except the experimental ones and the stat randomization.
+3. Select a path and options. Refer to the original readme below if you do not understand an option. I recommend selecting `All Routes` (even if you plan to play Birthright or Conquest, the Python script has route options too) and all options except the experimental ones and the stat randomization.
 4. Hit "Randomize" and let the program sit. When the program finishes, a little notification will pop up in the corner of the window.
 5. Close `Fates Randomizer Beta 5-5.jar`.
 6. Copy the `RandomizerSettings.xml` file from the romfs folder to the `data` folder.
@@ -98,6 +98,7 @@ python updated_randomizer.py
 python updated_randomizer.py -h
 ```
   - Refer to the section "All Options" below for the details.
+  - If you did not select the option "Anna" / "Amiibo characters" / "Children" in the randomizer, you have to use the options `-ba` / `-bac` / `-bc` respectively.
 
 8. If the script ran successfully, you should have two files named `RandomizerSettingsUpdated.xml` and `ClassSpread.csv` in the data folder. Otherwise, try to run one more time, and if it fails again, raise an issue on this repository.
     - `ClassSpread.csv` contains on each line the original character, their replacement and the class assigned to the replacement. I recommend respecting the file's assignements for more fun and challenge.
@@ -109,12 +110,12 @@ python updated_randomizer.py -h
 
 ## All Options
 ```
-usage: updated_randomizer.py [-h] [-ap ADDMAX_POW] [-ab] [-bss BASE_STATS_SUM] [-bw] [-c CORRIN_CLASS] [-dcs] [-dgd]
-                             [-dl] [-ds] [-dsr] [-dss] [-ema] [-emoc] [-esc] [-esd] [-esi] [-ev]
-                             [-g {Revelations,Birthright,Conquest}] [-gc GROWTH_CAP] [-gp GROWTH_P]
-                             [-gsm GROWTHS_SUM_MIN] [-mp MOD_P] [-np N_PASSES] [-ns {-1,0,1,2,3,4,5}] [-s SEED]
-                             [-sp STAT_P] [-sdrp SWAP_DEF_RES_P] [-slp SWAP_LCK_P] [-sssp SWAP_SKL_SPD_P]
-                             [-ssmp SWAP_STR_MAG_P] [-v]
+usage: updated_randomizer.py [-h] [-ap ADDMAX_POW] [-ab] [-ba] [-bac] [-bc] [-bdc] [-bss BASE_STATS_SUM] [-bw]
+                             [-c CORRIN_CLASS] [-dcs] [-dgd] [-dl] [-dms] [-ds] [-dsr] [-dss] [-ema] [-emoc] [-esc]
+                             [-esd] [-esi] [-ev] [-g {Revelations,Birthright,Conquest}] [-gc GROWTH_CAP]
+                             [-gp GROWTH_P] [-gsm GROWTHS_SUM_MIN] [-mc MODIFIER_COEFFICIENT] [-mp MOD_P]
+                             [-np N_PASSES] [-ns {-1,0,1,2,3,4,5}] [-s SEED] [-sp STAT_P] [-sdrp SWAP_DEF_RES_P]
+                             [-slp SWAP_LCK_P] [-sssp SWAP_SKL_SPD_P] [-ssmp SWAP_STR_MAG_P] [-v]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -122,6 +123,12 @@ optional arguments:
                         the lower the more uniform growth adjustment
   -ab, --allow-ballistician
                         allow Ballistician class in the randomization
+  -ba, --ban-anna       ban Anna
+  -bac, --ban-amiibo-characters
+                        ban Amiibo characters (Marth, Lucina, Robin, Ike)
+  -bc, --ban-children   ban children characters
+  -bdc, --ban-dlc-classes
+                        ban DLC classes
   -bss BASE_STATS_SUM, --base-stats-sum BASE_STATS_SUM
                         if adjusting growths, lowering stats sum to that value
   -bw, --ban-witch      ban Witch class from the randomization
@@ -133,6 +140,8 @@ optional arguments:
                         disable Gunter's replacement's enforced higher Def than Res
   -dl, --disable-locktouch
                         disable Kaze's replacement's enforced Locktouch skill
+  -dms, --disable-model-switch
+                        disable model switching but keep switching the rest of the data (stats, growths...)
   -ds, --disable-songstress
                         disable Azura's replacement's enforced Songstress class
   -dsr, --disable-staff-retainer
@@ -159,6 +168,8 @@ optional arguments:
                         probability of editing growths in a variability pass
   -gsm GROWTHS_SUM_MIN, --growths-sum-min GROWTHS_SUM_MIN
                         will adjust grwoths until sum is higher than specified value
+  -mc MODIFIER_COEFFICIENT, --modifier-coefficient MODIFIER_COEFFICIENT
+                        will increase all modifiers by specified coefficient
   -mp MOD_P, --mod-p MOD_P
                         probability of editing modifiers in a variability pass
   -np N_PASSES, --n-passes N_PASSES
@@ -184,15 +195,21 @@ optional arguments:
 ### Example Custom Run
 
 ```
-python updated_randomizer.py -bss 25 -c "Malig Knight" -esi -g "Conquest" -gsm 350 -ns 5
+python updated_randomizer.py -ba -bac -bc -bdc -bss 20 -dms -esc -esd -esi -g "Conquest" -gsm 350 -mc 5 -ns 5
 ```
 
 This example command will ensure the following:
-- all units will have a total Lvl 1 base stats sum of 25
-- all units will have a total growth rates sum of 350
-- all units will have 5 randomized skills
-- Corrin will get Malig Knight in `ClassSpread.csv` and other characters will have fewer chances to get that class
+- Anna will not be randomized
+- Neither will Amiibo characters
+- Neither will children characters
+- DLC classes will be banned
+- all units will have a total Lvl 1 base stats sum of 20
+- unit models will not be swapped, i.e. they will appear as the the original unit
+- Corrin will have a sword-wielding final class
 - only Conquest replacement units will be updated; in particular, they should all have different final classes (except maybe children).
+- all units will have a total growth rates sum of 350
+- all unit stat modifiers will be increased by 5
+- all units will have 5 randomized skills
 
 ## Troubleshooting
 
