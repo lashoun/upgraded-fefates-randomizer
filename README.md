@@ -211,7 +211,7 @@ This example command will ensure the following:
 - Neither will children characters
 - DLC classes will be banned
 - all units will have a total Lvl 1 base stats sum of 20
-- unit models will not be swapped, i.e. they will appear as the the original unit
+- unit models will not be swapped, i.e. they will appear as the original unit
 - Corrin will have a sword-wielding final class
 - only Conquest replacement units will be updated; in particular, they should all have different final classes (except maybe children).
 - all units will have a total growth rates sum of 350
