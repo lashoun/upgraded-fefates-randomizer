@@ -108,14 +108,15 @@ python updated_randomizer.py -h
 12. Phew! You're done! Now you can copy your roms folder to the mods folder of your gaming medium.
 13. As a final note, DO NOT use this on top of an existing save or branch of fate. Use a fresh save starting from the very beginning if you want a stable playthrough.
 
-## All Options
+## All Available Options
 ```
-usage: updated_randomizer.py [-h] [-ap ADDMAX_POW] [-ab] [-ba] [-bac] [-bc] [-bdc] [-bss BASE_STATS_SUM] [-bw]
-                             [-c CORRIN_CLASS] [-dcs] [-dgd] [-dl] [-dms] [-ds] [-dsr] [-dss] [-ema] [-emoc] [-esc]
-                             [-esd] [-esi] [-ev] [-g {Revelations,Birthright,Conquest}] [-gc GROWTH_CAP]
-                             [-gp GROWTH_P] [-gsm GROWTHS_SUM_MIN] [-mc MODIFIER_COEFFICIENT] [-mp MOD_P]
-                             [-np N_PASSES] [-ns {-1,0,1,2,3,4,5}] [-s SEED] [-sp STAT_P] [-sdrp SWAP_DEF_RES_P]
-                             [-slp SWAP_LCK_P] [-sssp SWAP_SKL_SPD_P] [-ssmp SWAP_STR_MAG_P] [-v]
+usage: updated_randomizer.py [-h] [-ap ADDMAX_POW] [-ab] [-ads] [-ba] [-bac] [-bc] [-bdc] [-bdcs]
+                             [-bss BASE_STATS_SUM] [-bw] [-c CORRIN_CLASS] [-dbsr] [-dcs] [-dgd] [-dl] [-dms] [-ds]
+                             [-dsr] [-dss] [-ema] [-emoc] [-esc] [-esd] [-esi] [-ev]
+                             [-g {Revelations,Birthright,Conquest}] [-gc GROWTH_CAP] [-gp GROWTH_P]
+                             [-gsm GROWTHS_SUM_MIN] [-mc MODIFIER_COEFFICIENT] [-mp MOD_P] [-np N_PASSES]
+                             [-ns {-1,0,1,2,3,4,5}] [-s SEED] [-sp STAT_P] [-sdrp SWAP_DEF_RES_P] [-slp SWAP_LCK_P]
+                             [-sssp SWAP_SKL_SPD_P] [-ssmp SWAP_STR_MAG_P] [-v]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -123,17 +124,23 @@ optional arguments:
                         the lower the more uniform growth adjustment
   -ab, --allow-ballistician
                         allow Ballistician class in the randomization
+  -ads, --allow-dlc-skills
+                        allow DLC skills in skill randomization
   -ba, --ban-anna       ban Anna
   -bac, --ban-amiibo-characters
                         ban Amiibo characters (Marth, Lucina, Robin, Ike)
   -bc, --ban-children   ban children characters
   -bdc, --ban-dlc-classes
                         ban DLC classes
+  -bdcs, --ban-dlc-class-skills
+                        ban DLC class skills in skill randomization
   -bss BASE_STATS_SUM, --base-stats-sum BASE_STATS_SUM
                         if adjusting growths, lowering stats sum to that value
   -bw, --ban-witch      ban Witch class from the randomization
   -c CORRIN_CLASS, --corrin-class CORRIN_CLASS
                         Corrin's final class
+  -dbsr, --disable-balanced-skill-randomization
+                        disable balanced skill randomization; skill randomization will be completely random
   -dcs, --disable-class-spread
                         disable diverse class reroll
   -dgd, --disable-gunter-def
@@ -195,7 +202,7 @@ optional arguments:
 ### Example Custom Run
 
 ```
-python updated_randomizer.py -ba -bac -bc -bdc -bss 20 -dms -esc -esd -esi -g "Conquest" -gsm 350 -mc 5 -ns 5
+python updated_randomizer.py -ba -bac -bc -bdc -bss 20 -dms -esc -esd -esi -g "Conquest" -gsm 350 -mc 5 -ns 3
 ```
 
 This example command will ensure the following:
@@ -209,7 +216,7 @@ This example command will ensure the following:
 - only Conquest replacement units will be updated; in particular, they should all have different final classes (except maybe children).
 - all units will have a total growth rates sum of 350
 - all unit stat modifiers will be increased by 5
-- all units will have 5 randomized skills
+- all units will have 3 randomized skills
 
 ## Troubleshooting
 
