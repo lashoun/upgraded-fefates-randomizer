@@ -37,6 +37,7 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
 
 
 ### Upgraded Fates Features
+- I took the freedom to integrate the [Expanded Same-Sex Marriage patch](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/) by UnassumingVenusaur and the [Good Guy Garon Edition patch](https://gbatemp.net/threads/release-conquest-story-overhaul-fire-emblem-fates-good-guy-garon-edition.487117/) by AgahnimD
 - Dawn / Dusk Armories and Rod / Staff shops available in every route
 - Changes to weapon triangles: Tome <-> Axe, Dagger <-> Sword, and Bow <-> Lance become neutral
     - Rationale: range weapons can already hit melee weapons without retaliation so they shouldn't have weapon advantage on top of that
