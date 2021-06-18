@@ -20,7 +20,8 @@ parser.add_argument('-bac', '--ban-amiibo-characters', action='store_true', help
 parser.add_argument('-bc', '--ban-children', action='store_true', help="ban children characters")
 parser.add_argument('-bdc', '--ban-dlc-classes', action='store_true', help="ban DLC classes")
 parser.add_argument('-bdcs', '--ban-dlc-class-skills', action='store_true', help="ban DLC class skills in skill randomization")
-parser.add_argument('-bss', '--base-stats-sum', type=int, default=25, help="if adjusting growths, lowering stats sum to that value")
+parser.add_argument('-bssmax', '--base-stats-sum-max', type=int, default=25, help="if adjusting growths, decreasing stats sum to that value")
+parser.add_argument('-bssmin', '--base-stats-sum-min', type=int, default=15, help="if adjusting growths, increasing stats sum to that value")
 parser.add_argument('-bw', '--ban-witch', action='store_true', help="ban Witch class from the randomization")
 parser.add_argument('-c', '--corrin-class', choices=[
     'Hoshido Noble', 'Swordmaster', 'Master of Arms', 'Oni Chieftain',
@@ -52,11 +53,13 @@ parser.add_argument('-g', '--game-route', choices=['Revelations', 'Birthright', 
                     default='Revelations', help="game route")
 parser.add_argument('-gc', '--growth-cap', type=int, default=70, help="adjusted growths cap")
 parser.add_argument('-gp', '--growth-p', type=float, default=1., help="probability of editing growths in a variability pass")
-parser.add_argument('-gsm', '--growths-sum-min', type=int, default=270, help="will adjust grwoths until sum is higher than specified value")
+parser.add_argument('-gsmax', '--growths-sum-max', type=int, default=350, help="will adjust growths until sum is lower than specified value")
+parser.add_argument('-gsmin', '--growths-sum-min', type=int, default=270, help="will adjust growths until sum is higher than specified value")
 parser.add_argument('-mc', '--modifier-coefficient', type=int, default=0, help="will increase all modifiers by specified coefficient")
 parser.add_argument('-mp', '--mod-p', type=float, default=0.25, help="probability of editing modifiers in a variability pass")
 parser.add_argument('-np', '--n-passes', type=int, default=10, help="number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass")
 parser.add_argument('-ns', '--n-skills', type=int, default=-1, choices=[-1, 0, 1, 2, 3, 4, 5], help="number of randomized skills; if -1, randomize existing skills")
+parser.add_argument('-rsgs', '--randomize-stats-growths-sum', action='store_true', help="will randomize stats and growths sum for each character between customizable bounds")
 parser.add_argument('-s', '--seed', type=int, default=None, help="RNG seed")
 parser.add_argument('-sp', '--stat-p', type=float, default=0.5, help="probability of editing stats in a variability pass")
 parser.add_argument('-sdrp', '--swap-def-res-p', type=float, default=0.2, help="probability of swapping Def and Res growths / stats / modifiers")
@@ -140,6 +143,7 @@ class FatesRandomizer:
         banDLCClassSkills=False,
         banWitch=False,
         baseStatsSumMax=25,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
+        baseStatsSumMin=15,  # in adjustBaseStatsAndGrowths, will increase stats sum to said value
         corrinClass='',
         disableBalancedSkillRandomization=False,
         disableModelSwitch=False,  # will disable model switching
@@ -159,11 +163,13 @@ class FatesRandomizer:
         gameRoute='Revelations',  # 'Birthright', 'Conquest' or 'Revelations', used in randomizeClasses
         growthCap=70,  # growth cap in adjustBaseStatsAndGrowths
         growthP=1,  # proba of editing growths in AddVariancetoData
+        growthsSumMax=350,  # in adjustBaseStatsAndGrowths, will decrease growths sum down to said value
         growthsSumMin=270,  # in adjustBaseStatsAndGrowths, will increase growths sum up to said value
         modifierCoefficient=0,  # value by which all modifiers will be increased
         modP=0.25,  # proba of editing modifiers in AddVariancetoData
         nPasses=10,  # number of passes in AddVariancetoData
         nSkills=-1,  # if -1, randomize existing skills
+        randomizeStatsAndGrowthsSum=True,  # will sample a random value between min and max for each character
         seed=None,
         statP=0.5,  # proba of editing stats in AddVariancetoData
         swapDefResP=0.2,  # random
@@ -188,6 +194,7 @@ class FatesRandomizer:
         self.banDLCClassSkills = banDLCClassSkills
         self.banWitch = banWitch
         self.baseStatsSumMax = baseStatsSumMax
+        self.baseStatsSumMin = baseStatsSumMin
         self.corrinClass = corrinClass
         self.disableBalancedSkillRandomization = disableBalancedSkillRandomization
         self.disableModelSwitch = disableModelSwitch
@@ -206,11 +213,13 @@ class FatesRandomizer:
         self.gameRoute = gameRoute
         self.growthCap = growthCap
         self.growthP = growthP
+        self.growthsSumMax = growthsSumMax
         self.growthsSumMin = growthsSumMin
         self.modifierCoefficient = modifierCoefficient
         self.modP = modP
         self.nPasses = nPasses
         self.nSkills = nSkills
+        self.randomizeStatsAndGrowthsSum = randomizeStatsAndGrowthsSum
         self.rng = default_rng(seed)
         self.statP = statP
         self.swapDefResP = swapDefResP
@@ -425,25 +434,53 @@ class FatesRandomizer:
         baseStats = np.copy(characterData['BaseStats'])
         growthsSum = np.sum(growths)
         baseStatsSum = np.sum(baseStats)
-        probas = self.addmax(np.asarray(growths) + 5)  # add a 5 growth rate to everything
-        if growthsSum < self.growthsSumMin or self.forceStatDecrease:
-            while growthsSum < self.growthsSumMin:
-                s = self.rng.choice(8, p=probas)
+        if self.rng.choice(2) == 1:  # 50% chance of uniform adjustment, 50% chance of proportional
+            probas = self.addmax(np.asarray(growths) + 5)  # add a 5 growth rate to everything just for variance's sake
+        else:
+            probas = self.addmax(np.ones(8))
+        if self.randomizeStatsAndGrowthsSum:
+            newGrowthsSum = self.growthsSumMin + 10 * self.rng.choice((self.growthsSumMax-self.growthsSumMin+10)//10)
+            newBaseStatsSum = self.baseStatsSumMin + self.rng.choice(self.baseStatsSumMax-self.baseStatsSumMin+1)
+            while growthsSum < newGrowthsSum:
+                growthProbas = np.copy(probas)
+                s = self.rng.choice(8, p=growthProbas)
                 if growths[s] < self.growthCap:
                     growths[s] += 5
                     growthsSum += 5
                 else:
-                    probas[s] = 0
-                    probas = self.addmax(probas)
-            while baseStatsSum > self.baseStatsSumMax:
-                t = self.rng.choice(np.where(baseStats>0)[0])
-                baseStats[t] -= 1
-                baseStatsSum -= 1
-        if self.forceStatIncrease:
-            while baseStatsSum < self.baseStatsSumMax:
+                    growthProbas[s] = 0
+                    growthProbas = self.addmax(growthProbas)
+            while growthsSum > newGrowthsSum:
+                s = self.rng.choice(np.where(growths>0)[0])
+                growths[s] -= 5
+                growthsSum -= 5
+            while baseStatsSum < newBaseStatsSum:
                 t = self.rng.choice(8, p=probas)
                 baseStats[t] += 1
                 baseStatsSum += 1
+            while baseStatsSum > newBaseStatsSum:
+                t = self.rng.choice(np.where(baseStats>0)[0])
+                baseStats[t] -= 1
+                baseStatsSum -= 1
+        else:
+            if growthsSum < self.growthsSumMin or self.forceStatDecrease:
+                while growthsSum < self.growthsSumMin:
+                    s = self.rng.choice(8, p=probas)
+                    if growths[s] < self.growthCap:
+                        growths[s] += 5
+                        growthsSum += 5
+                    else:
+                        probas[s] = 0
+                        probas = self.addmax(probas)
+                while baseStatsSum > self.baseStatsSumMax:
+                    t = self.rng.choice(np.where(baseStats>0)[0])
+                    baseStats[t] -= 1
+                    baseStatsSum -= 1
+            if self.forceStatIncrease:
+                while baseStatsSum < self.baseStatsSumMax:
+                    t = self.rng.choice(8, p=probas)
+                    baseStats[t] += 1
+                    baseStatsSum += 1
         characterData['Growths'] = growths
         characterData['BaseStats'] = baseStats
         return characterData
@@ -520,7 +557,7 @@ class FatesRandomizer:
             plusStats += (characterGrowths + newClassGrowths) * (newLevel - 1)
         if promotionLevel > 1:
             plusStats += (characterGrowths + newBaseClassGrowths) * (newPromotionLevel - 1)
-        plusStats = np.floor(plusStats/100)
+        plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
 
         characterNewStats = characterBaseStats + plusStats
 
@@ -659,7 +696,7 @@ class FatesRandomizer:
             plusStats += (characterGrowths + newClassGrowths) * (newLevel - 1)
         if newPromotionLevel > 1:
             plusStats += (characterGrowths + newBaseClassGrowths) * (newPromotionLevel - 1)
-        plusStats = np.floor(plusStats/100)
+        plusStats = np.floor((plusStats-25)/100) # if decimal part is above 0.75, round to superior
         characterNewStats = characterBaseStats + plusStats
         characterData['OldStats'] = characterData['Stats']
         characterData['Stats'] = characterNewStats
@@ -1126,7 +1163,8 @@ if __name__ == "__main__":
         banDLCClasses=args.ban_dlc_classes,
         banDLCClassSkills=args.ban_dlc_class_skills,
         banWitch=args.ban_witch,
-        baseStatsSumMax=args.base_stats_sum,
+        baseStatsSumMax=args.base_stats_sum_max,
+        baseStatsSumMin=args.base_stats_sum_min,
         corrinClass=args.corrin_class,
         disableBalancedSkillRandomization=args.disable_balanced_skill_randomization,
         disableModelSwitch=args.disable_model_switch,
@@ -1145,11 +1183,13 @@ if __name__ == "__main__":
         gameRoute=args.game_route,
         growthCap=args.growth_cap,
         growthP=args.growth_p,
+        growthsSumMax=args.growths_sum_max,
         growthsSumMin=args.growths_sum_min,
         modifierCoefficient=args.modifier_coefficient,
         modP=args.mod_p,
         nPasses=args.n_passes,
         nSkills=args.n_skills,
+        randomizeStatsAndGrowthsSum=args.randomize_stats_growths_sum,
         seed=args.seed,
         statP=args.stat_p,
         swapDefResP=args.swap_def_res_p,
