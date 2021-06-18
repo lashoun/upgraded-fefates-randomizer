@@ -43,6 +43,7 @@ parser.add_argument('-dms', '--disable-model-switch', action='store_true', help=
 parser.add_argument('-ds', '--disable-songstress', action='store_true', help="disable Azura's replacement's enforced Songstress class")
 parser.add_argument('-dsr', '--disable-staff-retainer', action='store_true', help="disable Jakob and Felicia's replacement's enforced healing class")
 parser.add_argument('-dss', '--disable-staff-sister', action='store_true', help="disable Sakura and/or Elise's replacement's enforced healing class")
+parser.add_argument('-elsc', '--enable-limit-staff-classes', action='store_true', help="will replace staff only class by a magical class and set the staff only class as a reclass option")
 parser.add_argument('-ema', '--enforce-mozu-aptitude', action='store_true', help="enforce Mozu (herself) having Aptitude")
 parser.add_argument('-emoc', '--enable-mag-only-corrin', action='store_true', help="enables Corrin to get a Mag only class")
 parser.add_argument('-esc', '--enforce-sword-corrin', action='store_true', help="enforces Corrin to get a sword-wielding final class")
@@ -165,6 +166,7 @@ class FatesRandomizer:
         growthP=1,  # proba of editing growths in AddVariancetoData
         growthsSumMax=350,  # in adjustBaseStatsAndGrowths, will decrease growths sum down to said value
         growthsSumMin=270,  # in adjustBaseStatsAndGrowths, will increase growths sum up to said value
+        limitStaffClasses=False,  # will limit staff only classes by putting characters in a magical class and offering the staff class as a possible reclass
         modifierCoefficient=0,  # value by which all modifiers will be increased
         modP=0.25,  # proba of editing modifiers in AddVariancetoData
         nPasses=10,  # number of passes in AddVariancetoData
@@ -215,6 +217,7 @@ class FatesRandomizer:
         self.growthP = growthP
         self.growthsSumMax = growthsSumMax
         self.growthsSumMin = growthsSumMin
+        self.limitStaffClasses = limitStaffClasses
         self.modifierCoefficient = modifierCoefficient
         self.modP = modP
         self.nPasses = nPasses
@@ -583,10 +586,12 @@ class FatesRandomizer:
 
         newLevel = self.readCharacterLevel(switchingCharacterName)
         newPromotionLevel = self.readCharacterPromotionLevel(switchingCharacterName)
+        newBaseClass = ""  # needs to be initialized if forceClassSpread is disabled
 
         if self.forceClassSpread:
             if switchingCharacterName in self.randomizedClasses.keys():
                 newClass = self.randomizedClasses[switchingCharacterName]  # take the class of the switching character
+                newBaseClass = self.readBaseClass(newClass, characterName)
                 if newPromotionLevel > 0 or (switchingCharacterName in ['Jakob', 'Felicia']):
                     self.setCharacterClass(character, newClass)
                 else:
@@ -601,7 +606,10 @@ class FatesRandomizer:
                         else:
                             self.setCharacterClass(character, 'Troubadour')
                     else:
-                        self.setCharacterClass(character, self.readBaseClass(newClass, characterName))
+                        if self.limitStaffClasses and newBaseClass in ['Troubadour', 'Shrine Maiden', 'Monk']:
+                            self.setCharacterReclassOne(character, newBaseClass)
+                            newBaseClass = self.rng.choice(['Dark Mage', 'Diviner'])
+                        self.setCharacterClass(character, newBaseClass)
 
         else:
 
@@ -638,7 +646,8 @@ class FatesRandomizer:
             self.setCharacterClass(character, 'Villager')
 
         newClass = self.readClassName(character)
-        newBaseClass = self.readBaseClass(newClass, characterName)
+        if newBaseClass == "":
+            newBaseClass = self.readBaseClass(newClass, characterName)
         newClassGrowths = self.readClassGrowths(newClass)
         newBaseClassGrowths = self.readClassGrowths(newBaseClass)
         characterData = self.readCharacterData(characterName)
@@ -1011,6 +1020,10 @@ class FatesRandomizer:
         character['Modifiers']['@values'] = self.dataToString(modifiers)
         return character
 
+    def setCharacterReclassOne(self, character, className):
+        character['ClassData']['@reclassOne'] = className
+        return character
+
     def setCharacterStats(self, character, stats):
         character['Stats']['@values'] = self.dataToString(stats)
         return character
@@ -1182,6 +1195,7 @@ if __name__ == "__main__":
         growthP=args.growth_p,
         growthsSumMax=args.growths_sum_max,
         growthsSumMin=args.growths_sum_min,
+        limitStaffClasses=args.enable_limit_staff_classes,
         modifierCoefficient=args.modifier_coefficient,
         modP=args.mod_p,
         nPasses=args.n_passes,
