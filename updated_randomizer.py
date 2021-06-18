@@ -483,6 +483,8 @@ class FatesRandomizer:
                     baseStatsSum += 1
         characterData['Growths'] = growths
         characterData['BaseStats'] = baseStats
+        if self.verbose:
+            print("{}, {}, {}, {}, {}, {}".format(characterData['Name'], characterData['SwitchingCharacterName'], newGrowthsSum, newBaseStatsSum, growths, baseStats))
         return characterData
 
     def checkGender(self, characters, classes):
@@ -678,7 +680,7 @@ class FatesRandomizer:
         self.adjustBaseStatsAndGrowths(characterData)
 
         # Add Variance to Data
-        self.addVarianceToData(characterData['Stats'], characterData['Growths'], characterData['Modifiers'])
+        self.addVarianceToData(characterData['BaseStats'], characterData['Growths'], characterData['Modifiers'])
 
         # Swap Stats
         self.swapCharacterLck(characterData)
@@ -696,10 +698,11 @@ class FatesRandomizer:
             plusStats += (characterGrowths + newClassGrowths) * (newLevel - 1)
         if newPromotionLevel > 1:
             plusStats += (characterGrowths + newBaseClassGrowths) * (newPromotionLevel - 1)
-        plusStats = np.floor((plusStats-25)/100) # if decimal part is above 0.75, round to superior
+        plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
         characterNewStats = characterBaseStats + plusStats
         characterData['OldStats'] = characterData['Stats']
         characterData['Stats'] = characterNewStats
+        # characterData['Stats'] = characterData['BaseStats']  # test
 
         if self.verbose:
             print("switchingCharacterName: {}".format(switchingCharacterName))
@@ -710,11 +713,6 @@ class FatesRandomizer:
             print("Growths: {}".format(characterData['Growths']))
             print("plusStats: {}".format(plusStats))
             print("BaseStats: {}".format(characterData['BaseStats']))
-            print("Stats: {}".format(characterData['Stats']))
-
-        if self.verbose:
-            print("--- Update ---")
-            print("Growths: {}".format(characterData['Growths']))
             print("Stats: {}".format(characterData['Stats']))
 
         # Increase Modifiers
@@ -1032,7 +1030,7 @@ class FatesRandomizer:
             if growths[i] < growths[j]:
                 growths[i], growths[j] = growths[j], growths[i]
 
-            stats = characterData['Stats']
+            stats = characterData['BaseStats']
             if stats[i] < stats[j]:
                 stats[i], stats[j] = stats[j], stats[i]
 
@@ -1044,7 +1042,7 @@ class FatesRandomizer:
             growths = characterData['Growths']
             growths[6], growths[7] = growths[7], growths[6]
 
-            stats = characterData['Stats']
+            stats = characterData['BaseStats']
             stats[6], stats[7] = stats[7], stats[6]
 
             modifiers = characterData['Modifiers']
@@ -1058,24 +1056,23 @@ class FatesRandomizer:
             if s == 5:  # Lck mapped to Res
                 s = 7
             growths = characterData['Growths']
+            stats = characterData['BaseStats']
+            modifiers = characterData['Modifiers']
             threshold = growths[5]/100  # Lck Growth
 
-            if self.rng.random() < threshold and growths[5] > growths[s]:
-                growths[5], growths[s] = growths[s], growths[5]
-
-            stats = characterData['Stats']
-            if self.rng.random() < threshold and stats[5] > stats[s]:
-                stats[5], stats[s] = stats[s], stats[5]
-
-            modifiers = characterData['Modifiers']
-            if self.rng.random() < threshold and modifiers[5] > modifiers[s]:
-                modifiers[5], modifiers[s] = modifiers[s], modifiers[5]
+            if self.rng.random() < threshold:
+                if growths[5] > growths[s]:
+                    growths[5], growths[s] = growths[s], growths[5]
+                if stats[5] > stats[s]:
+                    stats[5], stats[s] = stats[s], stats[5]
+                if modifiers[5] > modifiers[s]:
+                    modifiers[5], modifiers[s] = modifiers[s], modifiers[5]
 
         elif self.rng.random() < self.swapLckP:
             growths = characterData['Growths']
             growths[5], growths[s] = growths[s], growths[5]
 
-            stats = characterData['Stats']
+            stats = characterData['BaseStats']
             stats[5], stats[s] = stats[s], stats[5]
 
             modifiers = characterData['Modifiers']
@@ -1088,7 +1085,7 @@ class FatesRandomizer:
             growths = characterData['Growths']
             growths[3], growths[4] = growths[4], growths[3]
 
-            stats = characterData['Stats']
+            stats = characterData['BaseStats']
             stats[3], stats[4] = stats[4], stats[3]
 
             modifiers = characterData['Modifiers']
@@ -1111,7 +1108,7 @@ class FatesRandomizer:
             if growths[i] < growths[j]:
                 growths[i], growths[j] = growths[j], growths[i]
 
-            stats = characterData['Stats']
+            stats = characterData['BaseStats']
             if stats[i] < stats[j]:
                 stats[i], stats[j] = stats[j], stats[i]
 
@@ -1123,7 +1120,7 @@ class FatesRandomizer:
             growths = characterData['Growths']
             growths[1], growths[2] = growths[2], growths[1]
 
-            stats = characterData['Stats']
+            stats = characterData['BaseStats']
             stats[1], stats[2] = stats[2], stats[1]
 
             modifiers = characterData['Modifiers']
