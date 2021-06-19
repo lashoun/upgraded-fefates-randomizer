@@ -112,12 +112,13 @@ python updated_randomizer.py -h
 ## All Available Options
 ```
 usage: updated_randomizer.py [-h] [-ap ADDMAX_POW] [-ab] [-ads] [-ba] [-bac] [-bc] [-bdc] [-bdcs]
-                             [-bss BASE_STATS_SUM] [-bw] [-c CORRIN_CLASS] [-dbsr] [-dcs] [-dgd] [-dl] [-dms] [-ds]
-                             [-dsr] [-dss] [-ema] [-emoc] [-esc] [-esd] [-esi] [-ev]
-                             [-g {Revelations,Birthright,Conquest}] [-gc GROWTH_CAP] [-gp GROWTH_P]
-                             [-gsm GROWTHS_SUM_MIN] [-mc MODIFIER_COEFFICIENT] [-mp MOD_P] [-np N_PASSES]
-                             [-ns {-1,0,1,2,3,4,5}] [-s SEED] [-sp STAT_P] [-sdrp SWAP_DEF_RES_P] [-slp SWAP_LCK_P]
-                             [-sssp SWAP_SKL_SPD_P] [-ssmp SWAP_STR_MAG_P] [-v]
+                             [-bssmax BASE_STATS_SUM_MAX] [-bssmin BASE_STATS_SUM_MIN] [-bw] [-c CORRIN_CLASS] [-dbsr]
+                             [-dcs] [-dgd] [-dl] [-dms] [-ds] [-dsr] [-dss] [-elsc] [-ema] [-emoc] [-esc] [-esd]
+                             [-esi] [-ev] [-g {Revelations,Birthright,Conquest}] [-gc GROWTH_CAP] [-gp GROWTH_P]
+                             [-gsmax GROWTHS_SUM_MAX] [-gsmin GROWTHS_SUM_MIN] [-mc MODIFIER_COEFFICIENT] [-mp MOD_P]
+                             [-np N_PASSES] [-ns {-1,0,1,2,3,4,5}] [-rsgs] [-s SEED] [-sp STAT_P]
+                             [-sdrp SWAP_DEF_RES_P] [-slp SWAP_LCK_P] [-sssp SWAP_SKL_SPD_P] [-ssmp SWAP_STR_MAG_P]
+                             [-v]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -135,8 +136,10 @@ optional arguments:
                         ban DLC classes
   -bdcs, --ban-dlc-class-skills
                         ban DLC class skills in skill randomization
-  -bss BASE_STATS_SUM, --base-stats-sum BASE_STATS_SUM
-                        if adjusting growths, lowering stats sum to that value
+  -bssmax BASE_STATS_SUM_MAX, --base-stats-sum-max BASE_STATS_SUM_MAX
+                        if adjusting growths, decreasing stats sum to that value
+  -bssmin BASE_STATS_SUM_MIN, --base-stats-sum-min BASE_STATS_SUM_MIN
+                        if adjusting growths, increasing stats sum to that value
   -bw, --ban-witch      ban Witch class from the randomization
   -c CORRIN_CLASS, --corrin-class CORRIN_CLASS
                         Corrin's final class
@@ -154,8 +157,11 @@ optional arguments:
                         disable Azura's replacement's enforced Songstress class
   -dsr, --disable-staff-retainer
                         disable Jakob and Felicia's replacement's enforced healing class
-  -dss, --disable-staff-sister
+  -dss, --disable-staff-early-recruit
                         disable Sakura and/or Elise's replacement's enforced healing class
+  -elsc, --enable-limit-staff-classes
+                        will replace staff only class by a magical class and set the staff only class as a reclass
+                        option
   -ema, --enforce-mozu-aptitude
                         enforce Mozu (herself) having Aptitude
   -emoc, --enable-mag-only-corrin
@@ -174,8 +180,10 @@ optional arguments:
                         adjusted growths cap
   -gp GROWTH_P, --growth-p GROWTH_P
                         probability of editing growths in a variability pass
-  -gsm GROWTHS_SUM_MIN, --growths-sum-min GROWTHS_SUM_MIN
-                        will adjust grwoths until sum is higher than specified value
+  -gsmax GROWTHS_SUM_MAX, --growths-sum-max GROWTHS_SUM_MAX
+                        will adjust growths until sum is lower than specified value
+  -gsmin GROWTHS_SUM_MIN, --growths-sum-min GROWTHS_SUM_MIN
+                        will adjust growths until sum is higher than specified value
   -mc MODIFIER_COEFFICIENT, --modifier-coefficient MODIFIER_COEFFICIENT
                         will increase all modifiers by specified coefficient
   -mp MOD_P, --mod-p MOD_P
@@ -184,6 +192,8 @@ optional arguments:
                         number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass
   -ns {-1,0,1,2,3,4,5}, --n-skills {-1,0,1,2,3,4,5}
                         number of randomized skills; if -1, randomize existing skills
+  -rsgs, --randomize-stats-growths-sum
+                        will randomize stats and growths sum for each character between customizable bounds
   -s SEED, --seed SEED  RNG seed
   -sp STAT_P, --stat-p STAT_P
                         probability of editing stats in a variability pass
@@ -203,19 +213,20 @@ optional arguments:
 ### Example Custom Run
 
 ```
-python updated_randomizer.py -ba -bac -bc -bdc -bss 20 -dms -esc -esd -esi -g "Conquest" -gsm 350 -mc 5 -ns 3
+python updated_randomizer.py -ba -bac -bc -bdc -bssmax 25 -bssmin 15 -dms -elsc -esc -esi -g "Conquest" -gsmax 370 -gsmin 270 -mc 5 -ns 3 -rsgs
 ```
 
 This example command will ensure the following:
 - Anna will not be randomized
-- Neither will Amiibo characters
-- Neither will children characters
+- neither will Amiibo characters
+- neither will children characters
 - DLC classes will be banned
-- all units will have a total Lvl 1 base stats sum of 20
+- all units will have a total Lvl 1 base stats sum randomly sampled between 15 and 25
 - unit models will not be swapped, i.e. they will appear as the original unit
+- there will only be 2 staff-only characters (the retainer and an early recruit)
 - Corrin will have a sword-wielding final class
 - only Conquest replacement units will be updated; in particular, they should all have different final classes (except maybe children).
-- all units will have a total growth rates sum of 350
+- all units will have a total growth rates sum randomly sampled between 270 and 370
 - all unit stat modifiers will be increased by 5
 - all units will have 3 randomized skills
 
