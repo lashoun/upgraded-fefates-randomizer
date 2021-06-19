@@ -42,7 +42,7 @@ parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="dis
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
 parser.add_argument('-ds', '--disable-songstress', action='store_true', help="disable Azura's replacement's enforced Songstress class")
 parser.add_argument('-dsr', '--disable-staff-retainer', action='store_true', help="disable Jakob and Felicia's replacement's enforced healing class")
-parser.add_argument('-dss', '--disable-staff-sister', action='store_true', help="disable Sakura and/or Elise's replacement's enforced healing class")
+parser.add_argument('-dss', '--disable-staff-early-recruit', action='store_true', help="disable Sakura and/or Elise's replacement's enforced healing class")
 parser.add_argument('-elsc', '--enable-limit-staff-classes', action='store_true', help="will replace staff only class by a magical class and set the staff only class as a reclass option")
 parser.add_argument('-ema', '--enforce-mozu-aptitude', action='store_true', help="enforce Mozu (herself) having Aptitude")
 parser.add_argument('-emoc', '--enable-mag-only-corrin', action='store_true', help="enables Corrin to get a Mag only class")
@@ -153,7 +153,7 @@ class FatesRandomizer:
         forceLocktouch=True,  # will force Kaze's replacement to get Locktouch
         forceMozuAptitude=False,  # will force Mozu (not her replacement) to get Aptitude
         forceStaffRetainer=True,  # will force the retainer's replacement to get a promoted class with a staff
-        forceStaffSister=True,  # will force the little sister's replacement (Sakura in BR or RV / Elise in CQ) to get a healing class
+        forceStaffEarlyRecruit=True,  # will force an early recruit replacement to get a healing class
         forceStatDecrease=False,  # force stat decrase in adjustBaseStatsAndGrowths
         forceStatIncrease=False,  # force stat increase in adjustBaseStatsAndGrowths
         forceSongstress=True,  # will force Azura's replacement to be a Songstress
@@ -205,7 +205,7 @@ class FatesRandomizer:
         self.forceLocktouch = forceLocktouch
         self.forceMozuAptitude = forceMozuAptitude
         self.forceStaffRetainer = forceStaffRetainer
-        self.forceStaffSister = forceStaffSister
+        self.forceStaffEarlyRecruit = forceStaffEarlyRecruit
         self.forceStatDecrease = forceStatDecrease
         self.forceStatIncrease = forceStatIncrease
         self.forceSongstress = forceSongstress
@@ -238,7 +238,8 @@ class FatesRandomizer:
                                 'Falcon Knight', 'Adventurer', 'Strategist', 'Maid']
         self.JAKOB_CLASSES = ['Hoshido Noble', 'Onmyoji', 'Great Master',
                               'Falcon Knight', 'Adventurer', 'Strategist', 'Butler']
-        self.SISTER_CLASS = ['Onmyoji', 'Priestess', 'Strategist', 'Maid']
+        self.MALE_STAFF_CLASSES = ['Onmyoji', 'Strategist', 'Butler', 'Great Master']
+        self.FEMALE_STAFF_CLASSES = ['Onmyoji', 'Priestess', 'Strategist', 'Maid']
 
         self.MALE_CLASSES = ['Great Master', 'Butler', 'Lodestar', 'Vanguard', 'Grandmaster', 'Ballistician']
         self.FEMALE_CLASSES = ['Priestess', 'Maid', 'Witch', 'Great Lord']
@@ -393,12 +394,21 @@ class FatesRandomizer:
             self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Nohr Noble'))
             self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Nohr Noble'))
             self.SWORD_CLASSES.pop(self.SWORD_CLASSES.index('Nohr Noble'))
+            self.earlyRecruit = self.rng.choice(['Sakura', 'Kaze', 'Rinkah', 'Hana', 'Subaki', 'Silas', 'Saizo', 'Orochi'])
         elif self.gameRoute == 'Conquest':
             self.JAKOB_CLASSES.pop(self.JAKOB_CLASSES.index('Hoshido Noble'))
             self.FELICIA_CLASSES.pop(self.FELICIA_CLASSES.index('Hoshido Noble'))
             self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Hoshido Noble'))
             self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Hoshido Noble'))
             self.SWORD_CLASSES.pop(self.SWORD_CLASSES.index('Hoshido Noble'))
+            self.earlyRecruit = self.rng.choice(['Elise', 'Silas', 'Arthur', 'Effie', 'Odin', 'Niles'])
+        else:
+            self.earlyRecruit = self.rng.choice(['Sakura', 'Hana', 'Subaki', 'Kaze', 'Rinkah'])
+
+        if self.earlyRecruit in self.MALE_CHARACTERS:
+            self.STAFF_CLASSES = self.MALE_STAFF_CLASSES
+        else:
+            self.STAFF_CLASSES = self.FEMALE_STAFF_CLASSES
 
         if self.forceClassSpread:
             self.randomizeAllClasses()
@@ -595,12 +605,7 @@ class FatesRandomizer:
                 if newPromotionLevel > 0 or (switchingCharacterName in ['Jakob', 'Felicia']):
                     self.setCharacterClass(character, newClass)
                 else:
-                    if switchingCharacterName == 'Sakura' and self.forceStaffSister and self.gameRoute != 'Conquest':
-                        if newClass in ['Onmyoji', 'Priestess']:
-                            self.setCharacterClass(character, 'Shrine Maiden')
-                        else:
-                            self.setCharacterClass(character, 'Troubadour')
-                    elif switchingCharacterName == 'Elise' and self.forceStaffSister and self.gameRoute == 'Conquest':
+                    if switchingCharacterName == self.earlyRecruit and self.forceStaffEarlyRecruit:
                         if newClass in ['Onmyoji', 'Priestess']:
                             self.setCharacterClass(character, 'Shrine Maiden')
                         else:
@@ -613,19 +618,15 @@ class FatesRandomizer:
 
         else:
 
-            # Staff Sister Check
-            if switchingCharacterName == 'Sakura' and self.forceStaffSister and self.gameRoute != 'Conquest':
-                staffClassSet = self.SISTER_CLASS
+            # Staff Early Recruit Check
+            if switchingCharacterName == self.earlyRecruit and self.forceStaffEarlyRecruit:
+                staffClassSet = self.STAFF_CLASSES
                 staffClass = self.rng.choice(staffClassSet)
-                if staffClass in ['Onmyoji', 'Priestess']:
-                    self.setCharacterClass(character, 'Shrine Maiden')
-                else:
-                    self.setCharacterClass(character, 'Troubadour')
-            if switchingCharacterName == 'Elise' and self.forceStaffSister and self.gameRoute == 'Conquest':
-                staffClassSet = self.SISTER_CLASS
-                staffClass = self.rng.choice(staffClassSet)
-                if staffClass in ['Onmyoji', 'Priestess']:
-                    self.setCharacterClass(character, 'Shrine Maiden')
+                if staffClass in ['Onmyoji', 'Priestess', 'Great Master']:
+                    if self.earlyRecruit in self.MALE_CHARACTERS:
+                        self.setCharacterClass(character, 'Monk')
+                    if self.earlyRecruit in self.FEMALE_CHARACTERS:
+                        self.setCharacterClass(character, 'Shrine Maiden')
                 else:
                     self.setCharacterClass(character, 'Troubadour')
 
@@ -785,27 +786,22 @@ class FatesRandomizer:
         classes = classes + classesBis
         classes = classes[:max(len(classesBis), len(characters))]
 
-        # Staff Sister Check
-        if self.forceStaffSister:
-            sisterClass = self.rng.choice(self.SISTER_CLASS)
-            if self.gameRoute == 'Conquest':
-                self.randomizedClasses['Elise'] = sisterClass
-                characters.pop(characters.index('Elise'))
-                classes.pop(classes.index(sisterClass))
-            else:
-                self.randomizedClasses['Sakura'] = sisterClass
-                characters.pop(characters.index('Sakura'))
-                classes.pop(classes.index(sisterClass))
+        # Staff Early Recruit Check
+        if self.forceStaffEarlyRecruit:
+            staffClass = self.rng.choice(self.STAFF_CLASSES)
+            self.randomizedClasses[self.earlyRecruit] = staffClass
+            characters.pop(characters.index(self.earlyRecruit))
+            classes.pop(classes.index(staffClass))
 
         # Staff Retainer Check
         if self.forceStaffRetainer:
             jakobClass = self.rng.choice(self.JAKOB_CLASSES)
-            if self.forceStaffSister:
-                while jakobClass == sisterClass:
+            if self.forceStaffEarlyRecruit:
+                while jakobClass == staffClass:
                     jakobClass = self.rng.choice(self.JAKOB_CLASSES)
             feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
-            if self.forceStaffSister:
-                while feliciaClass == sisterClass or feliciaClass == jakobClass:
+            if self.forceStaffEarlyRecruit:
+                while feliciaClass == staffClass or feliciaClass == jakobClass:
                     feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
             self.randomizedClasses['Jakob'] = jakobClass
             self.randomizedClasses['Felicia'] = feliciaClass
@@ -1183,7 +1179,7 @@ if __name__ == "__main__":
         forceLocktouch=(not args.disable_locktouch),
         forceMozuAptitude=(args.enforce_mozu_aptitude),
         forceStaffRetainer=(not args.disable_staff_retainer),
-        forceStaffSister=(not args.disable_staff_sister),
+        forceStaffEarlyRecruit=(not args.disable_staff_early_recruit),
         forceStatDecrease=args.enforce_stat_decrease,
         forceStatIncrease=args.enforce_stat_increase,
         forceSongstress=(not args.disable_songstress),
