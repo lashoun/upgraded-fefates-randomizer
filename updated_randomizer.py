@@ -38,7 +38,7 @@ parser.add_argument('-c', '--corrin-class', choices=[
 parser.add_argument('-dbsr', '--disable-balanced-skill-randomization', action='store_true', help="disable balanced skill randomization; skill randomization will be completely random")
 parser.add_argument('-dcs', '--disable-class-spread', action='store_true', help="disable diverse class reroll")
 parser.add_argument('-dgd', '--disable-gunter-def', action='store_true', help="disable Gunter's replacement's enforced higher Def than Res")
-parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze's replacement's enforced Locktouch skill")
+parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacement's enforced Locktouch skill")
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
 parser.add_argument('-ds', '--disable-songstress', action='store_true', help="disable Azura's replacement's enforced Songstress class")
 parser.add_argument('-dsr', '--disable-staff-retainer', action='store_true', help="disable Jakob and Felicia's replacement's enforced healing class")
@@ -860,6 +860,10 @@ class FatesRandomizer:
             if self.forceVillager:
                 if 108 not in skills:
                     skills[-1] = 108
+        if switchingCharacterName == 'Niles':
+            if self.forceLocktouch:
+                if 112 not in skills:
+                    skills[-1] = 112
         if switchingCharacterName == 'Kaze':
             if self.forceLocktouch:
                 if 112 not in skills:
