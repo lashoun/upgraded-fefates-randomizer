@@ -213,7 +213,7 @@ optional arguments:
 ### Example Custom Run
 
 ```
-python updated_randomizer.py -ba -bac -bc -bdc -bssmax 25 -bssmin 15 -dms -elsc -esc -esi -g "Conquest" -gsmax 370 -gsmin 270 -mc 5 -ns 3 -rsgs
+python updated_randomizer.py -ba -bac -bc -bdc -bssmax 25 -bssmin 15 -dms -elsc -esc -g "Conquest" -gsmax 370 -gsmin 270 -mc 5 -ns 3 -rsgs
 ```
 
 This example command will ensure the following:
