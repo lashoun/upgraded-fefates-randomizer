@@ -122,8 +122,8 @@ with open('{}/fates_class_data.csv'.format(path)) as fcsv:
         }
 
 
-with open('{}/RandomizerSettings.xml'.format(path)) as fxml:
-    settings = xmltodict.parse(fxml.read())
+with open('{}/RandomizerSettings.xml'.format(path), 'rb') as fxml:
+    settings = xmltodict.parse(fxml.read().decode('utf-8'))
 
 
 ## Randomizer Class
@@ -1153,8 +1153,8 @@ class FatesRandomizer:
         for character in self.settings['root']['Character']:
             self.fixCharacter(character)
 
-        with open('{}/RandomizerSettingsUpdated.xml'.format(path), 'w') as fxml:
-            fxml.write(xmltodict.unparse(self.settings, pretty=True))
+        with open('{}/RandomizerSettingsUpdated.xml'.format(path), 'wb') as fxml:
+            fxml.write(xmltodict.unparse(self.settings, pretty=True).encode('utf-8'))
 
 
 ## Run the randomizer
