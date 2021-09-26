@@ -47,9 +47,10 @@ parser.add_argument('-elsc', '--enable-limit-staff-classes', action='store_true'
 parser.add_argument('-ema', '--enforce-mozu-aptitude', action='store_true', help="enforce Mozu (herself) having Aptitude")
 parser.add_argument('-emoc', '--enable-mag-only-corrin', action='store_true', help="enables Corrin to get a Mag only class")
 parser.add_argument('-esc', '--enforce-sword-corrin', action='store_true', help="enforces Corrin to get a sword-wielding final class")
-parser.add_argument('-esd', '--enforce-stat-decrease', action='store_true', help="enforces stat decrease regardless of growth increase")
-parser.add_argument('-esi', '--enforce-stat-increase', action='store_true', help="enforces stat increase")
+parser.add_argument('-esd', '--enforce-stat-decrease', action='store_true', help="enforces stat decrease to base stat sum max regardless of growth increase")
+parser.add_argument('-esi', '--enforce-stat-increase', action='store_true', help="enforces stat increase to base stat sum min")
 parser.add_argument('-ev', '--enforce-villager', action='store_true', help="enforce Mozu's replacement being a Villager with Aptitude")
+parser.add_argument('-evc', '--enforce-viable-characters', action='store_true', help="will force you to play with only the first 15 characters encoutered by giving no skills (except the 'Survey' skill for easy identification), and 0 stats / growths (1 max HP) to the others in the route")
 parser.add_argument('-g', '--game-route', choices=['Revelations', 'Birthright', 'Conquest'],
                     default='Revelations', help="game route")
 parser.add_argument('-gc', '--growth-cap', type=int, default=70, help="adjusted growths cap")
@@ -159,7 +160,7 @@ class FatesRandomizer:
         forceSongstress=True,  # will force Azura's replacement to be a Songstress
         forceStrCorrin=True,  # will force Corrin to have a class that wields at least one Str weapon
         forceSwordCorrin=False,  # will force Corrin to have a class that wields swords
-        # TODO: forceViableCharacters=True,  # will choose 15 non-children characters for each route, others will have no skills and 0 growths everywhere
+        forceViableCharacters=False,  # will give no skills and 0 stats / growths (1 max HP) to all characters except the first 15 encountered
         forceVillager=False,  # will force Mozu's replacement to be a Villager and get Aptitude
         gameRoute='Revelations',  # 'Birthright', 'Conquest' or 'Revelations', used in randomizeClasses
         growthCap=70,  # growth cap in adjustBaseStatsAndGrowths
@@ -211,6 +212,7 @@ class FatesRandomizer:
         self.forceSongstress = forceSongstress
         self.forceStrCorrin = forceStrCorrin
         self.forceSwordCorrin = forceSwordCorrin
+        self.forceViableCharacters = forceViableCharacters
         self.forceVillager = forceVillager
         self.gameRoute = gameRoute
         self.growthCap = growthCap
@@ -338,6 +340,23 @@ class FatesRandomizer:
         ]
         self.ROYALS = ['Azura', 'Sakura', 'Hinoka', 'Elise', 'Camilla', 'Takumi',
                        'Ryoma', 'Leo', 'Xander']
+
+        if self.gameRoute == "Birthright":
+            self.allowedCharacters = [
+            'Felicia', 'Jakob', 'Kaze', 'Rinkah', 'Azura', 'Sakura', 'Hana', 'Subaki',
+            'Silas', 'Saizo', 'Orochi', 'Mozu', 'Hinoka', 'Azama', 'Setsuna', 'Oboro'
+        ]
+        elif self.gameRoute == "Conquest":
+            self.allowedCharacters = [
+            'Felicia', 'Jakob', 'Elise', 'Silas', 'Arthur', 'Effie', 'Mozu', 'Odin',
+            'Niles', 'Azura', 'Nyx', 'Camilla', 'Selena', 'Benny', 'Kaze', 'Laslow',
+        ]
+        else:
+            self.allowedCharacters = [
+            'Azura', 'Felicia', 'Jakob', 'Gunter', 'Mozu', 'Sakura', 'Hana',
+            'Subaki', 'Kaze', 'Rinkah', 'Hayato', 'Takumi', 'Oboro', 'Hinata',
+            'Saizo', 'Orochi', 'Kaden'
+        ]
 
         self.randomizedClasses = None
 
@@ -490,7 +509,7 @@ class FatesRandomizer:
                     baseStats[t] -= 1
                     baseStatsSum -= 1
             if self.forceStatIncrease:
-                while baseStatsSum < self.baseStatsSumMax:
+                while baseStatsSum < self.baseStatsSumMin:
                     t = self.rng.choice(8, p=probas)
                     baseStats[t] += 1
                     baseStatsSum += 1
@@ -591,6 +610,8 @@ class FatesRandomizer:
         switchingCharacter = self.getCharacter(switchingCharacterName)
 
         if self.disableModelSwitch:
+            # all changes will actually concern the switching character, this character will be fixed
+            # when it's the turn of its switched character
             character = switchingCharacter
             characterName = switchingCharacterName
 
@@ -686,55 +707,66 @@ class FatesRandomizer:
         # self.setCharacterBitflags(switchingCharacter, bitflags)  # --- DOESN'T WORK
         # self.setCharacterBitflags(character, bitflags)  # --- DOESN'T WORK
 
-        # Adjust Base Stats and Growths
-        self.adjustBaseStatsAndGrowths(characterData)
+        characterIsFixed = False
 
-        # Add Variance to Data
-        self.addVarianceToData(characterData['BaseStats'], characterData['Growths'], characterData['Modifiers'])
+        if self.forceViableCharacters:
+            if switchingCharacterName not in self.allowedCharacters:
+                self.setCharacterStats(switchingCharacter, np.array([1, 0, 0, 0, 0, 0, 0, 0]))
+                self.setCharacterGrowths(switchingCharacter, np.array([0, 0, 0, 0, 0, 0, 0, 0]))
+                self.setCharacterModifiers(switchingCharacter, np.array([0, 0, 0, 0, 0, 0, 0, 0]))
+                self.setCharacterSkills(switchingCharacter, [149, 0, 0, 0, 0])
+                characterIsFixed = True
 
-        # Swap Stats
-        self.swapCharacterLck(characterData)
-        self.swapCharacterDefRes(characterData)
-        self.swapCharacterSklSpd(characterData)
-        self.swapCharacterStrMag(characterData)
+        if not characterIsFixed:
+            # Adjust Base Stats and Growths
+            self.adjustBaseStatsAndGrowths(characterData)
 
-        # Scale Stats to New Level
-        characterBaseStats = characterData['BaseStats']
-        characterGrowths = characterData['Growths']
-        if characterName == 'Mozu' and self.forceMozuAptitude:
-            characterGrowths = np.copy(characterGrowths) + 10
-        plusStats = np.zeros(8)
-        if newLevel > 1:
-            plusStats += (characterGrowths + newClassGrowths) * (newLevel - 1)
-        if newPromotionLevel > 1:
-            plusStats += (characterGrowths + newBaseClassGrowths) * (newPromotionLevel - 1)
-        plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
-        characterNewStats = characterBaseStats + plusStats
-        characterData['OldStats'] = characterData['Stats']
-        characterData['Stats'] = characterNewStats
-        # characterData['Stats'] = characterData['BaseStats']  # test
+            # Add Variance to Data
+            self.addVarianceToData(characterData['BaseStats'], characterData['Growths'], characterData['Modifiers'])
 
-        if self.verbose:
-            print("switchingCharacterName: {}".format(switchingCharacterName))
-            print("newLevel, newPromotionLevel: {}, {}".format(newLevel, newPromotionLevel))
-            print("OldStats: {}".format(characterData['OldStats']))
-            print("OldBaseStats: {}".format(characterData['OldBaseStats']))
-            print("OldGrowths: {}".format(characterData['OldGrowths']))
-            print("Growths: {}".format(characterData['Growths']))
-            print("plusStats: {}".format(plusStats))
-            print("BaseStats: {}".format(characterData['BaseStats']))
-            print("Stats: {}".format(characterData['Stats']))
+            # Swap Stats
+            self.swapCharacterLck(characterData)
+            self.swapCharacterDefRes(characterData)
+            self.swapCharacterSklSpd(characterData)
+            self.swapCharacterStrMag(characterData)
 
-        # Increase Modifiers
-        self.increaseModifiers(characterData['Modifiers'])
+            # Scale Stats to New Level
+            characterBaseStats = characterData['BaseStats']
+            characterGrowths = characterData['Growths']
+            if characterName == 'Mozu' and self.forceMozuAptitude:
+                characterGrowths = np.copy(characterGrowths) + 10
+            plusStats = np.zeros(8)
+            if newLevel > 1:
+                plusStats += (characterGrowths + newClassGrowths) * (newLevel - 1)
+            if newPromotionLevel > 1:
+                plusStats += (characterGrowths + newBaseClassGrowths) * (newPromotionLevel - 1)
+            plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
+            characterNewStats = characterBaseStats + plusStats
+            characterData['OldStats'] = characterData['Stats']
+            characterData['Stats'] = characterNewStats
+            # characterData['Stats'] = characterData['BaseStats']  # test
 
-        # Set Data
-        self.setCharacterStats(switchingCharacter, characterData['Stats'])
-        self.setCharacterGrowths(switchingCharacter, characterData['Growths'])
-        self.setCharacterModifiers(switchingCharacter, characterData['Modifiers'])
+            if self.verbose:
+                print("switchingCharacterName: {}".format(switchingCharacterName))
+                print("newLevel, newPromotionLevel: {}, {}".format(newLevel, newPromotionLevel))
+                print("OldStats: {}".format(characterData['OldStats']))
+                print("OldBaseStats: {}".format(characterData['OldBaseStats']))
+                print("OldGrowths: {}".format(characterData['OldGrowths']))
+                print("Growths: {}".format(characterData['Growths']))
+                print("plusStats: {}".format(plusStats))
+                print("BaseStats: {}".format(characterData['BaseStats']))
+                print("Stats: {}".format(characterData['Stats']))
 
-        # Randomize Skills
-        self.randomizeSkills(switchingCharacter, characterName)
+            # Increase Modifiers
+            self.increaseModifiers(characterData['Modifiers'])
+
+            # Set Data
+            self.setCharacterStats(switchingCharacter, characterData['Stats'])
+            self.setCharacterGrowths(switchingCharacter, characterData['Growths'])
+            self.setCharacterModifiers(switchingCharacter, characterData['Modifiers'])
+
+            # Randomize Skills
+            self.randomizeSkills(switchingCharacter, characterName)
 
         if self.disableModelSwitch:
             self.setSwitchingCharacterName(characterOriginal, characterNameOriginal)
@@ -1189,6 +1221,7 @@ if __name__ == "__main__":
         forceSongstress=(not args.disable_songstress),
         forceStrCorrin=(not args.enable_mag_only_corrin),
         forceSwordCorrin=args.enforce_sword_corrin,
+        forceViableCharacters=args.enforce_viable_characters,
         forceVillager=args.enforce_villager,
         gameRoute=args.game_route,
         growthCap=args.growth_cap,
