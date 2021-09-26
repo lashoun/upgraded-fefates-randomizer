@@ -345,11 +345,13 @@ class FatesRandomizer:
             self.allowedCharacters = [
             'Felicia', 'Jakob', 'Kaze', 'Rinkah', 'Azura', 'Sakura', 'Hana', 'Subaki',
             'Silas', 'Saizo', 'Orochi', 'Mozu', 'Hinoka', 'Azama', 'Setsuna', 'Oboro'
+            'Gunter'
         ]
         elif self.gameRoute == "Conquest":
             self.allowedCharacters = [
             'Felicia', 'Jakob', 'Elise', 'Silas', 'Arthur', 'Effie', 'Mozu', 'Odin',
             'Niles', 'Azura', 'Nyx', 'Camilla', 'Selena', 'Benny', 'Kaze', 'Laslow',
+            'Gunter'
         ]
         else:
             self.allowedCharacters = [
