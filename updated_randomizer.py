@@ -51,7 +51,7 @@ parser.add_argument('-esc', '--enforce-sword-corrin', action='store_true', help=
 parser.add_argument('-esd', '--enforce-stat-decrease', action='store_true', help="enforces stat decrease to base stat sum max regardless of growth increase")
 parser.add_argument('-esi', '--enforce-stat-increase', action='store_true', help="enforces stat increase to base stat sum min")
 parser.add_argument('-ev', '--enforce-villager', action='store_true', help="enforce Mozu's replacement being a Villager with Aptitude")
-parser.add_argument('-evc', '--enforce-viable-characters', action='store_true', help="will force you to play with only the first 15 characters encoutered by giving no skills (except the 'Survey' skill for easy identification), and 0 stats / growths (1 max HP) to the others in the route")
+parser.add_argument('-evc', '--enforce-viable-characters', action='store_true', help="will force you to play with only the first 15 characters encoutered by giving 0 growth rates to the others in the route; non-viable characters will be given the 'Survey' skill for easy identification")
 parser.add_argument('-g', '--game-route', choices=['Revelations', 'Birthright', 'Conquest'],
                     default='Revelations', help="game route")
 parser.add_argument('-gc', '--growth-cap', type=int, default=70, help="adjusted growths cap")
@@ -712,66 +712,59 @@ class FatesRandomizer:
         # self.setCharacterBitflags(switchingCharacter, bitflags)  # --- DOESN'T WORK
         # self.setCharacterBitflags(character, bitflags)  # --- DOESN'T WORK
 
-        characterIsFixed = False
+        # Adjust Base Stats and Growths
+        self.adjustBaseStatsAndGrowths(characterData)
 
+        # Add Variance to Data
+        self.addVarianceToData(characterData['BaseStats'], characterData['Growths'], characterData['Modifiers'])
+
+        # Swap Stats
+        self.swapCharacterLck(characterData)
+        self.swapCharacterDefRes(characterData)
+        self.swapCharacterSklSpd(characterData)
+        self.swapCharacterStrMag(characterData)
+
+        # Scale Stats to New Level
+        characterBaseStats = characterData['BaseStats']
+        characterGrowths = characterData['Growths']
+        if characterName == 'Mozu' and self.forceMozuAptitude:
+            characterGrowths = np.copy(characterGrowths) + 10
+        plusStats = np.zeros(8)
+        if newLevel > 1:
+            plusStats += (characterGrowths + newClassGrowths) * (newLevel - 1)
+        if newPromotionLevel > 1:
+            plusStats += (characterGrowths + newBaseClassGrowths) * (newPromotionLevel - 1)
+        plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
+        characterNewStats = characterBaseStats + plusStats
+        characterData['OldStats'] = characterData['Stats']
+        characterData['Stats'] = characterNewStats
+        # characterData['Stats'] = characterData['BaseStats']  # test
+
+        if self.verbose:
+            print("switchingCharacterName: {}".format(switchingCharacterName))
+            print("newLevel, newPromotionLevel: {}, {}".format(newLevel, newPromotionLevel))
+            print("OldStats: {}".format(characterData['OldStats']))
+            print("OldBaseStats: {}".format(characterData['OldBaseStats']))
+            print("OldGrowths: {}".format(characterData['OldGrowths']))
+            print("Growths: {}".format(characterData['Growths']))
+            print("plusStats: {}".format(plusStats))
+            print("BaseStats: {}".format(characterData['BaseStats']))
+            print("Stats: {}".format(characterData['Stats']))
+
+        # Increase Modifiers
+        self.increaseModifiers(characterData['Modifiers'])
+
+        # Set Data
+        self.setCharacterStats(switchingCharacter, characterData['Stats'])
+        self.setCharacterGrowths(switchingCharacter, characterData['Growths'])
         if self.forceViableCharacters:
             if switchingCharacterName not in self.allowedCharacters:
-                self.setCharacterStats(switchingCharacter, np.array([1, 0, 0, 0, 0, 0, 0, 0]))
                 self.setCharacterGrowths(switchingCharacter, np.array([0, 0, 0, 0, 0, 0, 0, 0]))
-                self.setCharacterModifiers(switchingCharacter, np.array([0, 0, 0, 0, 0, 0, 0, 0]))
-                self.setCharacterSkills(switchingCharacter, [149, 0, 0, 0, 0])
-                characterIsFixed = True
 
-        if not characterIsFixed:
-            # Adjust Base Stats and Growths
-            self.adjustBaseStatsAndGrowths(characterData)
+        self.setCharacterModifiers(switchingCharacter, characterData['Modifiers'])
 
-            # Add Variance to Data
-            self.addVarianceToData(characterData['BaseStats'], characterData['Growths'], characterData['Modifiers'])
-
-            # Swap Stats
-            self.swapCharacterLck(characterData)
-            self.swapCharacterDefRes(characterData)
-            self.swapCharacterSklSpd(characterData)
-            self.swapCharacterStrMag(characterData)
-
-            # Scale Stats to New Level
-            characterBaseStats = characterData['BaseStats']
-            characterGrowths = characterData['Growths']
-            if characterName == 'Mozu' and self.forceMozuAptitude:
-                characterGrowths = np.copy(characterGrowths) + 10
-            plusStats = np.zeros(8)
-            if newLevel > 1:
-                plusStats += (characterGrowths + newClassGrowths) * (newLevel - 1)
-            if newPromotionLevel > 1:
-                plusStats += (characterGrowths + newBaseClassGrowths) * (newPromotionLevel - 1)
-            plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
-            characterNewStats = characterBaseStats + plusStats
-            characterData['OldStats'] = characterData['Stats']
-            characterData['Stats'] = characterNewStats
-            # characterData['Stats'] = characterData['BaseStats']  # test
-
-            if self.verbose:
-                print("switchingCharacterName: {}".format(switchingCharacterName))
-                print("newLevel, newPromotionLevel: {}, {}".format(newLevel, newPromotionLevel))
-                print("OldStats: {}".format(characterData['OldStats']))
-                print("OldBaseStats: {}".format(characterData['OldBaseStats']))
-                print("OldGrowths: {}".format(characterData['OldGrowths']))
-                print("Growths: {}".format(characterData['Growths']))
-                print("plusStats: {}".format(plusStats))
-                print("BaseStats: {}".format(characterData['BaseStats']))
-                print("Stats: {}".format(characterData['Stats']))
-
-            # Increase Modifiers
-            self.increaseModifiers(characterData['Modifiers'])
-
-            # Set Data
-            self.setCharacterStats(switchingCharacter, characterData['Stats'])
-            self.setCharacterGrowths(switchingCharacter, characterData['Growths'])
-            self.setCharacterModifiers(switchingCharacter, characterData['Modifiers'])
-
-            # Randomize Skills
-            self.randomizeSkills(switchingCharacter, characterName)
+        # Randomize Skills
+        self.randomizeSkills(switchingCharacter, characterName)
 
         if self.disableModelSwitch:
             self.setSwitchingCharacterName(characterOriginal, characterNameOriginal)
@@ -893,18 +886,25 @@ class FatesRandomizer:
             if self.forceMozuAptitude:
                 if 108 not in skills:
                     skills[-1] = 108
+
         if switchingCharacterName == 'Mozu':
             if self.forceVillager or self.forceParalogueAptitude:
                 if 108 not in skills:
                     skills[-1] = 108
-        if switchingCharacterName == 'Niles':
+        elif switchingCharacterName == 'Niles':
             if self.forceLocktouch:
                 if 112 not in skills:
                     skills[-1] = 112
-        if switchingCharacterName == 'Kaze':
+        elif switchingCharacterName == 'Kaze':
             if self.forceLocktouch:
                 if 112 not in skills:
                     skills[-1] = 112
+
+        if self.forceViableCharacters:
+            if switchingCharacterName not in self.allowedCharacters:
+                if 149 not in skills:
+                    skills[-1] = 149
+
         return self.setCharacterSkills(switchingCharacter, skills)
 
     def readBaseClass(self, className, characterName):
