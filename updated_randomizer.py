@@ -46,6 +46,7 @@ parser.add_argument('-dss', '--disable-staff-early-recruit', action='store_true'
 parser.add_argument('-elsc', '--enable-limit-staff-classes', action='store_true', help="will replace staff only class by a magical class and set the staff only class as a reclass option")
 parser.add_argument('-ema', '--enforce-mozu-aptitude', action='store_true', help="enforce Mozu (herself) having Aptitude")
 parser.add_argument('-emoc', '--enable-mag-only-corrin', action='store_true', help="enables Corrin to get a Mag only class")
+parser.add_argument('-epa', '--enforce-paralogue-aptitude', action='store_true', help="enforce Mozu's replacement to have Aptitude")
 parser.add_argument('-esc', '--enforce-sword-corrin', action='store_true', help="enforces Corrin to get a sword-wielding final class")
 parser.add_argument('-esd', '--enforce-stat-decrease', action='store_true', help="enforces stat decrease to base stat sum max regardless of growth increase")
 parser.add_argument('-esi', '--enforce-stat-increase', action='store_true', help="enforces stat increase to base stat sum min")
@@ -153,6 +154,7 @@ class FatesRandomizer:
         forceGunterDef=True,  # will force Gunter's replacement to have higher Def
         forceLocktouch=True,  # will force Kaze's replacement to get Locktouch
         forceMozuAptitude=False,  # will force Mozu (not her replacement) to get Aptitude
+        forceParalogueAptitude=False,  # will force Mozu's replacement to get Aptitude
         forceStaffRetainer=True,  # will force the retainer's replacement to get a promoted class with a staff
         forceStaffEarlyRecruit=True,  # will force an early recruit replacement to get a healing class
         forceStatDecrease=False,  # force stat decrase in adjustBaseStatsAndGrowths
@@ -205,6 +207,7 @@ class FatesRandomizer:
         self.forceGunterDef = forceGunterDef
         self.forceLocktouch = forceLocktouch
         self.forceMozuAptitude = forceMozuAptitude
+        self.forceParalogueAptitude = forceParalogueAptitude
         self.forceStaffRetainer = forceStaffRetainer
         self.forceStaffEarlyRecruit = forceStaffEarlyRecruit
         self.forceStatDecrease = forceStatDecrease
@@ -891,7 +894,7 @@ class FatesRandomizer:
                 if 108 not in skills:
                     skills[-1] = 108
         if switchingCharacterName == 'Mozu':
-            if self.forceVillager:
+            if self.forceVillager or self.forceParalogueAptitude:
                 if 108 not in skills:
                     skills[-1] = 108
         if switchingCharacterName == 'Niles':
@@ -1216,6 +1219,7 @@ if __name__ == "__main__":
         forceGunterDef=(not args.disable_gunter_def),
         forceLocktouch=(not args.disable_locktouch),
         forceMozuAptitude=(args.enforce_mozu_aptitude),
+        forceParalogueAptitude=args.enforce_paralogue_aptitude,
         forceStaffRetainer=(not args.disable_staff_retainer),
         forceStaffEarlyRecruit=(not args.disable_staff_early_recruit),
         forceStatDecrease=args.enforce_stat_decrease,
