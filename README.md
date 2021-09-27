@@ -113,8 +113,8 @@ python updated_randomizer.py -h
 ```
 usage: updated_randomizer.py [-h] [-ap ADDMAX_POW] [-ab] [-ads] [-ba] [-bac] [-bc] [-bdc] [-bdcs]
                              [-bssmax BASE_STATS_SUM_MAX] [-bssmin BASE_STATS_SUM_MIN] [-bw] [-c CORRIN_CLASS] [-dbsr]
-                             [-dcs] [-dgd] [-dl] [-dms] [-ds] [-dsr] [-dss] [-elsc] [-ema] [-emoc] [-esc] [-esd]
-                             [-esi] [-ev] [-g {Revelations,Birthright,Conquest}] [-gc GROWTH_CAP] [-gp GROWTH_P]
+                             [-dcs] [-dgd] [-dl] [-dms] [-ds] [-dsr] [-dss] [-elsc] [-ema] [-emoc] [-epa] [-esc] [-esd]
+                             [-esi] [-ev] [-evc] [-g {Revelations,Birthright,Conquest}] [-gc GROWTH_CAP] [-gp GROWTH_P]
                              [-gsmax GROWTHS_SUM_MAX] [-gsmin GROWTHS_SUM_MIN] [-mc MODIFIER_COEFFICIENT] [-mp MOD_P]
                              [-np N_PASSES] [-ns {-1,0,1,2,3,4,5}] [-rsgs] [-s SEED] [-sp STAT_P]
                              [-sdrp SWAP_DEF_RES_P] [-slp SWAP_LCK_P] [-sssp SWAP_SKL_SPD_P] [-ssmp SWAP_STR_MAG_P]
@@ -166,6 +166,8 @@ optional arguments:
                         enforce Mozu (herself) having Aptitude
   -emoc, --enable-mag-only-corrin
                         enables Corrin to get a Mag only class
+  -epa, --enforce-paralogue-aptitude
+                        enforce Mozu's replacement to have Aptitude
   -esc, --enforce-sword-corrin
                         enforces Corrin to get a sword-wielding final class
   -esd, --enforce-stat-decrease
