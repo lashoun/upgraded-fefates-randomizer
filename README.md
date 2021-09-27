@@ -177,8 +177,9 @@ optional arguments:
   -ev, --enforce-villager
                         enforce Mozu's replacement being a Villager with Aptitude
   -evc, --enforce-viable-characters
-                        will force you to play with only the first 15 characters encoutered by giving no skills (except the 'Survey' skill for easy
-                        identification), and 0 stats / growths (1 max HP) to the others in the route
+                        will force you to play with only the first 15 characters encoutered by giving 0 growth rates
+                        to the others in the route; non-viable characters will be given the 'Survey' skill for easy
+                        identification
   -g {Revelations,Birthright,Conquest}, --game-route {Revelations,Birthright,Conquest}
                         game route
   -gc GROWTH_CAP, --growth-cap GROWTH_CAP
