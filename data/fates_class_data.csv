@@ -56,12 +56,12 @@
 "Butler","Mixed",0,10,10,15,15,10,5,10,"Troubadour",
 "Wolfskin","Str",20,20,0,5,15,5,10,0,,
 "Wolfssegner","Str",20,20,0,5,15,5,10,0,"Wolfskin",
-"Dread Fighter","Str",15,15,5,5,15,0,5,20,,
-"Dark Falcon","Mixed",0,10,15,5,15,15,0,20,,
-"Ballistician","Str",5,25,0,15,0,10,5,5,,
-"Witch","Mag",5,0,25,5,20,5,0,10,,
-"Lodestar","Str",15,10,0,20,10,25,5,5,,
-"Vanguard","Str",20,20,0,5,5,10,15,0,,
-"Great Lord","Str",15,15,0,10,10,15,10,5,,
-"Grandmaster","Mixed",10,15,15,15,5,0,5,15,,
+"Dread Fighter","Str",15,15,5,5,15,0,5,20,"Ninja","Oni Savage"
+"Dark Falcon","Mixed",0,10,15,5,15,15,0,20,"Sky Knight","Dark Mage"
+"Ballistician","Str",5,25,0,15,0,10,5,5,"Archer","Outlaw"
+"Witch","Mag",5,0,25,5,20,5,0,10,"Diviner","Dark Mage"
+"Lodestar","Str",15,10,0,20,10,25,5,5,"Samurai","Mercenary"
+"Vanguard","Str",20,20,0,5,5,10,15,0,"Mercenary","Fighter"
+"Great Lord","Str",15,15,0,10,10,15,10,5,"Samurai","Spear Fighter"
+"Grandmaster","Mixed",10,15,15,15,5,0,5,15,"Nohr Prince","Nohr Princess"
 "Pegasus Knight","Str",0,10,0,15,20,20,0,20,,

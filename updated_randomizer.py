@@ -43,6 +43,7 @@ parser.add_argument('-dms', '--disable-model-switch', action='store_true', help=
 parser.add_argument('-ds', '--disable-songstress', action='store_true', help="disable Azura's replacement's enforced Songstress class")
 parser.add_argument('-dsr', '--disable-staff-retainer', action='store_true', help="disable Jakob and Felicia's replacement's enforced healing class")
 parser.add_argument('-dss', '--disable-staff-early-recruit', action='store_true', help="disable Sakura and/or Elise's replacement's enforced healing class")
+parser.add_argument('-edbc', '--enable-dlc-base-class', action='store_true', help="will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)")
 parser.add_argument('-elsc', '--enable-limit-staff-classes', action='store_true', help="will replace staff only class by a magical class and set the staff only class as a reclass option")
 parser.add_argument('-ema', '--enforce-mozu-aptitude', action='store_true', help="enforce Mozu (herself) having Aptitude")
 parser.add_argument('-emoc', '--enable-mag-only-corrin', action='store_true', help="enables Corrin to get a Mag only class")
@@ -150,6 +151,7 @@ class FatesRandomizer:
         corrinClass='',
         disableBalancedSkillRandomization=False,
         disableModelSwitch=False,  # will disable model switching
+        enableDLCBaseClass=False,  # will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)
         forceClassSpread=True,  # will limit class duplicates
         forceGunterDef=True,  # will force Gunter's replacement to have higher Def
         forceLocktouch=True,  # will force Kaze's replacement to get Locktouch
@@ -203,6 +205,7 @@ class FatesRandomizer:
         self.corrinClass = corrinClass
         self.disableBalancedSkillRandomization = disableBalancedSkillRandomization
         self.disableModelSwitch = disableModelSwitch
+        self.enableDLCBaseClass = enableDLCBaseClass
         self.forceClassSpread = forceClassSpread
         self.forceGunterDef = forceGunterDef
         self.forceLocktouch = forceLocktouch
@@ -286,8 +289,7 @@ class FatesRandomizer:
             'Monk', 'Sky Knight', 'Archer', 'Ninja', 'Apothecary', 'Kitsune',
             'Songstress', 'Villager', 'Nohr Prince', 'Nohr Princess', 'Cavalier',
             'Knight', 'Fighter', 'Mercenary', 'Outlaw', 'Wyvern Rider', 'Dark Mage',
-            'Troubadour', 'Wolfskin', 'Dread Fighter', 'Dark Falcon', 'Ballistician',
-            'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster'
+            'Troubadour', 'Wolfskin'
         ]
 
         self.AMIIBO_CHARACTERS = ['Marth', 'Lucina', 'Robin', 'Ike']
@@ -361,6 +363,13 @@ class FatesRandomizer:
             'Saizo', 'Orochi', 'Kaden'
         ]
 
+        if self.enableDLCBaseClass:
+            self.PROMOTED_CLASSES += self.DLC_CLASSES
+        else:
+            self.UNPROMOTED_CLASSES += self.DLC_CLASSES
+            for className in self.DLC_CLASSES:
+                self.classData[className]['BaseClasses'] = []
+
         self.randomizedClasses = None
 
         if self.banAmiiboCharacters:
@@ -405,11 +414,17 @@ class FatesRandomizer:
             if self.banBallistician:
                 self.MALE_CLASSES.pop(self.MALE_CLASSES.index('Ballistician'))
                 self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Ballistician'))
-                self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index('Ballistician'))
+                if 'Ballicistian' in self.UNPROMOTED_CLASSES:
+                    self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index('Ballistician'))
+                elif 'Ballicistian' in self.PROMOTED_CLASSES:
+                    self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Ballistician'))
             if self.banWitch:
                 self.FEMALE_CLASSES.pop(self.FEMALE_CLASSES.index('Witch'))
                 self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Witch'))
-                self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index('Witch'))
+                if 'Witch' in self.UNPROMOTED_CLASSES:
+                    self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index('Witch'))
+                elif 'Witch' in self.PROMOTED_CLASSES:
+                    self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Witch'))
                 self.MAGICAL_CLASSES.pop(self.MAGICAL_CLASSES.index('Witch'))
 
         if self.gameRoute == 'Birthright':
@@ -909,13 +924,16 @@ class FatesRandomizer:
         """ Returns a possible base class for a promoted class
             or the same class for an unpromoted one """
         baseClasses = self.classData[className]['BaseClasses']
-        if className in ['Nohr Noble', 'Hoshido Noble']:
-            if characterName in self.MALE_CHARACTERS:
-                return 'Nohr Prince'
-            elif characterName in self.FEMALE_CHARACTERS:
-                return 'Nohr Princess'
+        if className in ['Nohr Noble', 'Hoshido Noble', 'Grandmaster']:
+            if className == 'Grandmaster' and not self.enableDLCBaseClass:
+                return 'Grandmaster'
             else:
-                raise ValueError('Character named "{}" not found in MALE_CHARACTERS or FEMALE_CHARACTERS'.format(characterName))
+                if characterName in self.MALE_CHARACTERS:
+                    return 'Nohr Prince'
+                elif characterName in self.FEMALE_CHARACTERS:
+                    return 'Nohr Princess'
+                else:
+                    raise ValueError('Character named "{}" not found in MALE_CHARACTERS or FEMALE_CHARACTERS'.format(characterName))
         elif className == 'Onmyoji':
             baseClass = self.rng.choice(['Diviner', 'Monk'])
             if baseClass == 'Monk' and characterName in self.FEMALE_CHARACTERS:
@@ -1213,6 +1231,7 @@ if __name__ == "__main__":
         corrinClass=args.corrin_class,
         disableBalancedSkillRandomization=args.disable_balanced_skill_randomization,
         disableModelSwitch=args.disable_model_switch,
+        enableDLCBaseClass=args.enable_dlc_base_class,
         forceClassSpread=(not args.disable_class_spread),
         forceGunterDef=(not args.disable_gunter_def),
         forceLocktouch=(not args.disable_locktouch),
