@@ -79,7 +79,7 @@ should do the trick.
 The instructions can look daunting but once you understand how it works it takes fewer than 5 minutes to do. Some experience with Python and/or tinkering with files will obviously help though.
 
 0. Begin by either cloning the repository or downloading and extracting the zip.
-1. First, choose which version of Fates you want to play:
+1. First, choose which version of Fates you want to play (all versions except Vanilla are only compatible with the Special Edition, unfortunately):
     - _Vanilla Fates_: for copyright-related reasons, you will have to dump your own romfs. Follow the instructions in thane89's original readme below.
     - _Gay Fates_: _Vanilla Fates_ patched with vastly expanded supports ([original thread here](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/)). This is very welcome since randomization doesn't touch supports. Extract `fates_gay_decompressed.7z`.
     - _Upgraded Gay Fates_: _Gay Fates_ patched with my curated upgrades listed above. Extract `fates_gay_upgraded_decompressed.7z`.
