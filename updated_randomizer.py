@@ -404,8 +404,12 @@ class FatesRandomizer:
                     self.MALE_CLASSES.pop(self.MALE_CLASSES.index(className))
                 if className in self.FEMALE_CLASSES:
                     self.FEMALE_CLASSES.pop(self.FEMALE_CLASSES.index(className))
-                self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index(className))
-                self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index(className))
+                if className in self.FINAL_CLASSES:
+                    self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index(className))
+                if className in self.PROMOTED_CLASSES:
+                    self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index(className))
+                if className in self.UNPROMOTED_CLASSES:
+                    self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index(className))
                 if className in self.MAGICAL_CLASSES:
                     self.MAGICAL_CLASSES.pop(self.MAGICAL_CLASSES.index(className))
                 if className in self.SWORD_CLASSES:
