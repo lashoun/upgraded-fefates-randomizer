@@ -37,7 +37,7 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
 
 
 ### Upgraded Fates Features
-- I took the freedom to integrate the [1.4.0 unofficial update](https://gamebanana.com/mods/51420) of the [Expanded Same-Sex Marriage patch](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/) by UnassumingVenusaur ~and the [Good Guy Garon Edition patch](https://gbatemp.net/threads/release-conquest-story-overhaul-fire-emblem-fates-good-guy-garon-edition.487117/) by AgahnimD (not in the latest update)~.
+- I took the freedom to integrate the [1.4.0 unofficial update](https://gamebanana.com/mods/51420) of the [Expanded Same-Sex Marriage patch](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/) by UnassumingVenusaur.
 - Dawn / Dusk Armories and Rod / Staff shops available in every route
 - Changes to weapon triangles: Tome <-> Axe, Dagger <-> Sword, and Bow <-> Lance become neutral
     - Rationale: range weapons can already hit melee weapons without retaliation so they shouldn't have weapon advantage on top of that
@@ -45,7 +45,7 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
 - Raijinto: gives Skl+3 instead of Str+4, halves stat until next attack
 - Siegfried: gives only Def+2, halves stat until next attack
 - Wakizashi, Spear, Tomahawk and Battering Club are now 1-2 range
-- Silver weapones no longer self-debuff, but halve stat until next attack instead
+- Silver weapons and the Lightning Tome no longer self-debuff, but halve stat until next attack instead
 - Weapon Updates: increased the difference between Hoshidan and Nohrian weapons, nerfed the hell out of those busted hidden weapons, doubled Staff Exp for convenience.
 	- Swords, Lances: +1 Mt, -10 Hit, -5 Avo, +2 Crit
 	- Katanas, Naginatas: -1 Mt, +5 Hit, +2 Avo
@@ -74,6 +74,10 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
 	- Beastrune: Skill-3, Spd-4, Def+5, Res+7 (instead of Skill-2, Spd-1, Def+4, Res+5)
 
 #### Old version
+- I took the freedom to integrate the [Expanded Same-Sex Marriage patch](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/) by UnassumingVenusaur and the [Good Guy Garon Edition patch](https://gbatemp.net/threads/release-conquest-story-overhaul-fire-emblem-fates-good-guy-garon-edition.487117/) by AgahnimD.
+- Dawn / Dusk Armories and Rod / Staff shops available in every route
+- Changes to weapon triangles: Tome <-> Axe, Dagger <-> Sword, and Bow <-> Lance become neutral
+    - Rationale: range weapons can already hit melee weapons without retaliation so they shouldn't have weapon advantage on top of that
 - Weapon Ranks changed; in practice, every rank is matched with the one below. E-rank hell only lasts for one hit now!
 	- D 21 -> 2
 	- C 51 -> 22
