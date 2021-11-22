@@ -37,10 +37,43 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
 
 
 ### Upgraded Fates Features
-- I took the freedom to integrate the [Expanded Same-Sex Marriage patch](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/) by UnassumingVenusaur and the [Good Guy Garon Edition patch](https://gbatemp.net/threads/release-conquest-story-overhaul-fire-emblem-fates-good-guy-garon-edition.487117/) by AgahnimD
+- I took the freedom to integrate the [1.4.0 unofficial update](https://gamebanana.com/mods/51420) of the [Expanded Same-Sex Marriage patch](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/) by UnassumingVenusaur ~and the [Good Guy Garon Edition patch](https://gbatemp.net/threads/release-conquest-story-overhaul-fire-emblem-fates-good-guy-garon-edition.487117/) by AgahnimD (not in the latest update)~.
 - Dawn / Dusk Armories and Rod / Staff shops available in every route
 - Changes to weapon triangles: Tome <-> Axe, Dagger <-> Sword, and Bow <-> Lance become neutral
     - Rationale: range weapons can already hit melee weapons without retaliation so they shouldn't have weapon advantage on top of that
+- Weapon Rank requirements decreased by one for every weapon: for instance, iron weapons are available from rank E.
+- Raijinto: gives Skl+3 instead of Str+4, halves stat until next attack
+- Siegfried: gives only Def+2, halves stat until next attack
+- Wakizashi, Spear, Tomahawk and Battering Club are now 1-2 range
+- Silver weapones no longer self-debuff, but halve stat until next attack instead
+- Weapon Updates: increased the difference between Hoshidan and Nohrian weapons, nerfed the hell out of those busted hidden weapons, doubled Staff Exp for convenience.
+	- Swords, Lances: +1 Mt, -10 Hit, -5 Avo, +2 Crit
+	- Katanas, Naginatas: -1 Mt, +5 Hit, +2 Avo
+	- Axes: +1 Mt, -5 Hit, -5 Avo
+	- Clubs: -1 Mt, +2 Avo, +5 Crit
+	- Bows: +1 Mt, -10 Hit, -5 Avo, +2 Crit
+	- Yumis: -2 Mt, +10 Hit, +2 Avo
+	- Tomes: +1 Mt, -10 Hit, -5 Avo, +2 Crit
+	- Scrolls: -1 Mt, +10 Hit, +2 Avo
+	- Daggers: -2 Mt, -15 Hit, -5 Avo, +2 Crit, all stat debuffs are decreased by 1
+	- Shurikens: -4 Mt, -20 Hit, +5 Avo, +2 Ddg, now gives -2 Def, all stat debuffs are decreased by 1
+	- Staves: Staff Exp x2 for those listed
+		- Heal 10 -> 12 Mt
+		- Mend 20 -> 25 Mt
+		- Physic 7 -> 9 Mt, range 1-5
+		- Recover 35 -> 45 Mt
+		- Fortify 7 -> 9 Mt, range 1-5
+	- Rod: Staff Exp x2 for those listed
+		- Bloom Festal 7 -> 4 Mt
+		- Sun Festal 14 -> 10 Mt
+		- Wane Festal 2 -> 1 Mt, range 1-12
+		- Moon Festal 25 -> 20 Mt
+		- Great Festal 2 -> 1 Mt, range 1-12
+	- Dragonstones: Can double, but with -5 eff. Spd
+   		- added a *Dragonrune* item, available in the 3rd Rod/Staff Shop, which gives Skill+8, Spd+6, Def-4, Res-3
+	- Beastrune: Skill-3, Spd-4, Def+5, Res+7 (instead of Skill-2, Spd-1, Def+4, Res+5)
+
+#### Old version
 - Weapon Ranks changed; in practice, every rank is matched with the one below. E-rank hell only lasts for one hit now!
 	- D 21 -> 2
 	- C 51 -> 22
@@ -65,7 +98,7 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
 		- Sun Festal 14 -> 10 Mt
 		- Wane Festal 2 -> 1 Mt
 		- Moon Festal 25 -> 20 Mt
-		- Great Festal 2 -> 1 Mt
+		- ~Great Festal 2 -> 1 Mt
 
 ## Instructions
 
@@ -81,9 +114,11 @@ The instructions can look daunting but once you understand how it works it takes
 0. Begin by either cloning the repository or downloading and extracting the zip.
 1. First, choose which version of Fates you want to play (all versions except Vanilla are only compatible with the Special Edition, unfortunately):
     - _Vanilla Fates_: for copyright-related reasons, you will have to dump your own romfs. Follow the instructions in thane89's original readme below.
-    - _Gay Fates_: _Vanilla Fates_ patched with vastly expanded supports ([original thread here](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/)). This is very welcome since randomization doesn't touch supports. Extract `fates_gay_decompressed.7z`.
-    - _Upgraded Gay Fates_: _Gay Fates_ patched with my curated upgrades listed above. Extract `fates_gay_upgraded_decompressed.7z`.
-    - **_Good Guy Garon Upgraded Gay Fates_ (recommended)**: _Upgraded Gay Fates_ with the [Good Guy Garon Edition patch](https://gbatemp.net/threads/release-conquest-story-overhaul-fire-emblem-fates-good-guy-garon-edition.487117/). Extract `fates_gay_upgraded_GGG_decompressed.7z`.
+    - _Gay Fates_: _Vanilla Fates_ patched with vastly expanded supports ([original thread here](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/)). This is very welcome since randomization doesn't touch supports. Extract `fates_gay_v140_decompressed.7z`.
+    - **_Upgraded Gay Fates_ (recommended)**: _Gay Fates_ patched with my curated upgrades listed above. Extract `fates_gay_v140_upgraded_decompressed.7z`.
+    - _Gay Fates_ (old version): Extract `fates_gay_decompressed.7z`.
+    - _Upgraded Gay Fates_ (old version): old _Gay Fates_ patched with the upgrades listed in the Old version paragraph above. Extract `fates_gay_upgraded_decompressed.7z`.
+    - _Good Guy Garon Upgraded Gay Fates_: old _Upgraded Gay Fates_ with the [Good Guy Garon Edition patch](https://gbatemp.net/threads/release-conquest-story-overhaul-fire-emblem-fates-good-guy-garon-edition.487117/). Extract `fates_gay_upgraded_GGG_decompressed.7z`.
 The extracted folder will be referred to as the "romfs" folder.
 2. Run `Fates Randomizer Beta 5-5.jar`, click "Open and Verify", and select the romfs folder. You should see a new window pop up with options. If you do not, the window will show you which file was not found. Make sure that the selected folder has folders named `castle`, `GameData`, `m`, `Scripts` directly inside it.
 3. Select a path and options. Refer to the original readme below if you do not understand an option. I recommend selecting `All Routes` (even if you plan to play Birthright or Conquest, the Python script has route options too) and all options except the experimental ones and the stat randomization.
@@ -159,6 +194,9 @@ optional arguments:
                         disable Jakob and Felicia's replacement's enforced healing class
   -dss, --disable-staff-early-recruit
                         disable Sakura and/or Elise's replacement's enforced healing class
+  -edbc, --enable-dlc-base-class
+                        will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for
+                        Dread Fighter)
   -elsc, --enable-limit-staff-classes
                         will replace staff only class by a magical class and set the staff only class as a reclass
                         option
@@ -290,15 +328,15 @@ Change All Appearances - Change every instance of a character to use their rando
 2. Create a folder called GameData inside the storage folder. From your ROM, copy GameData.bin.lz and the Dispos and Person folders from the ROM's GameData folder into the one you created.
 3. Create a folder called castle inside the storage folder. From your ROM, copy castle_join.bin.lz from the castle folder into the castle folder you created.
 4. Copy the m folder and Script folder from your ROM into the storage folder. Your storage folder should look like this:
-	Main Directory
-		castle
-		  castle_join.bin.lz
-		GameData
-		  dispos
-		  person
-		  GameData.bin.lz
-		m
-		Scripts
+	- Main Directory
+		- castle
+			- castle_join.bin.lz
+		- GameData
+			- dispos
+			- person
+			- GameData.bin.lz
+		- m
+		- Scripts
 5. Run FEAT.exe, highlight all of the folders in the storage folder, and drag them into FEAT. The program should decompress every file in the storage folder. Check to make sure that the .bin.lz files now only have a .bin extension.
 6. Make a backup of this folder so that you don't have to go through this process again.
 7. Run Fates-Randomizer.jar, click "Open and Verify," and select the storage folder. You should see a new window pop up with options. If you do not, the window will show you which file was not found.
