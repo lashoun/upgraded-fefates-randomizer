@@ -1023,9 +1023,9 @@ class FatesRandomizer:
         dlcBaseSkills1 = [3, 128, 132, 134, 141, 156, 158]
         dlcBaseSkills2 = [72, 92, 129, 135, 153, 159]
         dlcPromotedSkills1 = [23, 26, 130, 136, 157]
-        dlcPromotedSkills2 = [110, 131, 133, 137, 142, 145, 155]
-        dlcSkills = [120, 121, 122, 138, 139, 143, 144, 146, 147, 148]
-        specificSkills = [24, 40, 78, 106, 108, 112, 149, 150, 151, 152, 154] # Inspiring Song (24), Beastbane (40), Foreign Princess (78), Nobility (106), Aptitude (108), Locktouch (112)
+        dlcPromotedSkills2 = [110, 131, 133, 137, 155]
+        dlcSkills = [120, 121, 122, 139, 140, 142, 143, 144, 145, 146, 147, 148] # put 142 and 145 (Strengthtaker and Speedtaker here since they are kinda busted
+        specificSkills = [24, 40, 78, 106, 108, 112, 138, 149, 150, 151, 152, 154] # Inspiring Song (24), Beastbane (40), Foreign Princess (78), Nobility (106), Aptitude (108), Locktouch (112), Paragon (138), Ballistician skills (149->152) and Warp (154)
 
         if self.banDLCClassSkills:
             allBaseSkills1 = baseSkills1
