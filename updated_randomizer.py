@@ -37,6 +37,7 @@ parser.add_argument('-c', '--corrin-class', choices=[
 ],
                     default='', help="Corrin's final class", metavar="CORRIN_CLASS")
 parser.add_argument('-dbsr', '--disable-balanced-skill-randomization', action='store_true', help="disable balanced skill randomization; skill randomization will be completely random")
+parser.add_argument('-dcd', '--disable-camilla-def', action='store_true', help="disable Camilla's replacement's enforced higher Def than Res")
 parser.add_argument('-dcs', '--disable-class-spread', action='store_true', help="disable diverse class reroll")
 parser.add_argument('-dgd', '--disable-gunter-def', action='store_true', help="disable Gunter's replacement's enforced higher Def than Res")
 parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacement's enforced Locktouch skill")
@@ -156,6 +157,7 @@ class FatesRandomizer:
         disableModelSwitch=False,  # will disable model switching
         enableDLCBaseClass=False,  # will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)
         forceClassSpread=True,  # will limit class duplicates
+        forceCamillaDef=True,  # will force Camilla's replacement to have higher Def
         forceGunterDef=True,  # will force Gunter's replacement to have higher Def
         forceLocktouch=True,  # will force Kaze's replacement to get Locktouch
         forceMozuAptitude=False,  # will force Mozu (not her replacement) to get Aptitude
@@ -211,6 +213,7 @@ class FatesRandomizer:
         self.disableModelSwitch = disableModelSwitch
         self.enableDLCBaseClass = enableDLCBaseClass
         self.forceClassSpread = forceClassSpread
+        self.forceCamillaDef = forceCamillaDef
         self.forceGunterDef = forceGunterDef
         self.forceLocktouch = forceLocktouch
         self.forceMozuAptitude = forceMozuAptitude
@@ -500,7 +503,7 @@ class FatesRandomizer:
             newGrowthsSum = self.growthsSumMin + 10 * self.rng.choice((self.growthsSumMax-self.growthsSumMin+10)//10)
             newBaseStatsSum = self.baseStatsSumMin + self.rng.choice(self.baseStatsSumMax-self.baseStatsSumMin+1)
             baseStatCap = self.baseStatCap
-            if characterData["Name"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats
+            if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats
                 newBaseStatsSum += 15
                 baseStatCap += 4
             while growthsSum < newGrowthsSum:
@@ -1117,7 +1120,7 @@ class FatesRandomizer:
 
     def swapCharacterDefRes(self, characterData):
         "by default, def and res are according to class"
-        if characterData['SwitchingCharacterName'] == 'Gunter' and self.forceGunterDef:
+        if (characterData['SwitchingCharacterName'] == 'Gunter' and self.forceGunterDef) or (characterData['SwitchingCharacterName'] == 'Camilla' and self.forceCamillaDef):
             i, j = 6, 7
             growths = characterData['Growths']
             if growths[i] < growths[j]:
@@ -1281,6 +1284,7 @@ if __name__ == "__main__":
         disableModelSwitch=args.disable_model_switch,
         enableDLCBaseClass=args.enable_dlc_base_class,
         forceClassSpread=(not args.disable_class_spread),
+        forceCamillaDef=(not args.disable_camilla_def),
         forceGunterDef=(not args.disable_gunter_def),
         forceLocktouch=(not args.disable_locktouch),
         forceMozuAptitude=(args.enforce_mozu_aptitude),
