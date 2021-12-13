@@ -12,7 +12,7 @@ from numpy.random import default_rng
 path = './data'
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-ap', '--addmax-pow', type=float, default=1., help="the lower the more uniform growth adjustment")
+parser.add_argument('-ap', '--addmax-pow', type=float, default=0.8, help="the lower the more uniform growth adjustment")
 parser.add_argument('-ab', '--allow-ballistician', action='store_true', help="allow Ballistician class in the randomization")
 parser.add_argument('-ads', '--allow-dlc-skills', action='store_true', help="allow DLC skills in skill randomization")
 parser.add_argument('-ba', '--ban-anna', action='store_true', help="ban Anna")
@@ -20,7 +20,8 @@ parser.add_argument('-bac', '--ban-amiibo-characters', action='store_true', help
 parser.add_argument('-bc', '--ban-children', action='store_true', help="ban children characters")
 parser.add_argument('-bdc', '--ban-dlc-classes', action='store_true', help="ban DLC classes")
 parser.add_argument('-bdcs', '--ban-dlc-class-skills', action='store_true', help="ban DLC class skills in skill randomization")
-parser.add_argument('-bssmax', '--base-stats-sum-max', type=int, default=25, help="if adjusting growths, decreasing stats sum to that value")
+parser.add_argument('-bscap', '--base-stat-cap', type=int, default=11, help="if adjusting growths, max value for base stat")
+parser.add_argument('-bssmax', '--base-stats-sum-max', type=int, default=30, help="if adjusting growths, decreasing stats sum to that value")
 parser.add_argument('-bssmin', '--base-stats-sum-min', type=int, default=15, help="if adjusting growths, increasing stats sum to that value")
 parser.add_argument('-bw', '--ban-witch', action='store_true', help="ban Witch class from the randomization")
 parser.add_argument('-c', '--corrin-class', choices=[
@@ -58,7 +59,7 @@ parser.add_argument('-g', '--game-route', choices=['Revelations', 'Birthright', 
 parser.add_argument('-gc', '--growth-cap', type=int, default=70, help="adjusted growths cap")
 parser.add_argument('-gp', '--growth-p', type=float, default=1., help="probability of editing growths in a variability pass")
 parser.add_argument('-gsmax', '--growths-sum-max', type=int, default=350, help="will adjust growths until sum is lower than specified value")
-parser.add_argument('-gsmin', '--growths-sum-min', type=int, default=270, help="will adjust growths until sum is higher than specified value")
+parser.add_argument('-gsmin', '--growths-sum-min', type=int, default=250, help="will adjust growths until sum is higher than specified value")
 parser.add_argument('-mc', '--modifier-coefficient', type=int, default=0, help="will increase all modifiers by specified coefficient")
 parser.add_argument('-mp', '--mod-p', type=float, default=0.25, help="probability of editing modifiers in a variability pass")
 parser.add_argument('-np', '--n-passes', type=int, default=10, help="number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass")
@@ -69,7 +70,7 @@ parser.add_argument('-sp', '--stat-p', type=float, default=0.5, help="probabilit
 parser.add_argument('-sdrp', '--swap-def-res-p', type=float, default=0.2, help="probability of swapping Def and Res growths / stats / modifiers")
 parser.add_argument('-slp', '--swap-lck-p', type=float, default=-1., help="probability of swapping Lck and a random stat's growths / stats / modifiers; random if between 0 and 1, else [(Lck Growth)%% and swap only if Lck is superior]")
 parser.add_argument('-sssp', '--swap-skl-spd-p', type=float, default=0.2, help="probability of swapping Skl and Spd growths / stats / modifiers")
-parser.add_argument('-ssmp', '--swap-str-mag-p', type=float, default=-1., help="probability of swapping Str and Mag growths / stats / modifiers; random if between 0 and 1, else according to class (coin flip for mixed classes)")
+parser.add_argument('-ssmp', '--swap-str-mag-p', type=float, default=0., help="probability of swapping Str and Mag growths / stats / modifiers; random if between 0 and 1, else according to class (coin flip for mixed classes)")
 parser.add_argument('-v', '--verbose', action='store_true', help="print verbose stuff")
 args = parser.parse_args()
 
@@ -112,7 +113,7 @@ with open('{}/fates_class_data.csv'.format(path)) as fcsv:
     classData = {}
     next(reader)
     for row in reader:
-        baseClasses = row[10:12]
+        baseClasses = row[11:13]
         while len(baseClasses) > 0:
             if baseClasses[-1] == '':
                 baseClasses.pop()
@@ -120,7 +121,8 @@ with open('{}/fates_class_data.csv'.format(path)) as fcsv:
                 break
         classData[row[0]] = {
             'AttackType': row[1],
-            'Growths': list(map(int, row[2:10])),
+            'DefenseType': row[2],
+            'Growths': list(map(int, row[3:11])),
             'BaseClasses': baseClasses
         }
 
@@ -137,7 +139,7 @@ class FatesRandomizer:
         allCharacterData,
         classData,
         settings,
-        addmaxPow=1,
+        addmaxPow=0.8,
         allowDLCSkills=False,
         banAmiiboCharacters=False,
         banAnna=False,
@@ -146,7 +148,8 @@ class FatesRandomizer:
         banDLCClasses=False,
         banDLCClassSkills=False,
         banWitch=False,
-        baseStatsSumMax=25,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
+        baseStatCap=11,  # in adjustBaseStatsAndGrowths, max value for base stats
+        baseStatsSumMax=30,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
         baseStatsSumMin=15,  # in adjustBaseStatsAndGrowths, will increase stats sum to said value
         corrinClass='',
         disableBalancedSkillRandomization=False,
@@ -170,7 +173,7 @@ class FatesRandomizer:
         growthCap=70,  # growth cap in adjustBaseStatsAndGrowths
         growthP=1,  # proba of editing growths in AddVariancetoData
         growthsSumMax=350,  # in adjustBaseStatsAndGrowths, will decrease growths sum down to said value
-        growthsSumMin=270,  # in adjustBaseStatsAndGrowths, will increase growths sum up to said value
+        growthsSumMin=250,  # in adjustBaseStatsAndGrowths, will increase growths sum up to said value
         limitStaffClasses=False,  # will limit staff only classes by putting characters in a magical class and offering the staff class as a possible reclass
         modifierCoefficient=0,  # value by which all modifiers will be increased
         modP=0.25,  # proba of editing modifiers in AddVariancetoData
@@ -182,7 +185,7 @@ class FatesRandomizer:
         swapDefResP=0.2,  # random
         swapLckP=-1, # random if between 0 and 1, else [(Lck Growth)% and only swap if Lck is superior]
         swapSklSpdP=0.2,  # random
-        swapStrMagP=-1,  # random if between 0 and 1, else according to class
+        swapStrMagP=0.,  # random if between 0 and 1, else according to class
         verbose=False
     ):
         self.allCharacterData = allCharacterData.copy()
@@ -200,6 +203,7 @@ class FatesRandomizer:
         self.banDLCClasses = banDLCClasses
         self.banDLCClassSkills = banDLCClassSkills
         self.banWitch = banWitch
+        self.baseStatCap=baseStatCap
         self.baseStatsSumMax = baseStatsSumMax
         self.baseStatsSumMin = baseStatsSumMin
         self.corrinClass = corrinClass
@@ -495,6 +499,10 @@ class FatesRandomizer:
         if self.randomizeStatsAndGrowthsSum:
             newGrowthsSum = self.growthsSumMin + 10 * self.rng.choice((self.growthsSumMax-self.growthsSumMin+10)//10)
             newBaseStatsSum = self.baseStatsSumMin + self.rng.choice(self.baseStatsSumMax-self.baseStatsSumMin+1)
+            baseStatCap = self.baseStatCap
+            if characterData["Name"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats
+                newBaseStatsSum += 15
+                baseStatCap += 4
             while growthsSum < newGrowthsSum:
                 growthProbas = np.copy(probas)
                 s = self.rng.choice(8, p=growthProbas)
@@ -509,14 +517,22 @@ class FatesRandomizer:
                 growths[s] -= 5
                 growthsSum -= 5
             while baseStatsSum < newBaseStatsSum:
-                t = self.rng.choice(8, p=probas)
-                baseStats[t] += 1
-                baseStatsSum += 1
+                statProbas = np.copy(probas)
+                t = self.rng.choice(8, p=statProbas)
+                if baseStats[t] < self.baseStatCap:
+                    baseStats[t] += 1
+                    baseStatsSum += 1
+                else:
+                    statProbas[t] = 0
+                    statProbas = self.addmax(statProbas)
             while baseStatsSum > newBaseStatsSum:
                 t = self.rng.choice(np.where(baseStats>0)[0])
                 baseStats[t] -= 1
                 baseStatsSum -= 1
         else:
+            baseStatsSumMax = self.baseStatsSumMax
+            if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats
+                baseStatsSumMax += 15
             if growthsSum < self.growthsSumMin or self.forceStatDecrease:
                 while growthsSum < self.growthsSumMin:
                     s = self.rng.choice(8, p=probas)
@@ -526,7 +542,7 @@ class FatesRandomizer:
                     else:
                         probas[s] = 0
                         probas = self.addmax(probas)
-                while baseStatsSum > self.baseStatsSumMax:
+                while baseStatsSum > baseStatsSumMax:
                     t = self.rng.choice(np.where(baseStats>0)[0])
                     baseStats[t] -= 1
                     baseStatsSum -= 1
@@ -649,8 +665,11 @@ class FatesRandomizer:
                     self.setCharacterClass(character, newClass)
                 else:
                     if switchingCharacterName == self.earlyRecruit and self.forceStaffEarlyRecruit:
-                        if newClass in ['Onmyoji', 'Priestess']:
-                            self.setCharacterClass(character, 'Shrine Maiden')
+                        if newClass in ['Onmyoji', 'Priestess', 'Great Master']:
+                            if self.earlyRecruit in self.MALE_CHARACTERS:
+                                self.setCharacterClass(character, 'Monk')
+                            if self.earlyRecruit in self.FEMALE_CHARACTERS:
+                                self.setCharacterClass(character, 'Shrine Maiden')
                         else:
                             self.setCharacterClass(character, 'Troubadour')
                     else:
@@ -986,6 +1005,9 @@ class FatesRandomizer:
     def readClassAttackType(self, className):
         return self.classData[className]['AttackType']
 
+    def readClassDefenseType(self, className):
+        return self.classData[className]['DefenseType']
+
     def readClassGrowths(self, className):
         return np.copy(self.classData[className]['Growths'])
 
@@ -1094,6 +1116,7 @@ class FatesRandomizer:
         return character
 
     def swapCharacterDefRes(self, characterData):
+        "by default, def and res are according to class"
         if characterData['SwitchingCharacterName'] == 'Gunter' and self.forceGunterDef:
             i, j = 6, 7
             growths = characterData['Growths']
@@ -1108,7 +1131,28 @@ class FatesRandomizer:
             if modifiers[i] < modifiers[j]:
                 modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
-        elif self.rng.random() < self.swapDefResP:
+        className = characterData['NewClass']
+        classDefenseType = self.readClassDefenseType(className)
+        i, j = 6, 7  # default: 'De'
+        if classDefenseType == 'Res':
+            i, j = 7, 6
+        elif classDefenseType == 'Mixed':
+            if self.rng.random() < 0.5:
+                i, j = 7, 6
+
+        growths = characterData['Growths']
+        if growths[i] < growths[j]:
+            growths[i], growths[j] = growths[j], growths[i]
+
+        stats = characterData['BaseStats']
+        if stats[i] < stats[j]:
+            stats[i], stats[j] = stats[j], stats[i]
+
+        modifiers = characterData['Modifiers']
+        if modifiers[i] < modifiers[j]:
+            modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
+
+        if self.rng.random() < self.swapDefResP:
             growths = characterData['Growths']
             growths[6], growths[7] = growths[7], growths[6]
 
@@ -1164,29 +1208,28 @@ class FatesRandomizer:
         return characterData
 
     def swapCharacterStrMag(self, characterData):
-        if self.swapStrMagP < 0 or self.swapStrMagP > 1:
-            className = characterData['NewClass']
-            classAttackType = self.readClassAttackType(className)
-            i, j = 1, 2  # default: 'Str'
-            if classAttackType == 'Mag':
+        className = characterData['NewClass']
+        classAttackType = self.readClassAttackType(className)
+        i, j = 1, 2  # default: 'Str'
+        if classAttackType == 'Mag':
+            i, j = 2, 1
+        elif classAttackType == 'Mixed':
+            if self.rng.random() < 0.5:
                 i, j = 2, 1
-            elif classAttackType == 'Mixed':
-                if self.rng.random() < 0.5:
-                    i, j = 2, 1
 
-            growths = characterData['Growths']
-            if growths[i] < growths[j]:
-                growths[i], growths[j] = growths[j], growths[i]
+        growths = characterData['Growths']
+        if growths[i] < growths[j]:
+            growths[i], growths[j] = growths[j], growths[i]
 
-            stats = characterData['BaseStats']
-            if stats[i] < stats[j]:
-                stats[i], stats[j] = stats[j], stats[i]
+        stats = characterData['BaseStats']
+        if stats[i] < stats[j]:
+            stats[i], stats[j] = stats[j], stats[i]
 
-            modifiers = characterData['Modifiers']
-            if modifiers[i] < modifiers[j]:
-                modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
+        modifiers = characterData['Modifiers']
+        if modifiers[i] < modifiers[j]:
+            modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
-        elif self.rng.random() < self.swapStrMagP:
+        if self.rng.random() < self.swapStrMagP:
             growths = characterData['Growths']
             growths[1], growths[2] = growths[2], growths[1]
 
@@ -1230,6 +1273,7 @@ if __name__ == "__main__":
         banDLCClasses=args.ban_dlc_classes,
         banDLCClassSkills=args.ban_dlc_class_skills,
         banWitch=args.ban_witch,
+        baseStatCap=args.base_stat_cap,
         baseStatsSumMax=args.base_stats_sum_max,
         baseStatsSumMin=args.base_stats_sum_min,
         corrinClass=args.corrin_class,
