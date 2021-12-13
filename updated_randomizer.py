@@ -1120,19 +1120,6 @@ class FatesRandomizer:
 
     def swapCharacterDefRes(self, characterData):
         "by default, def and res are according to class"
-        if (characterData['SwitchingCharacterName'] == 'Gunter' and self.forceGunterDef) or (characterData['SwitchingCharacterName'] == 'Camilla' and self.forceCamillaDef):
-            i, j = 6, 7
-            growths = characterData['Growths']
-            if growths[i] < growths[j]:
-                growths[i], growths[j] = growths[j], growths[i]
-
-            stats = characterData['BaseStats']
-            if stats[i] < stats[j]:
-                stats[i], stats[j] = stats[j], stats[i]
-
-            modifiers = characterData['Modifiers']
-            if modifiers[i] < modifiers[j]:
-                modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
         className = characterData['NewClass']
         classDefenseType = self.readClassDefenseType(className)
@@ -1164,6 +1151,20 @@ class FatesRandomizer:
 
             modifiers = characterData['Modifiers']
             modifiers[6], modifiers[7] = modifiers[7], modifiers[6]
+
+        if (characterData['SwitchingCharacterName'] == 'Gunter' and self.forceGunterDef) or (characterData['SwitchingCharacterName'] == 'Camilla' and self.forceCamillaDef):
+            i, j = 6, 7
+            growths = characterData['Growths']
+            if growths[i] < growths[j]:
+                growths[i], growths[j] = growths[j], growths[i]
+
+            stats = characterData['BaseStats']
+            if stats[i] < stats[j]:
+                stats[i], stats[j] = stats[j], stats[i]
+
+            modifiers = characterData['Modifiers']
+            if modifiers[i] < modifiers[j]:
+                modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
         return characterData
 
