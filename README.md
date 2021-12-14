@@ -38,7 +38,7 @@ By default the ranomizer works as explained below. Customizations are possible w
 
 #### Mods and visuals
 - Added the [1.4.0 unofficial update](https://gamebanana.com/mods/51420) of the [Expanded Same-Sex Marriage patch](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/) by UnassumingVenusaur.
-- Any character swapped to Azura's spot will have Azura's sprite on the map since only Azura has a Songstress sprite
+- Added Generic Songstress sprite by Moonling
 - Nyx has a [witch portrait](https://gamebanana.com/mods/251470)
 - Added [FEFates Promotion Texture Patch v.3.2.5](https://moonlingsmodding.tumblr.com/post/185532775066/version-325-update?is_related_post=1): some units will have custom textures for specific classes
     - Added [Azura's Nohrian Songstress outfit](https://gamebanana.com/mods/251475)
