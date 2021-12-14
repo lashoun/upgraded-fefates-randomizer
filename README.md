@@ -31,7 +31,7 @@ By default the ranomizer works as explained below. Customizations are possible w
     - Skl / Spd (default: 20% chance to swap)
     - Def / Res (default: according to class, 20% chance to swap)
     - Lck / ? (default: [Lck Growth]% chance, only if Lck stat / growth / mod is superior)
-- "Catch 'em all" mode by default: the randomizer will minimize duplicate final classes according to the chosen route (can be disabled with `--disable-class-spread`.
+- "Catch 'em all" mode by default: the randomizer will minimize duplicate final classes according to the chosen route (can be disabled with `--disable-class-spread`).
 - There is an option to keep all characters at their usual spot but still have the class and stats modifications (option `--disable-model-switch`).
 
 ### Upgraded Fates Features
