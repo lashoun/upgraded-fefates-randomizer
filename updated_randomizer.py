@@ -46,6 +46,7 @@ parser.add_argument('-ds', '--disable-songstress', action='store_true', help="di
 parser.add_argument('-dsr', '--disable-staff-retainer', action='store_true', help="disable Jakob and Felicia's replacement's enforced healing class")
 parser.add_argument('-dss', '--disable-staff-early-recruit', action='store_true', help="disable Sakura and/or Elise's replacement's enforced healing class")
 parser.add_argument('-edbc', '--enable-dlc-base-class', action='store_true', help="will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)")
+parser.add_argument('-egd', '--enable-genderless-dlc', action='store_true', help="allows DLC classes to be given regardless of gender")
 parser.add_argument('-elsc', '--enable-limit-staff-classes', action='store_true', help="will replace staff only class by a magical class and set the staff only class as a reclass option")
 parser.add_argument('-ema', '--enforce-mozu-aptitude', action='store_true', help="enforce Mozu (herself) having Aptitude")
 parser.add_argument('-emoc', '--enable-mag-only-corrin', action='store_true', help="enables Corrin to get a Mag only class")
@@ -155,6 +156,7 @@ class FatesRandomizer:
         corrinClass='',
         disableBalancedSkillRandomization=False,
         disableModelSwitch=False,  # will disable model switching
+        enableGenderlessDLC=False,  # allows DLC classes to be given regardless of gender
         enableDLCBaseClass=False,  # will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)
         forceClassSpread=True,  # will limit class duplicates
         forceCamillaDef=True,  # will force Camilla's replacement to have higher Def
@@ -212,6 +214,7 @@ class FatesRandomizer:
         self.disableBalancedSkillRandomization = disableBalancedSkillRandomization
         self.disableModelSwitch = disableModelSwitch
         self.enableDLCBaseClass = enableDLCBaseClass
+        self.enableGenderlessDLC = enableGenderlessDLC
         self.forceClassSpread = forceClassSpread
         self.forceCamillaDef = forceCamillaDef
         self.forceGunterDef = forceGunterDef
@@ -256,8 +259,12 @@ class FatesRandomizer:
         self.MALE_STAFF_CLASSES = ['Onmyoji', 'Strategist', 'Butler', 'Great Master']
         self.FEMALE_STAFF_CLASSES = ['Onmyoji', 'Priestess', 'Strategist', 'Maid']
 
-        self.MALE_CLASSES = ['Great Master', 'Butler', 'Lodestar', 'Vanguard', 'Grandmaster', 'Ballistician']
-        self.FEMALE_CLASSES = ['Priestess', 'Maid', 'Witch', 'Great Lord']
+        if self.enableGenderlessDLC:
+            self.MALE_CLASSES = ['Great Master', 'Butler']
+            self.FEMALE_CLASSES = ['Priestess', 'Maid']
+        else:
+            self.MALE_CLASSES = ['Great Master', 'Butler', 'Lodestar', 'Vanguard', 'Grandmaster', 'Ballistician']
+            self.FEMALE_CLASSES = ['Priestess', 'Maid', 'Witch', 'Great Lord']
 
         self.DLC_CLASSES = ['Dread Fighter', 'Dark Falcon', 'Ballistician',
             'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster']
@@ -423,14 +430,16 @@ class FatesRandomizer:
                     self.SWORD_CLASSES.pop(self.SWORD_CLASSES.index(className))
         else:
             if self.banBallistician:
-                self.MALE_CLASSES.pop(self.MALE_CLASSES.index('Ballistician'))
+                if 'Ballicistian' in self.MALE_CLASSES:
+                    self.MALE_CLASSES.pop(self.MALE_CLASSES.index('Ballistician'))
                 self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Ballistician'))
                 if 'Ballicistian' in self.UNPROMOTED_CLASSES:
                     self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index('Ballistician'))
                 elif 'Ballicistian' in self.PROMOTED_CLASSES:
                     self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Ballistician'))
             if self.banWitch:
-                self.FEMALE_CLASSES.pop(self.FEMALE_CLASSES.index('Witch'))
+                if 'Witch' in self.FEMALE_CLASSES:
+                    self.FEMALE_CLASSES.pop(self.FEMALE_CLASSES.index('Witch'))
                 self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Witch'))
                 if 'Witch' in self.UNPROMOTED_CLASSES:
                     self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index('Witch'))
@@ -1284,6 +1293,7 @@ if __name__ == "__main__":
         disableBalancedSkillRandomization=args.disable_balanced_skill_randomization,
         disableModelSwitch=args.disable_model_switch,
         enableDLCBaseClass=args.enable_dlc_base_class,
+        enableGenderlessDLC=args.enable_genderless_dlc,
         forceClassSpread=(not args.disable_class_spread),
         forceCamillaDef=(not args.disable_camilla_def),
         forceGunterDef=(not args.disable_gunter_def),
