@@ -17,36 +17,48 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
 
 ### Randomizer Features
 
-- Each character now gets the stats they would have if they had been assigned the randomized class from the start.
+By default the ranomizer works as explained below. Customizations are possible with the many options provided; if you do not understand, you may also read the code, which should be relatively easy to grasp.
+
+- Each character is given a new total amount of Lvl 1 base stats (by default between 15 and 30) and growth rates (by default between 250 and 350), which are partially randomly distributed, and those stats are scaled back to the level at which they are recruited.
     - For instance, if Ryoma is put in Hinata's recruitment spot (so he will be Lvl 9) and assigned the Archer class, then his stats will be his Lvl 1 stats adjusted with 8 levels of (Ryoma's base growths + Archer class growths);
-    - Characters with weak growth rates (Gunter, Fuga, Setsuna, Nyx...) can be buffed so that their total growth rates are at least a certain value (default: 270);
-        - In counterpart, it is possible to decrease their total base stats to a certain value to keep things balanced (default: 25). 
-            - Fuga becomes completely busted if this is not done.
-- Similar to the original randomizer, stats will be shuffled a bit. The default settings are:
+- Similar to the original randomizer, stats are then shuffled a bit. The default settings are:
     - 10 passes per character, with each pass having:
         - 100% chance of shuffling 5% of growths
         - 50% chance of shuffling 1 stat point
         - 25% chance of shuffling 1 modifier point
 - Random swaps of stats / growths / mods can occur (always all three, except for Lck):
-    - Str / Mag (default: according to class)
-    - Skl / Spd (default: 20% chance)
-    - Def / Res (default: 20% chance)
+    - Str / Mag (default: according to class, 0% chance to swap)
+    - Skl / Spd (default: 20% chance to swap)
+    - Def / Res (default: according to class, 20% chance to swap)
     - Lck / ? (default: [Lck Growth]% chance, only if Lck stat / growth / mod is superior)
-- Fixed skill randomization and removed unbalanced ones (Aptitude (108), Bold Stance (120), Point Blank (121), Winged Shield (122), Paragon (138), Armor Shield (139), Beast Shield (140), Taker Skills (142->148), Ballistician skills (149->152), Warp (154))
-- "Catch 'em all" mode: minimize duplicate final classes according to the chosen route.
-
+- "Catch 'em all" mode by default: the randomizer will minimize duplicate final classes according to the chosen route (can be disabled with `--disable-class-spread`.
+- There is an option to keep all characters at their usual spot but still have the class and stats modifications (option `--disable-model-switch`).
 
 ### Upgraded Fates Features
-- I took the freedom to integrate the [1.4.0 unofficial update](https://gamebanana.com/mods/51420) of the [Expanded Same-Sex Marriage patch](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/) by UnassumingVenusaur.
-- Dawn / Dusk Armories and Rod / Staff shops available in every route
+
+#### Mods and visuals
+- Added the [1.4.0 unofficial update](https://gamebanana.com/mods/51420) of the [Expanded Same-Sex Marriage patch](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/) by UnassumingVenusaur.
+- Any character swapped to Azura's spot will have Azura's sprite on the map since only Azura has a Songstress sprite
+- Nyx has a [witch portrait](https://gamebanana.com/mods/251470)
+- Added [FEFates Promotion Texture Patch v.3.2.5](https://moonlingsmodding.tumblr.com/post/185532775066/version-325-update?is_related_post=1): some units will have custom textures for specific classes
+    - Added [Azura's Nohrian Songstress outfit](https://gamebanana.com/mods/251475)
+- Added [Weapon Model Fix](https://gamebanana.com/mods/51431)
+- Added [Unit Select Voice mod](https://gamebanana.com/mods/51423)
+- Added [Fates icon project](https://gamebanana.com/mods/34160)
+- Added [Gay Paralogue Unlocker](https://gamebanana.com/mods/51421)
+
+#### Chapters
+- Changed all "Rout the enemy" objectives to "Defeat the boss"
+- All chapters have a 20-turn limit
+- Free Heart Seal given after chapter 5
+- Endgame chapters of each route should allow the player to save (not tested)
+
+#### Weapons
+- Dawn/Dusk armories and Rod/Staff shops available in every route
 - Changes to weapon triangles: Tome <-> Axe, Dagger <-> Sword, and Bow <-> Lance become neutral
     - Rationale: range weapons can already hit melee weapons without retaliation so they shouldn't have weapon advantage on top of that
-- Weapon Rank requirements decreased by one for every weapon: for instance, iron weapons are available from rank E.
-- Raijinto: gives Skl+3 instead of Str+4, halves stat until next attack
-- Siegfried: gives only Def+2, halves stat until next attack
-- Wakizashi, Spear, Tomahawk and Battering Club are now 1-2 range
-- Silver weapons and the Lightning Tome no longer self-debuff, but halve stat until next attack instead
-- Weapon Updates: increased the difference between Hoshidan and Nohrian weapons, nerfed the hell out of those busted hidden weapons, doubled Staff Exp for convenience.
+- Weapon rank requirements decreased by one for every weapon: for instance, iron weapons are available from rank E.
+- Weapon updates: increased the difference between Hoshidan and Nohrian weapons, nerfed the hell out of those busted hidden weapons, doubled Staff Exp for convenience.
 	- Swords, Lances: +1 Mt, -10 Hit, -5 Avo, +2 Crit
 	- Katanas, Naginatas: -1 Mt, +5 Hit, +2 Avo
 	- Axes: +1 Mt, -5 Hit, -5 Avo
@@ -69,40 +81,30 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
 		- Wane Festal 2 -> 1 Mt, range 1-12
 		- Moon Festal 25 -> 20 Mt
 		- Great Festal 2 -> 1 Mt, range 1-12
-	- Dragonstones: Can double, but with -5 eff. Spd
-   		- added a *Dragonrune* item, available in the 3rd Rod/Staff Shop, which gives Skill+8, Spd+6, Def-4, Res-3
+	- Dragonstones: Can double, but with -5 eff. Spd in player phase
+   		- added a *Dragonrune* item which gives Skill+8, Spd+6, Def-4, Res-3
 	- Beastrune: Skill-3, Spd-4, Def+5, Res+7 (instead of Skill-2, Spd-1, Def+4, Res+5)
+- Sacred weapons are modified:
+    - Raijinto: gives Skl+3 instead of Str+4, range 1
+    - Siegfried: gives Def+2 instead of Def+4, range 1
+    - Enemy royals have sacred weapons (Raijinto/Siegfried/Fujin Yumi/Brynhildr) with buffed Mt (15), and Raijinto and Siegfried keep 1-2 range and their original buffs (Str/Def +4)
+- Wakizashi, Spear, Tomahawk and Battering Club are now 1-2 range
+- Silver weapons no longer self-debuff, but instead give -10 Avo, -2 Def/Res and -3 eff. Spd in enemy phase
 
-#### Old version
-- I took the freedom to integrate the [Expanded Same-Sex Marriage patch](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/) by UnassumingVenusaur and the [Good Guy Garon Edition patch](https://gbatemp.net/threads/release-conquest-story-overhaul-fire-emblem-fates-good-guy-garon-edition.487117/) by AgahnimD.
-- Dawn / Dusk Armories and Rod / Staff shops available in every route
-- Changes to weapon triangles: Tome <-> Axe, Dagger <-> Sword, and Bow <-> Lance become neutral
-    - Rationale: range weapons can already hit melee weapons without retaliation so they shouldn't have weapon advantage on top of that
-- Weapon Ranks changed; in practice, every rank is matched with the one below. E-rank hell only lasts for one hit now!
-	- D 21 -> 2
-	- C 51 -> 22
-	- B 96 -> 52
-	- A 161 -> 97
-	- S 251 -> 162
-- Weapon Updates: increased the difference between Hoshidan and Nohrian weapons, nerfed the hell out of those busted hidden weapons, doubled Staff Exp for convenience.
-	- Swords, Lances, Yumis, Scrolls: +1 Mt, -5 Hit, -5 Avo
-	- Katanas, Naginatas, Bows, Tomes: -1 Mt, +10 Hit, +5 Avo
-	- Axes: +1 Mt, -5 Hit, -10 Avo
-	- Clubs: -1 Mt, +5 Avo, +5 Crit
-	- Daggers: -2 Mt, -5 Hit
-	- Shurikens: -4 Mt, +5 Avo, -10 Hit, +5 Ddg
-	- Staff: Staff Exp x2 for those listed
-		- Heal 10 -> 12 Mt
-		- Mend 20 -> 25 Mt
-		- Physic 7 -> 9 Mt
-		- Recover 35 -> 45 Mt
-		- Fortify 7 -> 9 Mt
-	- Rod: Staff Exp x2 for those listed
-		- Bloom Festal 7 -> 4 Mt
-		- Sun Festal 14 -> 10 Mt
-		- Wane Festal 2 -> 1 Mt
-		- Moon Festal 25 -> 20 Mt
-		- ~Great Festal 2 -> 1 Mt
+#### Characters
+- Corrin gets Aptitude
+
+#### Classes
+- DLC class gender lock is removed
+- Skill changes
+    - Witch: Warp -> Vengeance
+    - Lodestar: Speedtaker -> Swordfaire
+    - Vanguard: Strengthtaker -> Axebreaker
+    - Dread Fighter: Aggressor -> Tomebreaker
+
+#### Shops
+- Added Dragonstones and Beaststones (-1/-1/-1), Dragonrunes and Beastrunes (0/1/-1), and Dragonstones+ and Beaststones+ (0/0/1), in Rod/Staff shops
+- Added 4 Eternal Seals in Shops (4/4/-1) for the retainer replacements, decreased price to 50G
 
 ## Instructions
 
@@ -119,16 +121,16 @@ The instructions can look daunting but once you understand how it works it takes
 1. First, choose which version of Fates you want to play (all versions except Vanilla are only compatible with the Special Edition, unfortunately):
     - _Vanilla Fates_: for copyright-related reasons, you will have to dump your own romfs. Follow the instructions in thane89's original readme below.
     - _Gay Fates_: _Vanilla Fates_ patched with vastly expanded supports ([original thread here](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/)). This is very welcome since randomization doesn't touch supports. Extract `fates_gay_v140_decompressed.7z`.
-    - **_Upgraded Gay Fates_ (recommended)**: _Gay Fates_ patched with my curated upgrades listed above. Extract `fates_gay_v140_upgraded_decompressed.7z`.
+    - **_Upgraded Gay Fates_ v7 (recommended)**: _Gay Fates_ patched with my curated upgrades listed above. Extract `fates_gay_v140_upgraded7_decompressed.7z` and `fates_gay_v140_upgraded7_fixed.7z`.
     - _Gay Fates_ (old version): Extract `fates_gay_decompressed.7z`.
     - _Upgraded Gay Fates_ (old version): old _Gay Fates_ patched with the upgrades listed in the Old version paragraph above. Extract `fates_gay_upgraded_decompressed.7z`.
     - _Good Guy Garon Upgraded Gay Fates_: old _Upgraded Gay Fates_ with the [Good Guy Garon Edition patch](https://gbatemp.net/threads/release-conquest-story-overhaul-fire-emblem-fates-good-guy-garon-edition.487117/). Extract `fates_gay_upgraded_GGG_decompressed.7z`.
-The extracted folder will be referred to as the "romfs" folder.
-2. Run `Fates Randomizer Beta 5-5.jar`, click "Open and Verify", and select the romfs folder. You should see a new window pop up with options. If you do not, the window will show you which file was not found. Make sure that the selected folder has folders named `castle`, `GameData`, `m`, `Scripts` directly inside it.
-3. Select a path and options. Refer to the original readme below if you do not understand an option. I recommend selecting `All Routes` (even if you plan to play Birthright or Conquest, the Python script has route options too) and all options except the experimental ones and the stat randomization.
+The extracted `decompressed` folder will be referred to as the `romfs` folder.
+2. Run `Fates Randomizer Beta 5-5.jar`, click "Open and Verify", and select the `romfs` folder. You should see a new window pop up with options. If you do not, the window will show you which file was not found. Make sure that the selected folder has folders named `castle`, `GameData`, `m`, `Scripts` directly inside it.
+3. Select a path and options. Refer to the [original post](https://gbatemp.net/threads/wip-fire-emblem-fates-randomizer.452268/) if you do not understand an option. I recommend selecting `All Routes` (even if you plan to play Birthright or Conquest, the Python script has route options too) and all options except the experimental ones and the stat randomization.
 4. Hit "Randomize" and let the program sit. When the program finishes, a little notification will pop up in the corner of the window.
 5. Close `Fates Randomizer Beta 5-5.jar`.
-6. Copy the `RandomizerSettings.xml` file from the romfs folder to the `data` folder.
+6. Copy the `RandomizerSettings.xml` file from the `romfs` folder to the `data` folder.
 7. Open a command prompt in the same folder as `updated_randomizer.py`. Run
 ```
 python updated_randomizer.py
@@ -140,24 +142,22 @@ python updated_randomizer.py -h
   - Refer to the section "All Options" below for the details.
   - If you did not select the option "Anna" / "Amiibo characters" / "Children" in the randomizer, you have to use the options `-ba` / `-bac` / `-bc` respectively.
 
-8. If the script ran successfully, you should have two files named `RandomizerSettingsUpdated.xml` and `ClassSpread.csv` in the data folder. Otherwise, try to run one more time, and if it fails again, raise an issue on this repository.
+8. If the script ran successfully, you should have two files named `RandomizerSettingsUpdated.xml` and `ClassSpread.csv` in the `data` folder. Otherwise, try to run one more time, and if it fails again, raise an issue on this repository.
     - `ClassSpread.csv` contains on each line the original character, their replacement and the class assigned to the replacement. I recommend respecting the file's assignements for more fun and challenge.
     - `RandomizerSettingsUpdated.xml` contains the detailed information of the randomized run. For each character, the `StringData` and `ClassData` fields are tied to the character while the other fields are tied to their spot. If Ryoma has as "switchingCharacter" Hinata, he will have the stats that are written in Hinata's `Stats` field (but those stats will have been computed as Ryoma's "expected" stats at this spot). I recommend not looking at it for more fun.
-10. Delete the romfs folder and repeat steps 1-5 but, in step 3, choose "Custom Path" and select `RandomizerSettingsUpdated.xml`. Don't forget to check the "Join Order" options again if you did previously.
-11. Close `Fates Randomizer Beta 5-5.jar`. Open `FEAT.exe`. Drag the romfs folder into FEAT: this will recompress the files. Once FEAT is done, you can close it.
-12. Phew! You're done! Now you can copy your roms folder to the mods folder of your gaming medium.
+10. Delete the `romfs` folder and repeat steps 1-5 but, in step 3, choose "Custom Path" and select `RandomizerSettingsUpdated.xml`. Don't forget to check the "Join Order" options again if you did previously.
+11. Close `Fates Randomizer Beta 5-5.jar`. Open `FEAT.exe`. Drag the `romfs` folder into FEAT: this will recompress the files. Once FEAT is done, you can close it.
+12. Phew! You're done! Now you can copy your `romfs` folder to the mods folder of your gaming medium. If you chose the upgraded v7 version, also copy the content of the `fixed` folder inside the `romfs` folder, and the `exefs` folder to the mods folder.
 13. As a final note, DO NOT use this on top of an existing save or branch of fate. Use a fresh save starting from the very beginning if you want a stable playthrough.
 
 ## All Available Options
 ```
-usage: updated_randomizer.py [-h] [-ap ADDMAX_POW] [-ab] [-ads] [-ba] [-bac] [-bc] [-bdc] [-bdcs]
-                             [-bssmax BASE_STATS_SUM_MAX] [-bssmin BASE_STATS_SUM_MIN] [-bw] [-c CORRIN_CLASS] [-dbsr]
-                             [-dcs] [-dgd] [-dl] [-dms] [-ds] [-dsr] [-dss] [-elsc] [-ema] [-emoc] [-epa] [-esc] [-esd]
-                             [-esi] [-ev] [-evc] [-g {Revelations,Birthright,Conquest}] [-gc GROWTH_CAP] [-gp GROWTH_P]
-                             [-gsmax GROWTHS_SUM_MAX] [-gsmin GROWTHS_SUM_MIN] [-mc MODIFIER_COEFFICIENT] [-mp MOD_P]
-                             [-np N_PASSES] [-ns {-1,0,1,2,3,4,5}] [-rsgs] [-s SEED] [-sp STAT_P]
-                             [-sdrp SWAP_DEF_RES_P] [-slp SWAP_LCK_P] [-sssp SWAP_SKL_SPD_P] [-ssmp SWAP_STR_MAG_P]
-                             [-v]
+usage: updated_randomizer.py [-h] [-ap ADDMAX_POW] [-ab] [-ads] [-ba] [-bac] [-bc] [-bdc] [-bdcs] [-bscap BASE_STAT_CAP] [-bssmax BASE_STATS_SUM_MAX]
+                             [-bssmin BASE_STATS_SUM_MIN] [-bw] [-c CORRIN_CLASS] [-dbsr] [-dcd] [-dcs] [-dgd] [-dl] [-dms] [-ds] [-dsr] [-dss] [-edbc]
+                             [-egd] [-elsc] [-ema] [-emoc] [-epa] [-esc] [-esd] [-esi] [-ev] [-evc] [-g {Revelations,Birthright,Conquest}]
+                             [-gc GROWTH_CAP] [-gp GROWTH_P] [-gsmax GROWTHS_SUM_MAX] [-gsmin GROWTHS_SUM_MIN] [-mc MODIFIER_COEFFICIENT] [-mp MOD_P]
+                             [-np N_PASSES] [-ns {-1,0,1,2,3,4,5}] [-rsgs] [-s SEED] [-sp STAT_P] [-sdrp SWAP_DEF_RES_P] [-slp SWAP_LCK_P]
+                             [-sssp SWAP_SKL_SPD_P] [-ssmp SWAP_STR_MAG_P] [-v]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -175,6 +175,8 @@ optional arguments:
                         ban DLC classes
   -bdcs, --ban-dlc-class-skills
                         ban DLC class skills in skill randomization
+  -bscap BASE_STAT_CAP, --base-stat-cap BASE_STAT_CAP
+                        if adjusting growths, max value for base stat
   -bssmax BASE_STATS_SUM_MAX, --base-stats-sum-max BASE_STATS_SUM_MAX
                         if adjusting growths, decreasing stats sum to that value
   -bssmin BASE_STATS_SUM_MIN, --base-stats-sum-min BASE_STATS_SUM_MIN
@@ -184,14 +186,18 @@ optional arguments:
                         Corrin's final class
   -dbsr, --disable-balanced-skill-randomization
                         disable balanced skill randomization; skill randomization will be completely random
+  -dcd, --disable-camilla-def
+                        disable Camilla's replacement's enforced higher Def than Res
   -dcs, --disable-class-spread
                         disable diverse class reroll
   -dgd, --disable-gunter-def
                         disable Gunter's replacement's enforced higher Def than Res
   -dl, --disable-locktouch
-                        disable Kaze's replacement's enforced Locktouch skill
+                        disable Kaze and Niles' replacement's enforced Locktouch skill
   -dms, --disable-model-switch
                         disable model switching but keep switching the rest of the data (stats, growths...)
+  -drsgs, --disable-randomize-stats-growths-sum
+                        will disable randomizing stats and growths sum for each character between customizable bounds
   -ds, --disable-songstress
                         disable Azura's replacement's enforced Songstress class
   -dsr, --disable-staff-retainer
@@ -199,11 +205,11 @@ optional arguments:
   -dss, --disable-staff-early-recruit
                         disable Sakura and/or Elise's replacement's enforced healing class
   -edbc, --enable-dlc-base-class
-                        will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for
-                        Dread Fighter)
+                        will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)
+  -egd, --enable-genderless-dlc
+                        allows DLC classes to be given regardless of gender
   -elsc, --enable-limit-staff-classes
-                        will replace staff only class by a magical class and set the staff only class as a reclass
-                        option
+                        will replace staff only class by a magical class and set the staff only class as a reclass option
   -ema, --enforce-mozu-aptitude
                         enforce Mozu (herself) having Aptitude
   -emoc, --enable-mag-only-corrin
@@ -213,15 +219,14 @@ optional arguments:
   -esc, --enforce-sword-corrin
                         enforces Corrin to get a sword-wielding final class
   -esd, --enforce-stat-decrease
-                        enforces stat decrease regardless of growth increase
+                        enforces stat decrease to base stat sum max regardless of growth increase
   -esi, --enforce-stat-increase
-                        enforces stat increase
+                        enforces stat increase to base stat sum min
   -ev, --enforce-villager
                         enforce Mozu's replacement being a Villager with Aptitude
   -evc, --enforce-viable-characters
-                        will force you to play with only the first 15 characters encoutered by giving 0 growth rates
-                        to the others in the route; non-viable characters will be given the 'Survey' skill for easy
-                        identification
+                        will force you to play with only the first 15 characters encoutered by giving 0 growth rates to the others in the route; non-
+                        viable characters will be given the 'Survey' skill for easy identification
   -g {Revelations,Birthright,Conquest}, --game-route {Revelations,Birthright,Conquest}
                         game route
   -gc GROWTH_CAP, --growth-cap GROWTH_CAP
@@ -240,28 +245,25 @@ optional arguments:
                         number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass
   -ns {-1,0,1,2,3,4,5}, --n-skills {-1,0,1,2,3,4,5}
                         number of randomized skills; if -1, randomize existing skills
-  -rsgs, --randomize-stats-growths-sum
-                        will randomize stats and growths sum for each character between customizable bounds
   -s SEED, --seed SEED  RNG seed
   -sp STAT_P, --stat-p STAT_P
                         probability of editing stats in a variability pass
   -sdrp SWAP_DEF_RES_P, --swap-def-res-p SWAP_DEF_RES_P
                         probability of swapping Def and Res growths / stats / modifiers
   -slp SWAP_LCK_P, --swap-lck-p SWAP_LCK_P
-                        probability of swapping Lck and a random stat's growths / stats / modifiers; random if between
-                        0 and 1, else [(Lck Growth)% and swap only if Lck is superior]
+                        probability of swapping Lck and a random stat's growths / stats / modifiers; random if between 0 and 1, else [(Lck Growth)% and
+                        swap only if Lck is superior]
   -sssp SWAP_SKL_SPD_P, --swap-skl-spd-p SWAP_SKL_SPD_P
                         probability of swapping Skl and Spd growths / stats / modifiers
   -ssmp SWAP_STR_MAG_P, --swap-str-mag-p SWAP_STR_MAG_P
-                        probability of swapping Str and Mag growths / stats / modifiers; random if between 0 and 1,
-                        else according to class (coin flip for mixed classes)
+                        probability of swapping Str and Mag growths / stats / modifiers; random if between 0 and 1, else according to class (coin flip for
+                        mixed classes)
   -v, --verbose         print verbose stuff
 ```
 
 ### Example Custom Run
-
 ```
-python updated_randomizer.py -ba -bac -bc -bdc -bssmax 25 -bssmin 15 -dms -elsc -esc -g "Conquest" -gsmax 370 -gsmin 270 -mc 5 -ns 3 -rsgs
+python updated_randomizer.py -ba -bac -bc -bdc -bssmax 25 -bssmin 18 -dms -elsc -esc -g "Conquest" -gsmax 370 -gsmin 270 -mc 5 -ns 3
 ```
 
 This example command will ensure the following:
@@ -269,7 +271,7 @@ This example command will ensure the following:
 - neither will Amiibo characters
 - neither will children characters
 - DLC classes will be banned
-- all units will have a total Lvl 1 base stats sum randomly sampled between 15 and 25
+- all units will have a total Lvl 1 base stats sum randomly sampled between 18 and 25
 - unit models will not be swapped, i.e. they will appear as the original unit
 - there will only be 2 staff-only characters (the retainer and an early recruit)
 - Corrin will have a sword-wielding final class
@@ -291,71 +293,3 @@ Break the wall near Nyx before talking to her.
 
 ### Revelations Chapter 8: Hayato was not replaced!
 This is an issue from the original randomizer; I can't fix it myself. This can amusingly lead to recruiting two Hayatos.
-
-# Original README by thane98
-
-This is an early version of a class + join order randomizer for Fire Emblem Fates. Keep in mind that the entire tool is a work-in-progress at the moment, so some features may not work as intended. In fact, you could potentially experience crashes depending on which features you are using. A breakdown of features, options, and tool usage can be found below.
-
-## Current Features
-- Assign random classes to new characters using proper genders (male character will receive a male class, female characters will receive a female class.)
-- Randomize base stats, growths, and stat modifiers without changing totals. If a character starts with 30 points across every stat, they will end with that many. The randomizer only changes where these points are invested.
-- Randomize existing skills. At the moment, this feature simply chooses from every available skill in the game. Additional options may be added in the future to allow users to determine which skills the randomizer chooses from.
-- Adjust the order that characters join in.
-- Adjust cutscenes, sounds, and alternate appearances to match the new join order. For example, if Izana switches with Ryoma, then Izana will appear in Ryoma's place during the prologue, chapter 4, and chapter 6.
-- Swap 3D models for cutscenes.
-- Randomize children by assigning them to different parents and paralogues.
-
-## Basic Options
-Join Order - Switch when characters join you in the story.
-Cutscenes - Change cutscene text to reflect the new join order.
-Sounds - Change voice lines in cutscenes to match the join order.
-Same-Sex - Only swap characters of the same sex.
-Models - Change the models used in cutscenes based off of the join order.
-
-Randomize Stats - Enable stat randomization.
-Passes - Determines how many times the randomizer will take a point from one stat and add it to another.
-
-Randomize Skills - Enable skill randomization.
-Promote Jakob/Felicia - Treat Jakob and Felicia as promoted units when randomizing classes.
-DLC Classes - Add DLC classes to the class pool when randomizing.
-
-## Optional Characters
-Anna
-Amiibo Units (Marth, Ike, Lucina, Robin)
-Children
-
-## Experimental Options
-Change All Appearances - Change every instance of a character to use their randomized class.
-
-## Instructions
-1. Create a folder to use for storing game files. You will need to pick out a specific set of game files from the ROM so that the randomizer can modify them.
-2. Create a folder called GameData inside the storage folder. From your ROM, copy GameData.bin.lz and the Dispos and Person folders from the ROM's GameData folder into the one you created.
-3. Create a folder called castle inside the storage folder. From your ROM, copy castle_join.bin.lz from the castle folder into the castle folder you created.
-4. Copy the m folder and Script folder from your ROM into the storage folder. Your storage folder should look like this:
-	- Main Directory
-		- castle
-			- castle_join.bin.lz
-		- GameData
-			- dispos
-			- person
-			- GameData.bin.lz
-		- m
-		- Scripts
-5. Run FEAT.exe, highlight all of the folders in the storage folder, and drag them into FEAT. The program should decompress every file in the storage folder. Check to make sure that the .bin.lz files now only have a .bin extension.
-6. Make a backup of this folder so that you don't have to go through this process again.
-7. Run Fates-Randomizer.jar, click "Open and Verify," and select the storage folder. You should see a new window pop up with options. If you do not, the window will show you which file was not found.
-8. Select a path and options. Refer to the section above if you do not understand an option. Hit "Randomize" and let the program sit. When the program finishes, a little notification will pop up in the corner of the window.
-9. Close Fates-Randomizer.jar and highlight all of the files in the storage folder. Drag them into FEAT like you did previously to recompress them. You can close FEAT it finishes compressing every file.
-10. You're done! You can either merge these files in with a ROM if you're using HANS (back up the ROM if you're doing this just in case) or place the files in your patch folder if you're using NTR. Enjoy your randomized adventure!
-11. As a final note, DO NOT use this on top of an existing save or branch of fate. Use a fresh save starting from the very beginning if you want a stable playthrough.
-
-## Known Issues
-
-- Lunatic is more unstable than other modes. Crashes have been reported on chapter 2 and chapter 4 when playing on Lunatic.
-- Leo's model does not swap correctly during chapter 2's cutscenes, causing a generic model to appear in its place.
-- Randomizing without join order turned on will not swap out weapons.
-- AI does not behave correctly in certain instances when "Change All Appearances" is turned on.
-
-## Troubleshooting
-
-If you experience any sort of crash, the only way to fix it requires removing the file causing the issue. For HANS users removal means overwriting the corrupted file with the original. NTR users can just delete them. In general, a crash is likely due to either a bad script or bad dispo file. The first step should be to identify which chapter the crash occurred in and look for its scripts. So if a crash occurred for you in Birthright chapter 6, you'd look for A006.cmb in the Scripts folder and every file that starts with A006 in Scripts->Bev. Remove/Replace these files and try the chapter again. If you still get a crash, follow the same process but remove the dispo file this time. From all of my testing, those were the only files capable of causing full crashes.  If you experience any sort of crash or odd behaviour, feel free to report it in the randomizer thread. I'll do my best to try and fix the issue in a future update.

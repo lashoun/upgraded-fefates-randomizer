@@ -42,6 +42,7 @@ parser.add_argument('-dcs', '--disable-class-spread', action='store_true', help=
 parser.add_argument('-dgd', '--disable-gunter-def', action='store_true', help="disable Gunter's replacement's enforced higher Def than Res")
 parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacement's enforced Locktouch skill")
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
+parser.add_argument('-drsgs', '--disable-randomize-stats-growths-sum', action='store_true', help="will disable randomizing stats and growths sum for each character between customizable bounds")
 parser.add_argument('-ds', '--disable-songstress', action='store_true', help="disable Azura's replacement's enforced Songstress class")
 parser.add_argument('-dsr', '--disable-staff-retainer', action='store_true', help="disable Jakob and Felicia's replacement's enforced healing class")
 parser.add_argument('-dss', '--disable-staff-early-recruit', action='store_true', help="disable Sakura and/or Elise's replacement's enforced healing class")
@@ -66,7 +67,6 @@ parser.add_argument('-mc', '--modifier-coefficient', type=int, default=0, help="
 parser.add_argument('-mp', '--mod-p', type=float, default=0.25, help="probability of editing modifiers in a variability pass")
 parser.add_argument('-np', '--n-passes', type=int, default=10, help="number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass")
 parser.add_argument('-ns', '--n-skills', type=int, default=-1, choices=[-1, 0, 1, 2, 3, 4, 5], help="number of randomized skills; if -1, randomize existing skills")
-parser.add_argument('-rsgs', '--randomize-stats-growths-sum', action='store_true', help="will randomize stats and growths sum for each character between customizable bounds")
 parser.add_argument('-s', '--seed', type=int, default=None, help="RNG seed")
 parser.add_argument('-sp', '--stat-p', type=float, default=0.5, help="probability of editing stats in a variability pass")
 parser.add_argument('-sdrp', '--swap-def-res-p', type=float, default=0.2, help="probability of swapping Def and Res growths / stats / modifiers")
@@ -451,16 +451,16 @@ class FatesRandomizer:
             self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Nohr Noble'))
             self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Nohr Noble'))
             self.SWORD_CLASSES.pop(self.SWORD_CLASSES.index('Nohr Noble'))
-            self.earlyRecruit = self.rng.choice(['Sakura', 'Kaze', 'Rinkah', 'Hana', 'Subaki', 'Silas', 'Saizo', 'Orochi'])
+            self.earlyRecruit = self.rng.choice(['Sakura', 'Kaze', 'Rinkah'])
         elif self.gameRoute == 'Conquest':
             self.JAKOB_CLASSES.pop(self.JAKOB_CLASSES.index('Hoshido Noble'))
             self.FELICIA_CLASSES.pop(self.FELICIA_CLASSES.index('Hoshido Noble'))
             self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Hoshido Noble'))
             self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Hoshido Noble'))
             self.SWORD_CLASSES.pop(self.SWORD_CLASSES.index('Hoshido Noble'))
-            self.earlyRecruit = self.rng.choice(['Elise', 'Silas', 'Arthur', 'Effie', 'Odin', 'Niles'])
+            self.earlyRecruit = self.rng.choice(['Elise', 'Silas', 'Arthur', 'Effie'])
         else:
-            self.earlyRecruit = self.rng.choice(['Sakura', 'Hana', 'Subaki', 'Kaze', 'Rinkah'])
+            self.earlyRecruit = self.rng.choice(['Sakura', 'Kaze'])
 
         if self.earlyRecruit in self.MALE_CHARACTERS:
             self.STAFF_CLASSES = self.MALE_STAFF_CLASSES
@@ -1319,7 +1319,7 @@ if __name__ == "__main__":
         modP=args.mod_p,
         nPasses=args.n_passes,
         nSkills=args.n_skills,
-        randomizeStatsAndGrowthsSum=args.randomize_stats_growths_sum,
+        randomizeStatsAndGrowthsSum=(not args.disable_randomize_stats_growths_sum),
         seed=args.seed,
         statP=args.stat_p,
         swapDefResP=args.swap_def_res_p,
