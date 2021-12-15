@@ -105,6 +105,9 @@ By default the ranomizer works as explained below. Customizations are possible w
 #### Shops
 - Added Dragonstones and Beaststones (-1/-1/-1), Dragonrunes and Beastrunes (0/1/-1), and Dragonstones+ and Beaststones+ (0/0/1), in Rod/Staff shops
 - Added 4 Eternal Seals in Shops (4/4/-1) for the retainer replacements, decreased price to 50G
+- Most seals now cost 500G
+- Seeds of Trust buyable for 500G
+- Lvl 2 and 3 shops now appear after chapters 11 and 17 (instead of 13 and 20)
 
 ## Instructions
 
@@ -121,7 +124,7 @@ The instructions can look daunting but once you understand how it works it takes
 1. First, choose which version of Fates you want to play (all versions except Vanilla are only compatible with the Special Edition, unfortunately):
     - _Vanilla Fates_: for copyright-related reasons, you will have to dump your own romfs. Follow the instructions in thane89's original readme below.
     - _Gay Fates_: _Vanilla Fates_ patched with vastly expanded supports ([original thread here](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/)). This is very welcome since randomization doesn't touch supports. Extract `fates_gay_v140_decompressed.7z`.
-    - **_Upgraded Gay Fates_ v7 (recommended)**: _Gay Fates_ patched with my curated upgrades listed above. Extract `fates_gay_v140_upgraded7_decompressed.7z` and `fates_gay_v140_upgraded7_fixed.7z`.
+    - **_Upgraded Gay Fates_ (recommended)**: _Gay Fates_ patched with my curated upgrades listed above. Extract `fates_gay_v140_upgraded_decompressed.7z` and `fates_gay_v140_upgraded_fixed.7z`.
     - _Gay Fates_ (old version): Extract `fates_gay_decompressed.7z`.
     - _Upgraded Gay Fates_ (old version): old _Gay Fates_ patched with the upgrades listed in the Old version paragraph above. Extract `fates_gay_upgraded_decompressed.7z`.
     - _Good Guy Garon Upgraded Gay Fates_: old _Upgraded Gay Fates_ with the [Good Guy Garon Edition patch](https://gbatemp.net/threads/release-conquest-story-overhaul-fire-emblem-fates-good-guy-garon-edition.487117/). Extract `fates_gay_upgraded_GGG_decompressed.7z`.
@@ -147,7 +150,7 @@ python updated_randomizer.py -h
     - `RandomizerSettingsUpdated.xml` contains the detailed information of the randomized run. For each character, the `StringData` and `ClassData` fields are tied to the character while the other fields are tied to their spot. If Ryoma has as "switchingCharacter" Hinata, he will have the stats that are written in Hinata's `Stats` field (but those stats will have been computed as Ryoma's "expected" stats at this spot). I recommend not looking at it for more fun.
 10. Delete the `romfs` folder and repeat steps 1-5 but, in step 3, choose "Custom Path" and select `RandomizerSettingsUpdated.xml`. Don't forget to check the "Join Order" options again if you did previously.
 11. Close `Fates Randomizer Beta 5-5.jar`. Open `FEAT.exe`. Drag the `romfs` folder into FEAT: this will recompress the files. Once FEAT is done, you can close it.
-12. Phew! You're done! Now you can copy your `romfs` folder to the mods folder of your gaming medium. If you chose the upgraded v7 version, also copy the content of the `fixed` folder inside the `romfs` folder, and the `exefs` folder to the mods folder.
+12. Phew! You're done! Now you can copy your `romfs` folder to the mods folder of your gaming medium. If you chose the upgraded version, also copy the content of the `fixed` folder inside the `romfs` folder, and the `exefs` folder to the mods folder.
 13. As a final note, DO NOT use this on top of an existing save or branch of fate. Use a fresh save starting from the very beginning if you want a stable playthrough.
 
 ## All Available Options
@@ -193,7 +196,9 @@ optional arguments:
   -dgd, --disable-gunter-def
                         disable Gunter's replacement's enforced higher Def than Res
   -dl, --disable-locktouch
-                        disable Kaze and Niles' replacement's enforced Locktouch skill
+                        disable Kaze and Niles's replacements' enforced Locktouch skill
+  -dlts, --disable-livetoserve
+                        disable the retainers' replacements' enforced Live to Serve skill
   -dms, --disable-model-switch
                         disable model switching but keep switching the rest of the data (stats, growths...)
   -drsgs, --disable-randomize-stats-growths-sum

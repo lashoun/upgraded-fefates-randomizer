@@ -40,8 +40,8 @@ parser.add_argument('-dbsr', '--disable-balanced-skill-randomization', action='s
 parser.add_argument('-dcd', '--disable-camilla-def', action='store_true', help="disable Camilla's replacement's enforced higher Def than Res")
 parser.add_argument('-dcs', '--disable-class-spread', action='store_true', help="disable diverse class reroll")
 parser.add_argument('-dgd', '--disable-gunter-def', action='store_true', help="disable Gunter's replacement's enforced higher Def than Res")
-parser.add_argument('-dlts', '--disable-livetoserve', action='store_true', help="disable the retainers' replacements enforced Live to Serve skill")
-parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacements enforced Locktouch skill")
+parser.add_argument('-dlts', '--disable-livetoserve', action='store_true', help="disable the retainers' replacements' enforced Live to Serve skill")
+parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacements' enforced Locktouch skill")
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
 parser.add_argument('-drsgs', '--disable-randomize-stats-growths-sum', action='store_true', help="will disable randomizing stats and growths sum for each character between customizable bounds")
 parser.add_argument('-ds', '--disable-songstress', action='store_true', help="disable Azura's replacement's enforced Songstress class")
@@ -1120,33 +1120,33 @@ class FatesRandomizer:
                 lastSkill = self.rng.choice(allSkills)
             skills.append(lastSkill)
 
-        # Live to Serve
-        if skills[2] == 100 and not (className in self.FELICIA_CLASSES or className in self.JAKOB_CLASSES):
-            while skills[2] == 100:
-                skills[2] = self.rng.choice(allPromotedSkills1)
+            # Live to Serve
+            if skills[2] == 100 and not (className in self.FELICIA_CLASSES or className in self.JAKOB_CLASSES):
+                while skills[2] == 100:
+                    skills[2] = self.rng.choice(allPromotedSkills1)
 
-        for i in [3, 4]:
-            if skills[i] >= 65 and skills[i] <= 70:
-                weapon = self.rng.choice(self.classData[className]["Weapons"])
-                if weapon not in ["Staff", "Beaststone"]:
-                    if className not in ["Swordmaster", "Spear Master", "Berserker", "Onmyoji", "Sniper", "MasterNinja", "Lodestar"]:
-                        skills[i] = self.FAIRE_SKILLS[weapon]
+            for i in [3, 4]:
+                if skills[i] >= 65 and skills[i] <= 70:
+                    weapon = self.rng.choice(self.classData[className]["Weapons"])
+                    if weapon not in ["Staff", "Beaststone"]:
+                        if className not in ["Swordmaster", "Spear Master", "Berserker", "Onmyoji", "Sniper", "MasterNinja", "Lodestar"]:
+                            skills[i] = self.FAIRE_SKILLS[weapon]
+                        else:
+                            skills[i] = self.BREAKER_SKILLS[weapon]
                     else:
-                        skills[i] = self.BREAKER_SKILLS[weapon]
-                else:
-                    while skills[i] >= 65 and skills[i] <= 70:
-                        skills[i] = self.rng.choice(allPromotedSkills2)
+                        while skills[i] >= 65 and skills[i] <= 70:
+                            skills[i] = self.rng.choice(allPromotedSkills2)
 
-            if skills[i] >= 79 and skills[i] <= 84:
-                weapon = self.rng.choice(self.classData[className]["Weapons"])
-                if weapon not in ["Staff", "Beaststone"]:
-                    if className not in ["Wyvern Lord", "Blacksmith", "Hero", "Maid", "Butler", "Sorcerer", "Bow Knight", "Vanguard", "Dread Fighter"]:
-                        skills[i] = self.BREAKER_SKILLS[weapon]
+                if skills[i] >= 79 and skills[i] <= 84:
+                    weapon = self.rng.choice(self.classData[className]["Weapons"])
+                    if weapon not in ["Staff", "Beaststone"]:
+                        if className not in ["Wyvern Lord", "Blacksmith", "Hero", "Maid", "Butler", "Sorcerer", "Bow Knight", "Vanguard", "Dread Fighter"]:
+                            skills[i] = self.BREAKER_SKILLS[weapon]
+                        else:
+                            skills[i] = self.FAIRE_SKILLS[weapon]
                     else:
-                        skills[i] = self.FAIRE_SKILLS[weapon]
-                else:
-                    while skills[i] >= 79 and skills[i] <= 84:
-                        skills[i] = self.rng.choice(allPromotedSkills2)
+                        while skills[i] >= 79 and skills[i] <= 84:
+                            skills[i] = self.rng.choice(allPromotedSkills2)
 
         for i in range(nSkills, 5):  # erase added skills if needed
             skills[i] = 0
