@@ -40,7 +40,8 @@ parser.add_argument('-dbsr', '--disable-balanced-skill-randomization', action='s
 parser.add_argument('-dcd', '--disable-camilla-def', action='store_true', help="disable Camilla's replacement's enforced higher Def than Res")
 parser.add_argument('-dcs', '--disable-class-spread', action='store_true', help="disable diverse class reroll")
 parser.add_argument('-dgd', '--disable-gunter-def', action='store_true', help="disable Gunter's replacement's enforced higher Def than Res")
-parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacement's enforced Locktouch skill")
+parser.add_argument('-dlts', '--disable-livetoserve', action='store_true', help="disable the retainers' replacements enforced Live to Serve skill")
+parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacements enforced Locktouch skill")
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
 parser.add_argument('-drsgs', '--disable-randomize-stats-growths-sum', action='store_true', help="will disable randomizing stats and growths sum for each character between customizable bounds")
 parser.add_argument('-ds', '--disable-songstress', action='store_true', help="disable Azura's replacement's enforced Songstress class")
@@ -116,6 +117,12 @@ with open('{}/fates_class_data.csv'.format(path)) as fcsv:
     next(reader)
     for row in reader:
         baseClasses = row[11:13]
+        weapons = row[13:]
+        while len(weapons) > 0:
+            if weapons[-1] == '':
+                weapons.pop()
+            else:
+                break
         while len(baseClasses) > 0:
             if baseClasses[-1] == '':
                 baseClasses.pop()
@@ -125,7 +132,8 @@ with open('{}/fates_class_data.csv'.format(path)) as fcsv:
             'AttackType': row[1],
             'DefenseType': row[2],
             'Growths': list(map(int, row[3:11])),
-            'BaseClasses': baseClasses
+            'BaseClasses': baseClasses,
+            'Weapons': weapons
         }
 
 
@@ -161,6 +169,7 @@ class FatesRandomizer:
         forceClassSpread=True,  # will limit class duplicates
         forceCamillaDef=True,  # will force Camilla's replacement to have higher Def
         forceGunterDef=True,  # will force Gunter's replacement to have higher Def
+        forceLiveToServe=True,  # will force the retainers' replacements to get Live to Serve
         forceLocktouch=True,  # will force Kaze's replacement to get Locktouch
         forceMozuAptitude=False,  # will force Mozu (not her replacement) to get Aptitude
         forceParalogueAptitude=False,  # will force Mozu's replacement to get Aptitude
@@ -218,6 +227,7 @@ class FatesRandomizer:
         self.forceClassSpread = forceClassSpread
         self.forceCamillaDef = forceCamillaDef
         self.forceGunterDef = forceGunterDef
+        self.forceLiveToServe = forceLiveToServe
         self.forceLocktouch = forceLocktouch
         self.forceMozuAptitude = forceMozuAptitude
         self.forceParalogueAptitude = forceParalogueAptitude
@@ -359,6 +369,22 @@ class FatesRandomizer:
         ]
         self.ROYALS = ['Azura', 'Sakura', 'Hinoka', 'Elise', 'Camilla', 'Takumi',
                        'Ryoma', 'Leo', 'Xander']
+        self.FAIRE_SKILLS = {
+            "Sword": 65,
+            "Lance": 66,
+            "Axe": 67,
+            "Dagger": 68,
+            "Bow": 69,
+            "Tome": 70,
+        }
+        self.BREAKER_SKILLS = {
+            "Sword": 81,
+            "Lance": 79,
+            "Axe": 80,
+            "Dagger": 84,
+            "Bow": 82,
+            "Tome": 83,
+        }
 
         if self.gameRoute == "Birthright":
             self.allowedCharacters = [
@@ -812,7 +838,7 @@ class FatesRandomizer:
         self.setCharacterModifiers(switchingCharacter, characterData['Modifiers'])
 
         # Randomize Skills
-        self.randomizeSkills(switchingCharacter, characterName)
+        self.randomizeSkills(switchingCharacter, characterName, newClass)
 
         if self.disableModelSwitch:
             self.setSwitchingCharacterName(characterOriginal, characterNameOriginal)
@@ -923,18 +949,22 @@ class FatesRandomizer:
 
         return None
 
-    def randomizeSkills(self, switchingCharacter, characterName):
+    def randomizeSkills(self, switchingCharacter, characterName, className):
         switchingCharacterName = self.readCharacterName(switchingCharacter)
         nSkills = self.nSkills
         if self.nSkills == -1:
             skills = self.readSkills(switchingCharacter)
             nSkills = len(np.nonzero(skills)[0])
-        skills = self.sampleSkills(nSkills)
+        skills = self.sampleSkills(nSkills, className)
         if characterName == 'Mozu':
             if self.forceMozuAptitude:
                 if 108 not in skills:
                     skills[-1] = 108
 
+        if switchingCharacterName in ["Felicia", "Jakob"]:
+            if self.forceLiveToServe:
+                if 100 not in skills:
+                    skills[-1] = 100
         if switchingCharacterName == 'Mozu':
             if self.forceVillager or self.forceParalogueAptitude:
                 if 108 not in skills:
@@ -1042,7 +1072,7 @@ class FatesRandomizer:
     def readSwitchingCharacterName(self, character):
         return character['StringData']['@switchingCharacter']
 
-    def sampleSkills(self, nSkills):
+    def sampleSkills(self, nSkills, className):
         """ Player-available skills: 1->112, 120->122, 128->159
         (147 skills total)
         Excludes Aptitude (108), Bold Stance (120), Point Blank (121), Winged Shield (122),
@@ -1089,6 +1119,34 @@ class FatesRandomizer:
             while lastSkill in skills:
                 lastSkill = self.rng.choice(allSkills)
             skills.append(lastSkill)
+
+        # Live to Serve
+        if skills[2] == 100 and not (className in self.FELICIA_CLASSES or className in self.JAKOB_CLASSES):
+            while skills[2] == 100:
+                skills[2] = self.rng.choice(allPromotedSkills1)
+
+        for i in [3, 4]:
+            if skills[i] >= 65 and skills[i] <= 70:
+                weapon = self.rng.choice(self.classData[className]["Weapons"])
+                if weapon not in ["Staff", "Beaststone"]:
+                    if className not in ["Swordmaster", "Spear Master", "Berserker", "Onmyoji", "Sniper", "MasterNinja", "Lodestar"]:
+                        skills[i] = self.FAIRE_SKILLS[weapon]
+                    else:
+                        skills[i] = self.BREAKER_SKILLS[weapon]
+                else:
+                    while skills[i] >= 65 and skills[i] <= 70:
+                        skills[i] = self.rng.choice(allPromotedSkills2)
+
+            if skills[i] >= 79 and skills[i] <= 84:
+                weapon = self.rng.choice(self.classData[className]["Weapons"])
+                if weapon not in ["Staff", "Beaststone"]:
+                    if className not in ["Wyvern Lord", "Blacksmith", "Hero", "Maid", "Butler", "Sorcerer", "Bow Knight", "Vanguard", "Dread Fighter"]:
+                        skills[i] = self.BREAKER_SKILLS[weapon]
+                    else:
+                        skills[i] = self.FAIRE_SKILLS[weapon]
+                else:
+                    while skills[i] >= 79 and skills[i] <= 84:
+                        skills[i] = self.rng.choice(allPromotedSkills2)
 
         for i in range(nSkills, 5):  # erase added skills if needed
             skills[i] = 0
@@ -1297,6 +1355,7 @@ if __name__ == "__main__":
         forceClassSpread=(not args.disable_class_spread),
         forceCamillaDef=(not args.disable_camilla_def),
         forceGunterDef=(not args.disable_gunter_def),
+        forceLiveToServe=(not args.disable_livetoserve),
         forceLocktouch=(not args.disable_locktouch),
         forceMozuAptitude=(args.enforce_mozu_aptitude),
         forceParalogueAptitude=args.enforce_paralogue_aptitude,
