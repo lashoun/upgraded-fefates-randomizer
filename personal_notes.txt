@@ -1,3 +1,5 @@
 If you're not me, don't mind those notes
 Change Azura's replacement to herself, move her switchingCharacter to her switchedCharacter, move their classes too
 FEFTwiddler: aptitude and skills (between 1 and 111) for Corrin, butler replacement Eternal Seals, DLC items in convoy
+
+python updated_randomizer.py -bc -bssmax 27 -bssmin 18 -edbc -egd -elsc -epa -esc -g "Conquest" -gsmax 350 -gsmin 300 -mc 5 -ns 4
