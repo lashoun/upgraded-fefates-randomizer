@@ -698,7 +698,8 @@ class FatesRandomizer:
 
         newLevel = self.readCharacterLevel(switchingCharacterName)
         newPromotionLevel = self.readCharacterPromotionLevel(switchingCharacterName)
-        newBaseClass = ""  # needs to be initialized if forceClassSpread is disabled
+        newClass = self.readClassName(character)
+        newBaseClass = self.readBaseClass(newClass, characterName)
 
         if self.forceClassSpread:
             if switchingCharacterName in self.randomizedClasses.keys():
@@ -720,9 +721,10 @@ class FatesRandomizer:
                             self.setCharacterReclassOne(character, newBaseClass)
                             newBaseClass = self.rng.choice(['Dark Mage', 'Diviner'])
                         self.setCharacterClass(character, newBaseClass)
+            else:
+                pass  # character not in route
 
         else:
-
             # Staff Early Recruit Check
             if switchingCharacterName == self.earlyRecruit and self.forceStaffEarlyRecruit:
                 staffClassSet = self.STAFF_CLASSES
@@ -751,9 +753,7 @@ class FatesRandomizer:
         if switchingCharacterName == 'Mozu' and self.forceVillager:
             self.setCharacterClass(character, 'Villager')
 
-        newClass = self.readClassName(character)
-        if newBaseClass == "":
-            newBaseClass = self.readBaseClass(newClass, characterName)
+
         newClassGrowths = self.readClassGrowths(newClass)
         newBaseClassGrowths = self.readClassGrowths(newBaseClass)
         characterData = self.readCharacterData(characterName)
@@ -1214,12 +1214,14 @@ class FatesRandomizer:
 
         className = characterData['NewClass']
         classDefenseType = self.readClassDefenseType(className)
-        i, j = 6, 7  # default: 'De'
+        i, j = 6, 7  # default: 'Def'
         if classDefenseType == 'Res':
             i, j = 7, 6
         elif classDefenseType == 'Mixed':
             if self.rng.random() < 0.5:
                 i, j = 7, 6
+        elif classDefenseType != 'Def':
+            raise ValueError("Defense type '{}' unknown".format(classDefenseType))
 
         growths = characterData['Growths']
         if growths[i] < growths[j]:
@@ -1287,7 +1289,7 @@ class FatesRandomizer:
             modifiers = characterData['Modifiers']
             modifiers[5], modifiers[s] = modifiers[s], modifiers[5]
 
-            return characterData
+        return characterData
 
     def swapCharacterSklSpd(self, characterData):
         if self.rng.random() < self.swapSklSpdP:
@@ -1311,6 +1313,8 @@ class FatesRandomizer:
         elif classAttackType == 'Mixed':
             if self.rng.random() < 0.5:
                 i, j = 2, 1
+        elif classAttackType != 'Str':
+            raise ValueError("Attack type '{}' unknown".format(classDefenseType))
 
         growths = characterData['Growths']
         if growths[i] < growths[j]:
@@ -1334,7 +1338,7 @@ class FatesRandomizer:
             modifiers = characterData['Modifiers']
             modifiers[1], modifiers[2] = modifiers[2], modifiers[1]
 
-            return characterData
+        return characterData
 
     def run(self):
         if self.forceClassSpread:
