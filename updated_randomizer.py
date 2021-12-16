@@ -1127,15 +1127,15 @@ class FatesRandomizer:
 
             # Str/Mag +2
             if skills[0] == 3 and self.readClassAttackType(className) == 'Str':
-                skills[0] = 2:
+                skills[0] = 2
             if skills[0] == 2 and self.readClassAttackType(className) == 'Mag':
-                skills[0] = 3:
+                skills[0] = 3
 
             # Def/Res +2
             if skills[0] == 8 and self.readClassDefenseType(className) == 'Def':
-                skills[0] = 7:
+                skills[0] = 7
             if skills[0] == 7 and self.readClassDefenseType(className) == 'Res':
-                skills[0] = 8:
+                skills[0] = 8
 
             # Shadowgift
             if skills[0] == 141 and not className in self.TOME_CLASSES:
