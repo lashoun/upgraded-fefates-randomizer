@@ -293,6 +293,11 @@ class FatesRandomizer:
         self.MAGICAL_CLASSES = [
             'Onmyoji', 'Sorcerer', 'Strategist', 'Witch'
         ]
+        self.TOME_CLASSES = [
+            'Oni Chieftain', 'Basara', 'Onmyoji', 'Nohr Noble',
+            'Malig Knight', 'Dark Knight', 'Strategist',
+            'Dark Falcon', 'Witch', 'Grandmaster'
+        ]
         self.SWORD_CLASSES = [
             'Hoshido Noble', 'Swordmaster', 'Master of Arms', 'Blacksmith',
             'Master Ninja', 'Nohr Noble', 'Paladin', 'Great Knight', 'Hero',
@@ -1080,16 +1085,16 @@ class FatesRandomizer:
         Ballistician skills (149->152), Warp (154).
         Remaining Skills: 1->107, 109->112, 128->137, 141, 153, 155->159 (128 skills)
         Bookmarks: Draconic Hex (10), Luna (30), Strong Riposte (50), Tomefaire (70), Quixotic (90), Even Keel (128)"""
-        baseSkills1 = [1, 2, 4, 5, 6, 7, 8, 14, 15, 36, 51, 53, 54, 57, 58, 89, 91, 99]
+        baseSkills1 = [1, 2, 3, 4, 5, 6, 7, 8, 14, 15, 36, 51, 53, 54, 57, 58, 89, 91, 99]
         baseSkills2 = [9, 20, 28, 39, 44, 45, 46, 47, 49, 50, 52, 73, 74, 76, 85, 86, 93, 101, 107, 109]
-        promotedSkills1 = [10, 11, 12, 13, 16, 17, 18, 19, 21, 22, 25, 27, 29, 30, 31, 32, 33, 34, 35, 41, 59, 60, 64, 71, 77, 87, 88, 94, 95, 96, 100, 102, 104, 105]
-        promotedSkills2 = [33, 34, 37, 38, 42, 43, 48, 55, 56, 61, 62, 63, 65, 66, 67, 68, 69, 70, 75, 79, 80, 81, 82, 83, 84, 90, 97, 98, 103, 111]
-        dlcBaseSkills1 = [3, 128, 132, 134, 141, 156, 158]
-        dlcBaseSkills2 = [72, 92, 129, 135, 153, 159]
+        promotedSkills1 = [10, 11, 12, 13, 16, 17, 18, 19, 21, 22, 25, 27, 29, 30, 31, 32, 35, 41, 59, 60, 64, 71, 77, 87, 88, 94, 95, 96, 100, 102, 104, 105]
+        promotedSkills2 = [33, 34, 37, 38, 42, 43, 48, 55, 56, 61, 62, 63, 65, 66, 67, 68, 69, 70, 75, 78, 79, 80, 81, 82, 83, 84, 90, 97, 98, 103, 111]
+        dlcBaseSkills1 = [128, 132, 141, 156, 158]
+        dlcBaseSkills2 = [72, 92, 129, 134, 135, 153, 159]
         dlcPromotedSkills1 = [23, 26, 130, 136, 157]
-        dlcPromotedSkills2 = [110, 131, 133, 137, 155]
-        dlcSkills = [120, 121, 122, 139, 140, 142, 143, 144, 145, 146, 147, 148] # put 142 and 145 (Strengthtaker and Speedtaker here since they are kinda busted
-        specificSkills = [24, 40, 78, 106, 108, 112, 138, 149, 150, 151, 152, 154] # Inspiring Song (24), Beastbane (40), Foreign Princess (78), Nobility (106), Aptitude (108), Locktouch (112), Paragon (138), Ballistician skills (149->152) and Warp (154)
+        dlcPromotedSkills2 = [110, 133, 137, 155]
+        dlcSkills = [120, 121, 122, 131, 139, 140, 142, 143, 144, 145, 146, 147, 148] # put 131, 142 and 145 (Aggressor, Strengthtaker and Speedtaker) here since they are kinda busted
+        specificSkills = [24, 40, 106, 108, 112, 138, 149, 150, 151, 152, 154] # Inspiring Song (24), Beastbane (40), Foreign Princess (78), Nobility (106), Aptitude (108), Locktouch (112), Paragon (138), Ballistician skills (149->152) and Warp (154)
 
         if self.banDLCClassSkills:
             allBaseSkills1 = baseSkills1
@@ -1120,12 +1125,30 @@ class FatesRandomizer:
                 lastSkill = self.rng.choice(allSkills)
             skills.append(lastSkill)
 
+            # Str/Mag +2
+            if skills[0] == 3 and self.readClassAttackType(className) == 'Str':
+                skills[0] = 2:
+            if skills[0] == 2 and self.readClassAttackType(className) == 'Mag':
+                skills[0] = 3:
+
+            # Def/Res +2
+            if skills[0] == 8 and self.readClassDefenseType(className) == 'Def':
+                skills[0] = 7:
+            if skills[0] == 7 and self.readClassDefenseType(className) == 'Res':
+                skills[0] = 8:
+
+            # Shadowgift
+            if skills[0] == 141 and not className in self.TOME_CLASSES:
+                while skills[0] == 141:
+                    skills[0] = self.rng.choice(allBaseSkills1)
+
             # Live to Serve
             if skills[2] == 100 and not (className in self.FELICIA_CLASSES or className in self.JAKOB_CLASSES):
                 while skills[2] == 100:
                     skills[2] = self.rng.choice(allPromotedSkills1)
 
             for i in [3, 4]:
+                # Faire skills
                 if skills[i] >= 65 and skills[i] <= 70:
                     weapon = self.rng.choice(self.classData[className]["Weapons"])
                     if weapon not in ["Staff", "Beaststone"]:
@@ -1137,6 +1160,7 @@ class FatesRandomizer:
                         while skills[i] >= 65 and skills[i] <= 70:
                             skills[i] = self.rng.choice(allPromotedSkills2)
 
+                # Breaker skills
                 if skills[i] >= 79 and skills[i] <= 84:
                     weapon = self.rng.choice(self.classData[className]["Weapons"])
                     if weapon not in ["Staff", "Beaststone"]:
