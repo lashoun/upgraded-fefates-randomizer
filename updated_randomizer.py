@@ -1089,8 +1089,8 @@ class FatesRandomizer:
         baseSkills2 = [9, 20, 28, 39, 44, 45, 46, 47, 49, 50, 52, 73, 74, 76, 85, 86, 93, 101, 107, 109]
         promotedSkills1 = [10, 11, 12, 13, 16, 17, 18, 19, 21, 22, 25, 27, 29, 30, 31, 32, 35, 41, 59, 60, 64, 71, 77, 87, 88, 94, 95, 96, 100, 102, 104, 105]
         promotedSkills2 = [33, 34, 37, 38, 42, 43, 48, 55, 56, 61, 62, 63, 65, 66, 67, 68, 69, 70, 75, 78, 79, 80, 81, 82, 83, 84, 90, 97, 98, 103, 111]
-        dlcBaseSkills1 = [128, 132, 141, 156, 158]
-        dlcBaseSkills2 = [72, 92, 129, 134, 135, 153, 159]
+        dlcBaseSkills1 = [128, 132, 134, 141, 156, 158]
+        dlcBaseSkills2 = [72, 92, 129, 135, 153, 159]
         dlcPromotedSkills1 = [23, 26, 130, 136, 157]
         dlcPromotedSkills2 = [110, 133, 137, 155]
         dlcSkills = [120, 121, 122, 131, 139, 140, 142, 143, 144, 145, 146, 147, 148] # put 131, 142 and 145 (Aggressor, Strengthtaker and Speedtaker) here since they are kinda busted
