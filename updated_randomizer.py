@@ -1358,6 +1358,7 @@ class FatesRandomizer:
         # buffing the other atk stat
         if 'Mixed' in classAttackType:
             probas = np.ones(8)
+            probas[i] = 0
             probas[j] = 0
             probas2 = np.copy(probas)
             for k in range(8):
