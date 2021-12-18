@@ -70,6 +70,7 @@ parser.add_argument('-np', '--n-passes', type=int, default=10, help="number of v
 parser.add_argument('-ns', '--n-skills', type=int, default=-1, choices=[-1, 0, 1, 2, 3, 4, 5], help="number of randomized skills; if -1, randomize existing skills")
 parser.add_argument('-s', '--seed', type=int, default=None, help="RNG seed")
 parser.add_argument('-sp', '--stat-p', type=float, default=0.5, help="probability of editing stats in a variability pass")
+parser.add_argument('-sadp', '--swap-atk-def-p', type=float, default=0.2, help="probability of swapping Str/Mag (higher one) with Def/Res (higher one) growths / stats / modifiers")
 parser.add_argument('-sdrp', '--swap-def-res-p', type=float, default=0.2, help="probability of swapping Def and Res growths / stats / modifiers")
 parser.add_argument('-slp', '--swap-lck-p', type=float, default=-1., help="probability of swapping Lck and a random stat's growths / stats / modifiers; random if between 0 and 1, else [(Lck Growth)%% and swap only if Lck is superior]")
 parser.add_argument('-sssp', '--swap-skl-spd-p', type=float, default=0.2, help="probability of swapping Skl and Spd growths / stats / modifiers")
@@ -195,10 +196,11 @@ class FatesRandomizer:
         randomizeStatsAndGrowthsSum=True,  # will sample a random value between min and max for each character
         seed=None,
         statP=0.5,  # proba of editing stats in AddVariancetoData
-        swapDefResP=0.2,  # random
+        swapAtkDefP=0,  # according to class before random
+        swapDefResP=0.2,  # according to class before random
         swapLckP=-1, # random if between 0 and 1, else [(Lck Growth)% and only swap if Lck is superior]
         swapSklSpdP=0.2,  # random
-        swapStrMagP=0.,  # random if between 0 and 1, else according to class
+        swapStrMagP=0.,  # according to class before random
         verbose=False
     ):
         self.allCharacterData = allCharacterData.copy()
@@ -253,6 +255,7 @@ class FatesRandomizer:
         self.randomizeStatsAndGrowthsSum = randomizeStatsAndGrowthsSum
         self.rng = default_rng(seed)
         self.statP = statP
+        self.swapAtkDefP = swapAtkDefP
         self.swapDefResP = swapDefResP
         self.swapLckP = swapLckP
         self.swapSklSpdP = swapSklSpdP
@@ -719,7 +722,18 @@ class FatesRandomizer:
                     else:
                         if self.limitStaffClasses and newBaseClass in ['Troubadour', 'Shrine Maiden', 'Monk']:
                             self.setCharacterReclassOne(character, newBaseClass)
-                            newBaseClass = self.rng.choice(['Dark Mage', 'Diviner'])
+                            if newClass == 'Great Master':
+                                newBaseClass = self.rng.choice(['Spear Fighter', 'Sky Knight', 'Knight'])
+                            elif newClass == 'Priestess':
+                                newBaseClass = self.rng.choice(['Archer', 'Outlaw', 'Apothecary'])
+                            elif newClass == 'Onmyoji':
+                                newBaseClass = 'Diviner'
+                            elif newClass == 'Strategist':
+                                newBaseClass = self.rng.choice(['Diviner', 'Dark Mage'])
+                            elif newClass in ['Maid', 'Butler']:
+                                newBaseClass = 'Ninja'
+                            else:
+                                raise NotImplementedError("Missing non staff base class for class {}".format(newClass))
                         self.setCharacterClass(character, newBaseClass)
             else:
                 pass  # character not in route
@@ -802,6 +816,7 @@ class FatesRandomizer:
         self.swapCharacterDefRes(characterData)
         self.swapCharacterSklSpd(characterData)
         self.swapCharacterStrMag(characterData)
+        self.swapCharacterAtkDef(characterData)  # last
 
         # Scale Stats to New Level
         characterBaseStats = characterData['BaseStats']
@@ -1209,6 +1224,32 @@ class FatesRandomizer:
         character['StringData']['@switchingCharacter'] = switchingCharacterName
         return character
 
+    def swapCharacterAtkDef(self, characterData):
+        """
+            swap Str/Mag (whichever is higher) with Def/Res (whichever is higher),
+            assumes it is the last swap
+        """
+
+        stats = characterData['BaseStats']
+        growths = characterData['Growths']
+        modifiers = characterData['Modifiers']
+
+        if stats[2] > stats[1] or (stats[2] == stats[1] and growths[2] > growths[1]):
+            i = 2
+        else:
+            i = 1
+        if stats[7] > stats[6] or (stats[7] == stats[6] and growths[7] > growths[6]):
+            j = 7
+        else:
+            j = 6
+
+        if self.rng.random() < self.swapAtkDefP:
+            growths[i], growths[j] = growths[j], growths[i]
+            stats[i], stats[j] = stats[j], stats[i]
+            modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
+
+        return characterData
+
     def swapCharacterDefRes(self, characterData):
         "by default, def and res are according to class"
 
@@ -1224,53 +1265,43 @@ class FatesRandomizer:
             raise ValueError("Defense type '{}' unknown".format(classDefenseType))
 
         growths = characterData['Growths']
+        stats = characterData['BaseStats']
+        modifiers = characterData['Modifiers']
+
         if growths[i] < growths[j]:
             growths[i], growths[j] = growths[j], growths[i]
-
-        stats = characterData['BaseStats']
         if stats[i] < stats[j]:
             stats[i], stats[j] = stats[j], stats[i]
-
-        modifiers = characterData['Modifiers']
         if modifiers[i] < modifiers[j]:
             modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
         if self.rng.random() < self.swapDefResP:
-            growths = characterData['Growths']
-            growths[6], growths[7] = growths[7], growths[6]
-
-            stats = characterData['BaseStats']
-            stats[6], stats[7] = stats[7], stats[6]
-
-            modifiers = characterData['Modifiers']
-            modifiers[6], modifiers[7] = modifiers[7], modifiers[6]
+            growths[i], growths[j] = growths[j], growths[i]
+            stats[i], stats[j] = stats[j], stats[i]
+            modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
         if (characterData['SwitchingCharacterName'] == 'Gunter' and self.forceGunterDef) or (characterData['SwitchingCharacterName'] == 'Camilla' and self.forceCamillaDef):
             i, j = 6, 7
-            growths = characterData['Growths']
             if growths[i] < growths[j]:
                 growths[i], growths[j] = growths[j], growths[i]
-
-            stats = characterData['BaseStats']
             if stats[i] < stats[j]:
                 stats[i], stats[j] = stats[j], stats[i]
-
-            modifiers = characterData['Modifiers']
             if modifiers[i] < modifiers[j]:
                 modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
         return characterData
 
     def swapCharacterLck(self, characterData):
-        if self.swapLckP < 0 or self.swapLckP > 1:
-            s = self.rng.choice(7)
-            if s == 5:  # Lck mapped to Res
-                s = 7
-            growths = characterData['Growths']
-            stats = characterData['BaseStats']
-            modifiers = characterData['Modifiers']
-            threshold = growths[5]/100  # Lck Growth
+        s = self.rng.choice(7)
+        if s == 5:  # Lck mapped to Res
+            s = 7
 
+        growths = characterData['Growths']
+        stats = characterData['BaseStats']
+        modifiers = characterData['Modifiers']
+
+        if self.swapLckP < 0 or self.swapLckP > 1:
+            threshold = growths[5]/100  # Lck Growth
             if self.rng.random() < threshold:
                 if growths[5] > growths[s]:
                     growths[5], growths[s] = growths[s], growths[5]
@@ -1280,13 +1311,8 @@ class FatesRandomizer:
                     modifiers[5], modifiers[s] = modifiers[s], modifiers[5]
 
         elif self.rng.random() < self.swapLckP:
-            growths = characterData['Growths']
             growths[5], growths[s] = growths[s], growths[5]
-
-            stats = characterData['BaseStats']
             stats[5], stats[s] = stats[s], stats[5]
-
-            modifiers = characterData['Modifiers']
             modifiers[5], modifiers[s] = modifiers[s], modifiers[5]
 
         return characterData
@@ -1306,37 +1332,67 @@ class FatesRandomizer:
 
     def swapCharacterStrMag(self, characterData):
         className = characterData['NewClass']
+        if className == 'Basara':
+            className = characterData['NewBaseClass']
         classAttackType = self.readClassAttackType(className)
         i, j = 1, 2  # default: 'Str'
-        if classAttackType == 'Mag':
+        if classAttackType in ['Mag', 'MagMixed']:
             i, j = 2, 1
         elif classAttackType == 'Mixed':
             if self.rng.random() < 0.5:
                 i, j = 2, 1
-        elif classAttackType != 'Str':
+        elif classAttackType not in ['Str', 'StrMixed']:
             raise ValueError("Attack type '{}' unknown".format(classDefenseType))
 
         growths = characterData['Growths']
+        stats = characterData['BaseStats']
+        modifiers = characterData['Modifiers']
+
         if growths[i] < growths[j]:
             growths[i], growths[j] = growths[j], growths[i]
-
-        stats = characterData['BaseStats']
         if stats[i] < stats[j]:
             stats[i], stats[j] = stats[j], stats[i]
-
-        modifiers = characterData['Modifiers']
         if modifiers[i] < modifiers[j]:
             modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
+        # buffing the other atk stat
+        if 'Mixed' in classAttackType:
+            probas = np.ones(8)
+            probas[j] = 0
+            probas2 = np.copy(probas)
+            for k in range(8):
+                if stats[k] == 0:
+                    probas[k] = 0
+                if growths[k] == 0:
+                    probas2[k] = 0
+            probas = self.addmax(probas)
+            probas2 = self.addmax(probas2)
+            diff_stats = stats[i] - stats[j]
+            diff_growths = growths[i] - growths[j]
+            n_rounds_stats = self.rng.choice(diff_stats+1)
+            n_rounds_growths = self.rng.choice(diff_growths//5 + 1)
+            for _ in range(n_rounds_stats):
+                s = self.rng.choice(8, p=probas)
+                assert stats[s] > 0, "stat should be > 0"
+                stats[s] -= 1
+                stats[j] += 1
+                if stats[s] == 0:
+                    probas[s] = 0
+                    probas = self.addmax(probas)
+
+            for _ in range(n_rounds_growths):
+                s = self.rng.choice(8, p=probas2)
+                assert growths[s] > 0, "growth should be > 0"
+                growths[s] -= 5
+                growths[j] += 5
+                if growths[s] == 0:
+                    probas2[s] = 0
+                    probas2 = self.addmax(probas2)
+
         if self.rng.random() < self.swapStrMagP:
-            growths = characterData['Growths']
-            growths[1], growths[2] = growths[2], growths[1]
-
-            stats = characterData['BaseStats']
-            stats[1], stats[2] = stats[2], stats[1]
-
-            modifiers = characterData['Modifiers']
-            modifiers[1], modifiers[2] = modifiers[2], modifiers[1]
+            growths[i], growths[j] = growths[j], growths[i]
+            stats[i], stats[j] = stats[j], stats[i]
+            modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
         return characterData
 
@@ -1409,6 +1465,7 @@ if __name__ == "__main__":
         randomizeStatsAndGrowthsSum=(not args.disable_randomize_stats_growths_sum),
         seed=args.seed,
         statP=args.stat_p,
+        swapAtkDefP=args.swap_atk_def_p,
         swapDefResP=args.swap_def_res_p,
         swapLckP=args.swap_lck_p,
         swapSklSpdP=args.swap_skl_spd_p,

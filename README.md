@@ -106,7 +106,7 @@ By default the ranomizer works as explained below. Customizations are possible w
 - Added Dragonstones and Beaststones (-1/-1/-1), Dragonrunes and Beastrunes (0/1/-1), and Dragonstones+ and Beaststones+ (0/0/1), in Rod/Staff shops
 - Added 4 Eternal Seals in Shops (4/4/-1) for the retainer replacements, decreased price to 50G
 - Most seals now cost 500G
-- Seeds of Trust buyable for 500G
+- Seeds of Trust buyable for 50G
 - Lvl 2 and 3 shops now appear after chapters 11 and 17 (instead of 13 and 20)
 
 ## Instructions
