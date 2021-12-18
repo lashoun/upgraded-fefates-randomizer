@@ -1374,19 +1374,19 @@ class FatesRandomizer:
             n_rounds_growths = self.rng.choice(diff_growths//5 + 1)
             for _ in range(n_rounds_stats):
                 s = self.rng.choice(8, p=probas)
-                assert stats[s] > 0, "stat should be > 0"
-                stats[s] -= 1
-                stats[j] += 1
-                if stats[s] == 0:
+                if stats[s] > 0:
+                    stats[s] -= 1
+                    stats[j] += 1
+                else:
                     probas[s] = 0
                     probas = self.addmax(probas)
 
             for _ in range(n_rounds_growths):
                 s = self.rng.choice(8, p=probas2)
-                assert growths[s] > 0, "growth should be > 0"
-                growths[s] -= 5
-                growths[j] += 5
-                if growths[s] == 0:
+                if growths[s] > 0
+                    growths[s] -= 5
+                    growths[j] += 5
+                else:
                     probas2[s] = 0
                     probas2 = self.addmax(probas2)
 
