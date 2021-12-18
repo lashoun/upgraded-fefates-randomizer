@@ -1383,7 +1383,7 @@ class FatesRandomizer:
 
             for _ in range(n_rounds_growths):
                 s = self.rng.choice(8, p=probas2)
-                if growths[s] > 0
+                if growths[s] > 0:
                     growths[s] -= 5
                     growths[j] += 5
                 else:
