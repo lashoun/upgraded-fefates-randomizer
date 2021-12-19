@@ -59,7 +59,7 @@ parser.add_argument('-esi', '--enforce-stat-increase', action='store_true', help
 parser.add_argument('-ev', '--enforce-villager', action='store_true', help="enforce Mozu's replacement being a Villager with Aptitude")
 parser.add_argument('-evc', '--enforce-viable-characters', action='store_true', help="will force you to play with only the first 15 characters encoutered by giving 0 growth rates to the others in the route; non-viable characters will be given the 'Survey' skill for easy identification")
 parser.add_argument('-g', '--game-route', choices=['Revelations', 'Birthright', 'Conquest'],
-                    default='Revelations', help="game route")
+                    default='', help="game route")
 parser.add_argument('-gc', '--growth-cap', type=int, default=70, help="adjusted growths cap")
 parser.add_argument('-gp', '--growth-p', type=float, default=1., help="probability of editing growths in a variability pass")
 parser.add_argument('-gsmax', '--growths-sum-max', type=int, default=350, help="will adjust growths until sum is lower than specified value")
@@ -183,7 +183,7 @@ class FatesRandomizer:
         forceSwordCorrin=False,  # will force Corrin to have a class that wields swords
         forceViableCharacters=False,  # will give no skills and 0 stats / growths (1 max HP) to all characters except the first 15 encountered
         forceVillager=False,  # will force Mozu's replacement to be a Villager and get Aptitude
-        gameRoute='Revelations',  # 'Birthright', 'Conquest' or 'Revelations', used in randomizeClasses
+        gameRoute='',  # 'Birthright', 'Conquest' or 'Revelations', used in randomizeClasses
         growthCap=70,  # growth cap in adjustBaseStatsAndGrowths
         growthP=1,  # proba of editing growths in AddVariancetoData
         growthsSumMax=350,  # in adjustBaseStatsAndGrowths, will decrease growths sum down to said value
@@ -328,28 +328,40 @@ class FatesRandomizer:
 
         self.BIRTHRIGHT_CHARACTERS = [
             'Felicia', 'Jakob', 'Kaze', 'Rinkah', 'Azura', 'Sakura', 'Hana', 'Subaki',
-            'Silas', 'Saizo', 'Orochi', 'Anna', 'Mozu', 'Hinoka', 'Azama', 'Setsuna',
+            'Silas', 'Saizo', 'Orochi', 'Mozu', 'Hinoka', 'Azama', 'Setsuna',
             'Hayato', 'Oboro', 'Hinata', 'Takumi', 'Kagero', 'Reina', 'Kaden', 'Ryoma',
-            'Scarlet', 'Izana', 'Shura', 'Yukimura', 'Shigure', 'Dwyer', 'Sophie',
+            'Scarlet', 'Izana', 'Shura', 'Yukimura', 'Anna', 'Shigure', 'Dwyer', 'Sophie',
             'Midori', 'Shiro', 'Kiragi', 'Asugi', 'Selkie', 'Hisame', 'Mitama', 'Caeldori',
-            'Rhajat', 'Marth', 'Lucina', 'Robin', 'Ike'
+            'Rhajat', 'Marth', 'Lucina', 'Robin', 'Ike', 'Gunter'
         ]
         self.CONQUEST_CHARACTERS = [
-            'Felicia', 'Jakob', 'Elise', 'Silas', 'Arthur', 'Effie', 'Anna', 'Mozu',
+            'Felicia', 'Jakob', 'Elise', 'Silas', 'Arthur', 'Effie', 'Mozu',
             'Odin', 'Niles', 'Azura', 'Nyx', 'Camilla', 'Selena', 'Beruka', 'Kaze',
             'Laslow', 'Peri', 'Benny', 'Charlotte', 'Leo', 'Keaton', 'Gunter',
-            'Xander', 'Shura', 'Flora', 'Izana', 'Shigure', 'Dwyer', 'Sophie',
+            'Xander', 'Shura', 'Flora', 'Izana', 'Anna', 'Shigure', 'Dwyer', 'Sophie',
             'Midori', 'Siegbert', 'Forrest', 'Ignatius', 'Velouria', 'Percy',
             'Ophelia', 'Soleil', 'Nina', 'Marth', 'Lucina', 'Robin', 'Ike',
         ]
         self.REVELATION_CHARACTERS = [
-            'Azura', 'Felicia', 'Jakob', 'Gunter', 'Anna', 'Mozu', 'Sakura', 'Hana',
+            'Azura', 'Felicia', 'Jakob', 'Mozu', 'Sakura', 'Hana',
             'Subaki', 'Kaze', 'Rinkah', 'Hayato', 'Takumi', 'Oboro', 'Hinata',
             'Saizo', 'Orochi', 'Reina', 'Kagero', 'Camilla', 'Selena', 'Beruka',
             'Kaden', 'Keaton', 'Elise', 'Arthur', 'Effie', 'Charlotte', 'Benny',
             'Silas', 'Shura', 'Nyx', 'Hinoka', 'Azama', 'Setsuna', 'Ryoma',
             'Scarlet', 'Leo', 'Xander', 'Odin', 'Niles', 'Laslow', 'Peri',
-            'Flora', 'Fuga', 'Shigure', 'Dwyer', 'Sophie', 'Midori', 'Shiro',
+            'Flora', 'Fuga', 'Anna', 'Shigure', 'Dwyer', 'Sophie', 'Midori', 'Shiro',
+            'Kiragi', 'Asugi', 'Selkie', 'Hisame', 'Mitama', 'Caeldori', 'Rhajat',
+            'Siegbert', 'Forrest', 'Ignatius', 'Velouria', 'Percy', 'Ophelia',
+            'Soleil', 'Nina', 'Marth', 'Lucina', 'Robin', 'Ike', 'Gunter',
+        ]
+        self.ALL_CHARACTERS = [
+            'Azura', 'Felicia', 'Jakob', 'Mozu', 'Sakura', 'Hana', 'Subaki',
+            'Kaze', 'Rinkah', 'Hayato', 'Takumi', 'Oboro', 'Hinata', 'Saizo',
+            'Orochi', 'Reina', 'Kagero', 'Camilla', 'Selena', 'Beruka', 'Kaden',
+            'Keaton', 'Elise', 'Arthur', 'Effie', 'Charlotte', 'Benny', 'Silas',
+            'Shura', 'Nyx', 'Hinoka', 'Azama', 'Setsuna', 'Ryoma', 'Scarlet', 'Leo',
+            'Xander', 'Odin', 'Niles', 'Laslow', 'Peri', 'Flora', 'Fuga', 'Anna',
+            'Izana', 'Yukimura', 'Gunter', 'Shigure', 'Dwyer', 'Sophie', 'Midori', 'Shiro',
             'Kiragi', 'Asugi', 'Selkie', 'Hisame', 'Mitama', 'Caeldori', 'Rhajat',
             'Siegbert', 'Forrest', 'Ignatius', 'Velouria', 'Percy', 'Ophelia',
             'Soleil', 'Nina', 'Marth', 'Lucina', 'Robin', 'Ike'
@@ -429,11 +441,13 @@ class FatesRandomizer:
                 self.BIRTHRIGHT_CHARACTERS.pop(self.BIRTHRIGHT_CHARACTERS.index(characterName))
                 self.CONQUEST_CHARACTERS.pop(self.CONQUEST_CHARACTERS.index(characterName))
                 self.REVELATION_CHARACTERS.pop(self.REVELATION_CHARACTERS.index(characterName))
+                self.ALL_CHARACTERS.pop(self.ALL_CHARACTERS.index(characterName))
         if self.banAnna:
             self.FEMALE_CHARACTERS.pop(self.FEMALE_CHARACTERS.index('Anna'))
             self.BIRTHRIGHT_CHARACTERS.pop(self.BIRTHRIGHT_CHARACTERS.index('Anna'))
             self.CONQUEST_CHARACTERS.pop(self.CONQUEST_CHARACTERS.index('Anna'))
             self.REVELATION_CHARACTERS.pop(self.REVELATION_CHARACTERS.index('Anna'))
+            self.ALL_CHARACTERS.pop(self.ALL_CHARACTERS.index('Anna'))
         if self.banChildren:
             for characterName in self.CHILDREN_CHARACTERS:
                 if characterName in self.MALE_CHARACTERS:
@@ -445,6 +459,7 @@ class FatesRandomizer:
                 if characterName in self.CONQUEST_CHARACTERS:
                     self.CONQUEST_CHARACTERS.pop(self.CONQUEST_CHARACTERS.index(characterName))
                 self.REVELATION_CHARACTERS.pop(self.REVELATION_CHARACTERS.index(characterName))
+                self.ALL_CHARACTERS.pop(self.ALL_CHARACTERS.index(characterName))
 
         if self.banDLCClasses:
             for className in self.DLC_CLASSES:
@@ -900,8 +915,10 @@ class FatesRandomizer:
             characters = self.CONQUEST_CHARACTERS.copy()
         elif self.gameRoute == 'Revelations':
             characters = self.REVELATION_CHARACTERS.copy()
+        elif self.gameRoute == '':
+            characters = self.ALL_CHARACTERS.copy()
         else:
-            raise ValueError('gameRoute "{]" unknown'.format(self.gameRoute))
+            raise ValueError('Game route "{}" is unknown'.format(self.gameRoute))
 
         classes = self.FINAL_CLASSES.copy()
         classes.pop(classes.index(self.randomizedClasses['Corrin']))
