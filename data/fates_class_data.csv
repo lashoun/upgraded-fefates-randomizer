@@ -2,7 +2,7 @@ Name,Attack Type,Defense Type,HP Growth,Str Growth,Mag Growth,Skl Growth,Spd Gro
 Hoshido Noble,Mixed,Def,15,15,10,10,10,10,15,0,Nohr Prince,Nohr Princess,Sword,,
 Samurai,Str,Mixed,10,10,0,15,20,15,0,10,,,Sword,,
 Swordmaster,Str,Mixed,10,10,5,15,20,15,0,10,Samurai,,Sword,,
-Master of Arms,Str,Def,20,15,0,10,10,10,10,0,Samurai,Villager,Sword,Lance,Axe
+Master of Arms,Str,Def,20,15,0,10,10,10,10,0,Samurai,,Sword,Lance,Axe
 Oni Savage,Str,Def,20,20,10,0,10,0,20,0,,,Axe,,
 Oni Chieftain,StrMixed,Def,10,20,15,0,10,0,20,5,Oni Savage,,Axe,Tome,
 Blacksmith,Str,Def,20,15,0,15,10,5,15,0,Oni Savage,,Axe,Sword,
@@ -24,7 +24,7 @@ Ninja,Str,Res,5,5,0,20,20,0,5,15,,,Dagger,,
 Master Ninja,Str,Res,5,5,0,20,20,0,5,20,Ninja,,Dagger,Sword,
 Mechanist,Str,Res,10,10,0,15,10,5,5,15,Apothecary,Ninja,Dagger,Bow,
 Apothecary,Str,Def,20,20,0,10,10,5,10,5,,,Lance,Bow,
-Merchant,Str,Def,20,20,0,10,5,15,10,5,Apothecary,Villager,Lance,,
+Merchant,Str,Def,20,20,0,10,5,15,10,5,Apothecary,,Lance,,
 Kitsune,Str,Res,10,10,0,15,20,10,0,20,,,Beaststone,,
 Nine-Tails,Str,Res,10,10,0,15,20,10,0,20,Kitsune,,Beaststone,,
 Songstress,Str,Res,0,10,0,20,20,20,0,0,,,Lance,,
