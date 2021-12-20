@@ -38,6 +38,7 @@ By default the ranomizer works as explained below. Customizations are possible w
 
 #### Mods and visuals
 - Added the [1.4.0 unofficial update](https://gamebanana.com/mods/51420) of the [Expanded Same-Sex Marriage patch](https://gbatemp.net/threads/fire-emblem-fates-expanded-same-sex-marriage-patch-wip.416109/) by UnassumingVenusaur.
+    - Even further: all characters can romantically support one another (fast support type)
 - Added Generic Songstress sprite by Moonling
 - Nyx has a [witch portrait](https://gamebanana.com/mods/251470)
 - Added [FEFates Promotion Texture Patch v.3.2.5](https://moonlingsmodding.tumblr.com/post/185532775066/version-325-update?is_related_post=1): some units will have custom textures for specific classes
@@ -51,6 +52,7 @@ By default the ranomizer works as explained below. Customizations are possible w
 - Changed all "Rout the enemy" objectives to "Defeat the boss"
 - All chapters have a 20-turn limit
 - Free Heart Seal given after chapter 5
+- Most bosses in the second half of each route have better weapons
 - Endgame chapters of each route should allow the player to save (not tested)
 
 #### Weapons
@@ -67,8 +69,8 @@ By default the ranomizer works as explained below. Customizations are possible w
 	- Yumis: -2 Mt, +10 Hit, +2 Avo
 	- Tomes: +1 Mt, -10 Hit, -5 Avo, +2 Crit
 	- Scrolls: -1 Mt, +10 Hit, +2 Avo
-	- Daggers: -2 Mt, -15 Hit, -5 Avo, +2 Crit, all stat debuffs are decreased by 1
-	- Shurikens: -4 Mt, -20 Hit, +5 Avo, +2 Ddg, now gives -2 Def, all stat debuffs are decreased by 1
+	- Daggers: -2 Mt, -30 Hit, -5 Avo, +2 Crit, all stat debuffs are decreased by 1
+	- Shurikens: -4 Mt, -15 Hit, +5 Avo, +2 Ddg, now gives -2 Def, all stat debuffs are decreased by 1
 	- Staves: Staff Exp x2 for those listed
 		- Heal 10 -> 12 Mt
 		- Mend 20 -> 25 Mt
@@ -87,9 +89,10 @@ By default the ranomizer works as explained below. Customizations are possible w
 - Sacred weapons are modified:
     - Raijinto: gives Skl+3 instead of Str+4, range 1
     - Siegfried: gives Def+2 instead of Def+4, range 1
-    - Enemy royals have sacred weapons (Raijinto/Siegfried/Fujin Yumi/Brynhildr) with buffed Mt (15), and Raijinto and Siegfried keep 1-2 range and their original buffs (Str/Def +4)
+    - Enemy royals have "Sacred weapons+" (Raijinto+/Siegfried+/Fujin Yumi+/Brynhildr+) with buffed Mt (15), and Raijinto+ and Siegfried+ keep 1-2 range and their original buffs (Str/Def +4)
 - Wakizashi, Spear, Tomahawk and Battering Club are now 1-2 range
 - Silver weapons no longer self-debuff, but instead give -10 Avo, -2 Def/Res and -3 eff. Spd in enemy phase
+    - Enemies have "Silver Weapons+" which are do not have any of the aforementioned maluses
 
 #### Characters
 - Corrin gets Aptitude
@@ -253,6 +256,8 @@ optional arguments:
   -s SEED, --seed SEED  RNG seed
   -sp STAT_P, --stat-p STAT_P
                         probability of editing stats in a variability pass
+  -sadp SWAP_ATK_DEF_P, --swap-atk-de-p SWAP_ATK_DEF_P
+                        probability of swapping Str/Mag (higher one) with Def/Res (higher one) growths / stats / modifiers
   -sdrp SWAP_DEF_RES_P, --swap-def-res-p SWAP_DEF_RES_P
                         probability of swapping Def and Res growths / stats / modifiers
   -slp SWAP_LCK_P, --swap-lck-p SWAP_LCK_P
