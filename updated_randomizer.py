@@ -43,6 +43,7 @@ parser.add_argument('-dgd', '--disable-gunter-def', action='store_true', help="d
 parser.add_argument('-dlts', '--disable-livetoserve', action='store_true', help="disable the retainers' replacements' enforced Live to Serve skill")
 parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacements' enforced Locktouch skill")
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
+parser.add_argument('-drl', '--disable-rebalance-levels', action='store_true', help="disable fairer level balance adjustments (reverts to levels from the original games)")
 parser.add_argument('-drsgs', '--disable-randomize-stats-growths-sum', action='store_true', help="will disable randomizing stats and growths sum for each character between customizable bounds")
 parser.add_argument('-ds', '--disable-songstress', action='store_true', help="disable Azura's replacement's enforced Songstress class")
 parser.add_argument('-dsr', '--disable-staff-retainer', action='store_true', help="disable Jakob and Felicia's replacement's enforced healing class")
@@ -58,8 +59,7 @@ parser.add_argument('-esd', '--enforce-stat-decrease', action='store_true', help
 parser.add_argument('-esi', '--enforce-stat-increase', action='store_true', help="enforces stat increase to base stat sum min")
 parser.add_argument('-ev', '--enforce-villager', action='store_true', help="enforce Mozu's replacement being a Villager with Aptitude")
 parser.add_argument('-evc', '--enforce-viable-characters', action='store_true', help="will force you to play with only the first 15 characters encoutered by giving 0 growth rates to the others in the route; non-viable characters will be given the 'Survey' skill for easy identification")
-parser.add_argument('-g', '--game-route', choices=['Revelations', 'Birthright', 'Conquest'],
-                    default='', help="game route")
+parser.add_argument('-g', '--game-route', choices=['Revelations', 'Birthright', 'Conquest'], default='', help="game route, especially important to specify it if playing Revelations so that levels are the correct ones")
 parser.add_argument('-gc', '--growth-cap', type=int, default=70, help="adjusted growths cap")
 parser.add_argument('-gp', '--growth-p', type=float, default=1., help="probability of editing growths in a variability pass")
 parser.add_argument('-gsmax', '--growths-sum-max', type=int, default=350, help="will adjust growths until sum is lower than specified value")
@@ -82,7 +82,7 @@ args = parser.parse_args()
 ## Load data
 
 with open('{}/fates_data_hub.csv'.format(path)) as fcsv:
-    reader = csv.reader(fcsv, quoting=csv.QUOTE_NONNUMERIC)
+    reader = csv.reader(fcsv)
     allCharacterData = {}
     next(reader)  # skip first row
     for row in reader:
@@ -97,6 +97,9 @@ with open('{}/fates_data_hub.csv'.format(path)) as fcsv:
         promotionLevel = int(row[36])
         originalClass = row[37]
         baseClass = row[38]
+        rebalancedLevel = int(row[39])
+        revelationsLevel = int(row[40])
+        rebalancedRevelationsLevel = int(row[41])
         allCharacterData[name] = {
             'Stats': stats,
             'Growths': growths,
@@ -108,7 +111,10 @@ with open('{}/fates_data_hub.csv'.format(path)) as fcsv:
             'GrowthsTotal': growthsTotal,
             'PromotionLevel': promotionLevel,
             'OriginalClass': originalClass,
-            'BaseClass': baseClass
+            'BaseClass': baseClass,
+            'RebalancedLevel': rebalancedLevel,
+            'RevelationsLevel': revelationsLevel,
+            'RebalancedRevelationsLevel': rebalancedRevelationsLevel
         }
 
 
@@ -194,6 +200,7 @@ class FatesRandomizer:
         nPasses=10,  # number of passes in AddVariancetoData
         nSkills=-1,  # if -1, randomize existing skills
         randomizeStatsAndGrowthsSum=True,  # will sample a random value between min and max for each character
+        rebalanceLevels=True,  # will rebalance recruitment levels
         seed=None,
         statP=0.5,  # proba of editing stats in AddVariancetoData
         swapAtkDefP=0,  # according to class before random
@@ -253,6 +260,7 @@ class FatesRandomizer:
         self.nPasses = nPasses
         self.nSkills = nSkills
         self.randomizeStatsAndGrowthsSum = randomizeStatsAndGrowthsSum
+        self.rebalanceLevels = rebalanceLevels
         self.rng = default_rng(seed)
         self.statP = statP
         self.swapAtkDefP = swapAtkDefP
@@ -643,58 +651,59 @@ class FatesRandomizer:
                         genderCheck = False
         return characters, classes
 
-    def computeBaseStats(self, characterName):
-        """ returns the lvl 1 stats of the character """
+    # def computeBaseStats(self, characterName):
+    #     """ returns the lvl 1 stats of the character """
+    #
+    #     characterStats = self.readCharacterStats(characterName)
+    #     characterGrowths = self.readCharacterGrowths(characterName)
+    #
+    #     level = self.readCharacterLevel(characterName)
+    #     promotionLevel = self.readCharacterPromotionLevel(characterName)
+    #     baseClass = self.readCharacterBaseClass(characterName)
+    #     originalClass = self.readCharacterOriginalClass(characterName)
+    #     baseClassGrowths = self.readClassGrowths(baseClass)
+    #     originalClassGrowths = self.readClassGrowths(originalClass)
+    #
+    #     minusStats = np.zeros(8)
+    #     if level > 1:
+    #         minusStats += (characterGrowths + originalClassGrowths) * (level - 1)
+    #     if promotionLevel > 1:
+    #         minusStats += (characterGrowths + baseClassGrowths) * (promotionLevel - 1)
+    #     minusStats = np.floor(minusStats/100)
+    #
+    #     characterBaseStats = characterStats - minusStats
+    #
+    #     return characterBaseStats
 
-        characterStats = self.readCharacterStats(characterName)
-        characterGrowths = self.readCharacterGrowths(characterName)
-
-        level = self.readCharacterLevel(characterName)
-        promotionLevel = self.readCharacterPromotionLevel(characterName)
-        baseClass = self.readCharacterBaseClass(characterName)
-        originalClass = self.readCharacterOriginalClass(characterName)
-        baseClassGrowths = self.readClassGrowths(baseClass)
-        originalClassGrowths = self.readClassGrowths(originalClass)
-
-        minusStats = np.zeros(8)
-        if level > 1:
-            minusStats += (characterGrowths + originalClassGrowths) * (level - 1)
-        if promotionLevel > 1:
-            minusStats += (characterGrowths + baseClassGrowths) * (promotionLevel - 1)
-        minusStats = np.floor(minusStats/100)
-
-        characterBaseStats = characterStats - minusStats
-
-        return characterBaseStats
-
-    def computeNewStats(self, character):
-        """ Returns the new stats of the character: base stats are
-        scaled up to the new level with the new class growths """
-
-        characterName = self.readCharacterName(character)
-        characterBaseStats = self.readCharacterBaseStats(characterName)
-        characterGrowths = self.readCharacterGrowths(characterName)
-
-        switchingCharacterName = self.readSwitchingCharacterName(character)
-        switchingCharacter = self.getCharacter(switchingCharacterName)
-
-        newLevel = self.readCharacterLevel(switchingCharacterName)
-        newPromotionLevel = self.readCharacterPromotionLevel(switchingCharacterName)
-        newClass = self.readClassName(character)
-        newBaseClass = self.readBaseClass(newClass, characterName)
-        newClassGrowths = self.readClassGrowths(newClass)
-        newBaseClassGrowths = self.readClassGrowths(newBaseClass)
-
-        plusStats = np.zeros(8)
-        if newLevel > 1:
-            plusStats += (characterGrowths + newClassGrowths) * (newLevel - 1)
-        if promotionLevel > 1:
-            plusStats += (characterGrowths + newBaseClassGrowths) * (newPromotionLevel - 1)
-        plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
-
-        characterNewStats = characterBaseStats + plusStats
-
-        return characterNewStats
+    # def computeNewStats(self, character):
+    #     """ Returns the new stats of the character: base stats are
+    #     scaled up to the new level with the new class growths """
+    #
+    #     characterName = self.readCharacterName(character)
+    #     characterBaseStats = self.readCharacterBaseStats(characterName)
+    #     characterGrowths = self.readCharacterGrowths(characterName)
+    #
+    #     switchingCharacterName = self.readSwitchingCharacterName(character)
+    #     switchingCharacter = self.getCharacter(switchingCharacterName)
+    #
+    #     newLevel = self.readCharacterLevel(switchingCharacterName)  # rebalanceLevels / Revelations effects are inside the function call
+    #     self.setCharacterLevel(switchingCharacter, newLevel)  # worst case: it does nothing
+    #     newPromotionLevel = self.readCharacterPromotionLevel(switchingCharacterName)
+    #     newClass = self.readClassName(character)
+    #     newBaseClass = self.readBaseClass(newClass, characterName)
+    #     newClassGrowths = self.readClassGrowths(newClass)
+    #     newBaseClassGrowths = self.readClassGrowths(newBaseClass)
+    #
+    #     plusStats = np.zeros(8)
+    #     if newLevel > 1:
+    #         plusStats += (characterGrowths + newClassGrowths) * (newLevel - 1)
+    #     if promotionLevel > 1:
+    #         plusStats += (characterGrowths + newBaseClassGrowths) * (newPromotionLevel - 1)
+    #     plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
+    #
+    #     characterNewStats = characterBaseStats + plusStats
+    #
+    #     return characterNewStats
 
     def dataToString(self, data):
         return ','.join(list(map(str, list(map(int, data)))))
@@ -714,7 +723,8 @@ class FatesRandomizer:
             character = switchingCharacter
             characterName = switchingCharacterName
 
-        newLevel = self.readCharacterLevel(switchingCharacterName)
+        newLevel = self.readCharacterLevel(switchingCharacterName)  # rebalanceLevels / Revelations effects are inside the function call
+        self.setCharacterLevel(switchingCharacter, newLevel)  # worst case: it does nothing
         newPromotionLevel = self.readCharacterPromotionLevel(switchingCharacterName)
         newClass = self.readClassName(character)
         newBaseClass = self.readBaseClass(newClass, characterName)
@@ -1070,7 +1080,16 @@ class FatesRandomizer:
         return character['StringData']['@name']
 
     def readCharacterLevel(self, characterName):
-        return self.allCharacterData[characterName]['Level']
+        if self.rebalanceLevels:
+            if self.gameRoute == 'Revelations':
+                return self.allCharacterData[characterName]['RebalancedRevelationsLevel']
+            else:
+                return self.allCharacterData[characterName]['RebalancedLevel']
+        else:
+            if self.gameRoute == 'Revelations':
+                return self.allCharacterData[characterName]['RevelationsLevel']
+            else:
+                return self.allCharacterData[characterName]['Level']
 
     def readCharacterOriginalClass(self, characterName):
         return self.allCharacterData[characterName]['OriginalClass']
@@ -1219,6 +1238,10 @@ class FatesRandomizer:
 
     def setCharacterGrowths(self, character, growths):
         character['Growths']['@values'] = self.dataToString(growths)
+        return character
+
+    def setCharacterLevel(self, character, level):
+        character['LevelData']['@level'] = str(level)
         return character
 
     def setCharacterModifiers(self, character, modifiers):
@@ -1481,6 +1504,7 @@ if __name__ == "__main__":
         nPasses=args.n_passes,
         nSkills=args.n_skills,
         randomizeStatsAndGrowthsSum=(not args.disable_randomize_stats_growths_sum),
+        rebalanceLevels=(not args.disable_rebalance_levels),
         seed=args.seed,
         statP=args.stat_p,
         swapAtkDefP=args.swap_atk_def_p,
