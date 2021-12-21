@@ -270,6 +270,9 @@ class FatesRandomizer:
         self.swapStrMagP = swapStrMagP
         self.verbose=verbose
 
+        if self.gameRoute == '':
+            print("Note: if you are planning to play Revelations, please use the option [-g \"Revelations\"], otherwise recruitment levels will not be correct.")
+
         self.BEAST_CLASSES = ['Wolfskin', 'Wolfssegner', 'Kitsune', 'Nine-Tails']
         self.DRAGON_CLASSES = ['Nohr Prince', 'Nohr Princess', 'Nohr Noble', 'Hoshido Noble']
 

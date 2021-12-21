@@ -17,7 +17,7 @@ On the other hand, I set out to upgrade the whole Fire Emblem experience by reba
 
 ### Randomizer Features
 
-By default the ranomizer works as explained below. Customizations are possible with the many options provided; if you do not understand, you may also read the code, which should be relatively easy to grasp.
+By default the randomizer works as explained below. Customizations are possible with the many options provided; if you do not understand, you may also read the code, which should be relatively easy to grasp.
 
 - Each character is given a new total amount of Lvl 1 base stats (by default between 15 and 30) and growth rates (by default between 250 and 350), which are partially randomly distributed, and those stats are scaled back to the level at which they are recruited.
     - For instance, if Ryoma is put in Hinata's recruitment spot (so he will be Lvl 9) and assigned the Archer class, then his stats will be his Lvl 1 stats adjusted with 8 levels of (Ryoma's base growths + Archer class growths);
@@ -31,8 +31,9 @@ By default the ranomizer works as explained below. Customizations are possible w
     - Skl / Spd (default: 20% chance to swap)
     - Def / Res (default: according to class, 20% chance to swap)
     - Lck / ? (default: [Lck Growth]% chance, only if Lck stat / growth / mod is superior)
-- "Catch 'em all" mode by default: the randomizer will minimize duplicate final classes according to the chosen route (can be disabled with `--disable-class-spread`).
-- There is an option to keep all characters at their usual spot but still have the class and stats modifications (option `--disable-model-switch`).
+- "Catch 'em all" mode by default: the randomizer will minimize duplicate final classes according to the chosen route (can be disabled with `--disable-class-spread`)
+- There is an option to keep all characters at their usual spot but still have the class and stats modifications (option `--disable-model-switch`)
+- Minor updates to recruitment levels to make some characters more viable; Hayato joins Lvl 7 instead of 1 in Birthright, for instance. Can be disabled with `--disable-reblance-levels`
 
 ### Upgraded Fates Features
 
@@ -158,12 +159,15 @@ python updated_randomizer.py -h
 
 ## All Available Options
 ```
-usage: updated_randomizer.py [-h] [-ap ADDMAX_POW] [-ab] [-ads] [-ba] [-bac] [-bc] [-bdc] [-bdcs] [-bscap BASE_STAT_CAP] [-bssmax BASE_STATS_SUM_MAX]
-                             [-bssmin BASE_STATS_SUM_MIN] [-bw] [-c CORRIN_CLASS] [-dbsr] [-dcd] [-dcs] [-dgd] [-dl] [-dms] [-ds] [-dsr] [-dss] [-edbc]
-                             [-egd] [-elsc] [-ema] [-emoc] [-epa] [-esc] [-esd] [-esi] [-ev] [-evc] [-g {Revelations,Birthright,Conquest}]
-                             [-gc GROWTH_CAP] [-gp GROWTH_P] [-gsmax GROWTHS_SUM_MAX] [-gsmin GROWTHS_SUM_MIN] [-mc MODIFIER_COEFFICIENT] [-mp MOD_P]
-                             [-np N_PASSES] [-ns {-1,0,1,2,3,4,5}] [-rsgs] [-s SEED] [-sp STAT_P] [-sdrp SWAP_DEF_RES_P] [-slp SWAP_LCK_P]
-                             [-sssp SWAP_SKL_SPD_P] [-ssmp SWAP_STR_MAG_P] [-v]
+usage: updated_randomizer.py [-h] [-ap ADDMAX_POW] [-ab] [-ads] [-ba] [-bac] [-bc] [-bdc] [-bdcs]
+                             [-bscap BASE_STAT_CAP] [-bssmax BASE_STATS_SUM_MAX] [-bssmin BASE_STATS_SUM_MIN] [-bw]
+                             [-c CORRIN_CLASS] [-dbsr] [-dcd] [-dcs] [-dgd] [-dlts] [-dl] [-dms] [-drl] [-drsgs] [-ds]
+                             [-dsr] [-dss] [-edbc] [-egd] [-elsc] [-ema] [-emoc] [-epa] [-esc] [-esd] [-esi] [-ev]
+                             [-evc] [-g {Revelations,Birthright,Conquest}] [-gc GROWTH_CAP] [-gp GROWTH_P]
+                             [-gsmax GROWTHS_SUM_MAX] [-gsmin GROWTHS_SUM_MIN] [-mc MODIFIER_COEFFICIENT] [-mp MOD_P]
+                             [-np N_PASSES] [-ns {-1,0,1,2,3,4,5}] [-s SEED] [-sp STAT_P] [-sadp SWAP_ATK_DEF_P]
+                             [-sdrp SWAP_DEF_RES_P] [-slp SWAP_LCK_P] [-sssp SWAP_SKL_SPD_P] [-ssmp SWAP_STR_MAG_P]
+                             [-v]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -198,12 +202,14 @@ optional arguments:
                         disable diverse class reroll
   -dgd, --disable-gunter-def
                         disable Gunter's replacement's enforced higher Def than Res
-  -dl, --disable-locktouch
-                        disable Kaze and Niles's replacements' enforced Locktouch skill
   -dlts, --disable-livetoserve
                         disable the retainers' replacements' enforced Live to Serve skill
+  -dl, --disable-locktouch
+                        disable Kaze and Niles' replacements' enforced Locktouch skill
   -dms, --disable-model-switch
                         disable model switching but keep switching the rest of the data (stats, growths...)
+  -drl, --disable-rebalance-levels
+                        disable fairer level balance adjustments (reverts to levels from the original games)
   -drsgs, --disable-randomize-stats-growths-sum
                         will disable randomizing stats and growths sum for each character between customizable bounds
   -ds, --disable-songstress
@@ -213,11 +219,14 @@ optional arguments:
   -dss, --disable-staff-early-recruit
                         disable Sakura and/or Elise's replacement's enforced healing class
   -edbc, --enable-dlc-base-class
-                        will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)
+                        will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for
+                        Dread Fighter)
   -egd, --enable-genderless-dlc
-                        allows DLC classes to be given regardless of gender
+                        allows DLC classes to be given regardless of gender; can cause the randomizer to fail if a
+                        prepromoted character gets a gender-locked DLC class
   -elsc, --enable-limit-staff-classes
-                        will replace staff only class by a magical class and set the staff only class as a reclass option
+                        will replace staff only class by a magical class and set the staff only class as a reclass
+                        option
   -ema, --enforce-mozu-aptitude
                         enforce Mozu (herself) having Aptitude
   -emoc, --enable-mag-only-corrin
@@ -233,10 +242,12 @@ optional arguments:
   -ev, --enforce-villager
                         enforce Mozu's replacement being a Villager with Aptitude
   -evc, --enforce-viable-characters
-                        will force you to play with only the first 15 characters encoutered by giving 0 growth rates to the others in the route; non-
-                        viable characters will be given the 'Survey' skill for easy identification
+                        will force you to play with only the first 15 characters encoutered by giving 0 growth rates
+                        to the others in the route; non-viable characters will be given the 'Survey' skill for easy
+                        identification
   -g {Revelations,Birthright,Conquest}, --game-route {Revelations,Birthright,Conquest}
-                        game route
+                        game route, especially important to specify it if playing Revelations so that levels are the
+                        correct ones
   -gc GROWTH_CAP, --growth-cap GROWTH_CAP
                         adjusted growths cap
   -gp GROWTH_P, --growth-p GROWTH_P
@@ -256,39 +267,38 @@ optional arguments:
   -s SEED, --seed SEED  RNG seed
   -sp STAT_P, --stat-p STAT_P
                         probability of editing stats in a variability pass
-  -sadp SWAP_ATK_DEF_P, --swap-atk-de-p SWAP_ATK_DEF_P
-                        probability of swapping Str/Mag (higher one) with Def/Res (higher one) growths / stats / modifiers
+  -sadp SWAP_ATK_DEF_P, --swap-atk-def-p SWAP_ATK_DEF_P
+                        probability of swapping Str/Mag (higher one) with Def/Res (higher one) growths / stats /
+                        modifiers
   -sdrp SWAP_DEF_RES_P, --swap-def-res-p SWAP_DEF_RES_P
                         probability of swapping Def and Res growths / stats / modifiers
   -slp SWAP_LCK_P, --swap-lck-p SWAP_LCK_P
-                        probability of swapping Lck and a random stat's growths / stats / modifiers; random if between 0 and 1, else [(Lck Growth)% and
-                        swap only if Lck is superior]
+                        probability of swapping Lck and a random stat's growths / stats / modifiers; random if between
+                        0 and 1, else [(Lck Growth)% and swap only if Lck is superior]
   -sssp SWAP_SKL_SPD_P, --swap-skl-spd-p SWAP_SKL_SPD_P
                         probability of swapping Skl and Spd growths / stats / modifiers
   -ssmp SWAP_STR_MAG_P, --swap-str-mag-p SWAP_STR_MAG_P
-                        probability of swapping Str and Mag growths / stats / modifiers; random if between 0 and 1, else according to class (coin flip for
-                        mixed classes)
+                        probability of swapping Str and Mag growths / stats / modifiers; random if between 0 and 1,
+                        else according to class (coin flip for mixed classes)
   -v, --verbose         print verbose stuff
 ```
 
 ### Example Custom Run
 ```
-python updated_randomizer.py -ba -bac -bc -bdc -bssmax 25 -bssmin 18 -dms -elsc -esc -g "Conquest" -gsmax 370 -gsmin 270 -mc 5 -ns 3
+python updated_randomizer.py -bssmax 27 -bssmin 18 -edbc -egd -elsc -epa -esc -g "Conquest" -gsmax 350 -gsmin 300 -mc 5 -ns 4
 ```
 
 This example command will ensure the following:
-- Anna will not be randomized
-- neither will Amiibo characters
-- neither will children characters
-- DLC classes will be banned
-- all units will have a total Lvl 1 base stats sum randomly sampled between 18 and 25
-- unit models will not be swapped, i.e. they will appear as the original unit
+- all units will have a total Lvl 1 base stats sum randomly sampled between 18 and 27
+- non-promoted units who are assigned a DLC class will get a fitting base class
+- DLC classes will not be gender-locked, but it might cause the randomizer to fail if a prepromoted unit gets a "wrong" DLC class
 - there will only be 2 staff-only characters (the retainer and an early recruit)
+- Mozu's replacement will have Aptitude
 - Corrin will have a sword-wielding final class
 - only Conquest replacement units will be updated; in particular, they should all have different final classes (except maybe children).
-- all units will have a total growth rates sum randomly sampled between 270 and 370
+- all units will have a total growth rates sum randomly sampled between 300 and 350
 - all unit stat modifiers will be increased by 5
-- all units will have 3 randomized skills
+- all units will have 4 randomized skills
 
 ## Troubleshooting
 
