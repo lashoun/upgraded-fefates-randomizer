@@ -1,16 +1,16 @@
 Name,HP Stat,Str Stat,Mag Stat,Skl Stat,Spd Stat,Lck Stat,Def Stat,Res Stat,HP Growth,Str Growth,Mag Growth,Skl Growth,Spd Growth,Lck Growth,Def Growth,Res Growth,HP Modifier,Str Modifier,Mag Modifier,Skl Modifier,Spd Modifier,Lck Modifier,Def Modifier,Res Modifier,HP Lvl1 Stat,Str Lvl1 Stat,Mag Lvl1 Stat,Skl Lvl1 Stat,Spd Lvl1 Stat,Lck Lvl1 Stat,Def Lvl1 Stat,Res Lvl1 Stat,Level,Total Lvl 1 Stats,Total Growth,Promotion Level,Original Class,Base Class,Rebalanced Level,Revelations Level,Rebalanced Revelations Level,Name
 Felicia,1,1,4,1,2,8,0,5,40,10,35,30,40,55,15,35,0,-2,2,0,1,0,-1,1,1,1,4,1,2,8,0,5,1,22,260,0,Maid,Troubadour,1,1,1,Felicia
 Jakob,3,4,1,3,1,6,2,2,50,30,15,40,35,45,25,25,0,2,-2,2,0,-1,0,-1,3,4,1,3,1,6,2,2,1,22,265,0,Butler,Troubadour,1,1,1,Jakob
-Kaze,3,4,0,1,4,3,2,7,55,40,0,45,65,20,20,35,0,-2,0,2,3,-2,-1,1,2,4,0,0,3,3,2,6,3,20,280,0,Ninja,Ninja,3,3,3,Kaze
+Kaze,3,4,0,1,4,3,2,7,55,40,0,45,65,20,20,35,0,-2,0,2,3,-2,-1,1,2,4,0,0,3,3,2,6,3,20,280,0,Ninja,Ninja,3,3,7,Kaze
 Azura,0,2,2,2,3,3,2,4,25,50,25,60,60,40,15,35,0,0,0,1,3,0,-3,0,0,2,2,2,3,3,2,4,1,18,310,0,Songstress,Songstress,1,1,1,Azura
 Silas,5,5,0,4,3,4,5,2,40,45,5,50,40,40,40,25,0,1,0,2,0,-1,0,-1,3,2,0,1,1,2,3,1,6,13,285,0,Cavalier,Cavalier,6,18,18,Silas
 Shura,17,16,5,17,17,13,11,16,30,25,10,20,35,30,15,35,0,-1,0,-1,3,-1,-2,2,9,7,0,10,2,5,7,1,10,41,200,20,Adventurer,Outlaw,10,10,10,Shura
 Izana,15,8,16,19,11,15,11,18,45,15,35,55,30,45,35,35,0,0,1,1,-2,0,0,1,5,4,6,5,1,2,3,6,5,32,295,20,Onmyoji,Monk,5,5,5,Izana
 Mozu,-1,1,0,1,2,0,0,1,30,40,5,50,55,45,35,30,0,0,0,1,1,1,0,-2,-1,1,0,1,2,0,0,1,1,4,290,0,Villager,Villager,1,1,1,Mozu
-Rinkah,2,2,1,4,3,5,3,2,20,25,15,50,45,35,45,20,0,-1,0,-2,1,0,2,0,1,1,1,3,2,4,2,2,4,16,255,0,Oni Savage,Oni Savage,4,4,4,Rinkah
-Sakura,0,3,3,0,2,5,3,2,45,30,50,40,40,55,30,20,0,0,2,-1,1,0,-1,0,0,3,3,0,2,5,3,2,1,18,310,0,Shrine Maiden,Shrine Maiden,1,4,4,Sakura
-Hana,3,5,0,6,3,2,3,6,25,55,10,45,55,25,20,30,0,1,0,1,2,-1,-3,1,2,4,0,5,1,1,3,5,4,21,265,0,Samurai,Samurai,4,4,4,Hana
-Subaki,6,5,0,8,3,3,7,4,55,30,20,50,20,25,45,5,0,-1,0,2,-2,-1,3,-1,4,4,0,6,2,2,6,3,5,27,250,0,Sky Knight,Sky Knight,5,5,5,Subaki
+Rinkah,2,2,1,4,3,5,3,2,20,25,15,50,45,35,45,20,0,-1,0,-2,1,0,2,0,1,1,1,3,2,4,2,2,4,16,255,0,Oni Savage,Oni Savage,4,4,9,Rinkah
+Sakura,0,3,3,0,2,5,3,2,45,30,50,40,40,55,30,20,0,0,2,-1,1,0,-1,0,0,3,3,0,2,5,3,2,1,18,310,0,Shrine Maiden,Shrine Maiden,1,4,7,Sakura
+Hana,3,5,0,6,3,2,3,6,25,55,10,45,55,25,20,30,0,1,0,1,2,-1,-3,1,2,4,0,5,1,1,3,5,4,21,265,0,Samurai,Samurai,4,4,7,Hana
+Subaki,6,5,0,8,3,3,7,4,55,30,20,50,20,25,45,5,0,-1,0,2,-2,-1,3,-1,4,4,0,6,2,2,6,3,5,27,250,0,Sky Knight,Sky Knight,5,5,8,Subaki
 Saizo,7,8,3,6,3,8,6,4,40,50,45,60,30,55,45,10,0,1,0,3,-2,0,1,-2,5,5,1,2,0,5,3,3,7,24,335,0,Ninja,Ninja,7,9,12,Saizo
 Orochi,5,0,5,6,1,5,4,7,35,5,65,50,15,35,25,45,0,0,3,2,-2,-1,-2,1,4,0,2,4,0,4,3,5,5,22,275,0,Diviner,Diviner,5,7,11,Orochi
 Hinoka,7,6,4,8,9,8,7,9,45,45,15,40,45,40,35,40,0,1,-1,-1,1,0,-1,2,4,3,3,5,5,4,5,5,8,34,305,0,Sky Knight,Sky Knight,8,17,19,Hinoka
