@@ -507,25 +507,30 @@ class FatesRandomizer:
                     self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Witch'))
                 self.MAGICAL_CLASSES.pop(self.MAGICAL_CLASSES.index('Witch'))
 
-        if self.gameRoute == 'Birthright':
+        # Wrong noble classes disable supports with prepromoted units
+        if self.gameRoute not in ['Conquest', 'Revelations']:
             self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Nohr Noble'))
             self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Nohr Noble'))
             self.SWORD_CLASSES.pop(self.SWORD_CLASSES.index('Nohr Noble'))
-            self.earlyRecruit = self.rng.choice(['Sakura', 'Kaze', 'Rinkah'])
-        elif self.gameRoute == 'Conquest':
+        elif self.gameRoute != 'Birthright':  # Revelations doesn't like the 'Hoshido Noble' class apparently
             self.JAKOB_CLASSES.pop(self.JAKOB_CLASSES.index('Hoshido Noble'))
             self.FELICIA_CLASSES.pop(self.FELICIA_CLASSES.index('Hoshido Noble'))
             self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Hoshido Noble'))
             self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Hoshido Noble'))
             self.SWORD_CLASSES.pop(self.SWORD_CLASSES.index('Hoshido Noble'))
-            self.earlyRecruit = self.rng.choice(['Elise', 'Silas', 'Arthur', 'Effie'])
-        else:
-            self.earlyRecruit = self.rng.choice(['Sakura', 'Kaze'])
 
-        if self.earlyRecruit in self.MALE_CHARACTERS:
-            self.STAFF_CLASSES = self.MALE_STAFF_CLASSES
+        self.earlyBirthrightRecruit = self.rng.choice(['Sakura', 'Kaze', 'Subaki', 'Hana'])
+        self.earlyConquestRecruit = self.rng.choice(['Elise', 'Silas', 'Arthur', 'Effie'])
+
+        if self.earlyConquestRecruit in self.MALE_CHARACTERS:
+            self.CONQUEST_STAFF_CLASSES = self.MALE_STAFF_CLASSES
         else:
-            self.STAFF_CLASSES = self.FEMALE_STAFF_CLASSES
+            self.CONQUEST_STAFF_CLASSES = self.FEMALE_STAFF_CLASSES
+
+        if self.earlyBirthrightRecruit in self.MALE_CHARACTERS:
+            self.BIRTHRIGHT_STAFF_CLASSES = self.MALE_STAFF_CLASSES
+        else:
+            self.BIRTHRIGHT_STAFF_CLASSES = self.FEMALE_STAFF_CLASSES
 
         if self.forceClassSpread:
             self.randomizeAllClasses()
@@ -739,14 +744,23 @@ class FatesRandomizer:
                 if newPromotionLevel > 0 or (switchingCharacterName in ['Jakob', 'Felicia']):
                     self.setCharacterClass(character, newClass)
                 else:
-                    if switchingCharacterName == self.earlyRecruit and self.forceStaffEarlyRecruit:
-                        if newClass in ['Onmyoji', 'Priestess', 'Great Master']:
-                            if self.earlyRecruit in self.MALE_CHARACTERS:
-                                self.setCharacterClass(character, 'Monk')
-                            if self.earlyRecruit in self.FEMALE_CHARACTERS:
-                                self.setCharacterClass(character, 'Shrine Maiden')
-                        else:
-                            self.setCharacterClass(character, 'Troubadour')
+                    if self.forceStaffEarlyRecruit:
+                        if switchingCharacterName == self.earlyConquestRecruit:
+                            if newClass in ['Onmyoji', 'Priestess', 'Great Master']:
+                                if self.earlyConquestRecruit in self.MALE_CHARACTERS:
+                                    self.setCharacterClass(character, 'Monk')
+                                if self.earlyConquestRecruit in self.FEMALE_CHARACTERS:
+                                    self.setCharacterClass(character, 'Shrine Maiden')
+                            else:
+                                self.setCharacterClass(character, 'Troubadour')
+                        if switchingCharacterName == self.earlyBirthrightRecruit:
+                            if newClass in ['Onmyoji', 'Priestess', 'Great Master']:
+                                if self.earlyConquestRecruit in self.MALE_CHARACTERS:
+                                    self.setCharacterClass(character, 'Monk')
+                                if self.earlyConquestRecruit in self.FEMALE_CHARACTERS:
+                                    self.setCharacterClass(character, 'Shrine Maiden')
+                            else:
+                                self.setCharacterClass(character, 'Troubadour')
                     else:
                         if self.limitStaffClasses and newBaseClass in ['Troubadour', 'Shrine Maiden', 'Monk']:
                             self.setCharacterReclassOne(character, newBaseClass)
@@ -768,32 +782,46 @@ class FatesRandomizer:
 
         else:
             # Staff Early Recruit Check
-            if switchingCharacterName == self.earlyRecruit and self.forceStaffEarlyRecruit:
-                staffClassSet = self.STAFF_CLASSES
-                staffClass = self.rng.choice(staffClassSet)
-                if staffClass in ['Onmyoji', 'Priestess', 'Great Master']:
-                    if self.earlyRecruit in self.MALE_CHARACTERS:
-                        self.setCharacterClass(character, 'Monk')
-                    if self.earlyRecruit in self.FEMALE_CHARACTERS:
-                        self.setCharacterClass(character, 'Shrine Maiden')
-                else:
-                    self.setCharacterClass(character, 'Troubadour')
+            if self.forceStaffEarlyRecruit:
+                if switchingCharacterName == self.earlyConquestRecruit:
+                    staffClassSet = self.CONQUEST_STAFF_CLASSES
+                    staffClass = self.rng.choice(staffClassSet)
+                    if staffClass in ['Onmyoji', 'Priestess', 'Great Master']:
+                        if self.earlyConquestRecruit in self.MALE_CHARACTERS:
+                            self.setCharacterClass(character, 'Monk')
+                        if self.earlyConquestRecruit in self.FEMALE_CHARACTERS:
+                            self.setCharacterClass(character, 'Shrine Maiden')
+                    else:
+                        self.setCharacterClass(character, 'Troubadour')
+                elif switchingCharacterName == self.earlyBirthrightRecruit:
+                    staffClassSet = self.BIRTHRIGHT_STAFF_CLASSES
+                    staffClass = self.rng.choice(staffClassSet)
+                    if staffClass in ['Onmyoji', 'Priestess', 'Great Master']:
+                        if self.earlyConquestRecruit in self.MALE_CHARACTERS:
+                            self.setCharacterClass(character, 'Monk')
+                        if self.earlyConquestRecruit in self.FEMALE_CHARACTERS:
+                            self.setCharacterClass(character, 'Shrine Maiden')
+                    else:
+                        self.setCharacterClass(character, 'Troubadour')
 
             # Staff Retainer Check
-            if switchingCharacterName in ['Jakob', 'Felicia'] and self.forceStaffRetainer:
-                staffClassSet = self.JAKOB_CLASSES
-                if switchingCharacterName == 'Felicia':
-                    staffClassSet = self.FELICIA_CLASSES
-                staffClass = self.rng.choice(staffClassSet)
-                self.setCharacterClass(character, staffClass)
+            if self.forceStaffRetainer:
+                if switchingCharacterName in ['Jakob', 'Felicia']:
+                    staffClassSet = self.JAKOB_CLASSES
+                    if switchingCharacterName == 'Felicia':
+                        staffClassSet = self.FELICIA_CLASSES
+                    staffClass = self.rng.choice(staffClassSet)
+                    self.setCharacterClass(character, staffClass)
 
             # Songstress Check
-            if switchingCharacterName == 'Azura' and self.forceSongstress:
-                self.setCharacterClass(character, 'Songstress')
+            if self.forceSongstress:
+                if switchingCharacterName == 'Azura':
+                    self.setCharacterClass(character, 'Songstress')
 
         # Villager Check
-        if switchingCharacterName == 'Mozu' and self.forceVillager:
-            self.setCharacterClass(character, 'Villager')
+        if self.forceVillager:
+            if switchingCharacterName == 'Mozu':
+                self.setCharacterClass(character, 'Villager')
 
 
         newClassGrowths = self.readClassGrowths(newClass)
@@ -942,10 +970,19 @@ class FatesRandomizer:
 
         # Staff Early Recruit Check
         if self.forceStaffEarlyRecruit:
-            staffClass = self.rng.choice(self.STAFF_CLASSES)
-            self.randomizedClasses[self.earlyRecruit] = staffClass
-            characters.pop(characters.index(self.earlyRecruit))
-            classes.pop(classes.index(staffClass))
+            if self.earlyConquestRecruit in characters:
+                staffClass = self.rng.choice(self.CONQUEST_STAFF_CLASSES)
+                self.randomizedClasses[self.earlyConquestRecruit] = staffClass
+                characters.pop(characters.index(self.earlyConquestRecruit))
+                classes.pop(classes.index(staffClass))
+            if self.earlyBirthrightRecruit in characters:
+                staffClass2 = self.rng.choice(self.BIRTHRIGHT_STAFF_CLASSES)
+                if self.earlyConquestRecruit in characters:
+                    while staffClass2 == staffClass:
+                        staffClass2 = self.rng.choice(self.BIRTHRIGHT_STAFF_CLASSES)
+                self.randomizedClasses[self.earlyBirthrightRecruit] = staffClass2
+                characters.pop(characters.index(self.earlyBirthrightRecruit))
+                classes.pop(classes.index(staffClass2))
 
         # Staff Retainer Check
         if self.forceStaffRetainer:
@@ -1441,6 +1478,18 @@ class FatesRandomizer:
         return characterData
 
     def run(self):
+        if self.gameRoute == 'Revelations':
+            # force Jakob and Felicia to keep their spot, otherwise their recruitment levels are increased for unknown reasons
+            print("Note: Jakob and Felicia remain at their recruitment spot in Revelations because of a level scaling issue.")
+            jakobCharacter = self.getCharacter('Jakob')
+            jakobReplacement = self.getCharacter(self.readSwitchedCharacterName('Jakob'))
+            feliciaCharacter = self.getCharacter('Felicia')
+            feliciaReplacement = self.getCharacter(self.readSwitchedCharacterName('Felicia'))
+            self.setSwitchingCharacterName(jakobReplacement, self.readSwitchingCharacterName(jakobCharacter))
+            self.setSwitchingCharacterName(feliciaReplacement, self.readSwitchingCharacterName(feliciaCharacter))
+            self.setSwitchingCharacterName(jakobCharacter, 'Jakob')
+            self.setSwitchingCharacterName(feliciaCharacter, 'Felicia')
+
         if self.forceClassSpread:
             with open('{}/ClassSpread.csv'.format(path), 'w') as fcsv:
                 writer = csv.writer(fcsv, delimiter='\t')
