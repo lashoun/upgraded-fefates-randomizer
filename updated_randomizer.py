@@ -355,7 +355,7 @@ class FatesRandomizer:
         ]
         self.REVELATION_CHARACTERS = [
             'Azura', 'Felicia', 'Jakob', 'Mozu', 'Sakura', 'Hana',
-            'Subaki', 'Kaze', 'Rinkah', 'Hayato', 'Takumi', 'Oboro', 'Hinata',
+            'Subaki', 'Kaze', 'Rinkah', 'Takumi', 'Oboro', 'Hinata',
             'Saizo', 'Orochi', 'Reina', 'Kagero', 'Camilla', 'Selena', 'Beruka',
             'Kaden', 'Keaton', 'Elise', 'Arthur', 'Effie', 'Charlotte', 'Benny',
             'Silas', 'Shura', 'Nyx', 'Hinoka', 'Azama', 'Setsuna', 'Ryoma',
@@ -364,7 +364,7 @@ class FatesRandomizer:
             'Kiragi', 'Asugi', 'Selkie', 'Hisame', 'Mitama', 'Caeldori', 'Rhajat',
             'Siegbert', 'Forrest', 'Ignatius', 'Velouria', 'Percy', 'Ophelia',
             'Soleil', 'Nina', 'Marth', 'Lucina', 'Robin', 'Ike', 'Gunter',
-        ]
+        ]  # removed Hayato
         self.ALL_CHARACTERS = [
             'Azura', 'Felicia', 'Jakob', 'Mozu', 'Sakura', 'Hana', 'Subaki',
             'Kaze', 'Rinkah', 'Hayato', 'Takumi', 'Oboro', 'Hinata', 'Saizo',
@@ -1486,14 +1486,19 @@ class FatesRandomizer:
         if self.gameRoute == 'Revelations':
             # force Jakob and Felicia to keep their spot, otherwise their recruitment levels are increased for unknown reasons
             print("Note: Jakob and Felicia remain at their recruitment spot in Revelations because of a level scaling issue.")
+            print("Note: Hayato will not be replaced due to a bug in the randomizer."
             jakobCharacter = self.getCharacter('Jakob')
             jakobReplacement = self.getCharacter(self.readSwitchedCharacterName('Jakob'))
             feliciaCharacter = self.getCharacter('Felicia')
             feliciaReplacement = self.getCharacter(self.readSwitchedCharacterName('Felicia'))
+            hayatoCharacter = self.getCharacter('Hayato')
+            hayatoReplacement = self.getCharacter(self.readSwitchedCharacterName('Hayato'))
             self.setSwitchingCharacterName(jakobReplacement, self.readSwitchingCharacterName(jakobCharacter))
             self.setSwitchingCharacterName(feliciaReplacement, self.readSwitchingCharacterName(feliciaCharacter))
+            self.setSwitchingCharacterName(hayatoReplacement, self.readSwitchingCharacterName(hayatoCharacter))
             self.setSwitchingCharacterName(jakobCharacter, 'Jakob')
             self.setSwitchingCharacterName(feliciaCharacter, 'Felicia')
+            self.setSwitchingCharacterName(hayatoCharacter, 'Hayato')
 
         if self.forceClassSpread:
             with open('{}/ClassSpread.csv'.format(path), 'w') as fcsv:
