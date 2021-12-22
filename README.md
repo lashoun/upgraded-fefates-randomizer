@@ -64,7 +64,7 @@ By default the randomizer works as explained below. Customizations are possible 
 - Weapon updates: increased the difference between Hoshidan and Nohrian weapons, nerfed the hell out of those busted hidden weapons, doubled Staff Exp for convenience.
 	- Swords, Lances: +1 Mt, -10 Hit, -5 Avo, +2 Crit
 	- Katanas, Naginatas: -1 Mt, +5 Hit, +2 Avo
-	- Axes: +1 Mt, -5 Hit, -5 Avo
+	- Axes: +1 Mt, -10 Hit, -5 Avo
 	- Clubs: -1 Mt, +2 Avo, +5 Crit
 	- Bows: +1 Mt, -10 Hit, -5 Avo, +2 Crit
 	- Yumis: -2 Mt, +10 Hit, +2 Avo
