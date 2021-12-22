@@ -753,7 +753,7 @@ class FatesRandomizer:
                                     self.setCharacterClass(character, 'Shrine Maiden')
                             else:
                                 self.setCharacterClass(character, 'Troubadour')
-                        if switchingCharacterName == self.earlyBirthrightRecruit:
+                        elif switchingCharacterName == self.earlyBirthrightRecruit:
                             if newClass in ['Onmyoji', 'Priestess', 'Great Master']:
                                 if self.earlyConquestRecruit in self.MALE_CHARACTERS:
                                     self.setCharacterClass(character, 'Monk')
@@ -761,8 +761,7 @@ class FatesRandomizer:
                                     self.setCharacterClass(character, 'Shrine Maiden')
                             else:
                                 self.setCharacterClass(character, 'Troubadour')
-                    else:
-                        if self.limitStaffClasses and newBaseClass in ['Troubadour', 'Shrine Maiden', 'Monk']:
+                        elif self.limitStaffClasses and newBaseClass in ['Troubadour', 'Shrine Maiden', 'Monk']:
                             self.setCharacterReclassOne(character, newBaseClass)
                             if newClass == 'Great Master':
                                 newBaseClass = self.rng.choice(['Spear Fighter', 'Sky Knight', 'Knight'])
@@ -969,12 +968,15 @@ class FatesRandomizer:
         classes = classes[:max(len(classesBis), len(characters))]
 
         # Staff Early Recruit Check
+        staffClass = ''
+        staffClass2 = ''
         if self.forceStaffEarlyRecruit:
             if self.earlyConquestRecruit in characters:
                 staffClass = self.rng.choice(self.CONQUEST_STAFF_CLASSES)
                 self.randomizedClasses[self.earlyConquestRecruit] = staffClass
                 characters.pop(characters.index(self.earlyConquestRecruit))
-                classes.pop(classes.index(staffClass))
+                if staffClass in classes:
+                    classes.pop(classes.index(staffClass))
             if self.earlyBirthrightRecruit in characters:
                 staffClass2 = self.rng.choice(self.BIRTHRIGHT_STAFF_CLASSES)
                 if self.earlyConquestRecruit in characters:
@@ -982,24 +984,27 @@ class FatesRandomizer:
                         staffClass2 = self.rng.choice(self.BIRTHRIGHT_STAFF_CLASSES)
                 self.randomizedClasses[self.earlyBirthrightRecruit] = staffClass2
                 characters.pop(characters.index(self.earlyBirthrightRecruit))
-                classes.pop(classes.index(staffClass2))
+                if staffClass2 in classes:
+                    classes.pop(classes.index(staffClass2))
 
         # Staff Retainer Check
         if self.forceStaffRetainer:
             jakobClass = self.rng.choice(self.JAKOB_CLASSES)
             if self.forceStaffEarlyRecruit:
-                while jakobClass == staffClass:
+                while jakobClass in [staffClass, staffClass2]:
                     jakobClass = self.rng.choice(self.JAKOB_CLASSES)
             feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
             if self.forceStaffEarlyRecruit:
-                while feliciaClass == staffClass or feliciaClass == jakobClass:
+                while feliciaClass in [staffClass, staffClass2, jakobClass]:
                     feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
             self.randomizedClasses['Jakob'] = jakobClass
             self.randomizedClasses['Felicia'] = feliciaClass
             characters.pop(characters.index('Jakob'))
             characters.pop(characters.index('Felicia'))
-            classes.pop(classes.index(jakobClass))
-            classes.pop(classes.index(feliciaClass))
+            if jakobClass in classes:
+                classes.pop(classes.index(jakobClass))
+            if feliciaClass in classes:
+                classes.pop(classes.index(feliciaClass))
 
         # Songstress Check
         if self.forceSongstress:
