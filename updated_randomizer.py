@@ -577,9 +577,9 @@ class FatesRandomizer:
             newGrowthsSum = self.growthsSumMin + 10 * self.rng.choice((self.growthsSumMax-self.growthsSumMin+10)//10)
             newBaseStatsSum = self.baseStatsSumMin + self.rng.choice(self.baseStatsSumMax-self.baseStatsSumMin+1)
             baseStatCap = self.baseStatCap
-            if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats
-                newBaseStatsSum += 15
-                baseStatCap += 4
+            # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats  # actually, they're good enough without this
+            #     newBaseStatsSum += 15
+            #     baseStatCap += 4
             while growthsSum < newGrowthsSum:
                 growthProbas = np.copy(probas)
                 s = self.rng.choice(8, p=growthProbas)
@@ -1486,7 +1486,7 @@ class FatesRandomizer:
         if self.gameRoute == 'Revelations':
             # force Jakob and Felicia to keep their spot, otherwise their recruitment levels are increased for unknown reasons
             print("Note: Jakob and Felicia remain at their recruitment spot in Revelations because of a level scaling issue.")
-            print("Note: Hayato will not be replaced due to a bug in the randomizer."
+            print("Note: Hayato will not be replaced in Revelations due to a bug in the randomizer.")
             jakobCharacter = self.getCharacter('Jakob')
             jakobReplacement = self.getCharacter(self.readSwitchedCharacterName('Jakob'))
             feliciaCharacter = self.getCharacter('Felicia')

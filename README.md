@@ -57,7 +57,6 @@ By default the randomizer works as explained below. Customizations are possible 
 - Endgame chapters of each route should allow the player to save (not tested)
 
 #### Weapons
-- Dawn/Dusk armories and Rod/Staff shops available in every route
 - Changes to weapon triangles: Tome <-> Axe, Dagger <-> Sword, and Bow <-> Lance become neutral
     - Rationale: range weapons can already hit melee weapons without retaliation so they shouldn't have weapon advantage on top of that
 - Weapon rank requirements decreased by one for every weapon: for instance, iron weapons are available from rank E.
@@ -93,10 +92,10 @@ By default the randomizer works as explained below. Customizations are possible 
     - Enemy royals have "Sacred weapons+" (Raijinto+/Siegfried+/Fujin Yumi+/Brynhildr+) with buffed Mt (15), and Raijinto+ and Siegfried+ keep 1-2 range and their original buffs (Str/Def +4)
 - Wakizashi, Spear, Tomahawk and Battering Club are now 1-2 range
 - Silver weapons no longer self-debuff, but instead give -10 Avo, -2 Def/Res and -3 eff. Spd in enemy phase
-    - Enemies have "Silver Weapons+" which are do not have any of the aforementioned maluses
+    - Enemies have "Silver Weapons+" which do not have any of the aforementioned maluses
 
 #### Characters
-- Corrin gets Aptitude, Draconic Hex, Nohrian Trust and Hoshidan Unity so you can reclass them immediately after chapter 5; replace Draconic Hex with Nobility if you want the early game to remain interesting
+- Corrin gets Aptitude, Dragon Fang, Draconic Hex, Nohrian Trust and Hoshidan Unity so you can reclass them immediately after chapter 5; replace Draconic Hex with Nobility if you want the early game to remain interesting
 
 #### Classes
 - DLC class gender lock is removed
@@ -107,6 +106,7 @@ By default the randomizer works as explained below. Customizations are possible 
     - Dread Fighter: Aggressor -> Tomebreaker
 
 #### Shops
+- Dawn/Dusk armories and Rod/Staff shops available in every route
 - Added Dragonstones and Beaststones (-1/-1/-1), Dragonrunes and Beastrunes (0/1/-1), and Dragonstones+ and Beaststones+ (0/0/1), in Rod/Staff shops
 - Added 4 Eternal Seals in Shops (4/4/-1) for the retainer replacements, decreased price to 50G
 - Most seals now cost 500G
