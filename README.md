@@ -84,8 +84,10 @@ By default the randomizer works as explained below. Customizations are possible 
 		- Moon Festal 25 -> 20 Mt
 		- Great Festal 2 -> 1 Mt, range 1-12
 	- Dragonstones: Can double, but with -5 eff. Spd in player phase
-   		- added a *Dragonrune* item which gives Skill+8, Spd+6, Def-4, Res-3
+   		- added a *Dragonrune* item: Skill+8, Spd+6, Def-4, Res-3
+   		- added a *Dragonspell* item: same stats as the Dragonstone, 1-2 range, can't follow-up, weak to follow-ups (-5 eff. Spd)
 	- Beastrune: Skill-3, Spd-4, Def+5, Res+7 (instead of Skill-2, Spd-1, Def+4, Res+5)
+    - added a *Beastspell* item: same stats as the Beaststone, 1-2 range, can't follow-up, weak to follow-ups (-5 eff. Spd)
 - Sacred weapons are modified:
     - Raijinto: gives Skl+3 instead of Str+4, range 1
     - Siegfried: gives Def+2 instead of Def+4, range 1
@@ -93,6 +95,7 @@ By default the randomizer works as explained below. Customizations are possible 
 - Wakizashi, Spear, Tomahawk and Battering Club are now 1-2 range
 - Silver weapons no longer self-debuff, but instead give -10 Avo, -2 Def/Res and -3 eff. Spd in enemy phase
     - Enemies have "Silver Weapons+" which do not have any of the aforementioned maluses
+- Beaststones+ and Dragonstones+ now halve Str/Mag until the end of the next fight
 
 #### Characters
 - Corrin gets Aptitude, Dragon Fang, Draconic Hex, Nohrian Trust and Hoshidan Unity so you can reclass them immediately after chapter 5; replace Draconic Hex with Nobility if you want the early game to remain interesting
@@ -107,7 +110,7 @@ By default the randomizer works as explained below. Customizations are possible 
 
 #### Shops
 - Dawn/Dusk armories and Rod/Staff shops available in every route
-- Added Dragonstones and Beaststones (-1/-1/-1), Dragonrunes and Beastrunes (0/1/-1), and Dragonstones+ and Beaststones+ (0/0/1), in Rod/Staff shops
+- Added Dragonstones and Beaststones (-1/-1/-1), Dragonrunes and Beastrunes (0/1/2), Dragonspells and Beastspells (0/1/2) and Dragonstones+ and Beaststones+ (0/0/1), in Rod/Staff shops
 - Added 4 Eternal Seals in Shops (4/4/-1) for the retainer replacements, decreased price to 50G
 - Most seals now cost 500G
 - Seeds of Trust buyable for 10G
