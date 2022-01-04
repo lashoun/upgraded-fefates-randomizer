@@ -1035,6 +1035,7 @@ class FatesRandomizer:
             self.checkGender(parentCharacters, parentClasses)
             self.checkGender(childrenCharacters, childrenClasses)
             classes = parentClasses + childrenClasses
+            classes = classes[:len(characters)]
 
         for i, className in enumerate(classes):
             self.randomizedClasses[characters[i]] = className
