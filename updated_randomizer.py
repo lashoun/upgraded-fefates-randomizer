@@ -1126,6 +1126,8 @@ class FatesRandomizer:
         return character['StringData']['@name']
 
     def readCharacterLevel(self, characterName):
+        if self.gameRoute == 'Conquest' and characterName == 'Kaze':
+            return 9  # otherwise he stays at level 3
         if self.rebalanceLevels:
             if self.gameRoute == 'Revelations':
                 return self.allCharacterData[characterName]['RebalancedRevelationsLevel']
