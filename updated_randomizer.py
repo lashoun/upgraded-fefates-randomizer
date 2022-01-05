@@ -1328,7 +1328,9 @@ class FatesRandomizer:
             else:
                 PMUList.append(self.earlyConquestRecruit)
                 characters.remove(self.earlyConquestRecruit)
-        PMUList = PMUList + self.rng.choice(characters, 12, replace=False).tolist()
+        n = len(characters) + 1
+        benford = np.log(1+1/np.arange(1,n)) / np.log(n)
+        PMUList = PMUList + self.rng.choice(characters, 12, replace=False, p=benford).tolist()
         return PMUList
 
     def setCharacterBitflags(self, character, bitflags):
