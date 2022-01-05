@@ -58,7 +58,7 @@ parser.add_argument('-esc', '--enforce-sword-corrin', action='store_true', help=
 parser.add_argument('-esd', '--enforce-stat-decrease', action='store_true', help="enforces stat decrease to base stat sum max regardless of growth increase")
 parser.add_argument('-esi', '--enforce-stat-increase', action='store_true', help="enforces stat increase to base stat sum min")
 parser.add_argument('-ev', '--enforce-villager', action='store_true', help="enforce Mozu's replacement being a Villager with Aptitude")
-parser.add_argument('-evc', '--enforce-viable-characters', action='store_true', help="will force you to play with only the first 15 characters encoutered by giving 0 growth rates to the others in the route; non-viable characters will be given the 'Survey' skill for easy identification")
+parser.add_argument('-evc', '--enforce-viable-characters', action='store_true', help="will force you to play with only the first 15 characters encoutered by giving 0 growth rates to the others in the route; non-iable characters will be given the 'Survey' skill for easy identification")
 parser.add_argument('-g', '--game-route', choices=['Revelations', 'Birthright', 'Conquest'], default='', help="game route, especially important to specify it if playing Revelations so that levels are the correct ones")
 parser.add_argument('-gc', '--growth-cap', type=int, default=70, help="adjusted growths cap")
 parser.add_argument('-gp', '--growth-p', type=float, default=1., help="probability of editing growths in a variability pass")
@@ -68,6 +68,7 @@ parser.add_argument('-mc', '--modifier-coefficient', type=int, default=0, help="
 parser.add_argument('-mp', '--mod-p', type=float, default=0.25, help="probability of editing modifiers in a variability pass")
 parser.add_argument('-np', '--n-passes', type=int, default=10, help="number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass")
 parser.add_argument('-ns', '--n-skills', type=int, default=-1, choices=[-1, 0, 1, 2, 3, 4, 5], help="number of randomized skills; if -1, randomize existing skills")
+parser.add_argument('-pmu', '--pmu-mode', action='store_true', help="`ClassSpread.csv` will only contain the 16 allowed characters for the run")
 parser.add_argument('-s', '--seed', type=int, default=None, help="RNG seed")
 parser.add_argument('-sp', '--stat-p', type=float, default=0.5, help="probability of editing stats in a variability pass")
 parser.add_argument('-sadp', '--swap-atk-def-p', type=float, default=0.2, help="probability of swapping Str/Mag (higher one) with Def/Res (higher one) growths / stats / modifiers")
@@ -187,7 +188,7 @@ class FatesRandomizer:
         forceSongstress=True,  # will force Azura's replacement to be a Songstress
         forceStrCorrin=True,  # will force Corrin to have a class that wields at least one Str weapon
         forceSwordCorrin=False,  # will force Corrin to have a class that wields swords
-        forceViableCharacters=False,  # will give no skills and 0 stats / growths (1 max HP) to all characters except the first 15 encountered
+        forceViableCharacters=False,  # will give no skills and 0 growths to all characters except the first 15 encountered
         forceVillager=False,  # will force Mozu's replacement to be a Villager and get Aptitude
         gameRoute='',  # 'Birthright', 'Conquest' or 'Revelations', used in randomizeClasses
         growthCap=70,  # growth cap in adjustBaseStatsAndGrowths
@@ -199,6 +200,7 @@ class FatesRandomizer:
         modP=0.25,  # proba of editing modifiers in AddVariancetoData
         nPasses=10,  # number of passes in AddVariancetoData
         nSkills=-1,  # if -1, randomize existing skills
+        PMUMode=False,  # ClassSpread.csv will contain only the 16 allowed characters
         randomizeStatsAndGrowthsSum=True,  # will sample a random value between min and max for each character
         rebalanceLevels=True,  # will rebalance recruitment levels
         seed=None,
@@ -259,6 +261,7 @@ class FatesRandomizer:
         self.modP = modP
         self.nPasses = nPasses
         self.nSkills = nSkills
+        self.PMUMode = PMUMode
         self.randomizeStatsAndGrowthsSum = randomizeStatsAndGrowthsSum
         self.rebalanceLevels = rebalanceLevels
         self.rng = default_rng(seed)
@@ -532,6 +535,40 @@ class FatesRandomizer:
         else:
             self.BIRTHRIGHT_STAFF_CLASSES = self.FEMALE_STAFF_CLASSES
 
+        if self.gameRoute == 'Birthright':
+            self.ROUTE_CHARACTERS = self.BIRTHRIGHT_CHARACTERS
+        elif self.gameRoute == 'Conquest':
+            self.ROUTE_CHARACTERS = self.CONQUEST_CHARACTERS
+        elif self.gameRoute == 'Revelations':
+            self.ROUTE_CHARACTERS = self.REVELATION_CHARACTERS
+        elif self.gameRoute == '':
+            self.ROUTE_CHARACTERS = self.ALL_CHARACTERS
+
+        if self.gameRoute == "Birthright":
+            self.PMU_CHARACTERS = [
+                'Felicia', 'Jakob', 'Kaze', 'Rinkah', 'Azura', 'Sakura', 'Hana', 'Subaki',
+                'Silas', 'Saizo', 'Orochi', 'Mozu', 'Hinoka', 'Azama', 'Setsuna',
+                'Hayato', 'Oboro', 'Hinata', 'Takumi', 'Kagero', 'Reina', 'Kaden', 'Ryoma',
+                'Scarlet'
+            ]
+        elif self.gameRoute == "Conquest":
+            self.PMU_CHARACTERS = [
+                'Felicia', 'Jakob', 'Elise', 'Silas', 'Arthur', 'Effie', 'Mozu',
+                'Odin', 'Niles', 'Azura', 'Nyx', 'Camilla', 'Selena', 'Beruka', 'Kaze',
+                'Laslow', 'Peri', 'Benny', 'Charlotte', 'Leo', 'Keaton', 'Xander'
+            ]
+        else:
+            self.PMU_CHARACTERS = [
+                'Azura', 'Felicia', 'Jakob', 'Mozu', 'Sakura', 'Hana',
+                'Subaki', 'Kaze', 'Rinkah', 'Takumi', 'Oboro', 'Hinata',
+                'Saizo', 'Orochi', 'Reina', 'Kagero', 'Camilla', 'Selena', 'Beruka',
+                'Kaden', 'Keaton', 'Elise', 'Arthur', 'Effie', 'Charlotte', 'Benny',
+                'Silas', 'Shura', 'Nyx', 'Hinoka', 'Azama', 'Setsuna', 'Ryoma',
+                'Leo', 'Xander', 'Odin', 'Niles', 'Laslow', 'Peri',
+            ]
+
+        self.PMUList = self.selectPMUCharacters()
+
         if self.forceClassSpread:
             self.randomizeAllClasses()
 
@@ -578,8 +615,9 @@ class FatesRandomizer:
             newBaseStatsSum = self.baseStatsSumMin + self.rng.choice(self.baseStatsSumMax-self.baseStatsSumMin+1)
             baseStatCap = self.baseStatCap
             # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats  # actually, they're good enough without this
-            #     newBaseStatsSum += 15
-            #     baseStatCap += 4
+            if characterData["SwitchingCharacterName"] in ["Camilla"]:  # Camilla deserves a buff to be equivalent to its vanilla counterpart
+                newBaseStatsSum += 10
+                baseStatCap += 3
             while growthsSum < newGrowthsSum:
                 growthProbas = np.copy(probas)
                 s = self.rng.choice(8, p=growthProbas)
@@ -949,16 +987,7 @@ class FatesRandomizer:
                         corrinClass = self.rng.choice(self.FINAL_CLASSES)
             self.randomizedClasses['Corrin'] = corrinClass
 
-        if self.gameRoute == 'Birthright':
-            characters = self.BIRTHRIGHT_CHARACTERS.copy()
-        elif self.gameRoute == 'Conquest':
-            characters = self.CONQUEST_CHARACTERS.copy()
-        elif self.gameRoute == 'Revelations':
-            characters = self.REVELATION_CHARACTERS.copy()
-        elif self.gameRoute == '':
-            characters = self.ALL_CHARACTERS.copy()
-        else:
-            raise ValueError('Game route "{}" is unknown'.format(self.gameRoute))
+        characters = self.ROUTE_CHARACTERS.copy()
 
         classes = self.FINAL_CLASSES.copy()
         classes.pop(classes.index(self.randomizedClasses['Corrin']))
@@ -1276,6 +1305,32 @@ class FatesRandomizer:
 
         return skills
 
+    def selectPMUCharacters(self):
+        characters = self.PMU_CHARACTERS.copy()
+        PMUList = ['Azura']
+        characters.remove('Azura')
+        if self.rng.random() < 0.5:
+            PMUList.append('Jakob')
+        else:
+            PMUList.append('Felicia')
+        characters.remove('Jakob')
+        characters.remove('Felicia')
+        if self.gameRoute == 'Birthright':
+            PMUList.append(self.earlyBirthrightRecruit)
+            characters.remove(self.earlyBirthrightRecruit)
+        elif self.gameRoute == 'Conquest':
+            PMUList.append(self.earlyConquestRecruit)
+            characters.remove(self.earlyConquestRecruit)
+        else:
+            if self.rng.random() < 0.5:
+                PMUList.append(self.earlyBirthrightRecruit)
+                characters.remove(self.earlyBirthrightRecruit)
+            else:
+                PMUList.append(self.earlyConquestRecruit)
+                characters.remove(self.earlyConquestRecruit)
+        PMUList = PMUList + self.rng.choice(characters, 12, replace=False).tolist()
+        return PMUList
+
     def setCharacterBitflags(self, character, bitflags):
         character['Bitflags']['@values'] = self.dataToString(bitflags)
         return character
@@ -1487,29 +1542,38 @@ class FatesRandomizer:
 
     def run(self):
         if self.gameRoute == 'Revelations':
-            # force Jakob and Felicia to keep their spot, otherwise their recruitment levels are increased for unknown reasons
-            print("Note: Jakob and Felicia remain at their recruitment spot in Revelations because of a level scaling issue.")
+            print("Note: Jakob, Felicia and Gunter remain at their recruitment spot in Revelations because of a level scaling issue.")
             print("Note: Hayato will not be replaced in Revelations due to a bug in the randomizer.")
             jakobCharacter = self.getCharacter('Jakob')
             jakobReplacement = self.getCharacter(self.readSwitchedCharacterName('Jakob'))
             feliciaCharacter = self.getCharacter('Felicia')
             feliciaReplacement = self.getCharacter(self.readSwitchedCharacterName('Felicia'))
+            gunterCharacter = self.getCharacter('Gunter')
+            gunterReplacement = self.getCharacter(self.readSwitchedCharacterName('Gunter'))
             hayatoCharacter = self.getCharacter('Hayato')
             hayatoReplacement = self.getCharacter(self.readSwitchedCharacterName('Hayato'))
             self.setSwitchingCharacterName(jakobReplacement, self.readSwitchingCharacterName(jakobCharacter))
             self.setSwitchingCharacterName(feliciaReplacement, self.readSwitchingCharacterName(feliciaCharacter))
+            self.setSwitchingCharacterName(gunterReplacement, self.readSwitchingCharacterName(gunterCharacter))
             self.setSwitchingCharacterName(hayatoReplacement, self.readSwitchingCharacterName(hayatoCharacter))
             self.setSwitchingCharacterName(jakobCharacter, 'Jakob')
             self.setSwitchingCharacterName(feliciaCharacter, 'Felicia')
+            self.setSwitchingCharacterName(gunterCharacter, 'Gunter')
             self.setSwitchingCharacterName(hayatoCharacter, 'Hayato')
 
         if self.forceClassSpread:
             with open('{}/ClassSpread.csv'.format(path), 'w') as fcsv:
                 writer = csv.writer(fcsv, delimiter='\t')
-                for name in self.randomizedClasses.keys():
-                    className = self.randomizedClasses[name]
-                    row = [name, self.readSwitchedCharacterName(name), className]
-                    writer.writerow(row)
+                if self.PMUMode:
+                    for name in [x for x in self.ROUTE_CHARACTERS if x in self.PMUList]:
+                        className = self.randomizedClasses[name]
+                        row = [name, self.readSwitchedCharacterName(name), className]
+                        writer.writerow(row)
+                else:
+                    for name in [x for x in self.ROUTE_CHARACTERS if x in self.randomizedClasses.keys()]:
+                        className = self.randomizedClasses[name]
+                        row = [name, self.readSwitchedCharacterName(name), className]
+                        writer.writerow(row)
 
         for character in self.settings['root']['Character']:
             self.fixCharacter(character)
@@ -1568,6 +1632,7 @@ if __name__ == "__main__":
         modP=args.mod_p,
         nPasses=args.n_passes,
         nSkills=args.n_skills,
+        PMUMode=args.pmu_mode,
         randomizeStatsAndGrowthsSum=(not args.disable_randomize_stats_growths_sum),
         rebalanceLevels=(not args.disable_rebalance_levels),
         seed=args.seed,
