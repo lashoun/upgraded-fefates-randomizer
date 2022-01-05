@@ -615,7 +615,7 @@ class FatesRandomizer:
             newBaseStatsSum = self.baseStatsSumMin + self.rng.choice(self.baseStatsSumMax-self.baseStatsSumMin+1)
             baseStatCap = self.baseStatCap
             # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats  # actually, they're good enough without this
-            if characterData["SwitchingCharacterName"] in ["Camilla"]:  # Camilla deserves a buff to be equivalent to its vanilla counterpart
+            if characterData["SwitchingCharacterName"] in ["Camilla"]:  # Camilla deserves the buff to be equivalent to its vanilla counterpart
                 newBaseStatsSum += 10
                 baseStatCap += 3
             while growthsSum < newGrowthsSum:
@@ -1307,7 +1307,7 @@ class FatesRandomizer:
 
     def selectPMUCharacters(self):
         characters = self.PMU_CHARACTERS.copy()
-        PMUList = ['Azura']
+        PMUList = ['Corrin', 'Azura']
         characters.remove('Azura')
         if self.rng.random() < 0.5:
             PMUList.append('Jakob')
@@ -1567,12 +1567,12 @@ class FatesRandomizer:
             with open('{}/ClassSpread.csv'.format(path), 'w') as fcsv:
                 writer = csv.writer(fcsv, delimiter='\t')
                 if self.PMUMode:
-                    for name in [x for x in self.ROUTE_CHARACTERS if x in self.PMUList]:
+                    for name in [x for x in ['Corrin'] + self.ROUTE_CHARACTERS if x in self.PMUList]:
                         className = self.randomizedClasses[name]
                         row = [name, self.readSwitchedCharacterName(name), className]
                         writer.writerow(row)
                 else:
-                    for name in [x for x in self.ROUTE_CHARACTERS if x in self.randomizedClasses.keys()]:
+                    for name in [x for x in ['Corrin'] + self.ROUTE_CHARACTERS if x in self.randomizedClasses.keys()]:
                         className = self.randomizedClasses[name]
                         row = [name, self.readSwitchedCharacterName(name), className]
                         writer.writerow(row)
