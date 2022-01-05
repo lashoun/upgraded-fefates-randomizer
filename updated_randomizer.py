@@ -1315,19 +1315,12 @@ class FatesRandomizer:
             PMUList.append('Felicia')
         characters.remove('Jakob')
         characters.remove('Felicia')
-        if self.gameRoute == 'Birthright':
-            PMUList.append(self.earlyBirthrightRecruit)
-            characters.remove(self.earlyBirthrightRecruit)
-        elif self.gameRoute == 'Conquest':
+        if self.gameRoute == 'Conquest':
             PMUList.append(self.earlyConquestRecruit)
             characters.remove(self.earlyConquestRecruit)
         else:
-            if self.rng.random() < 0.5:
-                PMUList.append(self.earlyBirthrightRecruit)
-                characters.remove(self.earlyBirthrightRecruit)
-            else:
-                PMUList.append(self.earlyConquestRecruit)
-                characters.remove(self.earlyConquestRecruit)
+            PMUList.append(self.earlyBirthrightRecruit)
+            characters.remove(self.earlyBirthrightRecruit)
         n = len(characters) + 1
         benford = np.log(1+1/np.arange(1,n)) / np.log(n)
         PMUList = PMUList + self.rng.choice(characters, 12, replace=False, p=benford).tolist()
