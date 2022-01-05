@@ -188,7 +188,7 @@ class FatesRandomizer:
         forceSongstress=True,  # will force Azura's replacement to be a Songstress
         forceStrCorrin=True,  # will force Corrin to have a class that wields at least one Str weapon
         forceSwordCorrin=False,  # will force Corrin to have a class that wields swords
-        forceViableCharacters=False,  # will give no skills and 0 growths to all characters except the first 15 encountered
+        forceViableCharacters=False,  # will give 0 growths and the Survey skill to all characters except the first 15 encountered
         forceVillager=False,  # will force Mozu's replacement to be a Villager and get Aptitude
         gameRoute='',  # 'Birthright', 'Conquest' or 'Revelations', used in randomizeClasses
         growthCap=70,  # growth cap in adjustBaseStatsAndGrowths
@@ -200,7 +200,7 @@ class FatesRandomizer:
         modP=0.25,  # proba of editing modifiers in AddVariancetoData
         nPasses=10,  # number of passes in AddVariancetoData
         nSkills=-1,  # if -1, randomize existing skills
-        PMUMode=False,  # ClassSpread.csv will contain only the 16 allowed characters
+        PMUMode=False,  # ClassSpread.csv will contain only the 16 allowed characters, other characters will have the Survey skill
         randomizeStatsAndGrowthsSum=True,  # will sample a random value between min and max for each character
         rebalanceLevels=True,  # will rebalance recruitment levels
         seed=None,
@@ -1081,28 +1081,33 @@ class FatesRandomizer:
         if characterName == 'Mozu':
             if self.forceMozuAptitude:
                 if 108 not in skills:
-                    skills[-1] = 108
+                    skills[0] = 108
 
         if switchingCharacterName in ["Felicia", "Jakob"]:
             if self.forceLiveToServe:
                 if 100 not in skills:
-                    skills[-1] = 100
+                    skills[2] = 100
         if switchingCharacterName == 'Mozu':
             if self.forceVillager or self.forceParalogueAptitude:
                 if 108 not in skills:
-                    skills[-1] = 108
+                    skills[0] = 108
         elif switchingCharacterName == 'Niles':
             if self.forceLocktouch:
                 if 112 not in skills:
-                    skills[-1] = 112
+                    skills[0] = 112
         elif switchingCharacterName == 'Kaze':
             if self.forceLocktouch:
                 if 112 not in skills:
-                    skills[-1] = 112
+                    skills[0] = 112
 
         if self.forceViableCharacters:
             if switchingCharacterName not in self.allowedCharacters:
-                if 149 not in skills:
+                if 149 not in skills:  # Survey skill, for identification
+                    skills[-1] = 149
+
+        if self.PMUMode:
+            if switchingCharacterName not in self.PMUList:
+                if 149 not in skills:  # Survey skill, for identification
                     skills[-1] = 149
 
         return self.setCharacterSkills(switchingCharacter, skills)
