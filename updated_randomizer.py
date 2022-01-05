@@ -420,22 +420,22 @@ class FatesRandomizer:
             "Tome": 83,
         }
 
-        if self.gameRoute == "Birthright":
-            self.allowedCharacters = [
-            'Felicia', 'Jakob', 'Kaze', 'Rinkah', 'Azura', 'Sakura', 'Hana', 'Subaki',
-            'Silas', 'Saizo', 'Orochi', 'Mozu', 'Hinoka', 'Azama', 'Setsuna', 'Oboro'
-        ]
-        elif self.gameRoute == "Conquest":
-            self.allowedCharacters = [
-            'Felicia', 'Jakob', 'Elise', 'Silas', 'Arthur', 'Effie', 'Mozu', 'Odin',
-            'Niles', 'Azura', 'Nyx', 'Camilla', 'Selena', 'Benny', 'Kaze', 'Laslow',
-        ]
-        else:
-            self.allowedCharacters = [
-            'Azura', 'Felicia', 'Jakob', 'Mozu', 'Sakura', 'Hana',
-            'Subaki', 'Kaze', 'Rinkah', 'Hayato', 'Takumi', 'Oboro', 'Hinata',
-            'Saizo', 'Orochi', 'Kaden'
-        ]
+        # if self.gameRoute == "Birthright":
+        #     self.allowedCharacters = [
+        #     'Felicia', 'Jakob', 'Kaze', 'Rinkah', 'Azura', 'Sakura', 'Hana', 'Subaki',
+        #     'Silas', 'Saizo', 'Orochi', 'Mozu', 'Hinoka', 'Azama', 'Setsuna', 'Oboro'
+        # ]
+        # elif self.gameRoute == "Conquest":
+        #     self.allowedCharacters = [
+        #     'Felicia', 'Jakob', 'Elise', 'Silas', 'Arthur', 'Effie', 'Mozu', 'Odin',
+        #     'Niles', 'Azura', 'Nyx', 'Camilla', 'Selena', 'Benny', 'Kaze', 'Laslow',
+        # ]
+        # else:
+        #     self.allowedCharacters = [
+        #     'Azura', 'Felicia', 'Jakob', 'Mozu', 'Sakura', 'Hana',
+        #     'Subaki', 'Kaze', 'Rinkah', 'Hayato', 'Takumi', 'Oboro', 'Hinata',
+        #     'Saizo', 'Orochi', 'Kaden'
+        # ]
 
         if self.enableDLCBaseClass:
             self.PROMOTED_CLASSES += self.DLC_CLASSES
@@ -945,7 +945,7 @@ class FatesRandomizer:
         self.setCharacterStats(switchingCharacter, characterData['Stats'])
         self.setCharacterGrowths(switchingCharacter, characterData['Growths'])
         if self.forceViableCharacters:
-            if switchingCharacterName not in self.allowedCharacters:
+            if switchingCharacterName not in self.PMUList:
                 self.setCharacterGrowths(switchingCharacter, np.array([0, 0, 0, 0, 0, 0, 0, 0]))
 
         self.setCharacterModifiers(switchingCharacter, characterData['Modifiers'])
@@ -1099,11 +1099,6 @@ class FatesRandomizer:
             if self.forceLocktouch:
                 if 112 not in skills:
                     skills[0] = 112
-
-        if self.forceViableCharacters:
-            if switchingCharacterName not in self.allowedCharacters:
-                if 149 not in skills:  # Survey skill, for identification
-                    skills[-1] = 149
 
         if self.PMUMode:
             if switchingCharacterName not in self.PMUList:
