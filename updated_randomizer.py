@@ -279,9 +279,9 @@ class FatesRandomizer:
         self.BEAST_CLASSES = ['Wolfskin', 'Wolfssegner', 'Kitsune', 'Nine-Tails']
         self.DRAGON_CLASSES = ['Nohr Prince', 'Nohr Princess', 'Nohr Noble', 'Hoshido Noble']
 
-        self.FELICIA_CLASSES = ['Hoshido Noble', 'Onmyoji', 'Priestess',
+        self.FELICIA_CLASSES = ['Onmyoji', 'Priestess',
                                 'Falcon Knight', 'Adventurer', 'Strategist', 'Maid']
-        self.JAKOB_CLASSES = ['Hoshido Noble', 'Onmyoji', 'Great Master',
+        self.JAKOB_CLASSES = ['Onmyoji', 'Great Master',
                               'Falcon Knight', 'Adventurer', 'Strategist', 'Butler']
         self.MALE_STAFF_CLASSES = ['Onmyoji', 'Strategist', 'Butler', 'Great Master']
         self.FEMALE_STAFF_CLASSES = ['Onmyoji', 'Priestess', 'Strategist', 'Maid']
@@ -449,78 +449,76 @@ class FatesRandomizer:
         if self.banAmiiboCharacters:
             for characterName in self.AMIIBO_CHARACTERS:
                 if characterName != 'Lucina':
-                    self.MALE_CHARACTERS.pop(self.MALE_CHARACTERS.index(characterName))
+                    self.MALE_CHARACTERS.remove(characterName)
                 else:
-                    self.FEMALE_CHARACTERS.pop(self.FEMALE_CHARACTERS.index(characterName))
-                self.BIRTHRIGHT_CHARACTERS.pop(self.BIRTHRIGHT_CHARACTERS.index(characterName))
-                self.CONQUEST_CHARACTERS.pop(self.CONQUEST_CHARACTERS.index(characterName))
-                self.REVELATION_CHARACTERS.pop(self.REVELATION_CHARACTERS.index(characterName))
-                self.ALL_CHARACTERS.pop(self.ALL_CHARACTERS.index(characterName))
+                    self.FEMALE_CHARACTERS.remove(characterName)
+                self.BIRTHRIGHT_CHARACTERS.remove(characterName)
+                self.CONQUEST_CHARACTERS.remove(characterName)
+                self.REVELATION_CHARACTERS.remove(characterName)
+                self.ALL_CHARACTERS.remove(characterName)
         if self.banAnna:
-            self.FEMALE_CHARACTERS.pop(self.FEMALE_CHARACTERS.index('Anna'))
-            self.BIRTHRIGHT_CHARACTERS.pop(self.BIRTHRIGHT_CHARACTERS.index('Anna'))
-            self.CONQUEST_CHARACTERS.pop(self.CONQUEST_CHARACTERS.index('Anna'))
-            self.REVELATION_CHARACTERS.pop(self.REVELATION_CHARACTERS.index('Anna'))
-            self.ALL_CHARACTERS.pop(self.ALL_CHARACTERS.index('Anna'))
+            self.FEMALE_CHARACTERS.remove('Anna')
+            self.BIRTHRIGHT_CHARACTERS.remove('Anna')
+            self.CONQUEST_CHARACTERS.remove('Anna')
+            self.REVELATION_CHARACTERS.remove('Anna')
+            self.ALL_CHARACTERS.remove('Anna')
         if self.banChildren:
             for characterName in self.CHILDREN_CHARACTERS:
                 if characterName in self.MALE_CHARACTERS:
-                    self.MALE_CHARACTERS.pop(self.MALE_CHARACTERS.index(characterName))
+                    self.MALE_CHARACTERS.remove(characterName)
                 if characterName in self.FEMALE_CHARACTERS:
-                    self.FEMALE_CHARACTERS.pop(self.FEMALE_CHARACTERS.index(characterName))
+                    self.FEMALE_CHARACTERS.remove(characterName)
                 if characterName in self.BIRTHRIGHT_CHARACTERS:
-                    self.BIRTHRIGHT_CHARACTERS.pop(self.BIRTHRIGHT_CHARACTERS.index(characterName))
+                    self.BIRTHRIGHT_CHARACTERS.remove(characterName)
                 if characterName in self.CONQUEST_CHARACTERS:
-                    self.CONQUEST_CHARACTERS.pop(self.CONQUEST_CHARACTERS.index(characterName))
-                self.REVELATION_CHARACTERS.pop(self.REVELATION_CHARACTERS.index(characterName))
-                self.ALL_CHARACTERS.pop(self.ALL_CHARACTERS.index(characterName))
+                    self.CONQUEST_CHARACTERS.remove(characterName)
+                self.REVELATION_CHARACTERS.remove(characterName)
+                self.ALL_CHARACTERS.remove(characterName)
 
         if self.banDLCClasses:
             for className in self.DLC_CLASSES:
                 if className in self.MALE_CLASSES:
-                    self.MALE_CLASSES.pop(self.MALE_CLASSES.index(className))
+                    self.MALE_CLASSES.remove(className)
                 if className in self.FEMALE_CLASSES:
-                    self.FEMALE_CLASSES.pop(self.FEMALE_CLASSES.index(className))
+                    self.FEMALE_CLASSES.remove(className)
                 if className in self.FINAL_CLASSES:
-                    self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index(className))
+                    self.FINAL_CLASSES.remove(className)
                 if className in self.PROMOTED_CLASSES:
-                    self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index(className))
+                    self.PROMOTED_CLASSES.remove(className)
                 if className in self.UNPROMOTED_CLASSES:
-                    self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index(className))
+                    self.UNPROMOTED_CLASSES.remove(className)
                 if className in self.MAGICAL_CLASSES:
-                    self.MAGICAL_CLASSES.pop(self.MAGICAL_CLASSES.index(className))
+                    self.MAGICAL_CLASSES.remove(className)
                 if className in self.SWORD_CLASSES:
-                    self.SWORD_CLASSES.pop(self.SWORD_CLASSES.index(className))
+                    self.SWORD_CLASSES.remove(className)
         else:
             if self.banBallistician:
                 if 'Ballicistian' in self.MALE_CLASSES:
-                    self.MALE_CLASSES.pop(self.MALE_CLASSES.index('Ballistician'))
-                self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Ballistician'))
+                    self.MALE_CLASSES.remove('Ballistician')
+                self.FINAL_CLASSES.remove('Ballistician')
                 if 'Ballicistian' in self.UNPROMOTED_CLASSES:
-                    self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index('Ballistician'))
+                    self.UNPROMOTED_CLASSES.remove('Ballistician')
                 elif 'Ballicistian' in self.PROMOTED_CLASSES:
-                    self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Ballistician'))
+                    self.PROMOTED_CLASSES.remove('Ballistician')
             if self.banWitch:
                 if 'Witch' in self.FEMALE_CLASSES:
-                    self.FEMALE_CLASSES.pop(self.FEMALE_CLASSES.index('Witch'))
-                self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Witch'))
+                    self.FEMALE_CLASSES.remove('Witch')
+                self.FINAL_CLASSES.remove('Witch')
                 if 'Witch' in self.UNPROMOTED_CLASSES:
-                    self.UNPROMOTED_CLASSES.pop(self.UNPROMOTED_CLASSES.index('Witch'))
+                    self.UNPROMOTED_CLASSES.remove('Witch')
                 elif 'Witch' in self.PROMOTED_CLASSES:
-                    self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Witch'))
-                self.MAGICAL_CLASSES.pop(self.MAGICAL_CLASSES.index('Witch'))
+                    self.PROMOTED_CLASSES.remove('Witch')
+                self.MAGICAL_CLASSES.remove('Witch')
 
         # Wrong noble classes disable supports with prepromoted units
-        if self.gameRoute not in ['Conquest', 'Revelations']:
-            self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Nohr Noble'))
-            self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Nohr Noble'))
-            self.SWORD_CLASSES.pop(self.SWORD_CLASSES.index('Nohr Noble'))
-        elif self.gameRoute != 'Birthright':  # Revelations doesn't like the 'Hoshido Noble' class apparently
-            self.JAKOB_CLASSES.pop(self.JAKOB_CLASSES.index('Hoshido Noble'))
-            self.FELICIA_CLASSES.pop(self.FELICIA_CLASSES.index('Hoshido Noble'))
-            self.FINAL_CLASSES.pop(self.FINAL_CLASSES.index('Hoshido Noble'))
-            self.PROMOTED_CLASSES.pop(self.PROMOTED_CLASSES.index('Hoshido Noble'))
-            self.SWORD_CLASSES.pop(self.SWORD_CLASSES.index('Hoshido Noble'))
+        if self.gameRoute == "Birthright":
+            self.FINAL_CLASSES.remove('Nohr Noble')
+            self.PROMOTED_CLASSES.remove('Nohr Noble')
+            self.SWORD_CLASSES.remove('Nohr Noble')
+        elif self.gameRoute == 'Conquest':
+            self.FINAL_CLASSES.remove('Hoshido Noble')
+            self.PROMOTED_CLASSES.remove('Hoshido Noble')
+            self.SWORD_CLASSES.remove('Hoshido Noble')
 
         self.earlyBirthrightRecruit = self.rng.choice(['Sakura', 'Kaze', 'Subaki', 'Hana'])
         self.earlyConquestRecruit = self.rng.choice(['Elise', 'Silas', 'Arthur', 'Effie'])
@@ -990,9 +988,10 @@ class FatesRandomizer:
         characters = self.ROUTE_CHARACTERS.copy()
 
         classes = self.FINAL_CLASSES.copy()
-        classes.pop(classes.index(self.randomizedClasses['Corrin']))
+        classes.remove(self.randomizedClasses['Corrin'])
         classesBis = self.FINAL_CLASSES.copy()
-        classesBis.pop(classesBis.index('Songstress'))  # one Songstress max
+        classesBis.remove('Songstress')  # one Songstress max
+        classesBis.remove('Great Master')
         classes = classes + classesBis
         classes = classes[:max(len(classesBis), len(characters))]
 
@@ -1002,19 +1001,21 @@ class FatesRandomizer:
         if self.forceStaffEarlyRecruit:
             if self.earlyConquestRecruit in characters:
                 staffClass = self.rng.choice(self.CONQUEST_STAFF_CLASSES)
+                while staffClass not in classes:
+                    staffClass = self.rng.choice(self.CONQUEST_STAFF_CLASSES)
                 self.randomizedClasses[self.earlyConquestRecruit] = staffClass
-                characters.pop(characters.index(self.earlyConquestRecruit))
-                if staffClass in classes:
-                    classes.pop(classes.index(staffClass))
+                characters.remove(self.earlyConquestRecruit)
+                classes.remove(staffClass)
             if self.earlyBirthrightRecruit in characters:
-                staffClass2 = self.rng.choice(self.BIRTHRIGHT_STAFF_CLASSES)
                 if self.earlyConquestRecruit in characters:
-                    while staffClass2 == staffClass:
-                        staffClass2 = self.rng.choice(self.BIRTHRIGHT_STAFF_CLASSES)
+                    if staffClass in self.BIRTHRIGHT_STAFF_CLASSES:
+                        self.BIRTHRIGHT_STAFF_CLASSES.remove(staffClass)
+                staffClass2 = self.rng.choice(self.BIRTHRIGHT_STAFF_CLASSES)
+                while staffClass2 not in classes:
+                    staffClass2 = self.rng.choice(self.BIRTHRIGHT_STAFF_CLASSES)
                 self.randomizedClasses[self.earlyBirthrightRecruit] = staffClass2
-                characters.pop(characters.index(self.earlyBirthrightRecruit))
-                if staffClass2 in classes:
-                    classes.pop(classes.index(staffClass2))
+                characters.remove(self.earlyBirthrightRecruit)
+                classes.remove(staffClass2)
 
         # Staff Retainer Check
         if self.forceStaffRetainer:
@@ -1028,25 +1029,25 @@ class FatesRandomizer:
                     feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
             self.randomizedClasses['Jakob'] = jakobClass
             self.randomizedClasses['Felicia'] = feliciaClass
-            characters.pop(characters.index('Jakob'))
-            characters.pop(characters.index('Felicia'))
+            characters.remove('Jakob')
+            characters.remove('Felicia')
             if jakobClass in classes:
-                classes.pop(classes.index(jakobClass))
+                classes.remove(jakobClass)
             if feliciaClass in classes:
-                classes.pop(classes.index(feliciaClass))
+                classes.remove(feliciaClass)
 
         # Songstress Check
         if self.forceSongstress:
             self.randomizedClasses['Azura'] = 'Songstress'
-            characters.pop(characters.index('Azura'))
-            classes.pop(classes.index('Songstress'))
+            characters.remove('Azura')
+            classes.remove('Songstress')
 
         # Villager Check
         if self.forceVillager:
             villagerPromoted = self.rng.choice(['Master of Arms', 'Merchant'])
             self.randomizedClasses['Mozu'] = villagerPromoted
-            characters.pop(characters.index('Mozu'))
-            classes.pop(classes.index(villagerPromoted))
+            characters.remove('Mozu')
+            classes.remove(villagerPromoted)
 
         # prioritize variance in parent classes
         if self.banChildren:
