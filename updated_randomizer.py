@@ -292,6 +292,8 @@ class FatesRandomizer:
         else:
             self.MALE_CLASSES = ['Great Master', 'Butler', 'Lodestar', 'Vanguard', 'Grandmaster', 'Ballistician']
             self.FEMALE_CLASSES = ['Priestess', 'Maid', 'Witch', 'Great Lord']
+        self.TRUE_MALE_CLASSES = ['Great Master', 'Butler', 'Lodestar', 'Vanguard', 'Grandmaster', 'Ballistician']
+        self.TRUE_FEMALE_CLASSES = ['Priestess', 'Maid', 'Witch', 'Great Lord']
 
         self.DLC_CLASSES = ['Dread Fighter', 'Dark Falcon', 'Ballistician',
             'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster']
@@ -400,6 +402,10 @@ class FatesRandomizer:
             'Scarlet', 'Peri', 'Mozu', 'Anna', 'Lucina', 'Sophie', 'Midori',
             'Selkie', 'Mitama', 'Caeldori', 'Rhajat', 'Velouria', 'Ophelia',
             'Soleil', 'Nina'
+        ]
+        self.PREPROMOTED_CHARACTERS = [
+            'Camilla', 'Ryoma', 'Leo', 'Xander', 'Yukimura', 'Fuga',
+            'Izana', 'Flora', 'Shura', 'Scarlet', 'Reina'
         ]
         self.ROYALS = ['Azura', 'Sakura', 'Hinoka', 'Elise', 'Camilla', 'Takumi',
                        'Ryoma', 'Leo', 'Xander']
@@ -671,13 +677,13 @@ class FatesRandomizer:
         return characterData
 
     def checkGender(self, characters, classes):
-        """ in place """
+        """ in place, ugly loop that ends only if everybody has a good class"""
         genderCheck = False
         while not genderCheck:
             genderCheck = True
             for i, className in enumerate(classes):
                 character = characters[i]
-                if className in self.MALE_CLASSES:
+                if className in self.MALE_CLASSES or (className in self.TRUE_MALE_CLASSES and character in self.PREPROMOTED_CHARACTERS):
                     if character not in self.MALE_CHARACTERS:
                         newCharacter = self.rng.choice(self.MALE_CHARACTERS)
                         while newCharacter not in characters:
@@ -685,7 +691,7 @@ class FatesRandomizer:
                         j = characters.index(newCharacter)
                         classes[i], classes[j] = classes[j], classes[i]
                         genderCheck = False
-                if className in self.FEMALE_CLASSES:
+                elif className in self.FEMALE_CLASSES or (className in self.TRUE_FEMALE_CLASSES and character in self.PREPROMOTED_CHARACTERS):
                     if character not in self.FEMALE_CHARACTERS:
                         newCharacter = self.rng.choice(self.FEMALE_CHARACTERS)
                         while newCharacter not in characters:
