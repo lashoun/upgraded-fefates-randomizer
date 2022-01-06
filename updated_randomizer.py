@@ -1541,19 +1541,22 @@ class FatesRandomizer:
             print("Note: Hayato will not be replaced in Revelations due to a bug in the randomizer.")
             jakobCharacter = self.getCharacter('Jakob')
             jakobReplacement = self.getCharacter(self.readSwitchedCharacterName('Jakob'))
+            self.setSwitchingCharacterName(jakobReplacement, self.readSwitchingCharacterName(jakobCharacter))
+            self.setSwitchingCharacterName(jakobCharacter, 'Jakob')
+
             feliciaCharacter = self.getCharacter('Felicia')
             feliciaReplacement = self.getCharacter(self.readSwitchedCharacterName('Felicia'))
+            self.setSwitchingCharacterName(feliciaReplacement, self.readSwitchingCharacterName(feliciaCharacter))
+            self.setSwitchingCharacterName(feliciaCharacter, 'Felicia')
+
             gunterCharacter = self.getCharacter('Gunter')
             gunterReplacement = self.getCharacter(self.readSwitchedCharacterName('Gunter'))
+            self.setSwitchingCharacterName(gunterReplacement, self.readSwitchingCharacterName(gunterCharacter))
+            self.setSwitchingCharacterName(gunterCharacter, 'Gunter')
+
             hayatoCharacter = self.getCharacter('Hayato')
             hayatoReplacement = self.getCharacter(self.readSwitchedCharacterName('Hayato'))
-            self.setSwitchingCharacterName(jakobReplacement, self.readSwitchingCharacterName(jakobCharacter))
-            self.setSwitchingCharacterName(feliciaReplacement, self.readSwitchingCharacterName(feliciaCharacter))
-            self.setSwitchingCharacterName(gunterReplacement, self.readSwitchingCharacterName(gunterCharacter))
             self.setSwitchingCharacterName(hayatoReplacement, self.readSwitchingCharacterName(hayatoCharacter))
-            self.setSwitchingCharacterName(jakobCharacter, 'Jakob')
-            self.setSwitchingCharacterName(feliciaCharacter, 'Felicia')
-            self.setSwitchingCharacterName(gunterCharacter, 'Gunter')
             self.setSwitchingCharacterName(hayatoCharacter, 'Hayato')
 
         if self.forceClassSpread:
