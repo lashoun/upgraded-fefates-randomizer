@@ -676,29 +676,46 @@ class FatesRandomizer:
             print("{}, {}, {}, {}, {}, {}".format(characterData['Name'], characterData['SwitchingCharacterName'], newGrowthsSum, newBaseStatsSum, growths, baseStats))
         return characterData
 
-    def checkGender(self, characters, classes):
-        """ in place, ugly loop that ends only if everybody has a good class"""
-        genderCheck = False
-        while not genderCheck:
-            genderCheck = True
+    def checkQuality(self, characters, classes):
+        """ in place, ugly loop that ends only if:
+            - no character has a gender-locked class of the wrong gender
+            - no prepromoted character is a Hoshido Noble or Nohr Noble
+            - Gunter and Camilla have a Def > Res class
+        """
+        qualityPass = False
+        while not qualityPass:
+            qualityPass = True
             for i, className in enumerate(classes):
                 character = characters[i]
-                if className in self.MALE_CLASSES or (className in self.TRUE_MALE_CLASSES and character in self.PREPROMOTED_CHARACTERS):
-                    if character not in self.MALE_CHARACTERS:
+                if (className in self.MALE_CLASSES or (className in self.TRUE_MALE_CLASSES and character in self.PREPROMOTED_CHARACTERS)) and character not in self.MALE_CHARACTERS:
+                    newCharacter = self.rng.choice(self.MALE_CHARACTERS)
+                    while newCharacter not in characters:
                         newCharacter = self.rng.choice(self.MALE_CHARACTERS)
-                        while newCharacter not in characters:
-                            newCharacter = self.rng.choice(self.MALE_CHARACTERS)
-                        j = characters.index(newCharacter)
-                        classes[i], classes[j] = classes[j], classes[i]
-                        genderCheck = False
-                elif className in self.FEMALE_CLASSES or (className in self.TRUE_FEMALE_CLASSES and character in self.PREPROMOTED_CHARACTERS):
-                    if character not in self.FEMALE_CHARACTERS:
+                    j = characters.index(newCharacter)
+                    classes[i], classes[j] = classes[j], classes[i]
+                    qualityPass = False
+                elif (className in self.FEMALE_CLASSES or (className in self.TRUE_FEMALE_CLASSES and character in self.PREPROMOTED_CHARACTERS)) and character not in self.FEMALE_CHARACTERS:
+                    newCharacter = self.rng.choice(self.FEMALE_CHARACTERS)
+                    while newCharacter not in characters:
                         newCharacter = self.rng.choice(self.FEMALE_CHARACTERS)
-                        while newCharacter not in characters:
-                            newCharacter = self.rng.choice(self.FEMALE_CHARACTERS)
-                        j = characters.index(newCharacter)
-                        classes[i], classes[j] = classes[j], classes[i]
-                        genderCheck = False
+                    j = characters.index(newCharacter)
+                    classes[i], classes[j] = classes[j], classes[i]
+                    qualityPass = False
+                elif className in ["Hoshido Noble", "Nohr Noble"] and character in self.PREPROMOTED_CHARACTERS:
+                    newCharacter = self.rng.choice(self.ROUTE_CHARACTERS)
+                    while newCharacter not in characters or newCharacter in self.PREPROMOTED_CHARACTERS:
+                        newCharacter = self.rng.choice(self.ROUTE_CHARACTERS)
+                    j = characters.index(newCharacter)
+                    classes[i], classes[j] = classes[j], classes[i]
+                    qualityPass = False
+                elif self.readClassDefenseType(className) != "Def" and ((character == "Gunter" and self.forceGunterDef) or (character == "Camilla" and self.forceCamillaDef)):
+                    newClass = self.rng.choice(classes)
+                    while self.readClassDefenseType(newClass) != "Def":
+                        newClass = self.rng.choice(classes)
+                    j = classes.index(newClass)
+                    classes[i], classes[j] = classes[j], classes[i]
+                    qualityPass = False
+
         return characters, classes
 
     # def computeBaseStats(self, characterName):
@@ -1059,7 +1076,7 @@ class FatesRandomizer:
         if self.banChildren:
             self.rng.shuffle(classes)
             classes = classes[:len(characters)]
-            self.checkGender(characters, classes)
+            self.checkQuality(characters, classes)
         else:
             childrenStart = characters.index('Shigure')
             parentCharacters = characters[:childrenStart]
@@ -1068,8 +1085,8 @@ class FatesRandomizer:
             childrenClasses = classes[childrenStart:]
             self.rng.shuffle(parentClasses)  # in place
             self.rng.shuffle(childrenClasses)  # in place
-            self.checkGender(parentCharacters, parentClasses)
-            self.checkGender(childrenCharacters, childrenClasses)
+            self.checkQuality(parentCharacters, parentClasses)
+            self.checkQuality(childrenCharacters, childrenClasses)
             classes = parentClasses + childrenClasses
             classes = classes[:len(characters)]
 
@@ -1567,18 +1584,18 @@ class FatesRandomizer:
             self.setSwitchingCharacterName(hayatoCharacter, 'Hayato')
 
         if self.forceClassSpread:
+            with open('{}/PMUClassSpread.csv'.format(path), 'w') as fcsv:
+                writer = csv.writer(fcsv, delimiter='\t')
+                for name in [x for x in ['Corrin'] + self.ROUTE_CHARACTERS if x in self.PMUList]:
+                    className = self.randomizedClasses[name]
+                    row = [name, self.readSwitchedCharacterName(name), className]
+                    writer.writerow(row)
             with open('{}/ClassSpread.csv'.format(path), 'w') as fcsv:
                 writer = csv.writer(fcsv, delimiter='\t')
-                if self.PMUMode:
-                    for name in [x for x in ['Corrin'] + self.ROUTE_CHARACTERS if x in self.PMUList]:
-                        className = self.randomizedClasses[name]
-                        row = [name, self.readSwitchedCharacterName(name), className]
-                        writer.writerow(row)
-                else:
-                    for name in [x for x in ['Corrin'] + self.ROUTE_CHARACTERS if x in self.randomizedClasses.keys()]:
-                        className = self.randomizedClasses[name]
-                        row = [name, self.readSwitchedCharacterName(name), className]
-                        writer.writerow(row)
+                for name in [x for x in ['Corrin'] + self.ROUTE_CHARACTERS if x in self.randomizedClasses.keys()]:
+                    className = self.randomizedClasses[name]
+                    row = [name, self.readSwitchedCharacterName(name), className]
+                    writer.writerow(row)
 
         for character in self.settings['root']['Character']:
             self.fixCharacter(character)
