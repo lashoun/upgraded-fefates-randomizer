@@ -44,6 +44,7 @@ parser.add_argument('-dlts', '--disable-livetoserve', action='store_true', help=
 parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacements' enforced Locktouch skill")
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
 parser.add_argument('-drl', '--disable-rebalance-levels', action='store_true', help="disable fairer level balance adjustments (reverts to levels from the original games)")
+parser.add_argument('-drr', '--def-res-ratio', type=float, default=0.8, help="ratio of higher def/res characters with mixed classes")
 parser.add_argument('-drsgs', '--disable-randomize-stats-growths-sum', action='store_true', help="will disable randomizing stats and growths sum for each character between customizable bounds")
 parser.add_argument('-ds', '--disable-songstress', action='store_true', help="disable Azura's replacement's enforced Songstress class")
 parser.add_argument('-dsr', '--disable-staff-retainer', action='store_true', help="disable Jakob and Felicia's replacement's enforced healing class")
@@ -170,6 +171,7 @@ class FatesRandomizer:
         baseStatsSumMax=30,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
         baseStatsSumMin=15,  # in adjustBaseStatsAndGrowths, will increase stats sum to said value
         corrinClass='',
+        defResRatio=0.8,
         disableBalancedSkillRandomization=False,
         disableModelSwitch=False,  # will disable model switching
         enableGenderlessDLC=False,  # allows DLC classes to be given regardless of gender
@@ -231,6 +233,7 @@ class FatesRandomizer:
         self.baseStatsSumMax = baseStatsSumMax
         self.baseStatsSumMin = baseStatsSumMin
         self.corrinClass = corrinClass
+        self.defResRatio = defResRatio
         self.disableBalancedSkillRandomization = disableBalancedSkillRandomization
         self.disableModelSwitch = disableModelSwitch
         self.enableDLCBaseClass = enableDLCBaseClass
@@ -1421,7 +1424,7 @@ class FatesRandomizer:
         if classDefenseType == 'Res':
             i, j = 7, 6
         elif classDefenseType == 'Mixed':
-            if self.rng.random() < 0.5:
+            if self.rng.random() < self.defResRatio:  # Def is supposed to be more common
                 i, j = 7, 6
         elif classDefenseType != 'Def':
             raise ValueError("Defense type '{}' unknown".format(classDefenseType))
@@ -1624,6 +1627,7 @@ if __name__ == "__main__":
         baseStatsSumMax=args.base_stats_sum_max,
         baseStatsSumMin=args.base_stats_sum_min,
         corrinClass=args.corrin_class,
+        defResRatio=args.def_res_ratio,
         disableBalancedSkillRandomization=args.disable_balanced_skill_randomization,
         disableModelSwitch=args.disable_model_switch,
         enableDLCBaseClass=args.enable_dlc_base_class,
