@@ -12,7 +12,7 @@ from numpy.random import default_rng
 path = './data'
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-ap', '--addmax-pow', type=float, default=0.8, help="the lower the more uniform growth adjustment")
+parser.add_argument('-ap', '--addmax-pow', type=float, default=0.7, help="the lower the more uniform growth adjustment")
 parser.add_argument('-ab', '--allow-ballistician', action='store_true', help="allow Ballistician class in the randomization")
 parser.add_argument('-ads', '--allow-dlc-skills', action='store_true', help="allow DLC skills in skill randomization")
 parser.add_argument('-ba', '--ban-anna', action='store_true', help="ban Anna")
@@ -21,7 +21,7 @@ parser.add_argument('-bc', '--ban-children', action='store_true', help="ban chil
 parser.add_argument('-bdc', '--ban-dlc-classes', action='store_true', help="ban DLC classes")
 parser.add_argument('-bdcs', '--ban-dlc-class-skills', action='store_true', help="ban DLC class skills in skill randomization")
 parser.add_argument('-bscap', '--base-stat-cap', type=int, default=11, help="if adjusting growths, max value for base stat")
-parser.add_argument('-bssmax', '--base-stats-sum-max', type=int, default=30, help="if adjusting growths, decreasing stats sum to that value")
+parser.add_argument('-bssmax', '--base-stats-sum-max', type=int, default=25, help="if adjusting growths, decreasing stats sum to that value")
 parser.add_argument('-bssmin', '--base-stats-sum-min', type=int, default=15, help="if adjusting growths, increasing stats sum to that value")
 parser.add_argument('-bw', '--ban-witch', action='store_true', help="ban Witch class from the randomization")
 parser.add_argument('-c', '--corrin-class', choices=[
@@ -42,6 +42,7 @@ parser.add_argument('-dcs', '--disable-class-spread', action='store_true', help=
 parser.add_argument('-dgd', '--disable-gunter-def', action='store_true', help="disable Gunter's replacement's enforced higher Def than Res")
 parser.add_argument('-dlts', '--disable-livetoserve', action='store_true', help="disable the retainers' replacements' enforced Live to Serve skill")
 parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacements' enforced Locktouch skill")
+parser.add_argument('-dlsc', '--disable-limit-staff-classes', action='store_true', help="disables replacing staff only classes by offensive classes and setting the staff only class as a reclass option")
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
 parser.add_argument('-drl', '--disable-rebalance-levels', action='store_true', help="disable fairer level balance adjustments (reverts to levels from the original games)")
 parser.add_argument('-drr', '--def-res-ratio', type=float, default=0.8, help="ratio of higher def/res characters with mixed classes")
@@ -51,7 +52,6 @@ parser.add_argument('-dsr', '--disable-staff-retainer', action='store_true', hel
 parser.add_argument('-dss', '--disable-staff-early-recruit', action='store_true', help="disable Sakura and/or Elise's replacement's enforced healing class")
 parser.add_argument('-edbc', '--enable-dlc-base-class', action='store_true', help="will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)")
 parser.add_argument('-egd', '--enable-genderless-dlc', action='store_true', help="allows DLC classes to be given regardless of gender; can cause the randomizer to fail if a prepromoted character gets a gender-locked DLC class")
-parser.add_argument('-elsc', '--enable-limit-staff-classes', action='store_true', help="will replace staff only class by a magical class and set the staff only class as a reclass option")
 parser.add_argument('-ema', '--enforce-mozu-aptitude', action='store_true', help="enforce Mozu (herself) having Aptitude")
 parser.add_argument('-emoc', '--enable-mag-only-corrin', action='store_true', help="enables Corrin to get a Mag only class")
 parser.add_argument('-epa', '--enforce-paralogue-aptitude', action='store_true', help="enforce Mozu's replacement to have Aptitude")
@@ -158,7 +158,7 @@ class FatesRandomizer:
         allCharacterData,
         classData,
         settings,
-        addmaxPow=0.8,
+        addmaxPow=0.7,
         allowDLCSkills=False,
         banAmiiboCharacters=False,
         banAnna=False,
@@ -168,7 +168,7 @@ class FatesRandomizer:
         banDLCClassSkills=False,
         banWitch=False,
         baseStatCap=11,  # in adjustBaseStatsAndGrowths, max value for base stats
-        baseStatsSumMax=30,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
+        baseStatsSumMax=25,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
         baseStatsSumMin=15,  # in adjustBaseStatsAndGrowths, will increase stats sum to said value
         corrinClass='',
         defResRatio=0.8,
@@ -197,7 +197,7 @@ class FatesRandomizer:
         growthP=1,  # proba of editing growths in AddVariancetoData
         growthsSumMax=350,  # in adjustBaseStatsAndGrowths, will decrease growths sum down to said value
         growthsSumMin=250,  # in adjustBaseStatsAndGrowths, will increase growths sum up to said value
-        limitStaffClasses=False,  # will limit staff only classes by putting characters in a magical class and offering the staff class as a possible reclass
+        limitStaffClasses=True,  # will limit staff only classes by putting characters in a magical class and offering the staff class as a possible reclass
         modifierCoefficient=0,  # value by which all modifiers will be increased
         modP=0.25,  # proba of editing modifiers in AddVariancetoData
         nPasses=10,  # number of passes in AddVariancetoData
@@ -205,6 +205,7 @@ class FatesRandomizer:
         PMUMode=False,  # ClassSpread.csv will contain only the 16 allowed characters, other characters will have the Survey skill
         randomizeStatsAndGrowthsSum=True,  # will sample a random value between min and max for each character
         rebalanceLevels=True,  # will rebalance recruitment levels
+        rngLevelUps=True,
         seed=None,
         statP=0.5,  # proba of editing stats in AddVariancetoData
         swapAtkDefP=0,  # according to class before random
@@ -267,6 +268,7 @@ class FatesRandomizer:
         self.PMUMode = PMUMode
         self.randomizeStatsAndGrowthsSum = randomizeStatsAndGrowthsSum
         self.rebalanceLevels = rebalanceLevels
+        self.rngLevelUps = rngLevelUps
         self.rng = default_rng(seed)
         self.statP = statP
         self.swapAtkDefP = swapAtkDefP
@@ -621,6 +623,8 @@ class FatesRandomizer:
             newGrowthsSum = self.growthsSumMin + 10 * self.rng.choice((self.growthsSumMax-self.growthsSumMin+10)//10)
             newBaseStatsSum = self.baseStatsSumMin + self.rng.choice(self.baseStatsSumMax-self.baseStatsSumMin+1)
             baseStatCap = self.baseStatCap
+            if characterData["SwitchingCharacterName"] == "Gunter":
+                newGrowthsSum = 80  # nerf Gunter growths
             # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats  # actually, they're good enough without this
             if characterData["SwitchingCharacterName"] in ["Camilla"]:  # Camilla deserves the buff to be equivalent to its vanilla counterpart
                 newBaseStatsSum += 10
@@ -653,8 +657,9 @@ class FatesRandomizer:
                 baseStatsSum -= 1
         else:
             baseStatsSumMax = self.baseStatsSumMax
-            if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats
-                baseStatsSumMax += 15
+            # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats
+            if characterData["SwitchingCharacterName"] in ["Camilla"]:  # Camilla deserves the buff to be equivalent to its vanilla counterpart
+                baseStatsSumMax += 10
             if growthsSum < self.growthsSumMin or self.forceStatDecrease:
                 while growthsSum < self.growthsSumMin:
                     s = self.rng.choice(8, p=probas)
@@ -679,7 +684,7 @@ class FatesRandomizer:
             print("{}, {}, {}, {}, {}, {}".format(characterData['Name'], characterData['SwitchingCharacterName'], newGrowthsSum, newBaseStatsSum, growths, baseStats))
         return characterData
 
-    def checkQuality(self, characters, classes):
+    def checkQuality(self, characterNames, classes):
         """ in place, ugly loop that ends only if:
             - no character has a gender-locked class of the wrong gender
             - no prepromoted character is a Hoshido Noble or Nohr Noble
@@ -689,37 +694,37 @@ class FatesRandomizer:
         while not qualityPass:
             qualityPass = True
             for i, className in enumerate(classes):
-                character = characters[i]
-                if (className in self.MALE_CLASSES or (className in self.TRUE_MALE_CLASSES and character in self.PREPROMOTED_CHARACTERS)) and character not in self.MALE_CHARACTERS:
-                    newCharacter = self.rng.choice(self.MALE_CHARACTERS)
-                    while newCharacter not in characters:
-                        newCharacter = self.rng.choice(self.MALE_CHARACTERS)
-                    j = characters.index(newCharacter)
+                characterName = characterNames[i]
+                if (className in self.MALE_CLASSES or (className in self.TRUE_MALE_CLASSES and characterName in self.PREPROMOTED_CHARACTERS)) and characterName not in self.MALE_CHARACTERS:
+                    newCharacterName = self.rng.choice(self.MALE_CHARACTERS)
+                    while newCharacterName not in characterNames:
+                        newCharacterName = self.rng.choice(self.MALE_CHARACTERS)
+                    j = characterNames.index(newCharacterName)
                     classes[i], classes[j] = classes[j], classes[i]
                     qualityPass = False
-                elif (className in self.FEMALE_CLASSES or (className in self.TRUE_FEMALE_CLASSES and character in self.PREPROMOTED_CHARACTERS)) and character not in self.FEMALE_CHARACTERS:
-                    newCharacter = self.rng.choice(self.FEMALE_CHARACTERS)
-                    while newCharacter not in characters:
-                        newCharacter = self.rng.choice(self.FEMALE_CHARACTERS)
-                    j = characters.index(newCharacter)
+                elif (className in self.FEMALE_CLASSES or (className in self.TRUE_FEMALE_CLASSES and characterName in self.PREPROMOTED_CHARACTERS)) and characterName not in self.FEMALE_CHARACTERS:
+                    newCharacterName = self.rng.choice(self.FEMALE_CHARACTERS)
+                    while newCharacterName not in characterNames:
+                        newCharacterName = self.rng.choice(self.FEMALE_CHARACTERS)
+                    j = characterNames.index(newCharacterName)
                     classes[i], classes[j] = classes[j], classes[i]
                     qualityPass = False
-                elif className in ["Hoshido Noble", "Nohr Noble"] and character in self.PREPROMOTED_CHARACTERS:
-                    newCharacter = self.rng.choice(self.ROUTE_CHARACTERS)
-                    while newCharacter not in characters or newCharacter in self.PREPROMOTED_CHARACTERS:
-                        newCharacter = self.rng.choice(self.ROUTE_CHARACTERS)
-                    j = characters.index(newCharacter)
+                elif className in ["Hoshido Noble", "Nohr Noble"] and characterName in self.PREPROMOTED_CHARACTERS:
+                    newCharacterName = self.rng.choice(self.ROUTE_CHARACTERS)
+                    while newCharacterName not in characterNames or newCharacterName in self.PREPROMOTED_CHARACTERS:
+                        newCharacterName = self.rng.choice(self.ROUTE_CHARACTERS)
+                    j = characterNames.index(newCharacterName)
                     classes[i], classes[j] = classes[j], classes[i]
                     qualityPass = False
-                elif self.readClassDefenseType(className) != "Def" and ((character == "Gunter" and self.forceGunterDef) or (character == "Camilla" and self.forceCamillaDef)):
+                elif self.readClassDefenseType(className) == 'Mixed' and ((characterName == "Gunter" and self.forceGunterDef) or (characterName == "Camilla" and self.forceCamillaDef)):
                     newClass = self.rng.choice(classes)
-                    while self.readClassDefenseType(newClass) != "Def":
+                    while self.readClassDefenseType(newClass) == 'Mixed':
                         newClass = self.rng.choice(classes)
                     j = classes.index(newClass)
                     classes[i], classes[j] = classes[j], classes[i]
                     qualityPass = False
 
-        return characters, classes
+        return characterNames, classes
 
     # def computeBaseStats(self, characterName):
     #     """ returns the lvl 1 stats of the character """
@@ -809,35 +814,35 @@ class FatesRandomizer:
                     if self.forceStaffEarlyRecruit:
                         if switchingCharacterName == self.earlyConquestRecruit:
                             if newClass in ['Onmyoji', 'Priestess', 'Great Master']:
-                                if self.earlyConquestRecruit in self.MALE_CHARACTERS:
-                                    self.setCharacterClass(character, 'Monk')
-                                if self.earlyConquestRecruit in self.FEMALE_CHARACTERS:
-                                    self.setCharacterClass(character, 'Shrine Maiden')
+                                if switchingCharacterName in self.MALE_CHARACTERS:
+                                    newBaseClass = 'Monk'
+                                if switchingCharacterName in self.FEMALE_CHARACTERS:
+                                    newBaseClass = 'Shrine Maiden'
                             else:
-                                self.setCharacterClass(character, 'Troubadour')
+                                newBaseClass = 'Troubadour'
                         elif switchingCharacterName == self.earlyBirthrightRecruit:
                             if newClass in ['Onmyoji', 'Priestess', 'Great Master']:
-                                if self.earlyConquestRecruit in self.MALE_CHARACTERS:
-                                    self.setCharacterClass(character, 'Monk')
-                                if self.earlyConquestRecruit in self.FEMALE_CHARACTERS:
-                                    self.setCharacterClass(character, 'Shrine Maiden')
+                                if switchingCharacterName in self.MALE_CHARACTERS:
+                                    newBaseClass = 'Monk'
+                                if switchingCharacterName in self.FEMALE_CHARACTERS:
+                                    newBaseClass = 'Shrine Maiden'
                             else:
-                                self.setCharacterClass(character, 'Troubadour')
-                        elif self.limitStaffClasses and newBaseClass in ['Troubadour', 'Shrine Maiden', 'Monk']:
-                            self.setCharacterReclassOne(character, newBaseClass)
-                            if newClass == 'Great Master':
-                                newBaseClass = self.rng.choice(['Spear Fighter', 'Sky Knight', 'Knight'])
-                            elif newClass == 'Priestess':
-                                newBaseClass = self.rng.choice(['Archer', 'Outlaw', 'Apothecary'])
-                            elif newClass == 'Onmyoji':
-                                newBaseClass = 'Diviner'
-                            elif newClass == 'Strategist':
-                                newBaseClass = self.rng.choice(['Diviner', 'Dark Mage'])
-                            elif newClass in ['Maid', 'Butler']:
-                                newBaseClass = 'Ninja'
-                            else:
-                                raise NotImplementedError("Missing non staff base class for class {}".format(newClass))
-                        self.setCharacterClass(character, newBaseClass)
+                                newBaseClass = 'Troubadour'
+                    elif (not self.forceStaffEarlyRecruit or (self.forceStaffEarlyRecruit and switchingCharacterName not in [self.earlyConquestRecruit, self.earlyBirthrightRecruit])) and self.limitStaffClasses and newBaseClass in ['Troubadour', 'Shrine Maiden', 'Monk']:
+                        self.setCharacterReclassOne(character, newBaseClass)
+                        if newClass == 'Great Master':
+                            newBaseClass = self.rng.choice(['Spear Fighter', 'Sky Knight', 'Knight'])
+                        elif newClass == 'Priestess':
+                            newBaseClass = self.rng.choice(['Archer', 'Outlaw', 'Apothecary'])
+                        elif newClass == 'Onmyoji':
+                            newBaseClass = 'Diviner'
+                        elif newClass == 'Strategist':
+                            newBaseClass = self.rng.choice(['Diviner', 'Dark Mage'])
+                        elif newClass in ['Maid', 'Butler']:
+                            newBaseClass = 'Ninja'
+                        else:
+                            raise NotImplementedError("Missing non staff base class for class {}".format(newClass))
+                    self.setCharacterClass(character, newBaseClass)
             else:
                 pass  # character not in route
 
@@ -941,11 +946,29 @@ class FatesRandomizer:
         if characterName == 'Mozu' and self.forceMozuAptitude:
             characterGrowths = np.copy(characterGrowths) + 10
         plusStats = np.zeros(8)
-        if newLevel > 1:
-            plusStats += (characterGrowths + newClassGrowths) * (newLevel - 1)
-        if newPromotionLevel > 1:
-            plusStats += (characterGrowths + newBaseClassGrowths) * (newPromotionLevel - 1)
-        plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
+        if self.rngLevelUps:
+            if newLevel > 1:
+                if promotionLevel > 1:
+                    for _ in range(newPromotionLevel - 1):
+                        levelUpRNG = 100 * self.rng.random(8)
+                        plusStats += levelUpRNG < characterGrowths + newClassGrowths
+                else:
+                    for _ in range(newLevel - 1):
+                        levelUpRNG = 100 * self.rng.random(8)
+                        plusStats += levelUpRNG < characterGrowths + newBaseClassGrowths
+            if newPromotionLevel > 1:
+                for _ in range(newPromotionLevel - 1):
+                    levelUpRNG = 100 * self.rng.random(8)
+                    plusStats += levelUpRNG < characterGrowths + newBaseClassGrowths
+        else:
+            if newLevel > 1:
+                if promotionLevel > 1:
+                    plusStats += (characterGrowths + newClassGrowths) * (newLevel - 1)
+                else:
+                    plusStats += (characterGrowths + newBaseClassGrowths) * (newLevel - 1)
+            if newPromotionLevel > 1:
+                plusStats += (characterGrowths + newBaseClassGrowths) * (newPromotionLevel - 1)
+            plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
         characterNewStats = characterBaseStats + plusStats
         characterData['OldStats'] = characterData['Stats']
         characterData['Stats'] = characterNewStats
@@ -954,13 +977,13 @@ class FatesRandomizer:
         if self.verbose:
             print("switchingCharacterName: {}".format(switchingCharacterName))
             print("newLevel, newPromotionLevel: {}, {}".format(newLevel, newPromotionLevel))
-            print("OldStats: {}".format(characterData['OldStats']))
-            print("OldBaseStats: {}".format(characterData['OldBaseStats']))
-            print("OldGrowths: {}".format(characterData['OldGrowths']))
-            print("Growths: {}".format(characterData['Growths']))
-            print("plusStats: {}".format(plusStats))
-            print("BaseStats: {}".format(characterData['BaseStats']))
-            print("Stats: {}".format(characterData['Stats']))
+            print("OldStats: {}, total: {}".format(characterData['OldStats'], np.sum(characterData['OldStats'])))
+            print("OldBaseStats: {}, total: {}".format(characterData['OldBaseStats'], np.sum(characterData['OldBaseStats'])))
+            print("OldGrowths: {}, total: {}".format(characterData['OldGrowths'], np.sum(characterData['OldGrowths'])))
+            print("Growths: {}, total: {}".format(characterData['Growths'], np.sum(characterData['Growths'])))
+            print("plusStats: {}, total: {}".format(plusStats, np.sum(plusStats)))
+            print("BaseStats: {}, total: {}".format(characterData['BaseStats'], np.sum(characterData['BaseStats'])))
+            print("Stats: {}, total: {}".format(characterData['Stats'], np.sum(characterData['Stats'])))
 
         # Increase Modifiers
         self.increaseModifiers(characterData['Modifiers'])
@@ -1011,7 +1034,7 @@ class FatesRandomizer:
                         corrinClass = self.rng.choice(self.FINAL_CLASSES)
             self.randomizedClasses['Corrin'] = corrinClass
 
-        characters = self.ROUTE_CHARACTERS.copy()
+        characterNames = self.ROUTE_CHARACTERS.copy()
 
         classes = self.FINAL_CLASSES.copy()
         classes.remove(self.randomizedClasses['Corrin'])
@@ -1019,28 +1042,28 @@ class FatesRandomizer:
         classesBis.remove('Songstress')  # one Songstress max
         classesBis.remove('Great Master')
         classes = classes + classesBis
-        classes = classes[:max(len(classesBis), len(characters))]
+        classes = classes[:max(len(classesBis), len(characterNames))]
 
         # Staff Early Recruit Check
         staffClass = ''
         staffClass2 = ''
         if self.forceStaffEarlyRecruit:
-            if self.earlyConquestRecruit in characters:
+            if self.earlyConquestRecruit in characterNames:
                 staffClass = self.rng.choice(self.CONQUEST_STAFF_CLASSES)
                 while staffClass not in classes:
                     staffClass = self.rng.choice(self.CONQUEST_STAFF_CLASSES)
                 self.randomizedClasses[self.earlyConquestRecruit] = staffClass
-                characters.remove(self.earlyConquestRecruit)
+                characterNames.remove(self.earlyConquestRecruit)
                 classes.remove(staffClass)
-            if self.earlyBirthrightRecruit in characters:
-                if self.earlyConquestRecruit in characters:
+            if self.earlyBirthrightRecruit in characterNames:
+                if self.earlyConquestRecruit in characterNames:
                     if staffClass in self.BIRTHRIGHT_STAFF_CLASSES:
                         self.BIRTHRIGHT_STAFF_CLASSES.remove(staffClass)
                 staffClass2 = self.rng.choice(self.BIRTHRIGHT_STAFF_CLASSES)
                 while staffClass2 not in classes:
                     staffClass2 = self.rng.choice(self.BIRTHRIGHT_STAFF_CLASSES)
                 self.randomizedClasses[self.earlyBirthrightRecruit] = staffClass2
-                characters.remove(self.earlyBirthrightRecruit)
+                characterNames.remove(self.earlyBirthrightRecruit)
                 classes.remove(staffClass2)
 
         # Staff Retainer Check
@@ -1055,8 +1078,8 @@ class FatesRandomizer:
                     feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
             self.randomizedClasses['Jakob'] = jakobClass
             self.randomizedClasses['Felicia'] = feliciaClass
-            characters.remove('Jakob')
-            characters.remove('Felicia')
+            characterNames.remove('Jakob')
+            characterNames.remove('Felicia')
             if jakobClass in classes:
                 classes.remove(jakobClass)
             if feliciaClass in classes:
@@ -1065,36 +1088,36 @@ class FatesRandomizer:
         # Songstress Check
         if self.forceSongstress:
             self.randomizedClasses['Azura'] = 'Songstress'
-            characters.remove('Azura')
+            characterNames.remove('Azura')
             classes.remove('Songstress')
 
         # Villager Check
         if self.forceVillager:
             villagerPromoted = self.rng.choice(['Master of Arms', 'Merchant'])
             self.randomizedClasses['Mozu'] = villagerPromoted
-            characters.remove('Mozu')
+            characterNames.remove('Mozu')
             classes.remove(villagerPromoted)
 
         # prioritize variance in parent classes
         if self.banChildren:
             self.rng.shuffle(classes)
-            classes = classes[:len(characters)]
-            self.checkQuality(characters, classes)
+            classes = classes[:len(characterNames)]
+            self.checkQuality(characterNames, classes)
         else:
-            childrenStart = characters.index('Shigure')
-            parentCharacters = characters[:childrenStart]
-            childrenCharacters = characters[childrenStart:]
+            childrenStart = characterNames.index('Shigure')
+            parentCharacterNames = characterNames[:childrenStart]
+            childrenCharacterNames = characterNames[childrenStart:]
             parentClasses = classes[:childrenStart]
             childrenClasses = classes[childrenStart:]
             self.rng.shuffle(parentClasses)  # in place
             self.rng.shuffle(childrenClasses)  # in place
-            self.checkQuality(parentCharacters, parentClasses)
-            self.checkQuality(childrenCharacters, childrenClasses)
+            self.checkQuality(parentCharacterNames, parentClasses)
+            self.checkQuality(childrenCharacterNames, childrenClasses)
             classes = parentClasses + childrenClasses
-            classes = classes[:len(characters)]
+            classes = classes[:len(characterNames)]
 
         for i, className in enumerate(classes):
-            self.randomizedClasses[characters[i]] = className
+            self.randomizedClasses[characterNames[i]] = className
 
         return None
 
@@ -1333,24 +1356,24 @@ class FatesRandomizer:
         return skills
 
     def selectPMUCharacters(self):
-        characters = self.PMU_CHARACTERS.copy()
+        characterNames = self.PMU_CHARACTERS.copy()
         PMUList = ['Corrin', 'Azura']
-        characters.remove('Azura')
+        characterNames.remove('Azura')
         if self.rng.random() < 0.5:
             PMUList.append('Jakob')
         else:
             PMUList.append('Felicia')
-        characters.remove('Jakob')
-        characters.remove('Felicia')
+        characterNames.remove('Jakob')
+        characterNames.remove('Felicia')
         if self.gameRoute == 'Conquest':
             PMUList.append(self.earlyConquestRecruit)
-            characters.remove(self.earlyConquestRecruit)
+            characterNames.remove(self.earlyConquestRecruit)
         else:
             PMUList.append(self.earlyBirthrightRecruit)
-            characters.remove(self.earlyBirthrightRecruit)
-        n = len(characters) + 1
+            characterNames.remove(self.earlyBirthrightRecruit)
+        n = len(characterNames) + 1
         benford = np.log(1+1/np.arange(1,n)) / np.log(n)
-        PMUList = PMUList + self.rng.choice(characters, 12, replace=False, p=benford).tolist()
+        PMUList = PMUList + self.rng.choice(characterNames, 12, replace=False, p=benford).tolist()
         return PMUList
 
     def setCharacterBitflags(self, character, bitflags):
@@ -1601,7 +1624,9 @@ class FatesRandomizer:
                     writer.writerow(row)
 
         for character in self.settings['root']['Character']:
-            self.fixCharacter(character)
+            characterName = self.readCharacterName(character)
+            if characterName in self.ROUTE_CHARACTERS:
+                self.fixCharacter(character)
 
         with open('{}/RandomizerSettingsUpdated.xml'.format(path), 'wb') as fxml:
             fxml.write(xmltodict.unparse(self.settings, pretty=True).encode('utf-8'))
@@ -1653,7 +1678,7 @@ if __name__ == "__main__":
         growthP=args.growth_p,
         growthsSumMax=args.growths_sum_max,
         growthsSumMin=args.growths_sum_min,
-        limitStaffClasses=args.enable_limit_staff_classes,
+        limitStaffClasses=(not args.disable_limit_staff_classes),
         modifierCoefficient=args.modifier_coefficient,
         modP=args.mod_p,
         nPasses=args.n_passes,
