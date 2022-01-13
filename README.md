@@ -103,6 +103,13 @@ By default the randomizer works as explained below. Customizations are possible 
 #### Classes
 - DLC class gender lock is removed
 - Skill changes
+    - Master of Arms: Seal Strength -> Astra, Life or Death -> Axebreaker
+    - Oni Chieftain: Death Blow -> Rend Heaven, Counter -> Lancebreaker
+    - Blacksmith: Salvage Blow -> Death Blow
+    - Basara: Quixotic -> Swordbreaker
+    - Diviner: Future Sight -> Malefic Aura
+    - Priestess / Great Master: Countermagic -> Inspiration
+    - Dark Knight: Seal Magic -> Rend Heaven
     - Witch: Warp -> Vengeance
     - Lodestar: Speedtaker -> Swordfaire
     - Vanguard: Strengthtaker -> Axebreaker
