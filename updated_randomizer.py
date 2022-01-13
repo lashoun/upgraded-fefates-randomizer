@@ -981,10 +981,10 @@ class FatesRandomizer:
             print("OldStats: {}, total: {}".format(characterData['OldStats'], np.sum(characterData['OldStats'])))
             print("OldBaseStats: {}, total: {}".format(characterData['OldBaseStats'], np.sum(characterData['OldBaseStats'])))
             print("OldGrowths: {}, total: {}".format(characterData['OldGrowths'], np.sum(characterData['OldGrowths'])))
-            print("Growths: {}, total: {}".format(characterData['Growths'], np.sum(characterData['Growths'])))
+            print("Growths: {}, total: {} -> {}".format(characterData['Growths'], np.sum(characterData['OldGrowths']), np.sum(characterData['Growths'])))
             print("plusStats: {}, total: {}".format(plusStats, np.sum(plusStats)))
-            print("BaseStats: {}, total: {}".format(characterData['BaseStats'], np.sum(characterData['BaseStats'])))
-            print("Stats: {}, total: {}".format(characterData['Stats'], np.sum(characterData['Stats'])))
+            print("BaseStats: {}, total: {} -> {}".format(characterData['BaseStats'], np.sum(characterData['OldBaseStats']), np.sum(characterData['BaseStats'])))
+            print("Stats: {}, total: {} -> {}".format(characterData['Stats'], np.sum(characterData['OldStats']), np.sum(characterData['Stats'])))
 
         # Increase Modifiers
         self.increaseModifiers(characterData['Modifiers'])
@@ -1625,8 +1625,10 @@ class FatesRandomizer:
                     writer.writerow(row)
 
         for character in self.settings['root']['Character']:
-            characterName = self.readCharacterName(character)
-            if characterName in self.ROUTE_CHARACTERS:
+            switchingcharacterName = self.readSwitchingCharacterName(character)
+            if (self.verbose and switchingcharacterName in self.ROUTE_CHARACTERS):
+                self.fixCharacter(character)
+            else:
                 self.fixCharacter(character)
 
         with open('{}/RandomizerSettingsUpdated.xml'.format(path), 'wb') as fxml:
