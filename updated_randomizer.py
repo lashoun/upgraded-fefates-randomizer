@@ -45,6 +45,7 @@ parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="dis
 parser.add_argument('-dlsc', '--disable-limit-staff-classes', action='store_true', help="disables replacing staff only classes by offensive classes and setting the staff only class as a reclass option")
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
 parser.add_argument('-drl', '--disable-rebalance-levels', action='store_true', help="disable fairer level balance adjustments (reverts to levels from the original games)")
+parser.add_argument('-drlu', '--disable-rng-level-ups', action='store_true', help="disable rng level ups; characters will have average stats w.r.t their growths")
 parser.add_argument('-drr', '--def-res-ratio', type=float, default=0.8, help="ratio of higher def/res characters with mixed classes")
 parser.add_argument('-drsgs', '--disable-randomize-stats-growths-sum', action='store_true', help="will disable randomizing stats and growths sum for each character between customizable bounds")
 parser.add_argument('-ds', '--disable-songstress', action='store_true', help="disable Azura's replacement's enforced Songstress class")
@@ -1441,7 +1442,7 @@ class FatesRandomizer:
     def swapCharacterDefRes(self, characterData):
         "by default, def and res are according to class"
 
-        className = characterData['NewClass']
+        className = characterData['NewBaseClass']
         classDefenseType = self.readClassDefenseType(className)
         i, j = 6, 7  # default: 'Def'
         if classDefenseType == 'Res':
