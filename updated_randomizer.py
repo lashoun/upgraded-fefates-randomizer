@@ -1305,9 +1305,9 @@ class FatesRandomizer:
             skills.append(lastSkill)
 
             # Str/Mag +2
-            if skills[0] == 3 and self.readClassAttackType(className) == 'Str':
+            if skills[0] == 3 and 'Str' in self.readClassAttackType(className):
                 skills[0] = 2
-            if skills[0] == 2 and self.readClassAttackType(className) == 'Mag':
+            if skills[0] == 2 and 'Mag' in self.readClassAttackType(className):
                 skills[0] = 3
 
             # Def/Res +2
@@ -1316,13 +1316,18 @@ class FatesRandomizer:
             if skills[0] == 7 and self.readClassDefenseType(className) == 'Res':
                 skills[0] = 8
 
+            # Malefic Aura
+            if skills[0] == 76 and not className in self.TOME_CLASSES:
+                while skills[0] == 76:
+                    skills[0] = self.rng.choice(allBaseSkills2)
+
             # Shadowgift
             if skills[0] == 141 and not className in self.TOME_CLASSES:
                 while skills[0] == 141:
                     skills[0] = self.rng.choice(allBaseSkills1)
 
             # Live to Serve
-            if skills[2] == 100 and not (className in self.FELICIA_CLASSES or className in self.JAKOB_CLASSES):
+            if skills[2] == 100 and not (className == 'Hoshido Noble' or className in self.FELICIA_CLASSES or className in self.JAKOB_CLASSES):
                 while skills[2] == 100:
                     skills[2] = self.rng.choice(allPromotedSkills1)
 
@@ -1343,7 +1348,7 @@ class FatesRandomizer:
                 if skills[i] >= 79 and skills[i] <= 84:
                     weapon = self.rng.choice(self.classData[className]["Weapons"])
                     if weapon not in ["Staff", "Beaststone"]:
-                        if className not in ["Wyvern Lord", "Blacksmith", "Hero", "Maid", "Butler", "Sorcerer", "Bow Knight", "Vanguard", "Dread Fighter"]:
+                        if className not in ["Wyvern Lord", "Blacksmith", "Hero", "Maid", "Butler", "Sorcerer", "Bow Knight", "Vanguard", "Dread Fighter", "Master of Arms", "Oni Chieftain", "Basara"]:
                             skills[i] = self.BREAKER_SKILLS[weapon]
                         else:
                             skills[i] = self.FAIRE_SKILLS[weapon]
