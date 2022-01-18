@@ -201,5 +201,8 @@ I advise using the Infinite Movement cheat code for this chapter. If you can pla
 ### Conquest Chapter 9: Talking with Nyx crashes the game!
 Break the wall near Nyx before talking to her. 
 
+### Conquest Chapter 16: The game freezes after the "Spare Shura" prompt!
+You need to rename or delete the file `Scripts/B/B016.cmb`. This might skip the prompt in its entirety, meaning you won't get anything, but at least you can play the rest of the route.
+
 ### Revelations Chapter 8: Hayato was not replaced!
 This is an issue from the original randomizer; I can't fix it myself. This can amusingly lead to recruiting two Hayatos.
