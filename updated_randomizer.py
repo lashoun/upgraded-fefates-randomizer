@@ -52,7 +52,7 @@ parser.add_argument('-ds', '--disable-songstress', action='store_true', help="di
 parser.add_argument('-dsr', '--disable-staff-retainer', action='store_true', help="disable Jakob and Felicia's replacement's enforced healing class")
 parser.add_argument('-dss', '--disable-staff-early-recruit', action='store_true', help="disable Sakura and/or Elise's replacement's enforced healing class")
 parser.add_argument('-edbc', '--enable-dlc-base-class', action='store_true', help="will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)")
-parser.add_argument('-egd', '--enable-genderless-dlc', action='store_true', help="allows DLC classes to be given regardless of gender; can cause the randomizer to fail if a prepromoted character gets a gender-locked DLC class")
+parser.add_argument('-egd', '--enable-genderless-dlc', action='store_true', help="allows DLC classes to be given regardless of gender. Will automatically trigger --enable-dlc-base-class since this will affect only unpromoted characters; prepromoted characters are banned from getting an illegal class since the randomizer doesn't support it")
 parser.add_argument('-ema', '--enforce-mozu-aptitude', action='store_true', help="enforce Mozu (herself) having Aptitude")
 parser.add_argument('-emoc', '--enable-mag-only-corrin', action='store_true', help="enables Corrin to get a Mag only class")
 parser.add_argument('-epa', '--enforce-paralogue-aptitude', action='store_true', help="enforce Mozu's replacement to have Aptitude")
@@ -239,6 +239,9 @@ class FatesRandomizer:
         self.disableBalancedSkillRandomization = disableBalancedSkillRandomization
         self.disableModelSwitch = disableModelSwitch
         self.enableDLCBaseClass = enableDLCBaseClass
+        if enableGenderlessDLC and not enableDLCBaseClass:
+            print("Note: enable-dlc-base-class will be enabled since it is required by enable-genderless-dlc: you will need to manually promote characters to their DLC class")
+            self.enableDLCBaseClass = True
         self.enableGenderlessDLC = enableGenderlessDLC
         self.forceClassSpread = forceClassSpread
         self.forceCamillaDef = forceCamillaDef
