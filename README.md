@@ -170,7 +170,134 @@ python updated_randomizer.py -h
 
 ## All Available Options
 ```
+usage: updated_randomizer.py [-h] [-ap ADDMAX_POW] [-ab] [-ads] [-ba] [-bac] [-bc] [-bdc] [-bdcs]
+                             [-bscap BASE_STAT_CAP] [-bssmax BASE_STATS_SUM_MAX] [-bssmin BASE_STATS_SUM_MIN] [-bw]
+                             [-c CORRIN_CLASS] [-dbsr] [-dcd] [-dcs] [-dgd] [-dlts] [-dl] [-dlsc] [-dms] [-drl]
+                             [-drlu] [-drr DEF_RES_RATIO] [-drsgs] [-ds] [-dsr] [-dss] [-edbc] [-egd] [-ema] [-emoc]
+                             [-epa] [-esc] [-esd] [-esi] [-ev] [-evc] [-g {Revelations,Birthright,Conquest}]
+                             [-gc GROWTH_CAP] [-gp GROWTH_P] [-gsmax GROWTHS_SUM_MAX] [-gsmin GROWTHS_SUM_MIN]
+                             [-mc MODIFIER_COEFFICIENT] [-mp MOD_P] [-np N_PASSES] [-ns {-1,0,1,2,3,4,5}] [-pmu]
+                             [-s SEED] [-sp STAT_P] [-sadp SWAP_ATK_DEF_P] [-sdrp SWAP_DEF_RES_P] [-slp SWAP_LCK_P]
+                             [-sssp SWAP_SKL_SPD_P] [-ssmp SWAP_STR_MAG_P] [-v]
 
+optional arguments:
+  -h, --help            show this help message and exit
+  -ap ADDMAX_POW, --addmax-pow ADDMAX_POW
+                        the lower the more uniform growth adjustment
+  -ab, --allow-ballistician
+                        allow Ballistician class in the randomization
+  -ads, --allow-dlc-skills
+                        allow DLC skills in skill randomization
+  -ba, --ban-anna       ban Anna
+  -bac, --ban-amiibo-characters
+                        ban Amiibo characters (Marth, Lucina, Robin, Ike)
+  -bc, --ban-children   ban children characters
+  -bdc, --ban-dlc-classes
+                        ban DLC classes
+  -bdcs, --ban-dlc-class-skills
+                        ban DLC class skills in skill randomization
+  -bscap BASE_STAT_CAP, --base-stat-cap BASE_STAT_CAP
+                        if adjusting growths, max value for base stat
+  -bssmax BASE_STATS_SUM_MAX, --base-stats-sum-max BASE_STATS_SUM_MAX
+                        if adjusting growths, decreasing stats sum to that value
+  -bssmin BASE_STATS_SUM_MIN, --base-stats-sum-min BASE_STATS_SUM_MIN
+                        if adjusting growths, increasing stats sum to that value
+  -bw, --ban-witch      ban Witch class from the randomization
+  -c CORRIN_CLASS, --corrin-class CORRIN_CLASS
+                        Corrin's final class
+  -dbsr, --disable-balanced-skill-randomization
+                        disable balanced skill randomization; skill randomization will be completely random
+  -dcd, --disable-camilla-def
+                        disable Camilla's replacement's enforced higher Def than Res
+  -dcs, --disable-class-spread
+                        disable diverse class reroll
+  -dgd, --disable-gunter-def
+                        disable Gunter's replacement's enforced higher Def than Res
+  -dlts, --disable-livetoserve
+                        disable the retainers' replacements' enforced Live to Serve skill
+  -dl, --disable-locktouch
+                        disable Kaze and Niles' replacements' enforced Locktouch skill
+  -dlsc, --disable-limit-staff-classes
+                        disables replacing staff only classes by offensive classes and setting the staff only class as
+                        a reclass option
+  -dms, --disable-model-switch
+                        disable model switching but keep switching the rest of the data (stats, growths...)
+  -drl, --disable-rebalance-levels
+                        disable fairer level balance adjustments (reverts to levels from the original games)
+  -drlu, --disable-rng-level-ups
+                        disable rng level ups; characters will have average stats w.r.t their growths
+  -drr DEF_RES_RATIO, --def-res-ratio DEF_RES_RATIO
+                        ratio of higher def/res characters with mixed classes
+  -drsgs, --disable-randomize-stats-growths-sum
+                        will disable randomizing stats and growths sum for each character between customizable bounds
+  -ds, --disable-songstress
+                        disable Azura's replacement's enforced Songstress class
+  -dsr, --disable-staff-retainer
+                        disable Jakob and Felicia's replacement's enforced healing class
+  -dss, --disable-staff-early-recruit
+                        disable Sakura and/or Elise's replacement's enforced healing class
+  -edbc, --enable-dlc-base-class
+                        will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for
+                        Dread Fighter)
+  -egd, --enable-genderless-dlc
+                        allows DLC classes to be given regardless of gender. Will automatically trigger --enable-dlc-
+                        base-class since this will affect only unpromoted characters; prepromoted characters are
+                        banned from getting an illegal class since the randomizer doesn't support it
+  -ema, --enforce-mozu-aptitude
+                        enforce Mozu (herself) having Aptitude
+  -emoc, --enable-mag-only-corrin
+                        enables Corrin to get a Mag only class
+  -epa, --enforce-paralogue-aptitude
+                        enforce Mozu's replacement to have Aptitude
+  -esc, --enforce-sword-corrin
+                        enforces Corrin to get a sword-wielding final class
+  -esd, --enforce-stat-decrease
+                        enforces stat decrease to base stat sum max regardless of growth increase
+  -esi, --enforce-stat-increase
+                        enforces stat increase to base stat sum min
+  -ev, --enforce-villager
+                        enforce Mozu's replacement being a Villager with Aptitude
+  -evc, --enforce-viable-characters
+                        will force you to play with only the first 15 characters encoutered by giving 0 growth rates
+                        to the others in the route; non-iable characters will be given the 'Survey' skill for easy
+                        identification
+  -g {Revelations,Birthright,Conquest}, --game-route {Revelations,Birthright,Conquest}
+                        game route, especially important to specify it if playing Revelations so that levels are the
+                        correct ones
+  -gc GROWTH_CAP, --growth-cap GROWTH_CAP
+                        adjusted growths cap
+  -gp GROWTH_P, --growth-p GROWTH_P
+                        probability of editing growths in a variability pass
+  -gsmax GROWTHS_SUM_MAX, --growths-sum-max GROWTHS_SUM_MAX
+                        will adjust growths until sum is lower than specified value
+  -gsmin GROWTHS_SUM_MIN, --growths-sum-min GROWTHS_SUM_MIN
+                        will adjust growths until sum is higher than specified value
+  -mc MODIFIER_COEFFICIENT, --modifier-coefficient MODIFIER_COEFFICIENT
+                        will increase all modifiers by specified coefficient
+  -mp MOD_P, --mod-p MOD_P
+                        probability of editing modifiers in a variability pass
+  -np N_PASSES, --n-passes N_PASSES
+                        number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass
+  -ns {-1,0,1,2,3,4,5}, --n-skills {-1,0,1,2,3,4,5}
+                        number of randomized skills; if -1, randomize existing skills
+  -pmu, --pmu-mode      `ClassSpread.csv` will only contain the 16 allowed characters for the run
+  -s SEED, --seed SEED  RNG seed
+  -sp STAT_P, --stat-p STAT_P
+                        probability of editing stats in a variability pass
+  -sadp SWAP_ATK_DEF_P, --swap-atk-def-p SWAP_ATK_DEF_P
+                        probability of swapping Str/Mag (higher one) with Def/Res (higher one) growths / stats /
+                        modifiers
+  -sdrp SWAP_DEF_RES_P, --swap-def-res-p SWAP_DEF_RES_P
+                        probability of swapping Def and Res growths / stats / modifiers
+  -slp SWAP_LCK_P, --swap-lck-p SWAP_LCK_P
+                        probability of swapping Lck and a random stat's growths / stats / modifiers; random if between
+                        0 and 1, else [(Lck Growth)% and swap only if Lck is superior]
+  -sssp SWAP_SKL_SPD_P, --swap-skl-spd-p SWAP_SKL_SPD_P
+                        probability of swapping Skl and Spd growths / stats / modifiers
+  -ssmp SWAP_STR_MAG_P, --swap-str-mag-p SWAP_STR_MAG_P
+                        probability of swapping Str and Mag growths / stats / modifiers; random if between 0 and 1,
+                        else according to class (coin flip for mixed classes)
+  -v, --verbose         print verbose stuff
 ```
 
 ### Example Custom Run
