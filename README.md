@@ -33,7 +33,7 @@ By default the randomizer works as explained below. Customizations are possible 
     - Lck / ? (default: [Lck Growth]% chance, only if Lck stat / growth / mod is superior)
 - "Catch 'em all" mode by default: the randomizer will minimize duplicate final classes according to the chosen route (can be disabled with `--disable-class-spread`)
 - There is an option to keep all characters at their usual spot but still have the class and stats modifications (option `--disable-model-switch`)
-- Minor updates to recruitment levels to make some characters more viable; Hayato joins Lvl 7 instead of 1 in Birthright, for instance. Can be disabled with `--disable-reblance-levels`
+- Minor updates to recruitment levels to make some characters more viable; Hayato joins at Lvl 7 instead of 1 in Birthright, for instance. Can be disabled with `--disable-rebalance-levels`
 
 ### Upgraded Fates Features
 
