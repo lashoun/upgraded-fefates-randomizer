@@ -362,10 +362,10 @@ class FatesRandomizer:
         self.CONQUEST_CHARACTERS = [
             'Felicia', 'Jakob', 'Elise', 'Silas', 'Arthur', 'Effie', 'Mozu',
             'Odin', 'Niles', 'Azura', 'Nyx', 'Camilla', 'Selena', 'Beruka', 'Kaze',
-            'Laslow', 'Peri', 'Benny', 'Charlotte', 'Leo', 'Keaton', 'Gunter',
-            'Xander', 'Shura', 'Flora', 'Izana', 'Anna', 'Shigure', 'Dwyer', 'Sophie',
+            'Laslow', 'Peri', 'Benny', 'Charlotte', 'Leo', 'Keaton', 'Xander',
+            'Shura', 'Flora', 'Izana', 'Anna', 'Shigure', 'Dwyer', 'Sophie',
             'Midori', 'Siegbert', 'Forrest', 'Ignatius', 'Velouria', 'Percy',
-            'Ophelia', 'Soleil', 'Nina', 'Marth', 'Lucina', 'Robin', 'Ike',
+            'Ophelia', 'Soleil', 'Nina', 'Marth', 'Lucina', 'Robin', 'Ike', 'Gunter'
         ]
         self.REVELATION_CHARACTERS = [
             'Azura', 'Felicia', 'Jakob', 'Mozu', 'Sakura', 'Hana',
@@ -373,11 +373,11 @@ class FatesRandomizer:
             'Saizo', 'Orochi', 'Reina', 'Kagero', 'Camilla', 'Selena', 'Beruka',
             'Kaden', 'Keaton', 'Elise', 'Arthur', 'Effie', 'Charlotte', 'Benny',
             'Silas', 'Shura', 'Nyx', 'Hinoka', 'Azama', 'Setsuna', 'Ryoma',
-            'Scarlet', 'Leo', 'Xander', 'Odin', 'Niles', 'Laslow', 'Peri',
-            'Flora', 'Fuga', 'Anna', 'Shigure', 'Dwyer', 'Sophie', 'Midori', 'Shiro',
+            'Leo', 'Xander', 'Odin', 'Niles', 'Laslow', 'Peri', 'Flora', 'Fuga',
+            'Anna', 'Shigure', 'Dwyer', 'Sophie', 'Midori', 'Shiro',
             'Kiragi', 'Asugi', 'Selkie', 'Hisame', 'Mitama', 'Caeldori', 'Rhajat',
             'Siegbert', 'Forrest', 'Ignatius', 'Velouria', 'Percy', 'Ophelia',
-            'Soleil', 'Nina', 'Marth', 'Lucina', 'Robin', 'Ike', 'Gunter',
+            'Soleil', 'Nina', 'Marth', 'Lucina', 'Robin', 'Ike', 'Gunter', 'Scarlet'
         ]  # removed Hayato
         self.ALL_CHARACTERS = [
             'Azura', 'Felicia', 'Jakob', 'Mozu', 'Sakura', 'Hana', 'Subaki',
@@ -1042,11 +1042,12 @@ class FatesRandomizer:
 
         classes = self.FINAL_CLASSES.copy()
         classes.remove(self.randomizedClasses['Corrin'])
+        self.rng.shuffle(classes)
         classesBis = self.FINAL_CLASSES.copy()
         classesBis.remove('Songstress')  # one Songstress max
-        classesBis.remove('Great Master')
+        self.rng.shuffle(classesBis)
         classes = classes + classesBis
-        classes = classes[:max(len(classesBis), len(characterNames))]
+        classes = classes[:len(characterNames)]
 
         # Staff Early Recruit Check
         staffClass = ''
@@ -1060,10 +1061,11 @@ class FatesRandomizer:
                 characterNames.remove(self.earlyConquestRecruit)
                 classes.remove(staffClass)
             if self.earlyBirthrightRecruit in characterNames:
+                birthrightStaffClasses = self.BIRTHRIGHT_STAFF_CLASSES.copy()
                 if self.earlyConquestRecruit in characterNames:
-                    if staffClass in self.BIRTHRIGHT_STAFF_CLASSES:
-                        self.BIRTHRIGHT_STAFF_CLASSES.remove(staffClass)
-                staffClass2 = self.rng.choice(self.BIRTHRIGHT_STAFF_CLASSES)
+                    if staffClass in birthrightStaffClasses:
+                        birthrightStaffClasses.remove(staffClass)
+                staffClass2 = self.rng.choice(birthrightStaffClasses)
                 while staffClass2 not in classes:
                     staffClass2 = self.rng.choice(self.BIRTHRIGHT_STAFF_CLASSES)
                 self.randomizedClasses[self.earlyBirthrightRecruit] = staffClass2
@@ -1210,7 +1212,9 @@ class FatesRandomizer:
 
     def readCharacterLevel(self, characterName):
         if self.gameRoute == 'Conquest' and characterName == 'Kaze':
-            return 9  # otherwise he stays at level 3
+            return 2  # otherwise he stays at level 3
+        if self.gameRoute == 'Conquest' and characterName == 'Shura':
+            return 2  # he is recruited at level 10 in the other routes
         if self.rebalanceLevels:
             if self.gameRoute == 'Revelations':
                 return self.allCharacterData[characterName]['RebalancedRevelationsLevel']
