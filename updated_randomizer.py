@@ -1212,7 +1212,7 @@ class FatesRandomizer:
 
     def readCharacterLevel(self, characterName):
         if self.gameRoute == 'Conquest' and characterName == 'Kaze':
-            return 2  # otherwise he stays at level 3
+            return 9  # otherwise he stays at level 3
         if self.gameRoute == 'Conquest' and characterName == 'Shura':
             return 2  # he is recruited at level 10 in the other routes
         if self.rebalanceLevels:
