@@ -576,7 +576,7 @@ class FatesRandomizer:
                 'Subaki', 'Kaze', 'Rinkah', 'Takumi', 'Oboro', 'Hinata',
                 'Saizo', 'Orochi', 'Reina', 'Kagero', 'Camilla', 'Selena', 'Beruka',
                 'Kaden', 'Keaton', 'Elise', 'Arthur', 'Effie', 'Charlotte', 'Benny',
-                'Silas', 'Shura', 'Nyx', 'Hinoka', 'Azama', 'Setsuna', 'Ryoma',
+                'Silas', 'Nyx', 'Hinoka', 'Azama', 'Setsuna', 'Ryoma',
                 'Leo', 'Xander', 'Odin', 'Niles', 'Laslow', 'Peri',
             ]
 
