@@ -720,9 +720,9 @@ class FatesRandomizer:
                     j = characterNames.index(newCharacterName)
                     classes[i], classes[j] = classes[j], classes[i]
                     qualityPass = False
-                elif self.readClassDefenseType(className) == 'Mixed' and ((characterName == "Gunter" and self.forceGunterDef) or (characterName == "Camilla" and self.forceCamillaDef)):
+                elif self.readClassDefenseType(className) != 'Def' and ((characterName == "Gunter" and self.forceGunterDef) or (characterName == "Camilla" and self.forceCamillaDef)):
                     newClass = self.rng.choice(classes)
-                    while self.readClassDefenseType(newClass) == 'Mixed':
+                    while self.readClassDefenseType(newClass) != 'Def':
                         newClass = self.rng.choice(classes)
                     j = classes.index(newClass)
                     classes[i], classes[j] = classes[j], classes[i]
