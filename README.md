@@ -333,3 +333,6 @@ You need to rename or delete the file `Scripts/B/B016.cmb`. This might skip the 
 
 ### Revelations Chapter 8: Hayato was not replaced!
 This is an issue from the original randomizer; I can't fix it myself. This can amusingly lead to recruiting two Hayatos.
+
+### Revelations Chapter 13: The obstacles are invisible!
+This is a known issue. No fix for this at the moment.
