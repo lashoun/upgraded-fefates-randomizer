@@ -60,7 +60,7 @@ By default the randomizer works as explained below. Customizations are possible 
 - Changes to weapon triangles: Tome <-> Axe, Dagger <-> Sword, and Bow <-> Lance become neutral
     - Rationale: range weapons can already hit melee weapons without retaliation so they shouldn't have weapon advantage on top of that
 - Weapon rank requirements decreased by one for every weapon: for instance, iron weapons are available from rank E.
-- Weapon updates: increased the difference between Hoshidan and Nohrian weapons, nerfed the hell out of those busted hidden weapons, doubled Staff Exp for convenience.
+- Weapon updates: increased the difference between Hoshidan and Nohrian weapons, nerfed the hell out of those busted hidden weapons, doubled Staff Exp for convenience. The changes only concern Bronze / Iron / Steel / Silver weapons. A few other
 	- Swords, Lances: +1 Mt, -10 Hit, -5 Avo, +2 Crit
 	- Katanas, Naginatas: -1 Mt, +5 Hit, +2 Avo
 	- Axes: +1 Mt, -10 Hit, -5 Avo
@@ -92,7 +92,8 @@ By default the randomizer works as explained below. Customizations are possible 
     - Raijinto: gives Skl+3 instead of Str+4, range 1
     - Siegfried: gives Def+2 instead of Def+4, range 1
     - Enemy royals have "Sacred weapons+" (Raijinto+/Siegfried+/Fujin Yumi+/Brynhildr+) with buffed Mt (15), and Raijinto+ and Siegfried+ keep 1-2 range and their original buffs (Str/Def +4)
-- Wakizashi, Spear, Tomahawk and Battering Club are now 1-2 range
+- Wakizashi, Spear, Tomahawk and Battering Club are now 1-2 range, but have -10 Hit and -10 Avo
+- All hidden weapons that were not Bronze / Iron / Steel / Silver have -2 Mt and -20 Hit, and all stat debuffs are decreased by 1
 - Silver weapons no longer self-debuff, but instead give -10 Avo, -2 Def/Res and -3 eff. Spd in enemy phase
     - Enemies have "Silver Weapons+" which do not have any of the aforementioned maluses
 - Beaststones+ and Dragonstones+ now halve Str/Mag until the end of the next fight
