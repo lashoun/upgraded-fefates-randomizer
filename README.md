@@ -60,7 +60,7 @@ By default the randomizer works as explained below. Customizations are possible 
 - Changes to weapon triangles: Tome <-> Axe, Dagger <-> Sword, and Bow <-> Lance become neutral
     - Rationale: range weapons can already hit melee weapons without retaliation so they shouldn't have weapon advantage on top of that
 - Weapon rank requirements decreased by one for every weapon: for instance, iron weapons are available from rank E.
-- Weapon updates: increased the difference between Hoshidan and Nohrian weapons, nerfed the hell out of those busted hidden weapons, doubled Staff Exp for convenience. The changes only concern Bronze / Iron / Steel / Silver weapons. A few other
+- Weapon updates: increased the difference between Hoshidan and Nohrian weapons, nerfed the hell out of those busted hidden weapons, doubled Staff Exp for convenience. The changes only concern Bronze / Iron / Steel / Silver weapons.
 	- Swords, Lances: +1 Mt, -10 Hit, -5 Avo, +2 Crit
 	- Katanas, Naginatas: -1 Mt, +5 Hit, +2 Avo
 	- Axes: +1 Mt, -10 Hit, -5 Avo
@@ -70,7 +70,7 @@ By default the randomizer works as explained below. Customizations are possible 
 	- Tomes: +1 Mt, -10 Hit, -5 Avo, +2 Crit
 	- Scrolls: -1 Mt, +10 Hit, +2 Avo
 	- Daggers: -2 Mt, -30 Hit, -5 Avo, +2 Crit, all stat debuffs are decreased by 1
-	- Shurikens: -4 Mt, -15 Hit, +5 Avo, +2 Ddg, now gives -2 Def, all stat debuffs are decreased by 1
+	- Shurikens: -4 Mt, -15 Hit, +5 Avo, +2 Ddg, now give -2 Def, all stat debuffs are decreased by 1
 	- Staves: Staff Exp x2 for those listed
 		- Heal 10 -> 12 Mt
 		- Mend 20 -> 25 Mt
