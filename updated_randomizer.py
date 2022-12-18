@@ -1046,6 +1046,16 @@ class FatesRandomizer:
         classesBis = self.FINAL_CLASSES.copy()
         classesBis.remove('Songstress')  # one Songstress max
         self.rng.shuffle(classesBis)
+        if self.rng.random() < 0.5:  # remove classes that are almost identical
+            classes.remove('Great Master')
+            classesBis.remove('Priestess')
+            classes.remove('Butler')
+            classesBis.remove('Maid')
+        else:
+            classes.remove('Priestess')
+            classesBis.remove('Great Master')
+            classes.remove('Maid')
+            classesBis.remove('Butler')
         classes = classes + classesBis
         classes = classes[:len(characterNames)]
 
