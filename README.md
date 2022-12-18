@@ -83,9 +83,8 @@ By default the randomizer works as explained below. Customizations are possible 
 		- Wane Festal 2 -> 1 Mt, range 1-12
 		- Moon Festal 25 -> 20 Mt
 		- Great Festal 2 -> 1 Mt, range 1-12
-	- Dragonstones: Can double, but with -5 eff. Spd in player phase
-   		- added a *Dragonrune* item: Skill+8, Spd+6, Def-4, Res-3
-   		- added a *Dragonspell* item: same stats as the Dragonstone, 1-2 range, can't follow-up, weak to follow-ups (-5 eff. Spd)
+    - added a *Dragonrune* item: Skill+8, Spd+6, Def-4, Res-3
+    - added a *Dragonspell* item: same stats as the Dragonstone, 1-2 range, weak to follow-ups (-5 eff. Spd)
 	- Beastrune: Skill-3, Spd-4, Def+5, Res+7 (instead of Skill-2, Spd-1, Def+4, Res+5)
     - added a *Beastspell* item: same stats as the Beaststone, 1-2 range, can't follow-up, weak to follow-ups (-5 eff. Spd)
 - Sacred weapons are modified:
@@ -124,6 +123,7 @@ By default the randomizer works as explained below. Customizations are possible 
 - Seeds of Trust buyable for 10G
 - Lvl 2 and 3 shops now appear after chapters 11 and 17 (instead of 13 and 20)
 - Most items have had their price decreased
+- Overworld RNG weapons (e.g. Raider weapons) are available in sohps (0/1/2) for 1500G (the price of steel weapons)
 
 ## Instructions
 
