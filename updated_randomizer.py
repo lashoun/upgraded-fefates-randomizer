@@ -832,7 +832,7 @@ class FatesRandomizer:
                                     newBaseClass = 'Shrine Maiden'
                             else:
                                 newBaseClass = 'Troubadour'
-                    elif (not self.forceStaffEarlyRecruit or (self.forceStaffEarlyRecruit and switchingCharacterName not in [self.earlyConquestRecruit, self.earlyBirthrightRecruit])) and self.limitStaffClasses and newBaseClass in ['Troubadour', 'Shrine Maiden', 'Monk']:
+                    if (not (self.forceStaffEarlyRecruit and switchingCharacterName in [self.earlyConquestRecruit, self.earlyBirthrightRecruit])) and self.limitStaffClasses and newBaseClass in ['Troubadour', 'Shrine Maiden', 'Monk']:
                         self.setCharacterReclassOne(character, newBaseClass)
                         if newClass == 'Great Master':
                             newBaseClass = self.rng.choice(['Spear Fighter', 'Sky Knight', 'Knight'])
