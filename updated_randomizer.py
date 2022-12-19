@@ -56,11 +56,12 @@ parser.add_argument('-egd', '--enable-genderless-dlc', action='store_true', help
 parser.add_argument('-ema', '--enforce-mozu-aptitude', action='store_true', help="enforce Mozu (herself) having Aptitude")
 parser.add_argument('-emoc', '--enable-mag-only-corrin', action='store_true', help="enables Corrin to get a Mag only class")
 parser.add_argument('-epa', '--enforce-paralogue-aptitude', action='store_true', help="enforce Mozu's replacement to have Aptitude")
+parser.add_argument('-erps', '--enable-randomized-personal-skills', action='store_true', help="will output recommended personal skills; you will have to manually edit them, e.g. using thane98's Paragon. Requires the `disable-class-spread` tag to NOT be passed")
 parser.add_argument('-esc', '--enforce-sword-corrin', action='store_true', help="enforces Corrin to get a sword-wielding final class")
 parser.add_argument('-esd', '--enforce-stat-decrease', action='store_true', help="enforces stat decrease to base stat sum max regardless of growth increase")
 parser.add_argument('-esi', '--enforce-stat-increase', action='store_true', help="enforces stat increase to base stat sum min")
 parser.add_argument('-ev', '--enforce-villager', action='store_true', help="enforce Mozu's replacement being a Villager with Aptitude")
-parser.add_argument('-evc', '--enforce-viable-characters', action='store_true', help="will force you to play with only the first 15 characters encoutered by giving 0 growth rates to the others in the route; non-iable characters will be given the 'Survey' skill for easy identification")
+parser.add_argument('-evc', '--enforce-viable-characters', action='store_true', help="will force you to play with only the first 15 characters encoutered by giving 0 growth rates to the others in the route; non-viable characters will be given the 'Survey' skill for easy identification")
 parser.add_argument('-g', '--game-route', choices=['Revelations', 'Birthright', 'Conquest'], default='', help="game route, especially important to specify it if playing Revelations so that levels are the correct ones")
 parser.add_argument('-gc', '--growth-cap', type=int, default=70, help="adjusted growths cap")
 parser.add_argument('-gp', '--growth-p', type=float, default=1., help="probability of editing growths in a variability pass")
@@ -175,8 +176,9 @@ class FatesRandomizer:
         defResRatio=0.8,
         disableBalancedSkillRandomization=False,
         disableModelSwitch=False,  # will disable model switching
-        enableGenderlessDLC=False,  # allows DLC classes to be given regardless of gender
         enableDLCBaseClass=False,  # will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)
+        enableGenderlessDLC=False,  # allows DLC classes to be given regardless of gender
+        enableRandomizedPersonalSkills=False,  # output csv files will display recommended personal skills
         forceClassSpread=True,  # will limit class duplicates
         forceCamillaDef=True,  # will force Camilla's replacement to have higher Def
         forceGunterDef=True,  # will force Gunter's replacement to have higher Def
@@ -243,7 +245,11 @@ class FatesRandomizer:
             print("Note: enable-dlc-base-class will be enabled since it is required by enable-genderless-dlc: you will need to manually promote characters to their DLC class")
             self.enableDLCBaseClass = True
         self.enableGenderlessDLC = enableGenderlessDLC
+        self.enableRandomizedPersonalSkills = enableRandomizedPersonalSkills
         self.forceClassSpread = forceClassSpread
+        if enableRandomizedPersonalSkills and not forceClassSpread:
+            print("Note: disable-class-spread was passed so enable-randomized-personal-skills will be deactivated")
+            self.enableRandomizedPersonalSkills = False
         self.forceCamillaDef = forceCamillaDef
         self.forceGunterDef = forceGunterDef
         self.forceLiveToServe = forceLiveToServe
@@ -435,12 +441,49 @@ class FatesRandomizer:
             "Tome": 83,
         }
 
-        # if self.gameRoute == "Birthright":
+        self.PERSONAL_SKILLS = [
+            'Supportive', 'Devoted Partner', 'Evasive Partner', 'Miraculous Save',
+            'Healing Descant', 'Vow of Friendship', 'Highwayman', 'Peacebringer', 'Forager',
+            'Fiery Blood', 'Quiet Strength', 'Fearsome Blow', 'Perfectionist', 'Pyrotechnics',
+            'Capture', 'Rallying Cry', 'Divine Retribution', 'Optimist', 'Pride', 'Nohr Enmity',
+            'Triple Threat', 'Competitive', 'Shuriken Mastery', 'Morbid Celebration',
+            'Reciprocity', 'Bushido', 'In Extremis', 'Perspicacious', 'Forceful Partner',
+            "Lily's Poise", 'Misfortunate', 'Puissance', 'Aching Blood', 'Kidnap', 'Countercurse',
+            "Rose's Thorn", 'Fierce Rival', 'Opportunist', 'Fancy Footwork', 'Bloodthirst',
+            'Fierce Mien', 'Unmask', 'Pragmatic', 'Collector', 'Chivalry', 'Icy Blood',
+            'Draconic Heir', 'Born Steward', 'Perfect Pitch', 'Mischievous', 'Lucky Charm',
+            'Noble Cause', 'Optimistic', 'Sweet Tooth', 'Playthings', 'Calm', 'Haiku', 'Prodigy',
+            'Vendetta', 'Gallant', 'Fierce Counter', 'Guarded Bravery', 'Goody Basket',
+            'Fortunate Son', 'Bibliophile', 'Sisterhood', 'Daydream',
+            'Wind Disciple', 'Make a Killing'
+        ]
+
+        self.FILTERED_PERSONAL_SKILLS = [
+            'Supportive', 'Healing Descant', 'Highwayman', 'Forager',
+            'Fiery Blood', 'Quiet Strength', 'Fearsome Blow', 'Perfectionist',
+            'Rallying Cry', 'Optimist', 'Nohr Enmity',
+            'Triple Threat', 'Competitive', 'Shuriken Mastery', 'Morbid Celebration',
+            'Reciprocity', 'Bushido', 'Perspicacious',
+            "Lily's Poise", 'Puissance', 'Countercurse',
+            "Rose's Thorn", 'Opportunist', 'Bloodthirst',
+            'Fierce Mien', 'Unmask', 'Pragmatic', 'Chivalry',
+            'Draconic Heir', 'Mischievous',
+            'Noble Cause', 'Playthings', 'Calm', 'Prodigy',
+            'Gallant', 'Fierce Counter',
+            'Fortunate Son', 'Bibliophile', 'Sisterhood'
+        ]
+
+        self.STRENGTH_PERSONAL_SKILLS = ['Puissance']
+        self.MAGIC_PERSONAL_SKILLS = ['Bibliophile']
+        self.DRAGON_PERSONAL_SKILLS = ['Draconic Heir']
+        self.PARTNER_PERSONAL_SKILLS = ['Devoted Partner', 'Evasive Partner', 'Forceful Partner']
+
+        # if self.gameRoute == 'Birthright':
         #     self.allowedCharacters = [
         #     'Felicia', 'Jakob', 'Kaze', 'Rinkah', 'Azura', 'Sakura', 'Hana', 'Subaki',
         #     'Silas', 'Saizo', 'Orochi', 'Mozu', 'Hinoka', 'Azama', 'Setsuna', 'Oboro'
         # ]
-        # elif self.gameRoute == "Conquest":
+        # elif self.gameRoute == 'Conquest':
         #     self.allowedCharacters = [
         #     'Felicia', 'Jakob', 'Elise', 'Silas', 'Arthur', 'Effie', 'Mozu', 'Odin',
         #     'Niles', 'Azura', 'Nyx', 'Camilla', 'Selena', 'Benny', 'Kaze', 'Laslow',
@@ -584,6 +627,9 @@ class FatesRandomizer:
 
         if self.forceClassSpread:
             self.randomizeAllClasses()
+
+        if enableRandomizedPersonalSkills:
+            self.randomizePersonalSkills()
 
     def addmax(self, x):
         p = self.addmaxPow
@@ -1105,6 +1151,7 @@ class FatesRandomizer:
         if self.forceSongstress:
             self.randomizedClasses['Azura'] = 'Songstress'
             characterNames.remove('Azura')
+        if 'Songstress' in classes:
             classes.remove('Songstress')
 
         # Villager Check
@@ -1172,6 +1219,38 @@ class FatesRandomizer:
                     skills[-1] = 149
 
         return self.setCharacterSkills(switchingCharacter, skills)
+
+    def randomizePersonalSkills(self):
+        partnerSkill = self.rng.choice(self.PARTNER_PERSONAL_SKILLS)
+        personalSkills = self.FILTERED_PERSONAL_SKILLS.copy()
+        self.rng.shuffle(personalSkills)
+        corrinSkill = self.rng.choice(personalSkills)
+        personalSkills.remove(corrinSkill)
+        personalSkills = [partnerSkill] + personalSkills
+        self.rng.shuffle(personalSkills)
+        personalSkillsBis = self.FILTERED_PERSONAL_SKILLS.copy()
+        self.rng.shuffle(personalSkillsBis)
+        personalSkills = personalSkills + personalSkillsBis
+        names = self.randomizedClasses.keys()
+        classes = [self.randomizedClasses[name] for name in names]
+        personalSkillsBis = personalSkills[len(classes):].copy()
+        personalSkills = personalSkills[:len(classes)]
+        for i, className in enumerate(classes):  # ugly loops but it should virtually never fail
+            while personalSkills[i] in self.STRENGTH_PERSONAL_SKILLS and 'Str' not in self.readClassAttackType(className):
+                personalSkills[i] = personalSkillsBis.pop(0)
+            while personalSkills[i] in self.MAGIC_PERSONAL_SKILLS and 'Mag' not in self.readClassAttackType(className):
+                personalSkills[i] = personalSkillsBis.pop(0)
+            while personalSkills[i] in self.DRAGON_PERSONAL_SKILLS and className not in self.DRAGON_CLASSES:
+                personalSkills[i] = personalSkillsBis.pop(0)
+
+        for i, className in enumerate(classes):
+            if className in self.DRAGON_CLASSES:
+                if 'Draconic Heir' not in personalSkills and self.rng.random() < 0.2:
+                    personalSkills[i] = 'Draconic Heir'
+
+        self.personalSkills = {}
+        for i, name in enumerate(names):
+            self.personalSkills[name] = personalSkills[i]
 
     def readBaseClass(self, className, characterName):
         """ Returns a possible base class for a promoted class
@@ -1638,12 +1717,18 @@ class FatesRandomizer:
                 for name in [x for x in ['Corrin'] + self.ROUTE_CHARACTERS if x in self.PMUList]:
                     className = self.randomizedClasses[name]
                     row = [name, self.readSwitchedCharacterName(name), className]
+                    if self.enableRandomizedPersonalSkills:
+                        personalSkill = self.personalSkills[name]
+                        row = [name, self.readSwitchedCharacterName(name), className, personalSkill]
                     writer.writerow(row)
             with open('{}/ClassSpread.csv'.format(path), 'w') as fcsv:
                 writer = csv.writer(fcsv, delimiter='\t')
                 for name in [x for x in ['Corrin'] + self.ROUTE_CHARACTERS if x in self.randomizedClasses.keys()]:
                     className = self.randomizedClasses[name]
                     row = [name, self.readSwitchedCharacterName(name), className]
+                    if self.enableRandomizedPersonalSkills:
+                        personalSkill = self.personalSkills[name]
+                        row = [name, self.readSwitchedCharacterName(name), className, personalSkill]
                     writer.writerow(row)
 
         for character in self.settings['root']['Character']:
@@ -1682,6 +1767,7 @@ if __name__ == "__main__":
         disableModelSwitch=args.disable_model_switch,
         enableDLCBaseClass=args.enable_dlc_base_class,
         enableGenderlessDLC=args.enable_genderless_dlc,
+        enableRandomizedPersonalSkills=args.enable_randomized_personal_skills,
         forceClassSpread=(not args.disable_class_spread),
         forceCamillaDef=(not args.disable_camilla_def),
         forceGunterDef=(not args.disable_gunter_def),
