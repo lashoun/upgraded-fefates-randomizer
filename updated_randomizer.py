@@ -630,9 +630,9 @@ class FatesRandomizer:
             if characterData["SwitchingCharacterName"] == "Gunter":
                 newGrowthsSum = 80  # nerf Gunter growths
             # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats  # actually, they're good enough without this
-            if characterData["SwitchingCharacterName"] in ["Camilla"]:  # Camilla deserves the buff to be equivalent to its vanilla counterpart
-                newBaseStatsSum += 10
-                baseStatCap += 3
+            # if characterData["SwitchingCharacterName"] in ["Camilla"]:  # Camilla deserves the buff to be equivalent to her vanilla counterpart  # fixed stats and level, should not be needed anymore
+            #     newBaseStatsSum += 10
+            #     baseStatCap += 3
             while growthsSum < newGrowthsSum:
                 growthProbas = np.copy(probas)
                 s = self.rng.choice(8, p=growthProbas)
@@ -662,7 +662,7 @@ class FatesRandomizer:
         else:
             baseStatsSumMax = self.baseStatsSumMax
             # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats
-            if characterData["SwitchingCharacterName"] in ["Camilla"]:  # Camilla deserves the buff to be equivalent to its vanilla counterpart
+            # if characterData["SwitchingCharacterName"] in ["Camilla"]:  # Camilla deserves the buff to be equivalent to her vanilla counterpart
                 baseStatsSumMax += 10
             if growthsSum < self.growthsSumMin or self.forceStatDecrease:
                 while growthsSum < self.growthsSumMin:
