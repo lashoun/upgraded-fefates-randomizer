@@ -55,6 +55,7 @@ By default the randomizer works as explained below. Customizations are possible 
 - Free Heart Seal given after chapter 5
 - Most bosses have been buffed with better weapons
 - Endgame chapters of each route should allow the player to save (not tested)
+- Birthright Lunatic has been made more difficult: most enemies now have skills
 
 #### Weapons
 - Changes to weapon triangles: Tome <-> Axe, Dagger <-> Sword, and Bow <-> Lance become neutral
