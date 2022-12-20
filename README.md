@@ -51,7 +51,7 @@ By default the randomizer works as explained below. Customizations are possible 
 
 #### Chapters
 - Changed all "Rout the enemy" objectives to "Defeat the boss"
-- All chapters have a 20-turn limit
+- Most chapters have a 20-turn limit
 - Free Heart Seal given after chapter 5
 - Most bosses have been buffed with better weapons
 - Endgame chapters of each route should allow the player to save (not tested)
