@@ -465,10 +465,10 @@ class FatesRandomizer:
             'Triple Threat', 'Competitive', 'Shuriken Mastery', 'Morbid Celebration',
             'Reciprocity', 'Bushido', 'Perspicacious',
             "Lily's Poise", 'Puissance', 'Countercurse',
-            "Rose's Thorn", 'Opportunist', 'Bloodthirst',
+            "Rose's Thorns", 'Opportunist', 'Bloodthirst',
             'Fierce Mien', 'Unmask', 'Pragmatic', 'Chivalry',
             'Draconic Heir', 'Mischievous',
-            'Noble Cause', 'Playthings', 'Calm', 'Prodigy',
+            'Playthings', 'Calm', 'Prodigy',
             'Gallant', 'Fierce Counter',
             'Fortunate Son', 'Bibliophile', 'Sisterhood'
         ]
@@ -477,6 +477,7 @@ class FatesRandomizer:
         self.MAGIC_PERSONAL_SKILLS = ['Bibliophile']
         self.DRAGON_PERSONAL_SKILLS = ['Draconic Heir']
         self.PARTNER_PERSONAL_SKILLS = ['Devoted Partner', 'Evasive Partner', 'Forceful Partner']
+        self.SONGSTRESS_PERSONAL_SKILLS = ['Healing Descant', 'Supportive', 'Forager', 'Quiet Strength', 'Rallying Cry', 'Perspicacious', "Lily's Poise", "Rose's Thorns", 'Fierce Mien', 'Fortunate Son']
 
         # if self.gameRoute == 'Birthright':
         #     self.allowedCharacters = [
@@ -1093,15 +1094,23 @@ class FatesRandomizer:
         classesBis.remove('Songstress')  # one Songstress max
         self.rng.shuffle(classesBis)
         if self.rng.random() < 0.5:  # remove classes that are almost identical
-            classes.remove('Great Master')
-            classesBis.remove('Priestess')
-            classes.remove('Butler')
-            classesBis.remove('Maid')
+            if 'Great Master' in classes:
+                classes.remove('Great Master')
+            if 'Priestess' in classesBis:
+                classesBis.remove('Priestess')
+            if 'Butler' in classes:
+                classes.remove('Butler')
+            if 'Maid' in classesBis:
+                classesBis.remove('Maid')
         else:
-            classes.remove('Priestess')
-            classesBis.remove('Great Master')
-            classes.remove('Maid')
-            classesBis.remove('Butler')
+            if 'Priestess' in classes:
+                classes.remove('Priestess')
+            if 'Great Master' in classesBis:
+                classesBis.remove('Great Master')
+            if 'Maid' in classes:
+                classes.remove('Maid')
+            if 'Butler' in classesBis:
+                classesBis.remove('Butler')
         classes = classes + classesBis
         classes = classes[:len(characterNames)]
 
@@ -1224,13 +1233,15 @@ class FatesRandomizer:
         partnerSkill = self.rng.choice(self.PARTNER_PERSONAL_SKILLS)
         personalSkills = self.FILTERED_PERSONAL_SKILLS.copy()
         self.rng.shuffle(personalSkills)
+        azuraSkill = self.rng.choice(self.SONGSTRESS_PERSONAL_SKILLS)
+        personalSkills.remove(azuraSkill)
         corrinSkill = self.rng.choice(personalSkills)
         personalSkills.remove(corrinSkill)
         personalSkills = [partnerSkill] + personalSkills
         self.rng.shuffle(personalSkills)
         personalSkillsBis = self.FILTERED_PERSONAL_SKILLS.copy()
         self.rng.shuffle(personalSkillsBis)
-        personalSkills = personalSkills + personalSkillsBis
+        personalSkills = [corrinSkill] + personalSkills + personalSkillsBis
         names = self.randomizedClasses.keys()
         classes = [self.randomizedClasses[name] for name in names]
         personalSkillsBis = personalSkills[len(classes):].copy()
@@ -1247,6 +1258,8 @@ class FatesRandomizer:
             if className in self.DRAGON_CLASSES:
                 if 'Draconic Heir' not in personalSkills and self.rng.random() < 0.2:
                     personalSkills[i] = 'Draconic Heir'
+            if className == 'Songstress':
+                personalSkills[i] = azuraSkill
 
         self.personalSkills = {}
         for i, name in enumerate(names):
