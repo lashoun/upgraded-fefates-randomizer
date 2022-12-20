@@ -477,7 +477,7 @@ class FatesRandomizer:
         self.MAGIC_PERSONAL_SKILLS = ['Bibliophile']
         self.DRAGON_PERSONAL_SKILLS = ['Draconic Heir']
         self.PARTNER_PERSONAL_SKILLS = ['Devoted Partner', 'Evasive Partner', 'Forceful Partner']
-        self.SONGSTRESS_PERSONAL_SKILLS = ['Healing Descant', 'Supportive', 'Forager', 'Quiet Strength', 'Rallying Cry', 'Perspicacious', "Lily's Poise", "Rose's Thorns", 'Fierce Mien', 'Fortunate Son']
+        self.SONGSTRESS_PERSONAL_SKILLS = ['Healing Descant', 'Forager', 'Quiet Strength', 'Rallying Cry', 'Perspicacious', "Lily's Poise", "Rose's Thorns", 'Fierce Mien', 'Fortunate Son']
 
         # if self.gameRoute == 'Birthright':
         #     self.allowedCharacters = [
