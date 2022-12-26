@@ -459,25 +459,18 @@ class FatesRandomizer:
         ]
 
         self.FILTERED_PERSONAL_SKILLS = [
-            'Supportive', 'Healing Descant', 'Highwayman', 'Forager',
-            'Fiery Blood', 'Quiet Strength', 'Fearsome Blow', 'Perfectionist',
-            'Rallying Cry', 'Optimist', 'Nohr Enmity',
-            'Triple Threat', 'Competitive', 'Shuriken Mastery', 'Morbid Celebration',
-            'Reciprocity', 'Bushido', 'Perspicacious',
-            "Lily's Poise", 'Puissance', 'Countercurse',
-            "Rose's Thorns", 'Opportunist', 'Bloodthirst',
-            'Fierce Mien', 'Unmask', 'Pragmatic', 'Chivalry',
-            'Draconic Heir', 'Mischievous',
-            'Playthings', 'Calm', 'Prodigy',
-            'Gallant', 'Fierce Counter',
-            'Fortunate Son', 'Bibliophile', 'Sisterhood'
+            'Supportive', 'Healing Descant', 'Quiet Strength', 'Fearsome Blow', 'Perfectionist',
+            'Rallying Cry', 'Nohr Enmity', 'Competitive', 'Morbid Celebration', 'Bushido', 'Perspicacious',
+            "Lily's Poise", 'Puissance', "Rose's Thorns", 'Opportunist', 'Bloodthirst',
+            'Fierce Mien', 'Chivalry', 'Draconic Heir', 'Playthings', 'Prodigy',
+            'Gallant', 'Fierce Counter', 'Fortunate Son', 'Bibliophile', 'Sisterhood'
         ]
 
         self.STRENGTH_PERSONAL_SKILLS = ['Puissance']
         self.MAGIC_PERSONAL_SKILLS = ['Bibliophile']
         self.DRAGON_PERSONAL_SKILLS = ['Draconic Heir']
         self.PARTNER_PERSONAL_SKILLS = ['Devoted Partner', 'Evasive Partner', 'Forceful Partner']
-        self.SONGSTRESS_PERSONAL_SKILLS = ['Healing Descant', 'Forager', 'Quiet Strength', 'Rallying Cry', 'Perspicacious', "Lily's Poise", "Rose's Thorns", 'Fierce Mien', 'Fortunate Son']
+        self.SONGSTRESS_PERSONAL_SKILLS = ['Healing Descant', 'Quiet Strength', 'Rallying Cry', 'Perspicacious', "Lily's Poise", "Rose's Thorns", 'Fierce Mien', 'Fortunate Son']
 
         # if self.gameRoute == 'Birthright':
         #     self.allowedCharacters = [
@@ -677,9 +670,9 @@ class FatesRandomizer:
             if characterData["SwitchingCharacterName"] == "Gunter":
                 newGrowthsSum = 80  # nerf Gunter growths
             # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats  # actually, they're good enough without this
-            if characterData["SwitchingCharacterName"] in ["Reina", "Camilla"]:  # Reina and Camilla deserve the buff to be equivalent to their vanilla counterparts
-                newBaseStatsSum += 10
-                baseStatCap += 3
+            # if characterData["SwitchingCharacterName"] in ["Reina", "Camilla"]:  # Reina and Camilla deserve the buff to be equivalent to their vanilla counterparts  # actually, removing it seems to be fine
+                # newBaseStatsSum += 10
+                # baseStatCap += 3
             while growthsSum < newGrowthsSum:
                 growthProbas = np.copy(probas)
                 s = self.rng.choice(8, p=growthProbas)
@@ -709,8 +702,8 @@ class FatesRandomizer:
         else:
             baseStatsSumMax = self.baseStatsSumMax
             # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats
-            if characterData["SwitchingCharacterName"] in ["Camilla"]:  # Camilla deserves the buff to be equivalent to her vanilla counterpart
-                baseStatsSumMax += 10
+            # if characterData["SwitchingCharacterName"] in ["Camilla"]:  # Camilla deserves the buff to be equivalent to her vanilla counterpart
+                # baseStatsSumMax += 10
             if growthsSum < self.growthsSumMin or self.forceStatDecrease:
                 while growthsSum < self.growthsSumMin:
                     s = self.rng.choice(8, p=probas)
@@ -1239,11 +1232,19 @@ class FatesRandomizer:
         personalSkills.remove(corrinSkill)
         personalSkills = [partnerSkill] + personalSkills
         self.rng.shuffle(personalSkills)
-        personalSkillsBis = self.FILTERED_PERSONAL_SKILLS.copy()
+        personalSkillsBis = self.PERSONAL_SKILLS.copy()
         self.rng.shuffle(personalSkillsBis)
         personalSkills = [corrinSkill] + personalSkills + personalSkillsBis
         names = self.randomizedClasses.keys()
+        if self.PMUMode:
+            names2 = self.PMUList.copy()
+            for name in names:
+                if name not in names2:
+                    names2.append(name)
+            names = names2
         classes = [self.randomizedClasses[name] for name in names]
+        if self.PMUMode:
+            classes = classes[:len(self.PMUList)]
         personalSkillsBis = personalSkills[len(classes):].copy()
         personalSkills = personalSkills[:len(classes)]
         for i, className in enumerate(classes):  # ugly loops but it should virtually never fail
@@ -1256,10 +1257,18 @@ class FatesRandomizer:
 
         for i, className in enumerate(classes):
             if className in self.DRAGON_CLASSES:
-                if 'Draconic Heir' not in personalSkills and self.rng.random() < 0.2:
+                if 'Draconic Heir' not in personalSkills and self.rng.random() < 0.3:
                     personalSkills[i] = 'Draconic Heir'
+            if className in self.TOME_CLASSES:
+                if 'Bibliophile' not in personalSkills and self.rng.random() < 0.05:
+                    personalSkills[i] = 'Bibliophile'
+            if className not in self.MAGICAL_CLASSES:
+                if 'Puissance' not in personalSkills and self.rng.random() < 0.02:
+                    personalSkills[i] = 'Puissance'
             if className == 'Songstress':
                 personalSkills[i] = azuraSkill
+
+        personalSkills = personalSkills + personalSkillsBis
 
         self.personalSkills = {}
         for i, name in enumerate(names):
