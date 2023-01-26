@@ -853,7 +853,11 @@ class FatesRandomizer:
                 newClass = self.randomizedClasses[switchingCharacterName]  # take the class of the switching character
                 newBaseClass = self.readBaseClass(newClass, characterName)
                 if newPromotionLevel > 0 or (switchingCharacterName in ['Jakob', 'Felicia']):
-                    self.setCharacterClass(character, newClass)
+                    if switchingCharacterName == 'Reina':  # to prevent crash in Birthright and get the chest in Revelations
+                        self.setCharacterClass(character, newClass)
+                    else:
+                        self.setCharacterClass(character, 'Kinshi Knight')
+                        self.setCharacterReclassOne(character, newBaseClass)
                 else:
                     if self.forceStaffEarlyRecruit:
                         if switchingCharacterName == self.earlyConquestRecruit:
