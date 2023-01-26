@@ -660,7 +660,7 @@ class FatesRandomizer:
         growthsSum = np.sum(growths)
         baseStatsSum = np.sum(baseStats)
         if self.rng.choice(2) == 1:  # 50% chance of uniform adjustment, 50% chance of proportional
-            probas = self.addmax(np.asarray(growths) + 5)  # add a 5 growth rate to everything just for variance's sake
+            probas = self.addmax(np.asarray(growths) + 10)  # add a 10% growth to everything before normalization just for variance's sake
         else:
             probas = self.addmax(np.ones(8))
         if self.randomizeStatsAndGrowthsSum:
@@ -843,7 +843,6 @@ class FatesRandomizer:
             characterName = switchingCharacterName
 
         newLevel = self.readCharacterLevel(switchingCharacterName)  # rebalanceLevels / Revelations effects are inside the function call
-        self.setCharacterLevel(switchingCharacter, newLevel)  # worst case: it does nothing
         newPromotionLevel = self.readCharacterPromotionLevel(switchingCharacterName)
         newClass = self.readClassName(character)
         newBaseClass = self.readBaseClass(newClass, characterName)
@@ -937,7 +936,6 @@ class FatesRandomizer:
             if switchingCharacterName == 'Mozu':
                 self.setCharacterClass(character, 'Villager')
 
-
         newClassGrowths = self.readClassGrowths(newClass)
         newBaseClassGrowths = self.readClassGrowths(newBaseClass)
         characterData = self.readCharacterData(characterName)
@@ -996,7 +994,7 @@ class FatesRandomizer:
         plusStats = np.zeros(8)
         if self.rngLevelUps:
             if newLevel > 1:
-                if promotionLevel > 1:
+                if newPromotionLevel > 1:
                     for _ in range(newPromotionLevel - 1):
                         levelUpRNG = 100 * self.rng.random(8)
                         plusStats += levelUpRNG < characterGrowths + newClassGrowths
@@ -1010,8 +1008,8 @@ class FatesRandomizer:
                     plusStats += levelUpRNG < characterGrowths + newBaseClassGrowths
         else:
             if newLevel > 1:
-                if promotionLevel > 1:
-                    plusStats += (characterGrowths + newClassGrowths) * (newLevel - 1)
+                if newPromotionLevel > 1:
+                    plusStats += (characterGrowths + newClassGrowths) * (newPromotionLevel - 1)
                 else:
                     plusStats += (characterGrowths + newBaseClassGrowths) * (newLevel - 1)
             if newPromotionLevel > 1:
@@ -1037,6 +1035,10 @@ class FatesRandomizer:
         self.increaseModifiers(characterData['Modifiers'])
 
         # Set Data
+        if newClass in self.DLC_CLASSES and newPromotionLevel > 0:
+            self.setCharacterLevel(switchingCharacter, newLevel + 20)
+        else:
+            self.setCharacterLevel(switchingCharacter, newLevel)
         self.setCharacterStats(switchingCharacter, characterData['Stats'])
         self.setCharacterGrowths(switchingCharacter, characterData['Growths'])
         if self.forceViableCharacters:
