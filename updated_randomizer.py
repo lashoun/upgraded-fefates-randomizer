@@ -44,6 +44,7 @@ parser.add_argument('-dlts', '--disable-livetoserve', action='store_true', help=
 parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacements' enforced Locktouch skill")
 parser.add_argument('-dlsc', '--disable-limit-staff-classes', action='store_true', help="disables replacing staff only classes by offensive classes and setting the staff only class as a reclass option")
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
+parser.add_argument('-dpc', '--debuff-prepromotes-coeff', type=int, default=0, help="percentage points of handicap for prepromote base stats")
 parser.add_argument('-drl', '--disable-rebalance-levels', action='store_true', help="disable fairer level balance adjustments (reverts to levels from the original games)")
 parser.add_argument('-drlu', '--disable-rng-level-ups', action='store_true', help="disable rng level ups; characters will have average stats w.r.t their growths")
 parser.add_argument('-drr', '--def-res-ratio', type=float, default=0.8, help="ratio of higher def/res characters with mixed classes")
@@ -174,6 +175,7 @@ class FatesRandomizer:
         baseStatsSumMin=15,  # in adjustBaseStatsAndGrowths, will increase stats sum to said value
         corrinClass='',
         defResRatio=0.8,
+        debuffPrepromotesCoeff=0,
         disableBalancedSkillRandomization=False,
         disableModelSwitch=False,  # will disable model switching
         enableDLCBaseClass=False,  # will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)
@@ -237,6 +239,7 @@ class FatesRandomizer:
         self.baseStatsSumMax = baseStatsSumMax
         self.baseStatsSumMin = baseStatsSumMin
         self.corrinClass = corrinClass
+        self.debuffPrepromotesCoeff = debuffPrepromotesCoeff
         self.defResRatio = defResRatio
         self.disableBalancedSkillRandomization = disableBalancedSkillRandomization
         self.disableModelSwitch = disableModelSwitch
@@ -995,25 +998,25 @@ class FatesRandomizer:
         if self.rngLevelUps:
             if newLevel > 1:
                 if newPromotionLevel > 1:
-                    for _ in range(newPromotionLevel - 1):
+                    for _ in range(newLevel - 1):
                         levelUpRNG = 100 * self.rng.random(8)
-                        plusStats += levelUpRNG < characterGrowths + newClassGrowths
+                        plusStats += levelUpRNG < characterGrowths + newClassGrowths - self.debuffPrepromotesCoeff  # newClassGrowths
                 else:
                     for _ in range(newLevel - 1):
                         levelUpRNG = 100 * self.rng.random(8)
-                        plusStats += levelUpRNG < characterGrowths + newBaseClassGrowths
+                        plusStats += levelUpRNG < characterGrowths + newBaseClassGrowths  # newBaseClassGrowths
             if newPromotionLevel > 1:
                 for _ in range(newPromotionLevel - 1):
                     levelUpRNG = 100 * self.rng.random(8)
-                    plusStats += levelUpRNG < characterGrowths + newBaseClassGrowths
+                    plusStats += levelUpRNG < characterGrowths + newBaseClassGrowths - self.debuffPrepromotesCoeff
         else:
             if newLevel > 1:
                 if newPromotionLevel > 1:
-                    plusStats += (characterGrowths + newClassGrowths) * (newPromotionLevel - 1)
+                    plusStats += (characterGrowths + newClassGrowths - self.debuffPrepromotesCoeff) * (newLevel - 1)
                 else:
                     plusStats += (characterGrowths + newBaseClassGrowths) * (newLevel - 1)
             if newPromotionLevel > 1:
-                plusStats += (characterGrowths + newBaseClassGrowths) * (newPromotionLevel - 1)
+                plusStats += (characterGrowths + newBaseClassGrowths - self.debuffPrepromotesCoeff) * (newPromotionLevel - 1)
             plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
         characterNewStats = characterBaseStats + plusStats
         characterData['OldStats'] = characterData['Stats']
@@ -1036,7 +1039,8 @@ class FatesRandomizer:
 
         # Set Data
         if newClass in self.DLC_CLASSES and newPromotionLevel > 0:
-            self.setCharacterLevel(switchingCharacter, newLevel + 20)
+            self.setCharacterLevel(switchingCharacter, newLevel + newPromotionLevel)
+            self.setCharacterPromotionLevel(switchingCharacter, -1)
         else:
             self.setCharacterLevel(switchingCharacter, newLevel)
         self.setCharacterStats(switchingCharacter, characterData['Stats'])
@@ -1526,6 +1530,10 @@ class FatesRandomizer:
         character['Modifiers']['@values'] = self.dataToString(modifiers)
         return character
 
+    def setCharacterPromotionLevel(self, character, level):
+        character['LevelData']['@internalLevel'] = str(level)
+        return character
+
     def setCharacterReclassOne(self, character, className):
         character['ClassData']['@reclassOne'] = className
         return character
@@ -1790,6 +1798,7 @@ if __name__ == "__main__":
         baseStatsSumMax=args.base_stats_sum_max,
         baseStatsSumMin=args.base_stats_sum_min,
         corrinClass=args.corrin_class,
+        debuffPrepromotesCoeff=args.debuff_prepromotes_coeff,
         defResRatio=args.def_res_ratio,
         disableBalancedSkillRandomization=args.disable_balanced_skill_randomization,
         disableModelSwitch=args.disable_model_switch,
