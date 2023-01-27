@@ -468,12 +468,12 @@ class FatesRandomizer:
         ]
 
         self.FILTERED_PERSONAL_SKILLS = [
-            'Supportive', 'Healing Descant', 'Quiet Strength', 'Fearsome Blow', 'Perfectionist',
-            'Rallying Cry', 'Nohr Enmity', 'Competitive', 'Morbid Celebration', 'Bushido', 'Perspicacious',
-            "Lily's Poise", 'Puissance', "Rose's Thorns", 'Opportunist', 'Bloodthirst',
-            'Fierce Mien', 'Chivalry', 'Draconic Heir', 'Playthings', 'Prodigy',
-            'Gallant', 'Fierce Counter', 'Fortunate Son', 'Bibliophile', 'Sisterhood'
+            'Supportive', 'Quiet Strength', 'Perfectionist', 'Rallying Cry', 'Competitive',
+            'Bushido', 'Perspicacious', "Lily's Poise", 'Puissance', "Rose's Thorns", 'Opportunist', 'Bloodthirst', 'Chivalry', 'Draconic Heir', 'Playthings', 'Gallant', 'Fierce Counter', 'Fortunate Son', 'Bibliophile', 'Sisterhood', 'Pragmatic'
         ]
+
+        if self.gameRoute == 'Birthright':
+            self.FILTERED_PERSONAL_SKILLS.append('Nohr Enmity')
 
         self.STRENGTH_PERSONAL_SKILLS = ['Puissance']
         self.MAGIC_PERSONAL_SKILLS = ['Bibliophile']
@@ -1408,13 +1408,15 @@ class FatesRandomizer:
         baseSkills1 = [1, 2, 3, 4, 5, 6, 7, 8, 14, 15, 36, 51, 53, 54, 57, 58, 89, 91, 99]
         baseSkills2 = [9, 20, 28, 39, 44, 45, 46, 47, 49, 50, 52, 73, 74, 76, 85, 86, 93, 101, 109]
         promotedSkills1 = [10, 11, 12, 13, 16, 17, 18, 19, 21, 22, 25, 27, 29, 30, 31, 32, 35, 41, 59, 60, 64, 71, 77, 87, 88, 94, 95, 96, 100, 102, 104, 105]
-        promotedSkills2 = [33, 34, 37, 38, 42, 43, 48, 56, 61, 62, 63, 65, 66, 67, 68, 69, 70, 75, 78, 79, 80, 81, 82, 83, 84, 97, 98, 103, 111]
+        promotedSkills2 = [33, 34, 37, 38, 42, 43, 48, 56, 61, 62, 63, 65, 66, 67, 68, 69, 70, 75, 79, 80, 81, 82, 83, 84, 97, 98, 103, 111]
+        if self.gameRoute == "Revelations":
+            promotedSkills2.append(78)  # Foreign Princess
         dlcBaseSkills1 = [128, 132, 134, 141, 156, 158]
         dlcBaseSkills2 = [72, 92, 129, 135, 153, 159]
         dlcPromotedSkills1 = [23, 26, 130, 136, 157]
         dlcPromotedSkills2 = [110, 133, 137, 155]
         dlcSkills = [120, 121, 122, 131, 139, 140, 142, 143, 144, 145, 146, 147, 148] # put 131, 142 and 145 (Aggressor, Strengthtaker and Speedtaker) here since they are kinda busted
-        specificSkills = [24, 40, 55, 90, 106, 107, 108, 112, 138, 149, 150, 151, 152, 154] # Inspiring Song (24), Beastbane (40), Life And Death (55), Foreign Princess (78), Quixotic (90), Nobility (106), Future Sight (107), Aptitude (108), Locktouch (112), Paragon (138), Ballistician skills (149->152) and Warp (154)
+        specificSkills = [24, 40, 55, 78, 90, 106, 107, 108, 112, 138, 149, 150, 151, 152, 154] # Inspiring Song (24), Beastbane (40), Life And Death (55), Foreign Princess (78), Quixotic (90), Nobility (106), Future Sight (107), Aptitude (108), Locktouch (112), Paragon (138), Ballistician skills (149->152) and Warp (154)
 
         if self.banDLCClassSkills:
             allBaseSkills1 = baseSkills1
@@ -1765,19 +1767,23 @@ class FatesRandomizer:
                 writer = csv.writer(fcsv, delimiter='\t')
                 for name in [x for x in ['Corrin'] + self.ROUTE_CHARACTERS if x in self.PMUList]:
                     className = self.randomizedClasses[name]
-                    row = [name, self.readSwitchedCharacterName(name), className]
+                    row = [name, className]
+                    if not self.disableModelSwitch:
+                        row.insert(1, self.readSwitchedCharacterName(name))
                     if self.enableRandomizedPersonalSkills:
                         personalSkill = self.personalSkills[name]
-                        row = [name, self.readSwitchedCharacterName(name), className, personalSkill]
+                        row.append(personalSkill)
                     writer.writerow(row)
             with open('{}/ClassSpread.csv'.format(path), 'w') as fcsv:
                 writer = csv.writer(fcsv, delimiter='\t')
                 for name in [x for x in ['Corrin'] + self.ROUTE_CHARACTERS if x in self.randomizedClasses.keys()]:
                     className = self.randomizedClasses[name]
                     row = [name, self.readSwitchedCharacterName(name), className]
+                    if not self.disableModelSwitch:
+                        row.insert(1, self.readSwitchedCharacterName(name))
                     if self.enableRandomizedPersonalSkills:
                         personalSkill = self.personalSkills[name]
-                        row = [name, self.readSwitchedCharacterName(name), className, personalSkill]
+                        row.append(personalSkill)
                     writer.writerow(row)
 
         for character in self.settings['root']['Character']:
