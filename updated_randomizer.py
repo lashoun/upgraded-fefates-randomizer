@@ -1255,10 +1255,12 @@ class FatesRandomizer:
             personalSkills.remove(azuraSkill)
         corrinSkill = self.rng.choice(personalSkills)
         personalSkills.remove(corrinSkill)
-        personalSkills = [partnerSkill] + personalSkills
         self.rng.shuffle(personalSkills)
         personalSkillsBis = self.PERSONAL_SKILLS.copy()
         self.rng.shuffle(personalSkillsBis)
+        peronsalSkillsBis = personalSkills[15:] + personalSkillsBis
+        personalSkills = [partnerSkill] + personalSkills[:15].copy()
+        self.rng.shuffle(personalSkills)
         personalSkills = [corrinSkill] + personalSkills + personalSkillsBis
         names = self.randomizedClasses.keys()
         if self.PMUMode:
