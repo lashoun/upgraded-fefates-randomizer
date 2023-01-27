@@ -1305,10 +1305,10 @@ class FatesRandomizer:
         """ Returns a possible base class for a promoted class
             or the same class for an unpromoted one """
         baseClasses = self.classData[className]['BaseClasses']
-        if className in ['Nohr Noble', 'Hoshido Noble', 'Grandmaster']:
+        if className in ['Nohr Noble', 'Hoshido Noble']:
             if className == 'Grandmaster' and not self.enableDLCBaseClass:
                 return 'Grandmaster'
-            else:
+            elif not self.fatesUpgraded:
                 if characterName in self.MALE_CHARACTERS:
                     return 'Nohr Prince'
                 elif characterName in self.FEMALE_CHARACTERS:
