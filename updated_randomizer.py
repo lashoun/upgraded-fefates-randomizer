@@ -130,7 +130,7 @@ with open('{}/fates_class_data.csv'.format(path)) as fcsv:
     next(reader)
     for row in reader:
         baseClasses = row[11:13]
-        weapons = row[13:]
+        weapons = row[13:16]
         while len(weapons) > 0:
             if weapons[-1] == '':
                 weapons.pop()
