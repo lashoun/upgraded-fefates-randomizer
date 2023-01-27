@@ -1251,7 +1251,8 @@ class FatesRandomizer:
         personalSkills = self.FILTERED_PERSONAL_SKILLS.copy()
         self.rng.shuffle(personalSkills)
         azuraSkill = self.rng.choice(self.SONGSTRESS_PERSONAL_SKILLS)
-        personalSkills.remove(azuraSkill)
+        if azuraSkill in personalSkills:
+            personalSkills.remove(azuraSkill)
         corrinSkill = self.rng.choice(personalSkills)
         personalSkills.remove(corrinSkill)
         personalSkills = [partnerSkill] + personalSkills
