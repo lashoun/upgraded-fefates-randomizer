@@ -56,6 +56,8 @@ By default the randomizer works as explained below. Customizations are possible 
 - Most bosses have been buffed with better weapons
 - Endgame chapters of each route should allow the player to save (not tested)
 - Birthright Lunatic has been made more difficult: most enemies now have skills
+- Birthright Chapter 10 and Revelations Chapter 11 (Ninja village) have one tile changed so that the door is accessible without flier
+- Birthright Chapter 11: Reina now spanws on the boat
 
 #### Weapons
 - Changes to weapon triangles: Tome <-> Axe, Dagger <-> Sword, and Bow <-> Lance become neutral
@@ -103,18 +105,47 @@ By default the randomizer works as explained below. Customizations are possible 
 
 #### Classes
 - DLC class gender lock is removed
-- Skill changes
-    - Master of Arms: Seal Strength -> Astra, Life or Death -> Axebreaker
-    - Oni Chieftain: Death Blow -> Rend Heaven, Counter -> Lancebreaker
-    - Blacksmith: Salvage Blow -> Death Blow
+- All DLC classes except Ballistician are now normal promoted classes
+- Detailed class changes:
     - Basara: Quixotic -> Swordbreaker
-    - Diviner: Future Sight -> Malefic Aura
-    - Priestess / Great Master: Countermagic -> Inspiration
+    - Blacksmith: Salvage Blow -> Death Blow
+    - Dark Falcon: Lances B->A, Tomes A->B
     - Dark Knight: Seal Magic -> Rend Heaven
-    - Witch: Warp -> Vengeance
-    - Lodestar: Speedtaker -> Swordfaire
-    - Vanguard: Strengthtaker -> Axebreaker
-    - Dread Fighter: Aggressor -> Tomebreaker
+    - Dark Mage: Dark Knight -> Witch
+    - Diviner:
+        - Onmyoji -> Dark Knight
+        - Basara -> Grandmaster
+        - Future Sight -> Solidarity
+    - Dread Fighter:
+        - Daggers B->A, Swords A->B
+        - Clarity -> Iron Will
+        - Aggressor -> Tomebreaker
+    - Fighter: Hero -> Vanguard
+    - Great Lord:
+        - Lances B->A, Swords A->B
+    - Lodestar: Speedtaker -> Awakening
+    - Master of Arms:
+        - Lances B->A, Swords A->B
+        - Seal Strength -> Luna
+        - Life or Death -> Swordbreaker
+    - Mechanist: Daggers A->B, Bow B->A
+    - Ninja: Mechanist -> Dread Fighter
+    - Oni Chieftain: Death Blow -> Rend Heaven, Counter -> Lancebreaker
+    - Priestess / Great Master: Countermagic -> Inspiration
+    - Vanguard:
+        - Swords A->B, Axes B->A
+        - Strengthtaker -> Axebreaker
+    - Samurai: Master of Arms -> Lodestar
+    - Sky Knight: Kinshi Knight -> Dark Falcon
+    - Villager:
+        - Merchant -> Great Lord
+        - Lances C->B
+        - Aptitude -> Dual Striker
+        - Underdog -> Charm
+    - Witch:
+        - can use Nosferatu innately
+        - Warp -> Vengeance
+    - Wyvern Lord: Swordbreaker -> Lancebreaker
 
 #### Shops
 - Dawn/Dusk armories and Rod/Staff shops available in every route
@@ -124,7 +155,7 @@ By default the randomizer works as explained below. Customizations are possible 
 - Seeds of Trust buyable for 10G
 - Lvl 2 and 3 shops now appear after chapters 11 and 17 (instead of 13 and 20)
 - Most items have had their price decreased
-- Overworld RNG weapons (e.g. Raider weapons) are available in sohps (0/1/2) for 1500G (the price of steel weapons)
+- Overworld RNG weapons (e.g. Raider weapons) are available in shops (0/1/2) for 1500G (the price of steel weapons)
 
 ## Instructions
 
