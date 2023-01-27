@@ -1135,14 +1135,14 @@ class FatesRandomizer:
         staffClass = ''
         staffClass2 = ''
         if self.forceStaffEarlyRecruit:
-            if self.earlyConquestRecruit in characterNames:
+            if self.gameRoute != "Birthright" and self.earlyConquestRecruit in characterNames:
                 staffClass = self.rng.choice(self.CONQUEST_STAFF_CLASSES)
                 while staffClass not in classes:
                     staffClass = self.rng.choice(self.CONQUEST_STAFF_CLASSES)
                 self.randomizedClasses[self.earlyConquestRecruit] = staffClass
                 characterNames.remove(self.earlyConquestRecruit)
                 classes.remove(staffClass)
-            if self.earlyBirthrightRecruit in characterNames:
+            if self.gameRoute != "Conquest" and self.earlyBirthrightRecruit in characterNames:
                 birthrightStaffClasses = self.BIRTHRIGHT_STAFF_CLASSES.copy()
                 if self.earlyConquestRecruit in characterNames:
                     if staffClass in birthrightStaffClasses:
@@ -1282,13 +1282,13 @@ class FatesRandomizer:
 
         for i, className in enumerate(classes):
             if className in self.DRAGON_CLASSES:
-                if 'Draconic Heir' not in personalSkills and self.rng.random() < 0.3:
+                if 'Draconic Heir' not in personalSkills and self.rng.random() < 0.3 and personalSkills[i] not in self.PARTNER_PERSONAL_SKILLS:
                     personalSkills[i] = 'Draconic Heir'
             if className in self.TOME_CLASSES:
-                if 'Bibliophile' not in personalSkills and self.rng.random() < 0.05:
+                if 'Bibliophile' not in personalSkills and self.rng.random() < 0.05 and personalSkills[i] not in self.PARTNER_PERSONAL_SKILLS:
                     personalSkills[i] = 'Bibliophile'
             if className not in self.MAGICAL_CLASSES:
-                if 'Puissance' not in personalSkills and self.rng.random() < 0.02:
+                if 'Puissance' not in personalSkills and self.rng.random() < 0.02 and personalSkills[i] not in self.PARTNER_PERSONAL_SKILLS:
                     personalSkills[i] = 'Puissance'
             if className == 'Songstress':
                 personalSkills[i] = azuraSkill
