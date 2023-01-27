@@ -39,12 +39,13 @@ parser.add_argument('-c', '--corrin-class', choices=[
 parser.add_argument('-dbsr', '--disable-balanced-skill-randomization', action='store_true', help="disable balanced skill randomization; skill randomization will be completely random")
 parser.add_argument('-dcd', '--disable-camilla-def', action='store_true', help="disable Camilla's replacement's enforced higher Def than Res")
 parser.add_argument('-dcs', '--disable-class-spread', action='store_true', help="disable diverse class reroll")
+parser.add_argument('-dfu', '--disable-fates-upgraded', action='store_true', help="disables the assumption that you are playing Fates Upgraded; important for DLC class handling")
 parser.add_argument('-dgd', '--disable-gunter-def', action='store_true', help="disable Gunter's replacement's enforced higher Def than Res")
 parser.add_argument('-dlts', '--disable-livetoserve', action='store_true', help="disable the retainers' replacements' enforced Live to Serve skill")
 parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacements' enforced Locktouch skill")
 parser.add_argument('-dlsc', '--disable-limit-staff-classes', action='store_true', help="disables replacing staff only classes by offensive classes and setting the staff only class as a reclass option")
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
-parser.add_argument('-dpc', '--debuff-prepromotes-coeff', type=int, default=0, help="percentage points of handicap for prepromote base stats")
+parser.add_argument('-dpc', '--debuff-prepromotes-coeff', type=int, default=10, help="percentage points of handicap for prepromote base stats")
 parser.add_argument('-drl', '--disable-rebalance-levels', action='store_true', help="disable fairer level balance adjustments (reverts to levels from the original games)")
 parser.add_argument('-drlu', '--disable-rng-level-ups', action='store_true', help="disable rng level ups; characters will have average stats w.r.t their growths")
 parser.add_argument('-drr', '--def-res-ratio', type=float, default=0.8, help="ratio of higher def/res characters with mixed classes")
@@ -175,12 +176,13 @@ class FatesRandomizer:
         baseStatsSumMin=15,  # in adjustBaseStatsAndGrowths, will increase stats sum to said value
         corrinClass='',
         defResRatio=0.8,
-        debuffPrepromotesCoeff=0,
+        debuffPrepromotesCoeff=10,
         disableBalancedSkillRandomization=False,
         disableModelSwitch=False,  # will disable model switching
         enableDLCBaseClass=False,  # will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)
         enableGenderlessDLC=False,  # allows DLC classes to be given regardless of gender
         enableRandomizedPersonalSkills=False,  # output csv files will display recommended personal skills
+        fatesUpgraded=True,  # important for DLC classes
         forceClassSpread=True,  # will limit class duplicates
         forceCamillaDef=True,  # will force Camilla's replacement to have higher Def
         forceGunterDef=True,  # will force Gunter's replacement to have higher Def
@@ -249,6 +251,7 @@ class FatesRandomizer:
             self.enableDLCBaseClass = True
         self.enableGenderlessDLC = enableGenderlessDLC
         self.enableRandomizedPersonalSkills = enableRandomizedPersonalSkills
+        self.fatesUpgraded = fatesUpgraded
         self.forceClassSpread = forceClassSpread
         if enableRandomizedPersonalSkills and not forceClassSpread:
             print("Note: disable-class-spread was passed so enable-randomized-personal-skills will be deactivated")
@@ -313,8 +316,11 @@ class FatesRandomizer:
         self.TRUE_MALE_CLASSES = ['Great Master', 'Butler', 'Lodestar', 'Vanguard', 'Grandmaster', 'Ballistician']
         self.TRUE_FEMALE_CLASSES = ['Priestess', 'Maid', 'Witch', 'Great Lord']
 
-        self.DLC_CLASSES = ['Dread Fighter', 'Dark Falcon', 'Ballistician',
-            'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster']
+        if self.fatesUpgraded:
+            self.DLC_CLASSES = ['Ballistician']
+        else:
+            self.DLC_CLASSES = ['Dread Fighter', 'Dark Falcon', 'Ballistician',
+                'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster']
 
         self.FINAL_CLASSES = [
             'Hoshido Noble', 'Swordmaster', 'Master of Arms', 'Oni Chieftain',
@@ -662,20 +668,24 @@ class FatesRandomizer:
         baseStats = np.copy(characterData['BaseStats'])
         growthsSum = np.sum(growths)
         baseStatsSum = np.sum(baseStats)
+
         if self.rng.choice(2) == 1:  # 50% chance of uniform adjustment, 50% chance of proportional
             probas = self.addmax(np.asarray(growths) + 10)  # add a 10% growth to everything before normalization just for variance's sake
         else:
             probas = self.addmax(np.ones(8))
+
         if self.randomizeStatsAndGrowthsSum:
             newGrowthsSum = self.growthsSumMin + 10 * self.rng.choice((self.growthsSumMax-self.growthsSumMin+10)//10)
             newBaseStatsSum = self.baseStatsSumMin + self.rng.choice(self.baseStatsSumMax-self.baseStatsSumMin+1)
             baseStatCap = self.baseStatCap
             if characterData["SwitchingCharacterName"] == "Gunter":
-                newGrowthsSum = 80  # nerf Gunter growths
+                newGrowthsSum = 80  # nerf Gunter's replacement's growths
             # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats  # actually, they're good enough without this
             # if characterData["SwitchingCharacterName"] in ["Reina", "Camilla"]:  # Reina and Camilla deserve the buff to be equivalent to their vanilla counterparts  # actually, removing it seems to be fine
                 # newBaseStatsSum += 10
                 # baseStatCap += 3
+            if characterData["SwitchingCharacterName"] == "Mozu" and self.forceParalogueAptitude:
+                newBaseStatsSum -= 10  # nerf Mozu's replacement's base stats
             while growthsSum < newGrowthsSum:
                 growthProbas = np.copy(probas)
                 s = self.rng.choice(8, p=growthProbas)
@@ -702,6 +712,7 @@ class FatesRandomizer:
                 t = self.rng.choice(np.where(baseStats>0)[0])
                 baseStats[t] -= 1
                 baseStatsSum -= 1
+
         else:
             baseStatsSumMax = self.baseStatsSumMax
             # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats
@@ -855,11 +866,12 @@ class FatesRandomizer:
                 newClass = self.randomizedClasses[switchingCharacterName]  # take the class of the switching character
                 newBaseClass = self.readBaseClass(newClass, characterName)
                 if newPromotionLevel > 0 or (switchingCharacterName in ['Jakob', 'Felicia']):
-                    if switchingCharacterName == 'Reina':  # to prevent crash in Birthright and get the chest in Revelations
-                        self.setCharacterClass(character, newClass)
-                    else:
-                        self.setCharacterClass(character, 'Kinshi Knight')
-                        self.setCharacterReclassOne(character, newBaseClass)
+                    # if switchingCharacterName == 'Reina' and self.gameRoute == 'Birthright':  # to prevent crash in Birthright  # spawn tile modified, should be ok now
+                    #     self.setCharacterClass(character, 'Kinshi Knight')
+                    #     self.setCharacterReclassOne(character, newBaseClass)
+                    # else:
+                    #     self.setCharacterClass(character, newClass)
+                    self.setCharacterClass(character, newClass)
                 else:
                     if self.forceStaffEarlyRecruit:
                         if switchingCharacterName == self.earlyConquestRecruit:
@@ -1038,11 +1050,13 @@ class FatesRandomizer:
         self.increaseModifiers(characterData['Modifiers'])
 
         # Set Data
-        if newClass in self.DLC_CLASSES and newPromotionLevel > 0:
+        if not (self.gameRoute == 'Birthright' and switchingCharacterName == "Reina") and newClass in self.DLC_CLASSES and newPromotionLevel > 0:
+            # Reina has to stay Kinshi Knight when she comes so no need to adjust the level
             self.setCharacterLevel(switchingCharacter, newLevel + newPromotionLevel)
             self.setCharacterPromotionLevel(switchingCharacter, -1)
         else:
             self.setCharacterLevel(switchingCharacter, newLevel)
+        self.setCharacterLevel(switchingCharacter, newLevel)
         self.setCharacterStats(switchingCharacter, characterData['Stats'])
         self.setCharacterGrowths(switchingCharacter, characterData['Growths'])
         if self.forceViableCharacters:
@@ -1168,7 +1182,7 @@ class FatesRandomizer:
 
         # Villager Check
         if self.forceVillager:
-            villagerPromoted = self.rng.choice(['Master of Arms', 'Merchant'])
+            villagerPromoted = self.rng.choice(['Master of Arms', 'Great Lord'])
             self.randomizedClasses['Mozu'] = villagerPromoted
             characterNames.remove('Mozu')
             classes.remove(villagerPromoted)
@@ -1299,11 +1313,10 @@ class FatesRandomizer:
                 else:
                     raise ValueError('Character named "{}" not found in MALE_CHARACTERS or FEMALE_CHARACTERS'.format(characterName))
         elif className == 'Onmyoji':
-            baseClass = self.rng.choice(['Diviner', 'Monk'])
-            if baseClass == 'Monk' and characterName in self.FEMALE_CHARACTERS:
+            if characterName in self.FEMALE_CHARACTERS:
                 return 'Shrine Maiden'
             else:
-                return baseClass
+                return 'Monk'
         elif len(baseClasses) == 0:
             return className
         else:
@@ -1805,6 +1818,7 @@ if __name__ == "__main__":
         enableDLCBaseClass=args.enable_dlc_base_class,
         enableGenderlessDLC=args.enable_genderless_dlc,
         enableRandomizedPersonalSkills=args.enable_randomized_personal_skills,
+        fatesUpgraded=(not args.disable_fates_upgraded),
         forceClassSpread=(not args.disable_class_spread),
         forceCamillaDef=(not args.disable_camilla_def),
         forceGunterDef=(not args.disable_gunter_def),
