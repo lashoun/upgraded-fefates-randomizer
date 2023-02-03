@@ -1235,12 +1235,11 @@ class FatesRandomizer:
             else:
                 classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
 
-        # prioritize variance in parent classes
-        if self.banChildren:
+        if self.banChildren or self.PMUList:
             self.rng.shuffle(classes)
             classes = classes[:len(characterNames)]
             self.checkQuality(characterNames, classes)
-        else:
+        else:  # prioritize variance in parent classes
             childrenStart = characterNames.index('Shigure')
             parentCharacterNames = characterNames[:childrenStart]
             childrenCharacterNames = characterNames[childrenStart:]

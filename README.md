@@ -182,7 +182,7 @@ By default the randomizer works as explained below. Customizations are possible 
           Pair Up Bonuses | - | 3 | 0 | 3 | 0 | 0 | 2 | 0 | 0
     - Witch:
         - can use Nosferatu innately
-        - Warp -> Vengeance
+        - Warp -> Rally Magic
     - Wyvern Lord: Swordbreaker -> Lancebreaker
 
 #### Shops
