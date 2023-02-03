@@ -69,6 +69,7 @@ parser.add_argument('-gc', '--growth-cap', type=int, default=70, help="adjusted 
 parser.add_argument('-gp', '--growth-p', type=float, default=1., help="probability of editing growths in a variability pass")
 parser.add_argument('-gsmax', '--growths-sum-max', type=int, default=350, help="will adjust growths until sum is lower than specified value")
 parser.add_argument('-gsmin', '--growths-sum-min', type=int, default=250, help="will adjust growths until sum is higher than specified value")
+parser.add_argument('-ic', '--imposed-classes', type=lambda s: [item for item in s.split(',')], default=[], help='list of imposed classes separated by a comma')
 parser.add_argument('-mc', '--modifier-coefficient', type=int, default=0, help="will increase all modifiers by specified coefficient")
 parser.add_argument('-mp', '--mod-p', type=float, default=0.25, help="probability of editing modifiers in a variability pass")
 parser.add_argument('-np', '--n-passes', type=int, default=10, help="number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass")
@@ -204,6 +205,7 @@ class FatesRandomizer:
         growthP=1,  # proba of editing growths in AddVariancetoData
         growthsSumMax=350,  # in adjustBaseStatsAndGrowths, will decrease growths sum down to said value
         growthsSumMin=250,  # in adjustBaseStatsAndGrowths, will increase growths sum up to said value
+        imposedClasses=None,
         limitStaffClasses=True,  # will limit staff only classes by putting characters in a magical class and offering the staff class as a possible reclass
         modifierCoefficient=0,  # value by which all modifiers will be increased
         modP=0.25,  # proba of editing modifiers in AddVariancetoData
@@ -276,6 +278,7 @@ class FatesRandomizer:
         self.growthP = growthP
         self.growthsSumMax = growthsSumMax
         self.growthsSumMin = growthsSumMin
+        self.imposedClasses = imposedClasses
         self.limitStaffClasses = limitStaffClasses
         self.modifierCoefficient = modifierCoefficient
         self.modP = modP
@@ -322,6 +325,8 @@ class FatesRandomizer:
             self.DLC_CLASSES = ['Dread Fighter', 'Dark Falcon', 'Ballistician',
                 'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster']
 
+        self.CUSTOM_CLASSES = ['Enchanter', 'Warden']
+
         self.FINAL_CLASSES = [
             'Hoshido Noble', 'Swordmaster', 'Master of Arms', 'Oni Chieftain',
             'Blacksmith', 'Spear Master', 'Basara', 'Onmyoji', 'Great Master',
@@ -363,6 +368,11 @@ class FatesRandomizer:
             'Knight', 'Fighter', 'Mercenary', 'Outlaw', 'Wyvern Rider', 'Dark Mage',
             'Troubadour', 'Wolfskin'
         ]
+
+        if self.fatesUpgraded:
+            self.FINAL_CLASSES += self.CUSTOM_CLASSES
+            self.TOME_CLASSES += ['Enchanter']
+            self.PROMOTED_CLASSES += self.CUSTOM_CLASSES
 
         self.AMIIBO_CHARACTERS = ['Marth', 'Lucina', 'Robin', 'Ike']
 
@@ -871,7 +881,12 @@ class FatesRandomizer:
                     #     self.setCharacterReclassOne(character, newBaseClass)
                     # else:
                     #     self.setCharacterClass(character, newClass)
-                    self.setCharacterClass(character, newClass)
+                    if newClass == 'Enchanter':  # a heart seal will be needed
+                        self.setCharacterClass(character, 'Adventurer')
+                    elif newClass == 'Warden':  # a heart seal will be needed
+                        self.setCharacterClass(character, 'General')
+                    else:
+                        self.setCharacterClass(character, newClass)
                 else:
                     if self.forceStaffEarlyRecruit:
                         if switchingCharacterName == self.earlyConquestRecruit:
@@ -1103,9 +1118,13 @@ class FatesRandomizer:
             self.randomizedClasses['Corrin'] = corrinClass
 
         characterNames = self.ROUTE_CHARACTERS.copy()
+        if self.PMUMode:
+            characterNames = self.PMUList.copy()
 
-        classes = self.FINAL_CLASSES.copy()
-        classes.remove(self.randomizedClasses['Corrin'])
+        if corrinClass in self.imposedClasses:
+            self.imposedClasses.remove(corrinClass)
+        classes = [c for c in self.FINAL_CLASSES if c not in (self.imposedClasses + [corrinClass])]
+
         self.rng.shuffle(classes)
         classesBis = self.FINAL_CLASSES.copy()
         classesBis.remove('Songstress')  # one Songstress max
@@ -1131,61 +1150,88 @@ class FatesRandomizer:
         classes = classes + classesBis
         classes = classes[:len(characterNames)]
 
+        classes = self.imposedClasses + classes
+        classes = classes[:len(characterNames)]
+        self.rng.shuffle(classes)
+
         # Staff Early Recruit Check
         staffClass = ''
         staffClass2 = ''
         if self.forceStaffEarlyRecruit:
             if self.gameRoute != "Birthright" and self.earlyConquestRecruit in characterNames:
-                staffClass = self.rng.choice(self.CONQUEST_STAFF_CLASSES)
-                while staffClass not in classes:
+                conquestStaffClasses = [c for c in self.CONQUEST_STAFF_CLASSES if c in classes]
+                if len(conquestStaffClasses) == 0:
                     staffClass = self.rng.choice(self.CONQUEST_STAFF_CLASSES)
+                else:
+                    staffClass = self.rng.choice(conquestStaffClasses)
                 self.randomizedClasses[self.earlyConquestRecruit] = staffClass
                 characterNames.remove(self.earlyConquestRecruit)
-                classes.remove(staffClass)
+                if staffClass in classes:
+                    classes.remove(staffClass)
+                else:
+                    classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
             if self.gameRoute != "Conquest" and self.earlyBirthrightRecruit in characterNames:
-                birthrightStaffClasses = self.BIRTHRIGHT_STAFF_CLASSES.copy()
-                if self.earlyConquestRecruit in characterNames:
+                birthrightStaffClasses = [c for c in self.BIRTHRIGHT_STAFF_CLASSES if c in classes]
+                if self.gameRoute != "Birthright" and self.earlyConquestRecruit in characterNames:
                     if staffClass in birthrightStaffClasses:
                         birthrightStaffClasses.remove(staffClass)
-                staffClass2 = self.rng.choice(birthrightStaffClasses)
-                while staffClass2 not in classes:
+                if len(birthrightStaffClasses) == 0:
                     staffClass2 = self.rng.choice(self.BIRTHRIGHT_STAFF_CLASSES)
+                else:
+                    staffClass2 = self.rng.choice(birthrightStaffClasses)
                 self.randomizedClasses[self.earlyBirthrightRecruit] = staffClass2
                 characterNames.remove(self.earlyBirthrightRecruit)
-                classes.remove(staffClass2)
+                if staffClass2 in classes:
+                    classes.remove(staffClass2)
+                else:
+                    classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
 
         # Staff Retainer Check
         if self.forceStaffRetainer:
             jakobClass = self.rng.choice(self.JAKOB_CLASSES)
             if self.forceStaffEarlyRecruit:
-                while jakobClass in [staffClass, staffClass2]:
-                    jakobClass = self.rng.choice(self.JAKOB_CLASSES)
+                jakobClasses = [c for c in self.JAKOB_CLASSES if c not in [staffClass, staffClass2]]
+                jakobClass = self.rng.choice(jakobClasses)
             feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
             if self.forceStaffEarlyRecruit:
-                while feliciaClass in [staffClass, staffClass2, jakobClass]:
-                    feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
-            self.randomizedClasses['Jakob'] = jakobClass
-            self.randomizedClasses['Felicia'] = feliciaClass
-            characterNames.remove('Jakob')
-            characterNames.remove('Felicia')
-            if jakobClass in classes:
-                classes.remove(jakobClass)
-            if feliciaClass in classes:
-                classes.remove(feliciaClass)
+                feliciaClasses = [c for c in self.FELICIA_CLASSES if c not in [staffClass, staffClass2, jakobClass]]
+                feliciaClass = self.rng.choice(feliciaClasses)
+            if 'Jakob' in characterNames:
+                self.randomizedClasses['Jakob'] = jakobClass
+                characterNames.remove('Jakob')
+                if jakobClass in classes:
+                    classes.remove(jakobClass)
+                else:
+                    classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
+            if 'Felicia' in characterNames:
+                self.randomizedClasses['Felicia'] = feliciaClass
+                characterNames.remove('Felicia')
+                if feliciaClass in classes:
+                    classes.remove(feliciaClass)
+                else:
+                    classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
 
         # Songstress Check
-        if self.forceSongstress:
+        if self.forceSongstress and 'Azura' in characterNames:
             self.randomizedClasses['Azura'] = 'Songstress'
             characterNames.remove('Azura')
-        if 'Songstress' in classes:
-            classes.remove('Songstress')
+            if 'Songstress' in classes:
+                classes.remove('Songstress')
+            else:
+                classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
 
         # Villager Check
-        if self.forceVillager:
-            villagerPromoted = self.rng.choice(['Master of Arms', 'Great Lord'])
-            self.randomizedClasses['Mozu'] = villagerPromoted
+        if self.forceVillager and 'Mozu' in characterNames:
+            if self.fatesUpgraded:
+                villagerPromotedClass = self.rng.choice(['Master of Arms', 'Great Lord'])
+            else:
+                villagerPromotedClass = self.rng.choice(['Master of Arms', 'Merchant'])
+            self.randomizedClasses['Mozu'] = villagerPromotedClass
             characterNames.remove('Mozu')
-            classes.remove(villagerPromoted)
+            if villagerPromotedClass in classes:
+                classes.remove(villagerPromoted)
+            else:
+                classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
 
         # prioritize variance in parent classes
         if self.banChildren:
@@ -1848,6 +1894,7 @@ if __name__ == "__main__":
         growthP=args.growth_p,
         growthsSumMax=args.growths_sum_max,
         growthsSumMin=args.growths_sum_min,
+        imposedClasses=args.imposed_classes,
         limitStaffClasses=(not args.disable_limit_staff_classes),
         modifierCoefficient=args.modifier_coefficient,
         modP=args.mod_p,

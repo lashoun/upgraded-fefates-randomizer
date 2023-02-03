@@ -106,42 +106,80 @@ By default the randomizer works as explained below. Customizations are possible 
 #### Classes
 - DLC class gender lock is removed
 - All DLC classes except Ballistician are now normal promoted classes
+- New class tree (changes are **bolded**):
+    Base Class | Class 1 | Class 2
+    --- | --- | ---
+    Nohr Prince(ss) | Nohr Noble | Hoshido Noble
+    Samurai | Swordmaster | **Lodestar**
+    Villager | **Great Lord** | Master of Arms
+    Apothecary | Merchant | Mechanist |
+    Ninja | Master Ninja | **Dread Fighter**
+    Oni Savage | Oni Chieftain | Blacksmith
+    Spear Fighter | Spear Master | Basara
+    Diviner | **Dark Knight** | **Grandmaster**
+    Monk | Great Master | Onmyoji
+    Shrine Maiden | Priestess | Onmyoji
+    Sky Knight | Falcon Knight | **Dark Falcon**
+    Archer | Sniper | Kinshi Knight
+    Kitsune | Nine-Tails |
+    Songstress | |
+    Cavalier | Paladin | Great Knight
+    Knight | **Warden** | General
+    Fighter | Berserker | **Vanguard**
+    Mercenary | Hero | Bow Knight
+    Outlaw | **Enchanter** | Adventurer
+    Wyvern Rider | Wyvern Lord | Malig Knight
+    Dark Mage | Sorcerer | **Witch**
+    Troubadour | Strategist | Maid/Butler
+    Wolfskin | Wolfssegner |
 - Detailed class changes:
     - Basara: Quixotic -> Swordbreaker
     - Blacksmith: Salvage Blow -> Death Blow
+    - Bow Knight:
+        - Bows A->B, Swords B->A
+        - Shurikenbreaker -> Galeforce
     - Dark Falcon: Lances B->A, Tomes A->B
-    - Dark Knight: Seal Magic -> Rend Heaven
-    - Dark Mage: Dark Knight -> Witch
-    - Diviner:
-        - Onmyoji -> Dark Knight
-        - Basara -> Grandmaster
-        - Future Sight -> Solidarity
+    - Dark Knight: Seal Magic -> Luna
+    - Diviner: Future Sight -> Solidarity
     - Dread Fighter:
         - Daggers B->A, Swords A->B
         - Clarity -> Iron Will
         - Aggressor -> Tomebreaker
-    - Fighter: Hero -> Vanguard
-    - Great Lord:
-        - Lances B->A, Swords A->B
+    - Enchanter (new class):
+        - Bows A, Tomes B
+        - Lvl 5 Sol, Lvl 15 Shurikenbreaker
+        -     | HP  | Str | Mag | Skl | Spd | Lck | Def | Res | Mov
+          --- | --- | --- | --- | --- | --- | --- | --- | --- |
+          Bases | 16 | 6 | 7 | 7 | 7 | 4 | 4 | 5 | 6
+          Growths | 0 | 10 | 20 | 10 | 10 | 10 | 0 | 10 | -
+          Max Stats | 48 | 29 | 33 | 29 | 31 | 29 | 26 | 30 | -
+          Pair Up Bonuses | 0 | 0 | 0 | 0 | 4 | 0 | 0 | 2 | 1
+    - Grandmaster: Shurikens ❌->B, Swords B->❌
+    - Great Lord: Lances B->A, Swords A->B
     - Lodestar: Speedtaker -> Awakening
     - Master of Arms:
         - Lances B->A, Swords A->B
         - Seal Strength -> Luna
         - Life or Death -> Swordbreaker
     - Mechanist: Daggers A->B, Bow B->A
-    - Ninja: Mechanist -> Dread Fighter
-    - Oni Chieftain: Death Blow -> Rend Heaven, Counter -> Lancebreaker
+    - Oni Chieftain: Death Blow -> Rend Heaven, Counter -> Lifetaker
     - Priestess / Great Master: Countermagic -> Inspiration
     - Vanguard:
         - Swords A->B, Axes B->A
-        - Strengthtaker -> Axebreaker
-    - Samurai: Master of Arms -> Lodestar
-    - Sky Knight: Kinshi Knight -> Dark Falcon
+        - Strengthtaker -> Lancebreaker
     - Villager:
-        - Merchant -> Great Lord
         - Lances C->B
         - Aptitude -> Dual Striker
         - Underdog -> Charm
+    - Warden (new class):
+        - Lances A, Daggers B
+        - Lvl 5 Savage Blow, Lvl 15 Swordbreaker
+        -     | HP  | Str | Mag | Skl | Spd | Lck | Def | Res | Mov
+          --- | --- | --- | --- | --- | --- | --- | --- | --- |
+          Bases | 20 | 10 | 0 | 9 | 7 | 4 | 9 | 3 | 6 
+          Growths | 20 | 15 | 0 | 20 | 10 | 5 | 15 | 0 | -
+          Max Stats | 65 | 36 | 25 | 34 | 29 | 32 | 35 | 29 | -
+          Pair Up Bonuses | - | 3 | 0 | 3 | 0 | 0 | 2 | 0 | 0
     - Witch:
         - can use Nosferatu innately
         - Warp -> Vengeance
