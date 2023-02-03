@@ -479,7 +479,9 @@ class FatesRandomizer:
 
         self.FILTERED_PERSONAL_SKILLS = [
             'Supportive', 'Quiet Strength', 'Perfectionist', 'Rallying Cry', 'Competitive',
-            'Bushido', 'Perspicacious', "Lily's Poise", 'Puissance', "Rose's Thorns", 'Opportunist', 'Bloodthirst', 'Chivalry', 'Draconic Heir', 'Playthings', 'Gallant', 'Fierce Counter', 'Fortunate Son', 'Bibliophile', 'Sisterhood', 'Pragmatic'
+            'Bushido', 'Perspicacious', "Lily's Poise", 'Puissance', "Rose's Thorns", 'Opportunist',
+            'Bloodthirst', 'Chivalry', 'Draconic Heir', 'Playthings', 'Gallant', 'Fierce Counter',
+            'Fortunate Son', 'Bibliophile', 'Sisterhood', 'Pragmatic'
         ]
 
         if self.gameRoute == 'Birthright':
