@@ -184,7 +184,7 @@ Pair Up Bonuses | 0 | 0 | 0 | 0 | 4 | 0 | 0 | 2 | 1
 
 - Warden Data
 
- | HP  | Str | Mag | Skl | Spd | Lck | Def | Res | Mov
+Data | HP  | Str | Mag | Skl | Spd | Lck | Def | Res | Mov
 --- | --- | --- | --- | --- | --- | --- | --- | --- | ---
 Bases | 20 | 10 | 0 | 9 | 7 | 4 | 9 | 3 | 6 
 Growths | 20 | 15 | 0 | 20 | 10 | 5 | 15 | 0 | -
