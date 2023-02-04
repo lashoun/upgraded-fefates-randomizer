@@ -159,7 +159,7 @@ By default the randomizer works as explained below. Customizations are possible 
     - Lodestar: Speedtaker -> Awakening
     - Master of Arms:
         - Lances B->A, Swords A->B
-        - Seal Strength -> Luna
+        - Seal Strength -> Astra
         - Life or Death -> Swordbreaker
     - Mechanist: Daggers A->B, Bow B->A
     - Oni Chieftain: Death Blow -> Rend Heaven, Counter -> Lifetaker
@@ -181,8 +181,7 @@ By default the randomizer works as explained below. Customizations are possible 
           Max Stats | 65 | 36 | 25 | 34 | 29 | 32 | 35 | 29 | -
           Pair Up Bonuses | - | 3 | 0 | 3 | 0 | 0 | 2 | 0 | 0
     - Witch:
-        - can use Nosferatu innately
-        - Warp -> Rally Magic
+        - Warp -> Shadowgift
     - Wyvern Lord: Swordbreaker -> Lancebreaker
 
 #### Shops
