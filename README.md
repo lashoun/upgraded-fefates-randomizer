@@ -97,7 +97,7 @@ All credits are due to the original mod authors.
     - Enemy royals have "Sacred weapons+" (Raijinto+/Siegfried+/Fujin Yumi+/Brynhildr+) with buffed Mt (15), and Raijinto+ and Siegfried+ keep 1-2 range and their original buffs (Str/Def +4)
 - Wakizashi, Spear, Tomahawk and Battering Club are now 1-2 range, but have -10 Hit and -10 Avo
 - All hidden weapons that were not Bronze / Iron / Steel / Silver have -2 Mt and -20 Hit, and all stat debuffs are decreased by 1
-- Silver weapons no longer self-debuff, but instead give -10 Avo, -2 Def/Res and -3 eff. Spd in enemy phase
+- Silver weapons no longer self-debuff, but instead have -10 Hit, -10 Avo, and give -2 Def/Res and -3 eff. Spd in enemy phase
     - Enemies have "Silver Weapons+" which do not have any of the aforementioned maluses
 - Beaststones+ and Dragonstones+ now halve Str/Mag until the end of the next fight
 
