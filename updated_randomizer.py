@@ -1264,6 +1264,8 @@ class FatesRandomizer:
 
         for i, className in enumerate(classes):
             self.randomizedClasses[characterNames[i]] = className
+        for i, className in enumerate(classes2):
+            self.randomizedClasses[characterNames2[i]] = className
 
         return None
 
