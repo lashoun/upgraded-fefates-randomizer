@@ -46,7 +46,7 @@ parser.add_argument('-dlts', '--disable-livetoserve', action='store_true', help=
 parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacements' enforced Locktouch skill")
 parser.add_argument('-dlsc', '--disable-limit-staff-classes', action='store_true', help="disables replacing staff only classes by offensive classes and setting the staff only class as a reclass option")
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
-parser.add_argument('-dpc', '--debuff-prepromotes-coeff', type=int, default=10, help="percentage points of handicap for prepromote base stats")
+parser.add_argument('-dpc', '--debuff-prepromotes-coeff', type=int, default=0, help="percentage points of handicap for prepromote base stats")
 parser.add_argument('-drl', '--disable-rebalance-levels', action='store_true', help="disable fairer level balance adjustments (reverts to levels from the original games)")
 parser.add_argument('-drlu', '--disable-rng-level-ups', action='store_true', help="disable rng level ups; characters will have average stats w.r.t their growths")
 parser.add_argument('-drr', '--def-res-ratio', type=float, default=0.8, help="ratio of higher def/res characters with mixed classes")
@@ -178,7 +178,7 @@ class FatesRandomizer:
         baseStatsSumMin=15,  # in adjustBaseStatsAndGrowths, will increase stats sum to said value
         corrinClass='',
         defResRatio=0.8,
-        debuffPrepromotesCoeff=10,
+        debuffPrepromotesCoeff=0,
         disableBalancedSkillRandomization=False,
         disableModelSwitch=False,  # will disable model switching
         enableDLCBaseClass=False,  # will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)

@@ -49,7 +49,7 @@ Wyvern Lord,Str,Def,10,15,0,15,10,5,20,0,Wyvern Rider,,Axe,Lance,,Wyvern Lord,19
 Malig Knight,StrMixed,Mixed,0,15,15,10,5,0,10,15,Wyvern Rider,,Axe,Tome,,Malig Knight,18,7,6,6,5,0,8,6,8,56,38,70,Malig Knight,–
 Dark Mage,Mag,Res,0,10,20,0,10,0,5,10,,,Tome,,,Dark Mage,16,0,6,3,3,1,3,5,5,37,21,55,Dark Mage,–
 Sorcerer,Mag,Res,0,0,25,0,10,0,5,15,Dark Mage,,Tome,,,Sorcerer,17,0,9,4,6,1,5,8,6,50,33,55,Sorcerer,"Hit +5, Crt +10, CEv +5"
-Dark Knight,MagMixed,Res,15,20,10,5,5,5,15,5,Diviner,,Tome,Sword,,Dark Knight,19,8,6,6,5,3,8,6,8,61,42,80,Dark Knight,–
+Dark Knight,MagMixed,Res,15,20,10,5,5,5,15,5,Dark Mage,,Tome,Sword,,Dark Knight,19,8,6,6,5,3,8,6,8,61,42,80,Dark Knight,–
 Troubadour,Mixed,Res,0,0,10,20,10,15,0,15,,,Staff,,,Troubadour,15,0,3,7,5,4,1,4,7,39,24,70,Troubadour,CEv +10
 Strategist,Mag,Res,0,0,15,5,10,20,0,15,Troubadour,,Tome,,,Strategist,16,0,7,6,7,5,2,7,8,50,34,65,Strategist,–
 Maid,StrMixed,Res,0,10,10,15,15,10,5,10,Troubadour,,Dagger,,,Maid,18,4,5,9,8,4,5,4,6,57,39,75,Maid,–
@@ -59,7 +59,7 @@ Wolfssegner,Str,Def,20,20,0,5,15,5,10,0,Wolfskin,,Beaststone,,,Wolfssegner,22,11
 Dread Fighter,Str,Res,15,15,5,5,15,0,5,20,Ninja,,Dagger,Axe,Sword,Dread Fighter,19,8,3,6,8,1,6,9,6,60,41,80,Dread Fighter,–
 Dark Falcon,StrMixed,Res,0,10,15,5,15,15,0,20,Sky Knight,,Tome,Lance,,Dark Falcon,17,4,7,5,9,4,3,9,8,58,41,80,Dark Falcon,–
 Ballistician,Str,Def,5,25,0,15,0,10,5,5,Archer,,Bow,,,Ballistician,18,10,0,7,2,4,3,1,4,45,27,65,Ballistician,–
-Witch,Mag,Res,5,0,25,5,20,5,0,10,Dark Mage,,Tome,,,Witch,17,0,10,5,9,3,4,5,6,53,36,70,Witch,"Crt +10, Avo +10"
+Witch,Mag,Res,5,0,25,5,20,5,0,10,Diviner,,Tome,,,Witch,17,0,10,5,9,3,4,5,6,53,36,70,Witch,"Crt +10, Avo +10"
 Lodestar,Str,Def,15,10,0,20,10,25,5,5,Samurai,,Sword,,,Lodestar,19,7,0,10,9,7,7,2,6,61,42,90,Lodestar,"Hit +10, Crt +5, Avo +10"
 Vanguard,Str,Def,20,20,0,5,5,10,15,0,Fighter,,Sword,Axe,,Vanguard,21,10,0,6,7,3,9,1,6,57,36,75,Vanguard,–
 Great Lord,Str,Def,15,15,0,10,10,15,10,5,Villager,,Sword,Lance,,Great Lord,18,8,1,8,9,5,7,3,6,59,41,80,Great Lord,–
