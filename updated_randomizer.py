@@ -33,7 +33,8 @@ parser.add_argument('-c', '--corrin-class', choices=[
     'Bow Knight', 'Adventurer', 'Wyvern Lord', 'Malig Knight',
     'Sorcerer', 'Dark Knight', 'Strategist', 'Maid', 'Butler',
     'Wolfssegner', 'Songstress', 'Dread Fighter', 'Dark Falcon',
-    'Ballistician', 'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster'
+    'Ballistician', 'Witch', 'Lodestar', 'Vanguard', 'Great Lord', 'Grandmaster',
+    'Enchanter', 'Warden'
 ],
                     default='', help="Corrin's final class", metavar="CORRIN_CLASS")
 parser.add_argument('-dbsr', '--disable-balanced-skill-randomization', action='store_true', help="disable balanced skill randomization; skill randomization will be completely random")
@@ -69,7 +70,7 @@ parser.add_argument('-gc', '--growth-cap', type=int, default=70, help="adjusted 
 parser.add_argument('-gp', '--growth-p', type=float, default=1., help="probability of editing growths in a variability pass")
 parser.add_argument('-gsmax', '--growths-sum-max', type=int, default=350, help="will adjust growths until sum is lower than specified value")
 parser.add_argument('-gsmin', '--growths-sum-min', type=int, default=250, help="will adjust growths until sum is higher than specified value")
-parser.add_argument('-ic', '--imposed-classes', type=lambda s: [item for item in s.split(',')], default=[], help='list of imposed classes separated by a comma')
+parser.add_argument('-ic', '--imposed-classes', type=lambda s: [item.strip() for item in s.split(',')], default=[], help='list of imposed classes separated by a comma')
 parser.add_argument('-mc', '--modifier-coefficient', type=int, default=0, help="will increase all modifiers by specified coefficient")
 parser.add_argument('-mp', '--mod-p', type=float, default=0.25, help="probability of editing modifiers in a variability pass")
 parser.add_argument('-np', '--n-passes', type=int, default=10, help="number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass")
@@ -760,36 +761,29 @@ class FatesRandomizer:
             - no prepromoted character is a Hoshido Noble or Nohr Noble
             - Gunter and Camilla have a Def > Res class
         """
+        assert len(characterNames) == len(classes), "characterNames and classes have different lengths: {} and {}".format(len(characterNames), len(classes))
         qualityPass = False
         while not qualityPass:
             qualityPass = True
             for i, className in enumerate(classes):
                 characterName = characterNames[i]
                 if (className in self.MALE_CLASSES or (className in self.TRUE_MALE_CLASSES and characterName in self.PREPROMOTED_CHARACTERS)) and characterName not in self.MALE_CHARACTERS:
-                    newCharacterName = self.rng.choice(self.MALE_CHARACTERS)
-                    while newCharacterName not in characterNames:
-                        newCharacterName = self.rng.choice(self.MALE_CHARACTERS)
+                    newCharacterName = self.rng.choice([x for x in self.MALE_CHARACTERS if x in characterNames])
                     j = characterNames.index(newCharacterName)
                     classes[i], classes[j] = classes[j], classes[i]
                     qualityPass = False
                 elif (className in self.FEMALE_CLASSES or (className in self.TRUE_FEMALE_CLASSES and characterName in self.PREPROMOTED_CHARACTERS)) and characterName not in self.FEMALE_CHARACTERS:
-                    newCharacterName = self.rng.choice(self.FEMALE_CHARACTERS)
-                    while newCharacterName not in characterNames:
-                        newCharacterName = self.rng.choice(self.FEMALE_CHARACTERS)
+                    newCharacterName = self.rng.choice([x for x in self.FEMALE_CHARACTERS if x in characterNames])
                     j = characterNames.index(newCharacterName)
                     classes[i], classes[j] = classes[j], classes[i]
                     qualityPass = False
                 elif className in ["Hoshido Noble", "Nohr Noble"] and characterName in self.PREPROMOTED_CHARACTERS:
-                    newCharacterName = self.rng.choice(self.ROUTE_CHARACTERS)
-                    while newCharacterName not in characterNames or newCharacterName in self.PREPROMOTED_CHARACTERS:
-                        newCharacterName = self.rng.choice(self.ROUTE_CHARACTERS)
+                    newCharacterName = self.rng.choice([x for x in self.ROUTE_CHARACTERS if (x in characterNames and x not in self.PREPROMOTED_CHARACTERS)])
                     j = characterNames.index(newCharacterName)
                     classes[i], classes[j] = classes[j], classes[i]
                     qualityPass = False
                 elif self.readClassDefenseType(className) != 'Def' and ((characterName == "Gunter" and self.forceGunterDef) or (characterName == "Camilla" and self.forceCamillaDef)):
-                    newClass = self.rng.choice(classes)
-                    while self.readClassDefenseType(newClass) != 'Def':
-                        newClass = self.rng.choice(classes)
+                    newClass = self.rng.choice([x for x in classes if self.readClassDefenseType(x) == 'Def'])
                     j = classes.index(newClass)
                     classes[i], classes[j] = classes[j], classes[i]
                     qualityPass = False
@@ -1105,6 +1099,13 @@ class FatesRandomizer:
 
     def randomizeAllClasses(self):
         self.randomizedClasses = {}
+        characterNames = self.ROUTE_CHARACTERS.copy()
+        if self.PMUMode:
+            characterNames = self.PMUList.copy()
+        removedCharacters = []
+
+        if 'Corrin' in characterNames:
+            characterNames.remove('Corrin')
         if len(self.corrinClass) > 0:
             self.randomizedClasses['Corrin'] = self.corrinClass
         else:
@@ -1119,42 +1120,36 @@ class FatesRandomizer:
                         corrinClass = self.rng.choice(self.FINAL_CLASSES)
             self.randomizedClasses['Corrin'] = corrinClass
 
-        characterNames = self.ROUTE_CHARACTERS.copy()
-        if self.PMUMode:
-            characterNames = self.PMUList.copy()
-
-        if corrinClass in self.imposedClasses:
-            self.imposedClasses.remove(corrinClass)
-        classes = [c for c in self.FINAL_CLASSES if c not in (self.imposedClasses + [corrinClass])]
+        if self.corrinClass in self.imposedClasses:
+            self.imposedClasses.remove(self.corrinClass)
+        classes = [c for c in self.FINAL_CLASSES if c not in (self.imposedClasses + [self.corrinClass])]
 
         self.rng.shuffle(classes)
-        classesBis = self.FINAL_CLASSES.copy()
-        classesBis.remove('Songstress')  # one Songstress max
-        self.rng.shuffle(classesBis)
+        classes2 = self.FINAL_CLASSES.copy()
+        classes2.remove('Songstress')  # one Songstress max
+        self.rng.shuffle(classes2)
         if self.rng.random() < 0.5:  # remove classes that are almost identical
             if 'Great Master' in classes:
                 classes.remove('Great Master')
-            if 'Priestess' in classesBis:
-                classesBis.remove('Priestess')
+            if 'Priestess' in classes2:
+                classes2.remove('Priestess')
             if 'Butler' in classes:
                 classes.remove('Butler')
-            if 'Maid' in classesBis:
-                classesBis.remove('Maid')
+            if 'Maid' in classes2:
+                classes2.remove('Maid')
         else:
             if 'Priestess' in classes:
                 classes.remove('Priestess')
-            if 'Great Master' in classesBis:
-                classesBis.remove('Great Master')
+            if 'Great Master' in classes2:
+                classes2.remove('Great Master')
             if 'Maid' in classes:
                 classes.remove('Maid')
-            if 'Butler' in classesBis:
-                classesBis.remove('Butler')
-        classes = classes + classesBis
-        classes = classes[:len(characterNames)]
+            if 'Butler' in classes2:
+                classes2.remove('Butler')
 
-        classes = self.imposedClasses + classes
+        classes = self.imposedClasses + classes + classes2
+        classes2 = classes[len(characterNames):]
         classes = classes[:len(characterNames)]
-        self.rng.shuffle(classes)
 
         # Staff Early Recruit Check
         staffClass = ''
@@ -1168,6 +1163,7 @@ class FatesRandomizer:
                     staffClass = self.rng.choice(conquestStaffClasses)
                 self.randomizedClasses[self.earlyConquestRecruit] = staffClass
                 characterNames.remove(self.earlyConquestRecruit)
+                removedCharacters.append(self.earlyConquestRecruit)
                 if staffClass in classes:
                     classes.remove(staffClass)
                 else:
@@ -1183,6 +1179,7 @@ class FatesRandomizer:
                     staffClass2 = self.rng.choice(birthrightStaffClasses)
                 self.randomizedClasses[self.earlyBirthrightRecruit] = staffClass2
                 characterNames.remove(self.earlyBirthrightRecruit)
+                removedCharacters.append(self.earlyBirthrightRecruit)
                 if staffClass2 in classes:
                     classes.remove(staffClass2)
                 else:
@@ -1201,6 +1198,7 @@ class FatesRandomizer:
             if 'Jakob' in characterNames:
                 self.randomizedClasses['Jakob'] = jakobClass
                 characterNames.remove('Jakob')
+                removedCharacters.append('Jakob')
                 if jakobClass in classes:
                     classes.remove(jakobClass)
                 else:
@@ -1208,6 +1206,7 @@ class FatesRandomizer:
             if 'Felicia' in characterNames:
                 self.randomizedClasses['Felicia'] = feliciaClass
                 characterNames.remove('Felicia')
+                removedCharacters.append('Felicia')
                 if feliciaClass in classes:
                     classes.remove(feliciaClass)
                 else:
@@ -1217,6 +1216,7 @@ class FatesRandomizer:
         if self.forceSongstress and 'Azura' in characterNames:
             self.randomizedClasses['Azura'] = 'Songstress'
             characterNames.remove('Azura')
+            removedCharacters.append('Azura')
             if 'Songstress' in classes:
                 classes.remove('Songstress')
             else:
@@ -1230,27 +1230,37 @@ class FatesRandomizer:
                 villagerPromotedClass = self.rng.choice(['Master of Arms', 'Merchant'])
             self.randomizedClasses['Mozu'] = villagerPromotedClass
             characterNames.remove('Mozu')
+            removedCharacters.append('Mozu')
             if villagerPromotedClass in classes:
                 classes.remove(villagerPromoted)
             else:
                 classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
 
-        if self.banChildren or self.PMUList:
-            self.rng.shuffle(classes)
-            classes = classes[:len(characterNames)]
-            self.checkQuality(characterNames, classes)
-        else:  # prioritize variance in parent classes
-            childrenStart = characterNames.index('Shigure')
-            parentCharacterNames = characterNames[:childrenStart]
-            childrenCharacterNames = characterNames[childrenStart:]
-            parentClasses = classes[:childrenStart]
-            childrenClasses = classes[childrenStart:]
-            self.rng.shuffle(parentClasses)  # in place
-            self.rng.shuffle(childrenClasses)  # in place
-            self.checkQuality(parentCharacterNames, parentClasses)
-            self.checkQuality(childrenCharacterNames, childrenClasses)
-            classes = parentClasses + childrenClasses
-            classes = classes[:len(characterNames)]
+        characterNames2 = [x for x in self.ROUTE_CHARACTERS if (x not in characterNames and x not in removedCharacters)]
+
+        self.rng.shuffle(classes)
+        self.checkQuality(characterNames, classes)
+        if len(characterNames2) > 0:
+            classes2 = classes2[:len(characterNames2)]
+            self.rng.shuffle(classes2)
+            self.checkQuality(characterNames2, classes2)
+
+        # if self.banChildren:
+        #     self.rng.shuffle(classes)
+        #     classes = classes[:len(characterNames)]
+        #     self.checkQuality(characterNames, classes)
+        # else:  # prioritize variance in parent classes
+        #     childrenStart = characterNames.index('Shigure')
+        #     parentCharacterNames = characterNames[:childrenStart]
+        #     childrenCharacterNames = characterNames[childrenStart:]
+        #     parentClasses = classes[:childrenStart]
+        #     childrenClasses = classes[childrenStart:]
+        #     self.rng.shuffle(parentClasses)  # in place
+        #     self.rng.shuffle(childrenClasses)  # in place
+        #     self.checkQuality(parentCharacterNames, parentClasses)
+        #     self.checkQuality(childrenCharacterNames, childrenClasses)
+        #     classes = parentClasses + childrenClasses
+        #     classes = classes[:len(characterNames)]
 
         for i, className in enumerate(classes):
             self.randomizedClasses[characterNames[i]] = className
