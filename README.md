@@ -94,6 +94,7 @@ All credits are due to the original mod authors.
 - Sacred weapons are modified:
     - Raijinto: gives Skl+3 instead of Str+4, range 1
     - Siegfried: gives Def+2 instead of Def+4, range 1
+    - All 4 divine weapons are buyable once at Lvl 3 shops for 50G and are usable by everybody.
     - Enemy royals have "Sacred weapons+" (Raijinto+/Siegfried+/Fujin Yumi+/Brynhildr+) with buffed Mt (15), and Raijinto+ and Siegfried+ keep 1-2 range and their original buffs (Str/Def +4)
 - Wakizashi, Spear, Tomahawk and Battering Club are now 1-2 range, but have -10 Hit and -10 Avo
 - All hidden weapons that were not Bronze / Iron / Steel / Silver have -2 Mt and -20 Hit, and all stat debuffs are decreased by 1
