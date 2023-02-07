@@ -697,8 +697,8 @@ class FatesRandomizer:
             # if characterData["SwitchingCharacterName"] in ["Reina", "Camilla"]:  # Reina and Camilla deserve the buff to be equivalent to their vanilla counterparts  # actually, removing it seems to be fine
                 # newBaseStatsSum += 10
                 # baseStatCap += 3
-            if (characterData["SwitchingCharacterName"] == "Mozu" and self.forceParalogueAptitude) or characterData["SwitchingCharacterName"] in ['Jakob', 'Felicia']:
-                newBaseStatsSum -= 10  # nerf Mozu, Jakob and Felicia's replacements' base stats
+            if characterData["SwitchingCharacterName"] == "Mozu" and self.forceParalogueAptitude:
+                newBaseStatsSum -= 10  # nerf Mozu's replacement's base stats
             while growthsSum < newGrowthsSum:
                 growthProbas = np.copy(probas)
                 s = self.rng.choice(8, p=growthProbas)
@@ -1011,6 +1011,8 @@ class FatesRandomizer:
         self.swapCharacterSklSpd(characterData)
         self.swapCharacterStrMag(characterData)
         self.swapCharacterAtkDef(characterData)  # last
+        if switchingCharacterName in ['Jakob', 'Felicia']:
+            self.swapRetainerStats(characterData)
 
         # Scale Stats to New Level
         characterBaseStats = characterData['BaseStats']
@@ -1796,6 +1798,27 @@ class FatesRandomizer:
             growths[i], growths[j] = growths[j], growths[i]
             stats[i], stats[j] = stats[j], stats[i]
             modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
+
+        return characterData
+
+    def swapRetainerStats(self, characterData):
+        """
+        Nerfs the retainers' relevant offensive stat: puts it at 3rd rank for base stats
+        """
+        className = characterData['NewClass']
+        classAttackType = self.readClassAttackType(className)
+        stats = characterData['BaseStats']
+
+        if classAttackType in ['Str', 'StrMixed']:
+            i = 1  # Str
+            j = np.argsort(stats)[-4] # 4th highest base stat
+            if stats[i] > stats[j]:
+                stats[i], stats[j] = stats[j], stats[i]
+        else:
+            i = 2  # Mag
+            j = np.argsort(stats)[-4] # 4th highest base stat
+            if stats[i] > stats[j]:
+                stats[i], stats[j] = stats[j], stats[i]
 
         return characterData
 
