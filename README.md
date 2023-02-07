@@ -104,6 +104,7 @@ All credits are due to the original mod authors.
 
 #### Characters
 - Corrin gets Aptitude, Dragon Fang, Draconic Hex, Nohrian Trust and Hoshidan Unity so you can reclass them immediately after chapter 5; replace Draconic Hex with Nobility if you want the early game to remain interesting
+- +5 to all of Corrin's maximum stat modifiers
 
 #### Classes
 - DLC class gender lock is removed
@@ -135,7 +136,9 @@ All credits are due to the original mod authors.
     Troubadour | Strategist | Maid/Butler
     Wolfskin | Wolfssegner |
 - Detailed class changes:
-    - Basara: Quixotic → Swordbreaker
+    - Basara:
+        - Quixotic → Swordbreaker
+        - Pair Up Stats: Lck +5, Res +3 -> Spd +2, Lck +3, Res +3
     - Blacksmith: Salvage Blow → Death Blow
     - Bow Knight:
         - Bows A→B, Swords B→A
