@@ -697,8 +697,8 @@ class FatesRandomizer:
             # if characterData["SwitchingCharacterName"] in ["Reina", "Camilla"]:  # Reina and Camilla deserve the buff to be equivalent to their vanilla counterparts  # actually, removing it seems to be fine
                 # newBaseStatsSum += 10
                 # baseStatCap += 3
-            if characterData["SwitchingCharacterName"] == "Mozu" and self.forceParalogueAptitude:
-                newBaseStatsSum -= 10  # nerf Mozu's replacement's base stats
+            if (characterData["SwitchingCharacterName"] == "Mozu" and self.forceParalogueAptitude) or characterData["SwitchingCharacterName"] in ['Jakob', 'Felicia']:
+                newBaseStatsSum -= 10  # nerf Mozu, Jakob and Felicia's replacements' base stats
             while growthsSum < newGrowthsSum:
                 growthProbas = np.copy(probas)
                 s = self.rng.choice(8, p=growthProbas)
