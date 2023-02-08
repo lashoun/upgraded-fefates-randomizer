@@ -12,6 +12,7 @@ from numpy.random import default_rng
 path = './data'
 
 parser = argparse.ArgumentParser()
+parser.add_argument('-asc', '--adjust-strategy-coeff', type=float, default=0.2, help="the lower the more uniform the stat/growth/mod randomization")
 parser.add_argument('-ap', '--addmax-pow', type=float, default=0.7, help="the lower the more uniform growth adjustment")
 parser.add_argument('-ab', '--allow-ballistician', action='store_true', help="allow Ballistician class in the randomization")
 parser.add_argument('-ads', '--allow-dlc-skills', action='store_true', help="allow DLC skills in skill randomization")
@@ -20,7 +21,7 @@ parser.add_argument('-bac', '--ban-amiibo-characters', action='store_true', help
 parser.add_argument('-bc', '--ban-children', action='store_true', help="ban children characters")
 parser.add_argument('-bdc', '--ban-dlc-classes', action='store_true', help="ban DLC classes")
 parser.add_argument('-bdcs', '--ban-dlc-class-skills', action='store_true', help="ban DLC class skills in skill randomization")
-parser.add_argument('-bscap', '--base-stat-cap', type=int, default=11, help="if adjusting growths, max value for base stat")
+parser.add_argument('-bscap', '--base-stat-cap', type=int, default=8, help="if adjusting growths, max value for base stat")
 parser.add_argument('-bssmax', '--base-stats-sum-max', type=int, default=25, help="if adjusting growths, decreasing stats sum to that value")
 parser.add_argument('-bssmin', '--base-stats-sum-min', type=int, default=15, help="if adjusting growths, increasing stats sum to that value")
 parser.add_argument('-bw', '--ban-witch', action='store_true', help="ban Witch class from the randomization")
@@ -76,8 +77,10 @@ parser.add_argument('-mp', '--mod-p', type=float, default=0.25, help="probabilit
 parser.add_argument('-np', '--n-passes', type=int, default=10, help="number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass")
 parser.add_argument('-ns', '--n-skills', type=int, default=-1, choices=[-1, 0, 1, 2, 3, 4, 5], help="number of randomized skills; if -1, randomize existing skills")
 parser.add_argument('-pmu', '--pmu-mode', action='store_true', help="`ClassSpread.csv` will only contain the 16 allowed characters for the run")
+parser.add_argument('-rlp', '--rng-levelup-p', type=float, default=0.5, help="probability of a character having RNG level ups versus average level ups")
 parser.add_argument('-s', '--seed', type=int, default=None, help="RNG seed")
 parser.add_argument('-sp', '--stat-p', type=float, default=0.5, help="probability of editing stats in a variability pass")
+parser.add_argument('-smap', '--str-mixed-attacker-p', type=float, default=0.1, help="probability of a character being a Str mixed character (positive Mag stat/growth/mod with pure Str class")
 parser.add_argument('-sadp', '--swap-atk-def-p', type=float, default=0.2, help="probability of swapping Str/Mag (higher one) with Def/Res (higher one) growths / stats / modifiers")
 parser.add_argument('-sdrp', '--swap-def-res-p', type=float, default=0.2, help="probability of swapping Def and Res growths / stats / modifiers")
 parser.add_argument('-slp', '--swap-lck-p', type=float, default=-1., help="probability of swapping Lck and a random stat's growths / stats / modifiers; random if between 0 and 1, else [(Lck Growth)%% and swap only if Lck is superior]")
@@ -165,6 +168,7 @@ class FatesRandomizer:
         classData,
         settings,
         addmaxPow=0.7,
+        adjustStrategyCoeff=0.2,
         allowDLCSkills=False,
         banAmiiboCharacters=False,
         banAnna=False,
@@ -173,7 +177,7 @@ class FatesRandomizer:
         banDLCClasses=False,
         banDLCClassSkills=False,
         banWitch=False,
-        baseStatCap=11,  # in adjustBaseStatsAndGrowths, max value for base stats
+        baseStatCap=8,  # in adjustBaseStatsAndGrowths, max value for base stats
         baseStatsSumMax=25,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
         baseStatsSumMin=15,  # in adjustBaseStatsAndGrowths, will increase stats sum to said value
         corrinClass='',
@@ -215,9 +219,10 @@ class FatesRandomizer:
         PMUMode=False,  # ClassSpread.csv will contain only the 16 allowed characters, other characters will have the Survey skill
         randomizeStatsAndGrowthsSum=True,  # will sample a random value between min and max for each character
         rebalanceLevels=True,  # will rebalance recruitment levels
-        rngLevelUps=True,
+        rngLevelupP=0.5,
         seed=None,
         statP=0.5,  # proba of editing stats in AddVariancetoData
+        strMixedAttackerP=0.1,  # probability of a character being a Str mixed attacker (positive Mag stat/growth with pure Str class)
         swapAtkDefP=0,  # according to class before random
         swapDefResP=0.2,  # according to class before random
         swapLckP=-1, # random if between 0 and 1, else [(Lck Growth)% and only swap if Lck is superior]
@@ -232,6 +237,7 @@ class FatesRandomizer:
         assert nSkills <= 5, "nSkills must be <= 5"
 
         self.addmaxPow = addmaxPow
+        self.adjustStrategyCoeff = adjustStrategyCoeff
         self.allowDLCSkills = allowDLCSkills
         self.banAmiiboCharacters = banAmiiboCharacters
         self.banAnna = banAnna
@@ -288,9 +294,10 @@ class FatesRandomizer:
         self.PMUMode = PMUMode
         self.randomizeStatsAndGrowthsSum = randomizeStatsAndGrowthsSum
         self.rebalanceLevels = rebalanceLevels
-        self.rngLevelUps = rngLevelUps
+        self.rngLevelupP = rngLevelupP
         self.rng = default_rng(seed)
         self.statP = statP
+        self.strMixedAttackerP = strMixedAttackerP
         self.swapAtkDefP = swapAtkDefP
         self.swapDefResP = swapDefResP
         self.swapLckP = swapLckP
@@ -647,8 +654,9 @@ class FatesRandomizer:
         if enableRandomizedPersonalSkills:
             self.randomizePersonalSkills()
 
-    def addmax(self, x):
-        p = self.addmaxPow
+    def addmax(self, x, p=None):
+        if p is None:
+            p = self.addmaxPow
         x = x**p
         return x / np.sum(x)
 
@@ -658,11 +666,11 @@ class FatesRandomizer:
             i, j = self.rng.choice(8, 2, replace=False)
             x = self.rng.random()
             if x < self.growthP:
-                if growths[j] >= 5 and growths[i] <= self.growthCap:
+                if growths[j] >= 5 and growths[i] < self.growthCap:
                     growths[i] += 5
                     growths[j] -= 5
             if x < self.statP:
-                if stats[j] >= 1:
+                if stats[j] >= 1 and stats[i] < self.baseStatCap:
                     stats[i] += 1
                     stats[j] -= 1
             if x < self.modP:
@@ -682,7 +690,7 @@ class FatesRandomizer:
         growthsSum = np.sum(growths)
         baseStatsSum = np.sum(baseStats)
 
-        if self.rng.choice(2) == 1:  # 50% chance of uniform adjustment, 50% chance of proportional
+        if self.rng.random() < self.adjustStrategyCoeff:  # adjustStrategyCoeff probability (default 0.2) of proportional adjustment, otherwise uniform. Only for growths, stats will always be uniform
             probas = self.addmax(np.asarray(growths) + 10)  # add a 10% growth to everything before normalization just for variance's sake
         else:
             probas = self.addmax(np.ones(8))
@@ -699,8 +707,10 @@ class FatesRandomizer:
                 # baseStatCap += 3
             if characterData["SwitchingCharacterName"] == "Mozu" and self.forceParalogueAptitude:
                 newBaseStatsSum -= 10  # nerf Mozu's replacement's base stats
+                newBaseStatsSum = max(newBaseStatsSum, 0)
+
+            growthProbas = np.copy(probas)
             while growthsSum < newGrowthsSum:
-                growthProbas = np.copy(probas)
                 s = self.rng.choice(8, p=growthProbas)
                 if growths[s] < self.growthCap:
                     growths[s] += 5
@@ -708,12 +718,14 @@ class FatesRandomizer:
                 else:
                     growthProbas[s] = 0
                     growthProbas = self.addmax(growthProbas)
+
             while growthsSum > newGrowthsSum:
                 s = self.rng.choice(np.where(growths>0)[0])
                 growths[s] -= 5
                 growthsSum -= 5
+
+            statProbas = self.addmax(np.ones(8))
             while baseStatsSum < newBaseStatsSum:
-                statProbas = np.copy(probas)
                 t = self.rng.choice(8, p=statProbas)
                 if baseStats[t] < self.baseStatCap:
                     baseStats[t] += 1
@@ -721,6 +733,7 @@ class FatesRandomizer:
                 else:
                     statProbas[t] = 0
                     statProbas = self.addmax(statProbas)
+
             while baseStatsSum > newBaseStatsSum:
                 t = self.rng.choice(np.where(baseStats>0)[0])
                 baseStats[t] -= 1
@@ -745,14 +758,17 @@ class FatesRandomizer:
                     baseStats[t] -= 1
                     baseStatsSum -= 1
             if self.forceStatIncrease:
+                probas = self.addmax(np.ones(8))
                 while baseStatsSum < self.baseStatsSumMin:
                     t = self.rng.choice(8, p=probas)
                     baseStats[t] += 1
                     baseStatsSum += 1
         characterData['Growths'] = growths
         characterData['BaseStats'] = baseStats
+
         if self.verbose:
             print("{}, {}, {}, {}, {}, {}".format(characterData['Name'], characterData['SwitchingCharacterName'], newGrowthsSum, newBaseStatsSum, growths, baseStats))
+
         return characterData
 
     def checkQuality(self, characterNames, classes):
@@ -1009,7 +1025,7 @@ class FatesRandomizer:
         self.swapCharacterLck(characterData)
         self.swapCharacterDefRes(characterData)
         self.swapCharacterSklSpd(characterData)
-        self.swapCharacterStrMag(characterData)
+        self.adjustCharacterStrMag(characterData)
         self.swapCharacterAtkDef(characterData)  # last
         if switchingCharacterName in ['Jakob', 'Felicia']:
             self.swapRetainerStats(characterData)
@@ -1020,28 +1036,40 @@ class FatesRandomizer:
         if characterName == 'Mozu' and self.forceMozuAptitude:
             characterGrowths = np.copy(characterGrowths) + 10
         plusStats = np.zeros(8)
-        if self.rngLevelUps:
+        if self.rng.random() < self.rngLevelupP:
             if newLevel > 1:
                 if newPromotionLevel > 1:
+                    growths_temp = characterGrowths + newClassGrowths - self.debuffPrepromotesCoeff  # newClassGrowths
+                    growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     for _ in range(newLevel - 1):
                         levelUpRNG = 100 * self.rng.random(8)
-                        plusStats += levelUpRNG < characterGrowths + newClassGrowths - self.debuffPrepromotesCoeff  # newClassGrowths
+                        plusStats += levelUpRNG < growths_temp
                 else:
+                    growths_temp = characterGrowths + newBaseClassGrowths  # newBaseClassGrowths
+                    growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     for _ in range(newLevel - 1):
                         levelUpRNG = 100 * self.rng.random(8)
-                        plusStats += levelUpRNG < characterGrowths + newBaseClassGrowths  # newBaseClassGrowths
+                        plusStats += levelUpRNG < growths_temp
             if newPromotionLevel > 1:
+                growths_temp = characterGrowths + newBaseClassGrowths - self.debuffPrepromotesCoeff
+                growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                 for _ in range(newPromotionLevel - 1):
                     levelUpRNG = 100 * self.rng.random(8)
-                    plusStats += levelUpRNG < characterGrowths + newBaseClassGrowths - self.debuffPrepromotesCoeff
+                    plusStats += levelUpRNG < growths_temp
         else:
             if newLevel > 1:
                 if newPromotionLevel > 1:
-                    plusStats += (characterGrowths + newClassGrowths - self.debuffPrepromotesCoeff) * (newLevel - 1)
+                    growths_temp = characterGrowths + newClassGrowths - self.debuffPrepromotesCoeff
+                    growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
+                    plusStats += growths_temp * (newLevel - 1)
                 else:
-                    plusStats += (characterGrowths + newBaseClassGrowths) * (newLevel - 1)
+                    growths_temp = characterGrowths + newBaseClassGrowths
+                    growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
+                    plusStats += growths_temp * (newLevel - 1)
             if newPromotionLevel > 1:
-                plusStats += (characterGrowths + newBaseClassGrowths - self.debuffPrepromotesCoeff) * (newPromotionLevel - 1)
+                growths_temp = characterGrowths + newBaseClassGrowths - self.debuffPrepromotesCoeff
+                growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
+                plusStats += growths_temp * (newPromotionLevel - 1)
             plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
         characterNewStats = characterBaseStats + plusStats
         characterData['OldStats'] = characterData['Stats']
@@ -1734,7 +1762,7 @@ class FatesRandomizer:
 
         return characterData
 
-    def swapCharacterStrMag(self, characterData):
+    def adjustCharacterStrMag(self, characterData):
         className = characterData['NewClass']
         if className == 'Basara':
             className = characterData['NewBaseClass']
@@ -1760,7 +1788,7 @@ class FatesRandomizer:
             modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
         # buffing the other atk stat
-        if 'Mixed' in classAttackType:
+        if 'Mixed' in classAttackType or (classAttackType == 'Str' and self.rng.random() < self.strMixedAttackerP):
             probas = np.ones(8)
             probas[i] = 0
             probas[j] = 0
@@ -1790,6 +1818,32 @@ class FatesRandomizer:
                 if growths[s] > 0:
                     growths[s] -= 5
                     growths[j] += 5
+                else:
+                    probas2[s] = 0
+                    probas2 = self.addmax(probas2)
+
+        else:  # pure Str or Mag attacker
+            probas = self.addmax(np.ones(8))
+            probas2 = self.addmax(np.ones(8))
+            probas[j] = 0
+            probas2[j] = 0
+            probas = self.addmax(probas)
+            probas2 = self.addmax(probas2)
+
+            while stats[j] > 0:
+                s = self.rng.choice(8, p=probas)
+                if stats[s] < self.baseStatCap:
+                    stats[j] -= 1
+                    stats[s] += 1
+                else:
+                    probas[s] = 0
+                    probas = self.addmax(probas)
+
+            while growths[j] > 0:
+                s = self.rng.choice(8, p=probas2)
+                if growths[s] < self.growthCap:
+                    growths[j] -= 5
+                    growths[s] += 5
                 else:
                     probas2[s] = 0
                     probas2 = self.addmax(probas2)
@@ -1862,7 +1916,7 @@ class FatesRandomizer:
                 writer = csv.writer(fcsv, delimiter='\t')
                 for name in [x for x in ['Corrin'] + self.ROUTE_CHARACTERS if x in self.randomizedClasses.keys()]:
                     className = self.randomizedClasses[name]
-                    row = [name, self.readSwitchedCharacterName(name), className]
+                    row = [name, className]
                     if not self.disableModelSwitch:
                         row.insert(1, self.readSwitchedCharacterName(name))
                     if self.enableRandomizedPersonalSkills:
@@ -1872,9 +1926,7 @@ class FatesRandomizer:
 
         for character in self.settings['root']['Character']:
             switchingcharacterName = self.readSwitchingCharacterName(character)
-            if (self.verbose and switchingcharacterName in self.ROUTE_CHARACTERS):
-                self.fixCharacter(character)
-            else:
+            if switchingcharacterName in self.ROUTE_CHARACTERS:
                 self.fixCharacter(character)
 
         with open('{}/RandomizerSettingsUpdated.xml'.format(path), 'wb') as fxml:
@@ -1889,6 +1941,7 @@ if __name__ == "__main__":
         classData,
         settings,
         addmaxPow=args.addmax_pow,
+        adjustStrategyCoeff=args.adjust_strategy_coeff,
         allowDLCSkills=args.allow_dlc_skills,
         banAmiiboCharacters=args.ban_amiibo_characters,
         banAnna=args.ban_anna,
@@ -1939,8 +1992,10 @@ if __name__ == "__main__":
         PMUMode=args.pmu_mode,
         randomizeStatsAndGrowthsSum=(not args.disable_randomize_stats_growths_sum),
         rebalanceLevels=(not args.disable_rebalance_levels),
+        rngLevelupP=args.rng_levelup_p,
         seed=args.seed,
         statP=args.stat_p,
+        strMixedAttackerP=args.str_mixed_attacker_p,
         swapAtkDefP=args.swap_atk_def_p,
         swapDefResP=args.swap_def_res_p,
         swapLckP=args.swap_lck_p,
