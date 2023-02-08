@@ -1930,8 +1930,7 @@ class FatesRandomizer:
 
         for character in self.settings['root']['Character']:
             switchingcharacterName = self.readSwitchingCharacterName(character)
-            if switchingcharacterName in self.ROUTE_CHARACTERS:
-                self.fixCharacter(character)
+            self.fixCharacter(character)
 
         with open('{}/RandomizerSettingsUpdated.xml'.format(path), 'wb') as fxml:
             fxml.write(xmltodict.unparse(self.settings, pretty=True).encode('utf-8'))
