@@ -1219,11 +1219,15 @@ class FatesRandomizer:
         if self.forceStaffRetainer:
             jakobClass = self.rng.choice(self.JAKOB_CLASSES)
             if self.forceStaffEarlyRecruit:
-                jakobClasses = [c for c in self.JAKOB_CLASSES if c not in [staffClass, staffClass2]]
+                jakobClasses = [c for c in self.JAKOB_CLASSES if (c not in [staffClass, staffClass2] and c in classes)]
+                if len(jakobClasses) == 0:
+                    jakobClasses = [c for c in self.JAKOB_CLASSES if c not in [staffClass, staffClass2]]
                 jakobClass = self.rng.choice(jakobClasses)
             feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
             if self.forceStaffEarlyRecruit:
-                feliciaClasses = [c for c in self.FELICIA_CLASSES if c not in [staffClass, staffClass2, jakobClass]]
+                feliciaClasses = [c for c in self.FELICIA_CLASSES if (c not in [staffClass, staffClass2, jakobClass] and c in classes)]
+                if len(feliciaClasses) == 0:
+                    feliciaClasses = [c for c in self.FELICIA_CLASSES if c not in [staffClass, staffClass2]]
                 feliciaClass = self.rng.choice(feliciaClasses)
             if 'Jakob' in characterNames:
                 self.randomizedClasses['Jakob'] = jakobClass
@@ -1250,7 +1254,7 @@ class FatesRandomizer:
             if 'Songstress' in classes:
                 classes.remove('Songstress')
             else:
-                classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
+                    classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
 
         # Villager Check
         if self.forceVillager and 'Mozu' in characterNames:
