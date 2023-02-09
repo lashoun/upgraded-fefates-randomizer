@@ -1254,7 +1254,7 @@ class FatesRandomizer:
             if 'Songstress' in classes:
                 classes.remove('Songstress')
             else:
-                    classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
+                classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
 
         # Villager Check
         if self.forceVillager and 'Mozu' in characterNames:
