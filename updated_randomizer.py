@@ -24,6 +24,7 @@ parser.add_argument('-bdcs', '--ban-dlc-class-skills', action='store_true', help
 parser.add_argument('-bscap', '--base-stat-cap', type=int, default=6, help="if adjusting growths, max value for base stat")
 parser.add_argument('-bssmax', '--base-stats-sum-max', type=int, default=20, help="if adjusting growths, decreasing stats sum to that value")
 parser.add_argument('-bssmin', '--base-stats-sum-min', type=int, default=15, help="if adjusting growths, increasing stats sum to that value")
+parser.add_argument('-buc', '--buff-coeff', type=int, default=5, help="if the sum of the character's stats ends up lower than y = (vanilla sum - buff coeff), it is increased up to y")
 parser.add_argument('-bw', '--ban-witch', action='store_true', help="ban Witch class from the randomization")
 parser.add_argument('-c', '--corrin-class', choices=[
     'Hoshido Noble', 'Swordmaster', 'Master of Arms', 'Oni Chieftain',
@@ -49,7 +50,6 @@ parser.add_argument('-dlsc', '--disable-limit-staff-classes', action='store_true
 parser.add_argument('-dluc', '--debuff-levelups-coeff', type=int, default=10, help="percentage points of growth handicap for pre-recruitment level ups")
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
 parser.add_argument('-drl', '--disable-rebalance-levels', action='store_true', help="disable fairer level balance adjustments (reverts to levels from the original games)")
-parser.add_argument('-drlu', '--disable-rng-level-ups', action='store_true', help="disable rng level ups; characters will have average stats w.r.t their growths")
 parser.add_argument('-drr', '--def-res-ratio', type=float, default=0.8, help="ratio of higher def/res characters with mixed classes")
 parser.add_argument('-drsgs', '--disable-randomize-stats-growths-sum', action='store_true', help="will disable randomizing stats and growths sum for each character between customizable bounds")
 parser.add_argument('-ds', '--disable-songstress', action='store_true', help="disable Azura's replacement's enforced Songstress class")
@@ -77,7 +77,7 @@ parser.add_argument('-mp', '--mod-p', type=float, default=0.25, help="probabilit
 parser.add_argument('-np', '--n-passes', type=int, default=10, help="number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass")
 parser.add_argument('-ns', '--n-skills', type=int, default=-1, choices=[-1, 0, 1, 2, 3, 4, 5], help="number of randomized skills; if -1, randomize existing skills")
 parser.add_argument('-pmu', '--pmu-mode', action='store_true', help="`ClassSpread.csv` will only contain the 16 allowed characters for the run")
-parser.add_argument('-rlp', '--rng-levelup-p', type=float, default=0.5, help="probability of a character having RNG level ups versus average level ups")
+parser.add_argument('-rlp', '--rng-levelup-p', type=float, default=0.2, help="probability of a character having RNG level ups versus average level ups")
 parser.add_argument('-s', '--seed', type=int, default=None, help="RNG seed")
 parser.add_argument('-sp', '--stat-p', type=float, default=0.5, help="probability of editing stats in a variability pass")
 parser.add_argument('-smap', '--str-mixed-attacker-p', type=float, default=0.1, help="probability of a character being a Str mixed character (positive Mag stat/growth/mod with pure Str class")
@@ -182,6 +182,7 @@ class FatesRandomizer:
         baseStatCap=6,  # in adjustBaseStatsAndGrowths, max value for base stats
         baseStatsSumMax=20,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
         baseStatsSumMin=15,  # in adjustBaseStatsAndGrowths, will increase stats sum to said value
+        buffCoeff=5,
         corrinClass='',
         defResRatio=0.8,
         debuffLevelupCoeff=10,
@@ -221,7 +222,7 @@ class FatesRandomizer:
         PMUMode=False,  # ClassSpread.csv will contain only the 16 allowed characters, other characters will have the Survey skill
         randomizeStatsAndGrowthsSum=True,  # will sample a random value between min and max for each character
         rebalanceLevels=True,  # will rebalance recruitment levels
-        rngLevelupP=0.5,
+        rngLevelupP=0.2,
         seed=None,
         statP=0.5,  # proba of editing stats in AddVariancetoData
         strMixedAttackerP=0.1,  # probability of a character being a Str mixed attacker (positive Mag stat/growth with pure Str class)
@@ -251,6 +252,7 @@ class FatesRandomizer:
         self.baseStatCap=baseStatCap
         self.baseStatsSumMax = baseStatsSumMax
         self.baseStatsSumMin = baseStatsSumMin
+        self.buffCoeff = buffCoeff
         self.corrinClass = corrinClass
         self.debuffLevelupCoeff = debuffLevelupCoeff
         self.defResRatio = defResRatio
@@ -704,9 +706,8 @@ class FatesRandomizer:
             if characterData["SwitchingCharacterName"] == "Gunter":
                 newGrowthsSum = 80  # nerf Gunter's replacement's growths
             # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats  # actually, they're good enough without this
-            # if characterData["SwitchingCharacterName"] in ["Reina", "Camilla"]:  # Reina and Camilla deserve the buff to be equivalent to their vanilla counterparts  # actually, removing it seems to be fine
-                # newBaseStatsSum += 10
-                # baseStatCap += 3
+            # if characterData["SwitchingCharacterName"] in ["Reina", "Camilla"]:  # Reina and Camilla deserve the buff to be equivalent to their vanilla counterparts
+            #     newBaseStatsSum += 5
             if characterData["SwitchingCharacterName"] == "Mozu" and self.forceParalogueAptitude:
                 newBaseStatsSum -= 10  # nerf Mozu's replacement's base stats
                 newBaseStatsSum = max(newBaseStatsSum, 0)
@@ -1042,21 +1043,21 @@ class FatesRandomizer:
             if newLevel > 1:
                 if newPromotionLevel > 1:
                     growths_temp = characterGrowths + newClassGrowths - self.debuffLevelupCoeff  # newClassGrowths
-                    growths_temp = np.max(growths_temp, 0)
+                    growths_temp = np.maximum(growths_temp, 0)
                     growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     for _ in range(newLevel - 1):
                         levelUpRNG = 100 * self.rng.random(8)
                         plusStats += levelUpRNG < growths_temp
                 else:
                     growths_temp = characterGrowths + newBaseClassGrowths - self.debuffLevelupCoeff  # newBaseClassGrowths
-                    growths_temp = np.max(growths_temp, 0)
+                    growths_temp = np.maximum(growths_temp, 0)
                     growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     for _ in range(newLevel - 1):
                         levelUpRNG = 100 * self.rng.random(8)
                         plusStats += levelUpRNG < growths_temp
             if newPromotionLevel > 1:
                 growths_temp = characterGrowths + newBaseClassGrowths - self.debuffLevelupCoeff
-                growths_temp = np.max(growths_temp, 0)
+                growths_temp = np.maximum(growths_temp, 0)
                 growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                 for _ in range(newPromotionLevel - 1):
                     levelUpRNG = 100 * self.rng.random(8)
@@ -1065,21 +1066,35 @@ class FatesRandomizer:
             if newLevel > 1:
                 if newPromotionLevel > 1:
                     growths_temp = characterGrowths + newClassGrowths - self.debuffLevelupCoeff
-                    growths_temp = np.max(growths_temp, 0)
+                    growths_temp = np.maximum(growths_temp, 0)
                     growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     plusStats += growths_temp * (newLevel - 1)
                 else:
                     growths_temp = characterGrowths + newBaseClassGrowths - self.debuffLevelupCoeff
-                    growths_temp = np.max(growths_temp, 0)
+                    growths_temp = np.maximum(growths_temp, 0)
                     growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     plusStats += growths_temp * (newLevel - 1)
             if newPromotionLevel > 1:
                 growths_temp = characterGrowths + newBaseClassGrowths - self.debuffLevelupCoeff
-                growths_temp = np.max(growths_temp, 0)
+                growths_temp = np.maximum(growths_temp, 0)
                 growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                 plusStats += growths_temp * (newPromotionLevel - 1)
             plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
+
         characterNewStats = characterBaseStats + plusStats
+
+        # buff stats if too low compared to vanilla
+        statProbas = self.addmax(np.ones(8))
+        for i in [1,2]:  # Str, Mag
+            if characterGrowths[i] == 0:
+                statProbas[i] = 0
+        statProbas = self.addmax(np.ones(8))
+        statThreshold = np.sum(self.readCharacterStats(characterName)) - np.around((self.rng.random() * 2 - 1) * self.buffCoeff)
+
+        while np.sum(characterNewStats) < statThreshold:
+            t = self.rng.choice(8, p=statProbas)
+            characterNewStats[t] += 1
+
         characterData['OldStats'] = characterData['Stats']
         characterData['Stats'] = characterNewStats
         # characterData['Stats'] = characterData['BaseStats']  # test
@@ -1166,24 +1181,30 @@ class FatesRandomizer:
         classes2 = self.FINAL_CLASSES.copy()
         classes2.remove('Songstress')  # one Songstress max
         self.rng.shuffle(classes2)
+        staffDuplicateClass1 = 'Great Master'
+        staffDuplicateClass2 = 'Priestess'
+        staffDuplicateClass3 = 'Butler'
+        staffDuplicateClass4 = 'Maid'
         if self.rng.random() < 0.5:  # remove classes that are almost identical
-            if 'Great Master' in classes:
-                classes.remove('Great Master')
-            if 'Priestess' in classes2:
-                classes2.remove('Priestess')
-            if 'Butler' in classes:
-                classes.remove('Butler')
-            if 'Maid' in classes2:
-                classes2.remove('Maid')
-        else:
-            if 'Priestess' in classes:
-                classes.remove('Priestess')
-            if 'Great Master' in classes2:
-                classes2.remove('Great Master')
-            if 'Maid' in classes:
-                classes.remove('Maid')
-            if 'Butler' in classes2:
-                classes2.remove('Butler')
+            staffDuplicateClass1, staffDuplicateClass2 = staffDuplicateClass2, staffDuplicateClass1
+            staffDuplicateClass3, staffDuplicateClass4 = staffDuplicateClass4, staffDuplicateClass3
+
+        if staffDuplicateClass1 in classes:
+            if staffDuplicateClass1 not in self.imposedClasses:
+                classes.remove(staffDuplicateClass1)
+                classes2.remove(staffDuplicateClass2)
+            elif staffDuplicateClass2 in classes:
+                if staffDuplicateClass2 not in self.imposedClasses:
+                    classes.remove(staffDuplicateClass2)
+                    classes2.remove(staffDuplicateClass1)
+        if staffDuplicateClass3 in classes:
+            if staffDuplicateClass3 not in self.imposedClasses:
+                classes.remove(staffDuplicateClass3)
+                classes2.remove(staffDuplicateClass4)
+            elif staffDuplicateClass4 in classes:
+                if staffDuplicateClass4 not in self.imposedClasses:
+                    classes.remove(staffDuplicateClass4)
+                    classes2.remove(staffDuplicateClass3)
 
         classes = self.imposedClasses + classes + classes2
         classes2 = classes[len(characterNames):]
@@ -1194,7 +1215,7 @@ class FatesRandomizer:
         staffClass2 = ''
         if self.forceStaffEarlyRecruit:
             if self.gameRoute != "Birthright" and self.earlyConquestRecruit in characterNames:
-                conquestStaffClasses = [c for c in self.CONQUEST_STAFF_CLASSES if c in classes]
+                conquestStaffClasses = [c for c in self.CONQUEST_STAFF_CLASSES if c in classes and c in self.imposedClasses]
                 if len(conquestStaffClasses) == 0:
                     staffClass = self.rng.choice(self.CONQUEST_STAFF_CLASSES)
                 else:
@@ -1207,7 +1228,7 @@ class FatesRandomizer:
                 else:
                     classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
             if self.gameRoute != "Conquest" and self.earlyBirthrightRecruit in characterNames:
-                birthrightStaffClasses = [c for c in self.BIRTHRIGHT_STAFF_CLASSES if c in classes]
+                birthrightStaffClasses = [c for c in self.BIRTHRIGHT_STAFF_CLASSES if c in classes and c in self.imposedClasses]
                 if self.gameRoute != "Birthright" and self.earlyConquestRecruit in characterNames:
                     if staffClass in birthrightStaffClasses:
                         birthrightStaffClasses.remove(staffClass)
@@ -1225,18 +1246,22 @@ class FatesRandomizer:
 
         # Staff Retainer Check
         if self.forceStaffRetainer:
-            jakobClass = self.rng.choice(self.JAKOB_CLASSES)
-            if self.forceStaffEarlyRecruit:
-                jakobClasses = [c for c in self.JAKOB_CLASSES if (c not in [staffClass, staffClass2] and c in classes)]
-                if len(jakobClasses) == 0:
-                    jakobClasses = [c for c in self.JAKOB_CLASSES if c not in [staffClass, staffClass2]]
-                jakobClass = self.rng.choice(jakobClasses)
-            feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
-            if self.forceStaffEarlyRecruit:
-                feliciaClasses = [c for c in self.FELICIA_CLASSES if (c not in [staffClass, staffClass2, jakobClass] and c in classes)]
-                if len(feliciaClasses) == 0:
-                    feliciaClasses = [c for c in self.FELICIA_CLASSES if c not in [staffClass, staffClass2]]
-                feliciaClass = self.rng.choice(feliciaClasses)
+            jakobClass = ''
+            feliciaClass = ''
+            if 'Jakob' in characterNames:
+                jakobClass = self.rng.choice(self.JAKOB_CLASSES)
+                if self.forceStaffEarlyRecruit:
+                    jakobClasses = [c for c in self.JAKOB_CLASSES if (c not in [staffClass, staffClass2] and c in classes and c in self.imposedClasses)]
+                    if len(jakobClasses) == 0:
+                        jakobClasses = [c for c in self.JAKOB_CLASSES if c not in [staffClass, staffClass2]]
+                    jakobClass = self.rng.choice(jakobClasses)
+            if 'Felicia' in characterNames:
+                feliciaClass = self.rng.choice(self.FELICIA_CLASSES)
+                if self.forceStaffEarlyRecruit:
+                    feliciaClasses = [c for c in self.FELICIA_CLASSES if (c not in [staffClass, staffClass2, jakobClass] and c in classes and c in self.imposedClasses)]
+                    if len(feliciaClasses) == 0:
+                        feliciaClasses = [c for c in self.FELICIA_CLASSES if c not in [staffClass, staffClass2]]
+                    feliciaClass = self.rng.choice(feliciaClasses)
             if 'Jakob' in characterNames:
                 self.randomizedClasses['Jakob'] = jakobClass
                 characterNames.remove('Jakob')
@@ -1262,7 +1287,8 @@ class FatesRandomizer:
             if 'Songstress' in classes:
                 classes.remove('Songstress')
             else:
-                classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
+                if len([c for c in classes if c not in self.imposedClasses]) > 0:
+                    classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
 
         # Villager Check
         if self.forceVillager and 'Mozu' in characterNames:
@@ -1977,6 +2003,7 @@ if __name__ == "__main__":
         baseStatCap=args.base_stat_cap,
         baseStatsSumMax=args.base_stats_sum_max,
         baseStatsSumMin=args.base_stats_sum_min,
+        buffCoeff=args.buff_coeff,
         corrinClass=args.corrin_class,
         debuffLevelupCoeff=args.debuff_levelups_coeff,
         defResRatio=args.def_res_ratio,
