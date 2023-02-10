@@ -390,12 +390,12 @@ optional arguments:
 
 ### Example Custom Run
 ```
-python updated_randomizer.py -bc -bssmin 20 -bssmax 25 -dms -edbc -egd -epa -erps -g "Birthright" -gsmax 350 -gsmin 280 -ic "Enchanter,Warden" -mc 5 -ns 4 -pmu
+python updated_randomizer.py -bc -bssmin 15 -bssmax 20 -dms -edbc -egd -epa -erps -g "Birthright" -gsmax 350 -gsmin 280 -ic "Enchanter,Warden" -mc 5 -ns 4 -pmu
 ```
 
 This example command (that I personally use) will ensure the following:
 - `-bc` bans the children from the randomization
-- `-bssmin 20` and `-bssmax 25` ensure that all units will have a total Lvl 1 base stats sum randomly sampled between 20 and 25
+- `-bssmin 15` and `-bssmax 20` ensure that all units will have a total Lvl 1 base stats sum randomly sampled between 15 and 20
 - `-dms` ensures that character models will not be swapped (every character stays the same visually)
 - `-edbc` ensures that non-promoted units who are assigned a DLC class will get a fitting base class
 - `-egd` ensures that DLC classes are not gender-locked
