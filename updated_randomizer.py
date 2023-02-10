@@ -21,7 +21,7 @@ parser.add_argument('-bac', '--ban-amiibo-characters', action='store_true', help
 parser.add_argument('-bc', '--ban-children', action='store_true', help="ban children characters")
 parser.add_argument('-bdc', '--ban-dlc-classes', action='store_true', help="ban DLC classes")
 parser.add_argument('-bdcs', '--ban-dlc-class-skills', action='store_true', help="ban DLC class skills in skill randomization")
-parser.add_argument('-bscap', '--base-stat-cap', type=int, default=8, help="if adjusting growths, max value for base stat")
+parser.add_argument('-bscap', '--base-stat-cap', type=int, default=6, help="if adjusting growths, max value for base stat")
 parser.add_argument('-bssmax', '--base-stats-sum-max', type=int, default=25, help="if adjusting growths, decreasing stats sum to that value")
 parser.add_argument('-bssmin', '--base-stats-sum-min', type=int, default=15, help="if adjusting growths, increasing stats sum to that value")
 parser.add_argument('-bw', '--ban-witch', action='store_true', help="ban Witch class from the randomization")
@@ -177,7 +177,7 @@ class FatesRandomizer:
         banDLCClasses=False,
         banDLCClassSkills=False,
         banWitch=False,
-        baseStatCap=8,  # in adjustBaseStatsAndGrowths, max value for base stats
+        baseStatCap=6,  # in adjustBaseStatsAndGrowths, max value for base stats
         baseStatsSumMax=25,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
         baseStatsSumMin=15,  # in adjustBaseStatsAndGrowths, will increase stats sum to said value
         corrinClass='',
