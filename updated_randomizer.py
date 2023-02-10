@@ -146,12 +146,14 @@ with open('{}/fates_class_data.csv'.format(path)) as fcsv:
                 baseClasses.pop()
             else:
                 break
+        skills = row[16:20]
         classData[row[0]] = {
             'AttackType': row[1],
             'DefenseType': row[2],
             'Growths': list(map(int, row[3:11])),
             'BaseClasses': baseClasses,
-            'Weapons': weapons
+            'Weapons': weapons,
+            'Skills': skills
         }
 
 
@@ -1040,18 +1042,21 @@ class FatesRandomizer:
             if newLevel > 1:
                 if newPromotionLevel > 1:
                     growths_temp = characterGrowths + newClassGrowths - self.debuffLevelupCoeff  # newClassGrowths
+                    growths_temp = np.max(growths_temp, 0)
                     growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     for _ in range(newLevel - 1):
                         levelUpRNG = 100 * self.rng.random(8)
                         plusStats += levelUpRNG < growths_temp
                 else:
                     growths_temp = characterGrowths + newBaseClassGrowths - self.debuffLevelupCoeff  # newBaseClassGrowths
+                    growths_temp = np.max(growths_temp, 0)
                     growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     for _ in range(newLevel - 1):
                         levelUpRNG = 100 * self.rng.random(8)
                         plusStats += levelUpRNG < growths_temp
             if newPromotionLevel > 1:
                 growths_temp = characterGrowths + newBaseClassGrowths - self.debuffLevelupCoeff
+                growths_temp = np.max(growths_temp, 0)
                 growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                 for _ in range(newPromotionLevel - 1):
                     levelUpRNG = 100 * self.rng.random(8)
@@ -1060,14 +1065,17 @@ class FatesRandomizer:
             if newLevel > 1:
                 if newPromotionLevel > 1:
                     growths_temp = characterGrowths + newClassGrowths - self.debuffLevelupCoeff
+                    growths_temp = np.max(growths_temp, 0)
                     growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     plusStats += growths_temp * (newLevel - 1)
                 else:
                     growths_temp = characterGrowths + newBaseClassGrowths - self.debuffLevelupCoeff
+                    growths_temp = np.max(growths_temp, 0)
                     growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     plusStats += growths_temp * (newLevel - 1)
             if newPromotionLevel > 1:
                 growths_temp = characterGrowths + newBaseClassGrowths - self.debuffLevelupCoeff
+                growths_temp = np.max(growths_temp, 0)
                 growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                 plusStats += growths_temp * (newPromotionLevel - 1)
             plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
@@ -1476,6 +1484,9 @@ class FatesRandomizer:
     def readClassName(self, character):
         return character['ClassData']['@class']
 
+    def readClassSkills(self, className):
+        return self.classData[className]['Skills']
+
     def readSkills(self, character):
         skills = character['Skills']['@values']
         return np.array(list(map(int, skills.split(','))))
@@ -1528,6 +1539,16 @@ class FatesRandomizer:
 
         if self.allowDLCSkills:
             allSkills += dlcSkills
+
+        classSkills = self.readClassSkills(className)
+        if classSkills[0] in allBaseSkills1:
+            allBaseSkills1.remove(classSkills[0])
+        if classSkills[1] in allBaseSkills2:
+            allBaseSkills2.remove(classSkills[1])
+        if classSkills[2] in allPromotedSkills1:
+            allPromotedSkills1.remove(classSkills[2])
+        if classSkills[3] in allPromotedSkills2:
+            allPromotedSkills2.remove(classSkills[3])
 
         if self.disableBalancedSkillRandomization:
             skills = self.rng.choice(allSkills, 5, replace=False)
