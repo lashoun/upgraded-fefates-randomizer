@@ -22,7 +22,7 @@ parser.add_argument('-bc', '--ban-children', action='store_true', help="ban chil
 parser.add_argument('-bdc', '--ban-dlc-classes', action='store_true', help="ban DLC classes")
 parser.add_argument('-bdcs', '--ban-dlc-class-skills', action='store_true', help="ban DLC class skills in skill randomization")
 parser.add_argument('-bscap', '--base-stat-cap', type=int, default=6, help="if adjusting growths, max value for base stat")
-parser.add_argument('-bssmax', '--base-stats-sum-max', type=int, default=25, help="if adjusting growths, decreasing stats sum to that value")
+parser.add_argument('-bssmax', '--base-stats-sum-max', type=int, default=20, help="if adjusting growths, decreasing stats sum to that value")
 parser.add_argument('-bssmin', '--base-stats-sum-min', type=int, default=15, help="if adjusting growths, increasing stats sum to that value")
 parser.add_argument('-bw', '--ban-witch', action='store_true', help="ban Witch class from the randomization")
 parser.add_argument('-c', '--corrin-class', choices=[
@@ -46,8 +46,8 @@ parser.add_argument('-dgd', '--disable-gunter-def', action='store_true', help="d
 parser.add_argument('-dlts', '--disable-livetoserve', action='store_true', help="disable the retainers' replacements' enforced Live to Serve skill")
 parser.add_argument('-dl', '--disable-locktouch', action='store_true', help="disable Kaze and Niles' replacements' enforced Locktouch skill")
 parser.add_argument('-dlsc', '--disable-limit-staff-classes', action='store_true', help="disables replacing staff only classes by offensive classes and setting the staff only class as a reclass option")
+parser.add_argument('-dluc', '--debuff-levelups-coeff', type=int, default=10, help="percentage points of growth handicap for pre-recruitment level ups")
 parser.add_argument('-dms', '--disable-model-switch', action='store_true', help="disable model switching but keep switching the rest of the data (stats, growths...)")
-parser.add_argument('-dpc', '--debuff-prepromotes-coeff', type=int, default=0, help="percentage points of handicap for prepromote base stats")
 parser.add_argument('-drl', '--disable-rebalance-levels', action='store_true', help="disable fairer level balance adjustments (reverts to levels from the original games)")
 parser.add_argument('-drlu', '--disable-rng-level-ups', action='store_true', help="disable rng level ups; characters will have average stats w.r.t their growths")
 parser.add_argument('-drr', '--def-res-ratio', type=float, default=0.8, help="ratio of higher def/res characters with mixed classes")
@@ -178,11 +178,11 @@ class FatesRandomizer:
         banDLCClassSkills=False,
         banWitch=False,
         baseStatCap=6,  # in adjustBaseStatsAndGrowths, max value for base stats
-        baseStatsSumMax=25,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
+        baseStatsSumMax=20,  # in adjustBaseStatsAndGrowths, if growths have to be increased, will decrease stats sum to said value
         baseStatsSumMin=15,  # in adjustBaseStatsAndGrowths, will increase stats sum to said value
         corrinClass='',
         defResRatio=0.8,
-        debuffPrepromotesCoeff=0,
+        debuffLevelupCoeff=10,
         disableBalancedSkillRandomization=False,
         disableModelSwitch=False,  # will disable model switching
         enableDLCBaseClass=False,  # will give unpromoted base classes to every DLC class for game balance (eg Ninja/Oni Savage for Dread Fighter)
@@ -250,7 +250,7 @@ class FatesRandomizer:
         self.baseStatsSumMax = baseStatsSumMax
         self.baseStatsSumMin = baseStatsSumMin
         self.corrinClass = corrinClass
-        self.debuffPrepromotesCoeff = debuffPrepromotesCoeff
+        self.debuffLevelupCoeff = debuffLevelupCoeff
         self.defResRatio = defResRatio
         self.disableBalancedSkillRandomization = disableBalancedSkillRandomization
         self.disableModelSwitch = disableModelSwitch
@@ -1039,19 +1039,19 @@ class FatesRandomizer:
         if self.rng.random() < self.rngLevelupP:
             if newLevel > 1:
                 if newPromotionLevel > 1:
-                    growths_temp = characterGrowths + newClassGrowths - self.debuffPrepromotesCoeff  # newClassGrowths
+                    growths_temp = characterGrowths + newClassGrowths - self.debuffLevelupCoeff  # newClassGrowths
                     growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     for _ in range(newLevel - 1):
                         levelUpRNG = 100 * self.rng.random(8)
                         plusStats += levelUpRNG < growths_temp
                 else:
-                    growths_temp = characterGrowths + newBaseClassGrowths  # newBaseClassGrowths
+                    growths_temp = characterGrowths + newBaseClassGrowths - self.debuffLevelupCoeff  # newBaseClassGrowths
                     growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     for _ in range(newLevel - 1):
                         levelUpRNG = 100 * self.rng.random(8)
                         plusStats += levelUpRNG < growths_temp
             if newPromotionLevel > 1:
-                growths_temp = characterGrowths + newBaseClassGrowths - self.debuffPrepromotesCoeff
+                growths_temp = characterGrowths + newBaseClassGrowths - self.debuffLevelupCoeff
                 growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                 for _ in range(newPromotionLevel - 1):
                     levelUpRNG = 100 * self.rng.random(8)
@@ -1059,15 +1059,15 @@ class FatesRandomizer:
         else:
             if newLevel > 1:
                 if newPromotionLevel > 1:
-                    growths_temp = characterGrowths + newClassGrowths - self.debuffPrepromotesCoeff
+                    growths_temp = characterGrowths + newClassGrowths - self.debuffLevelupCoeff
                     growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     plusStats += growths_temp * (newLevel - 1)
                 else:
-                    growths_temp = characterGrowths + newBaseClassGrowths
+                    growths_temp = characterGrowths + newBaseClassGrowths - self.debuffLevelupCoeff
                     growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                     plusStats += growths_temp * (newLevel - 1)
             if newPromotionLevel > 1:
-                growths_temp = characterGrowths + newBaseClassGrowths - self.debuffPrepromotesCoeff
+                growths_temp = characterGrowths + newBaseClassGrowths - self.debuffLevelupCoeff
                 growths_temp = np.sum(growths_temp) * self.addmax(growths_temp)
                 plusStats += growths_temp * (newPromotionLevel - 1)
             plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
@@ -1957,7 +1957,7 @@ if __name__ == "__main__":
         baseStatsSumMax=args.base_stats_sum_max,
         baseStatsSumMin=args.base_stats_sum_min,
         corrinClass=args.corrin_class,
-        debuffPrepromotesCoeff=args.debuff_prepromotes_coeff,
+        debuffLevelupCoeff=args.debuff_levelups_coeff,
         defResRatio=args.def_res_ratio,
         disableBalancedSkillRandomization=args.disable_balanced_skill_randomization,
         disableModelSwitch=args.disable_model_switch,
