@@ -1,69 +1,69 @@
 Name,Attack Type,Defense Type,HP Growth,Str Growth,Mag Growth,Skl Growth,Spd Growth,Lck Growth,Def Growth,Res Growth,Base Class 1,Base Class 2,Weapon 1,Weapon 2,Weapon 3,Skill #1,Skill #2,Skill #3,Skill #4,Name,HP,Str,Mag,Skl,Spd,Lck,Def,Res,Mov,Total Stats,Total Stats no HP,Total Growths,Name,Other
 Hoshido Noble,Mixed,Def,15,15,10,10,10,10,15,0,Nohr Prince,Nohr Princess,Sword,,,106,28,35,43,Hoshido Noble,19,10,4,5,6,4,7,3,6,58,39,85,Hoshido Noble,–
-Samurai,Str,Mixed,10,10,0,15,20,15,0,10,,,Sword,,,57,39,,,Samurai,17,4,0,5,8,3,3,3,5,43,26,80,Samurai,–
+Samurai,Str,Mixed,10,10,0,15,20,15,0,10,,,Sword,,,57,39,-1,-1,Samurai,17,4,0,5,8,3,3,3,5,43,26,80,Samurai,–
 Swordmaster,Str,Mixed,10,10,5,15,20,15,0,10,Samurai,,Sword,,,57,39,27,65,Swordmaster,18,6,2,7,11,4,5,5,6,58,40,85,Swordmaster,"Crt +10, Avo +10"
 Master of Arms,Str,Def,20,15,0,10,10,10,10,0,Villager,,Sword,Lance,Axe,132,72,27,79,Master of Arms,20,8,0,6,9,3,7,3,6,56,36,75,Master of Arms,–
-Oni Savage,Str,Def,20,20,10,0,10,0,20,0,,,Axe,,,15,45,,,Oni Savage,18,6,1,2,5,0,7,1,5,40,22,80,Oni Savage,–
+Oni Savage,Str,Def,20,20,10,0,10,0,20,0,,,Axe,,,15,45,-1,-1,Oni Savage,18,6,1,2,5,0,7,1,5,40,22,80,Oni Savage,–
 Oni Chieftain,StrMixed,Def,10,20,15,0,10,0,20,5,Oni Savage,,Axe,Tome,,15,45,31,98,Oni Chieftain,19,9,5,2,7,0,10,5,6,57,38,80,Oni Chieftain,–
 Blacksmith,Str,Def,20,15,0,15,10,5,15,0,Oni Savage,,Axe,Sword,,15,45,59,80,Blacksmith,21,8,0,9,8,3,8,2,6,59,38,80,Blacksmith,–
-Spear Fighter,Str,Def,15,15,0,15,15,5,10,5,,,Lance,,,14,47,,,Spear Fighter,17,6,0,6,6,2,5,2,5,44,27,80,Spear Fighter,–
+Spear Fighter,Str,Def,15,15,0,15,15,5,10,5,,,Lance,,,14,47,-1,-1,Spear Fighter,17,6,0,6,6,2,5,2,5,44,27,80,Spear Fighter,–
 Spear Master,Str,Def,15,15,0,15,15,5,10,5,Spear Fighter,,Lance,,,14,47,13,66,Spear Master,18,9,0,8,8,3,7,3,6,56,38,80,Spear Master,"Crt +10, CEv +10"
 Basara,StrMixed,Mixed,20,10,10,10,10,15,5,10,Spear Fighter,,Lance,Tome,,14,47,31,79,Basara,20,7,5,7,7,5,7,6,6,64,44,90,Basara,–
-Diviner,Mag,Res,0,5,15,10,15,5,0,10,,,Tome,,,3,135,,,Diviner,15,0,4,5,6,1,1,3,5,35,20,60,Diviner,–
+Diviner,Mag,Res,0,5,15,10,15,5,0,10,,,Tome,,,3,135,-1,-1,Diviner,15,0,4,5,6,1,1,3,5,35,20,60,Diviner,–
 Onmyoji,Mag,Res,0,0,20,10,15,0,0,15,Monk,,Tome,,,36,20,17,70,Onmyoji,16,0,7,6,7,2,3,6,6,47,31,60,Onmyoji,–
-Shrine Maiden,Mixed,Res,0,5,10,10,15,15,0,20,,,Staff,,,36,20,,,Monk,16,0,3,5,5,4,2,5,5,40,24,75,Monk,CEv +10
-Monk,Mixed,Res,0,5,10,10,15,15,0,20,,,Staff,,,36,20,,,Shrine Maiden,16,0,3,5,5,4,2,5,5,40,24,75,Shrine Maiden,CEv +10
+Shrine Maiden,Mixed,Res,0,5,10,10,15,15,0,20,,,Staff,,,36,20,-1,-1,Monk,16,0,3,5,5,4,2,5,5,40,24,75,Monk,CEv +10
+Monk,Mixed,Res,0,5,10,10,15,15,0,20,,,Staff,,,36,20,-1,-1,Shrine Maiden,16,0,3,5,5,4,2,5,5,40,24,75,Shrine Maiden,CEv +10
 Great Master,StrMixed,Res,10,15,5,5,15,15,10,10,Monk,,Lance,,,36,20,94,75,Great Master,19,8,6,6,8,5,6,7,6,65,46,85,Great Master,–
 Priestess,StrMixed,Res,10,10,10,5,15,15,0,20,Shrine Maiden,,Bow,,,36,20,94,75,Priestess,19,6,7,6,9,5,5,8,6,65,46,85,Priestess,–
-Sky Knight,Str,Res,0,10,0,10,15,20,0,20,,,Lance,,,58,93,,,Sky Knight,16,3,0,5,7,4,2,6,7,43,27,75,Sky Knight,–
+Sky Knight,Str,Res,0,10,0,10,15,20,0,20,,,Lance,,,58,93,-1,-1,Sky Knight,16,3,0,5,7,4,2,6,7,43,27,75,Sky Knight,–
 Falcon Knight,StrMixed,Res,0,10,10,10,15,20,0,20,Sky Knight,,Lance,,,58,93,19,62,Falcon Knight,18,5,4,6,10,5,5,9,8,62,44,85,Falcon Knight,–
 Kinshi Knight,Str,Res,0,5,0,15,15,15,0,15,Archer,,Lance,Bow,,4,49,88,97,Kinshi Knight,17,4,1,9,8,5,4,7,8,55,38,65,Kinshi Knight,–
-Archer,Str,Def,10,15,0,15,15,5,10,0,,,Bow,,,4,49,,,Archer,17,5,0,7,5,2,4,1,5,41,24,70,Archer,–
+Archer,Str,Def,10,15,0,15,15,5,10,0,,,Bow,,,4,49,-1,-1,Archer,17,5,0,7,5,2,4,1,5,41,24,70,Archer,–
 Sniper,Str,Def,10,15,0,20,15,5,10,0,Archer,,Bow,,,4,49,60,69,Sniper,19,7,0,10,9,3,6,2,6,56,37,75,Sniper,"Hit +10, Crt +10"
-Ninja,Str,Res,5,5,0,20,20,0,5,15,,,Dagger,,,112,101,,,Ninja,16,3,0,8,8,1,3,3,5,42,26,70,Ninja,–
+Ninja,Str,Res,5,5,0,20,20,0,5,15,,,Dagger,,,112,101,-1,-1,Ninja,16,3,0,8,8,1,3,3,5,42,26,70,Ninja,–
 Master Ninja,Str,Res,5,5,0,20,20,0,5,20,Ninja,,Dagger,Sword,,112,101,25,68,Master Ninja,17,5,0,10,11,2,4,8,6,57,40,75,Master Ninja,"Hit, Crt, Avo, CEv +5"
 Mechanist,Str,Res,10,10,0,15,10,5,5,15,Apothecary,,Dagger,Bow,,99,109,41,48,Mechanist,18,7,0,9,7,2,6,6,7,55,37,70,Mechanist,–
-Apothecary,Str,Def,20,20,0,10,10,5,10,5,,,Lance,,,99,109,,,Apothecary,18,6,0,4,4,2,6,2,5,42,24,80,Apothecary,–
+Apothecary,Str,Def,20,20,0,10,10,5,10,5,,,Lance,,,99,109,-1,-1,Apothecary,18,6,0,4,4,2,6,2,5,42,24,80,Apothecary,–
 Merchant,Str,Def,20,20,0,10,5,15,10,5,Apothecary,,Lance,Bow,,99,109,105,56,Merchant,20,8,0,6,5,4,8,5,6,56,36,85,Merchant,–
-Kitsune,Str,Res,10,10,0,15,20,10,0,20,,,Beaststone,,,53,40,,,Kitsune,16,5,1,6,8,4,1,4,5,45,29,85,Kitsune,–
+Kitsune,Str,Res,10,10,0,15,20,10,0,20,,,Beaststone,,,53,40,-1,-1,Kitsune,16,5,1,6,8,4,1,4,5,45,29,85,Kitsune,–
 Nine-Tails,Str,Res,10,10,0,15,20,10,0,20,Kitsune,,Beaststone,,,53,40,95,103,Nine-Tails,19,6,2,9,10,5,2,8,6,61,42,85,Nine-Tails,"Crt +5, Avo +10, CEv +10"
 Songstress,Str,Res,0,10,0,20,20,20,0,0,,,Lance,,,6,24,77,78,Songstress,16,3,0,6,5,3,2,3,5,38,22,70,Songstress,–
-Villager,Str,Def,10,10,0,10,10,20,10,0,,,Lance,,,132,72,,,Villager,17,5,0,4,5,3,4,0,5,38,21,70,Villager,–
-Nohr Prince,Mixed,Def,15,15,10,10,10,10,10,5,,,Sword,,,106,28,,,Nohr Prince,17,7,3,4,5,2,5,2,5,45,28,85,Nohr Prince,–
-Nohr Princess,Mixed,Def,15,15,10,10,10,10,10,5,,,Sword,,,106,28,,,Nohr Princess,17,7,3,4,5,2,5,2,5,45,28,85,Nohr Princess,–
+Villager,Str,Def,10,10,0,10,10,20,10,0,,,Lance,,,132,72,-1,-1,Villager,17,5,0,4,5,3,4,0,5,38,21,70,Villager,–
+Nohr Prince,Mixed,Def,15,15,10,10,10,10,10,5,,,Sword,,,106,28,-1,-1,Nohr Prince,17,7,3,4,5,2,5,2,5,45,28,85,Nohr Prince,–
+Nohr Princess,Mixed,Def,15,15,10,10,10,10,10,5,,,Sword,,,106,28,-1,-1,Nohr Princess,17,7,3,4,5,2,5,2,5,45,28,85,Nohr Princess,–
 Nohr Noble,Mixed,Mixed,15,10,15,5,15,5,5,15,Nohr Prince,Nohr Princess,Sword,Tome,,106,28,10,42,Nohr Noble,18,8,6,4,7,2,6,6,6,57,39,85,Nohr Noble,–
-Cavalier,Str,Def,10,15,0,10,10,15,10,5,,,Lance,Sword,,51,44,,,Cavalier,17,6,0,5,5,3,5,3,7,44,27,75,Cavalier,–
+Cavalier,Str,Def,10,15,0,10,10,15,10,5,,,Lance,Sword,,51,44,-1,-1,Cavalier,17,6,0,5,5,3,5,3,7,44,27,75,Cavalier,–
 Paladin,Str,Mixed,10,15,0,10,10,15,10,10,Cavalier,,Lance,Sword,,51,44,71,34,Paladin,19,8,1,7,7,4,7,6,8,59,40,80,Paladin,–
 Great Knight,Str,Def,20,20,0,10,5,5,20,0,Cavalier,,Lance,Sword,Axe,51,44,30,61,Great Knight,21,10,0,6,6,3,10,2,7,58,37,80,Great Knight,–
-Knight,Str,Def,20,20,0,15,5,10,20,0,,,Lance,,,7,52,,,Knight,19,8,0,5,3,3,8,1,4,47,28,90,Knight,–
+Knight,Str,Def,20,20,0,15,5,10,20,0,,,Lance,,,7,52,-1,-1,Knight,19,8,0,5,3,3,8,1,4,47,28,90,Knight,–
 General,Str,Def,25,20,0,15,0,10,20,5,Knight,,Lance,Axe,,7,52,64,33,General,22,11,0,7,3,4,12,3,5,62,40,95,General,–
-Fighter,Str,Def,20,20,0,15,15,5,5,0,,,Axe,,,1,85,,,Fighter,19,7,0,6,6,2,4,1,5,45,26,80,Fighter,–
+Fighter,Str,Def,20,20,0,15,15,5,5,0,,,Axe,,,1,85,-1,-1,Fighter,19,7,0,6,6,2,4,1,5,45,26,80,Fighter,–
 Berserker,Str,Def,30,25,0,15,15,0,0,0,Fighter,,Axe,,,1,85,16,67,Berserker,24,12,0,8,9,0,5,0,6,58,34,85,Berserker,"Crt +20, CEv -5"
-Mercenary,Str,Def,10,15,0,20,15,5,10,5,,,Sword,,,91,50,,,Mercenary,17,5,0,7,6,2,5,2,5,44,27,80,Mercenary,–
+Mercenary,Str,Def,10,15,0,20,15,5,10,5,,,Sword,,,91,50,-1,-1,Mercenary,17,5,0,7,6,2,5,2,5,44,27,80,Mercenary,–
 Hero,Str,Def,20,15,0,20,15,5,10,0,Mercenary,,Sword,Axe,,91,50,29,81,Hero,20,8,0,10,8,3,7,2,6,58,38,85,Hero,–
 Bow Knight,Str,Mixed,10,10,0,15,15,10,0,10,Mercenary,,Bow,Sword,,91,50,18,110,Bow Knight,18,6,0,8,9,3,5,6,8,55,37,70,Bow Knight,–
-Outlaw,Str,Res,0,10,5,10,20,0,0,20,,,Bow,,,112,9,,,Outlaw,16,3,1,4,8,1,2,4,5,39,23,65,Outlaw,–
+Outlaw,Str,Res,0,10,5,10,20,0,0,20,,,Bow,,,112,9,-1,-1,Outlaw,16,3,1,4,8,1,2,4,5,39,23,65,Outlaw,–
 Adventurer,StrMixed,Res,0,5,15,5,20,0,0,20,Outlaw,,Bow,,,112,9,87,111,Adventurer,17,4,6,6,10,2,3,8,6,56,39,65,Adventurer,–
-Wyvern Rider,Str,Def,10,15,5,10,10,5,20,0,,,Axe,,,2,46,,,Wyvern Rider,17,6,0,5,4,2,7,0,7,41,24,75,Wyvern Rider,–
+Wyvern Rider,Str,Def,10,15,5,10,10,5,20,0,,,Axe,,,2,46,-1,-1,Wyvern Rider,17,6,0,5,4,2,7,0,7,41,24,75,Wyvern Rider,–
 Wyvern Lord,Str,Def,10,15,0,15,10,5,20,0,Wyvern Rider,,Axe,Lance,,2,46,21,80,Wyvern Lord,19,8,0,9,6,3,10,1,8,56,37,75,Wyvern Lord,–
 Malig Knight,StrMixed,Mixed,0,15,15,10,5,0,10,15,Wyvern Rider,,Axe,Tome,,2,46,102,63,Malig Knight,18,7,6,6,5,0,8,6,8,56,38,70,Malig Knight,–
-Dark Mage,Mag,Res,0,10,20,0,10,0,5,10,,,Tome,,,89,76,,,Dark Mage,16,0,6,3,3,1,3,5,5,37,21,55,Dark Mage,–
+Dark Mage,Mag,Res,0,10,20,0,10,0,5,10,,,Tome,,,89,76,-1,-1,Dark Mage,16,0,6,3,3,1,3,5,5,37,21,55,Dark Mage,–
 Sorcerer,Mag,Res,0,0,25,0,10,0,5,15,Dark Mage,,Tome,,,89,76,32,83,Sorcerer,17,0,9,4,6,1,5,8,6,50,33,55,Sorcerer,"Hit +5, Crt +10, CEv +5"
 Dark Knight,MagMixed,Res,15,20,10,5,5,5,15,5,Dark Mage,,Tome,Sword,,89,76,30,98,Dark Knight,19,8,6,6,5,3,8,6,8,61,42,80,Dark Knight,–
-Troubadour,Mixed,Res,0,0,10,20,10,15,0,15,,,Staff,,,8,73,,,Troubadour,15,0,3,7,5,4,1,4,7,39,24,70,Troubadour,CEv +10
+Troubadour,Mixed,Res,0,0,10,20,10,15,0,15,,,Staff,,,8,73,-1,-1,Troubadour,15,0,3,7,5,4,1,4,7,39,24,70,Troubadour,CEv +10
 Strategist,Mag,Res,0,0,15,5,10,20,0,15,Troubadour,,Tome,,,8,73,22,75,Strategist,16,0,7,6,7,5,2,7,8,50,34,65,Strategist,–
 Maid,StrMixed,Res,0,10,10,15,15,10,5,10,Troubadour,,Dagger,,,8,73,100,84,Maid,18,4,5,9,8,4,5,4,6,57,39,75,Maid,–
 Butler,StrMixed,Res,0,10,10,15,15,10,5,10,Troubadour,,Dagger,,,8,73,100,84,Butler,18,4,5,9,8,4,5,4,6,57,39,75,Butler,–
-Wolfskin,Str,Def,20,20,0,5,15,5,10,0,,,Beaststone,,,54,40,,,Wolfskin,19,8,0,4,6,0,4,0,5,41,22,75,Wolfskin,–
+Wolfskin,Str,Def,20,20,0,5,15,5,10,0,,,Beaststone,,,54,40,-1,-1,Wolfskin,19,8,0,4,6,0,4,0,5,41,22,75,Wolfskin,–
 Wolfssegner,Str,Def,20,20,0,5,15,5,10,0,Wolfskin,,Beaststone,,,54,40,96,103,Wolfssegner,22,11,0,6,7,1,7,1,6,55,33,75,Wolfssegner,"Hit +10, Crt +5, CEv +10"
-Dread Fighter,Str,Res,15,15,5,5,15,0,5,20,Ninja,,Dagger,Axe,Sword,112,101,,,Dread Fighter,19,8,3,6,8,1,6,9,6,60,41,80,Dread Fighter,–
-Dark Falcon,StrMixed,Res,0,10,15,5,15,15,0,20,Sky Knight,,Tome,Lance,,58,93,,,Dark Falcon,17,4,7,5,9,4,3,9,8,58,41,80,Dark Falcon,–
+Dread Fighter,Str,Res,15,15,5,5,15,0,5,20,Ninja,,Dagger,Axe,Sword,112,101,-1,-1,Dread Fighter,19,8,3,6,8,1,6,9,6,60,41,80,Dread Fighter,–
+Dark Falcon,StrMixed,Res,0,10,15,5,15,15,0,20,Sky Knight,,Tome,Lance,,58,93,-1,-1,Dark Falcon,17,4,7,5,9,4,3,9,8,58,41,80,Dark Falcon,–
 Ballistician,Str,Def,5,25,0,15,0,10,5,5,Archer,,Bow,,,149,150,151,152,Ballistician,18,10,0,7,2,4,3,1,4,45,27,65,Ballistician,–
-Witch,Mag,Res,5,0,25,5,20,5,0,10,Diviner,,Tome,,,3,135,,,Witch,17,0,10,5,9,3,4,5,6,53,36,70,Witch,"Crt +10, Avo +10"
-Lodestar,Str,Def,15,10,0,20,10,25,5,5,Samurai,,Sword,,,57,39,,,Lodestar,19,7,0,10,9,7,7,2,6,61,42,90,Lodestar,"Hit +10, Crt +5, Avo +10"
-Vanguard,Str,Def,20,20,0,5,5,10,15,0,Fighter,,Sword,Axe,,1,85,,,Vanguard,21,10,0,6,7,3,9,1,6,57,36,75,Vanguard,–
-Great Lord,Str,Def,15,15,0,10,10,15,10,5,Villager,,Sword,Lance,,132,72,,,Great Lord,18,8,1,8,9,5,7,3,6,59,41,80,Great Lord,–
-Grandmaster,MagMixed,Res,10,15,15,15,5,0,5,15,Diviner,,Sword,Tome,,3,135,,,Grandmaster,18,7,6,8,7,2,6,8,6,62,44,80,Grandmaster,–
-Pegasus Knight,Str,Res,0,10,0,15,20,20,0,20,,,Lance,,,,,,,Pegasus Knight,18,6,1,7,10,5,4,9,8,60,42,85,Pegasus Knight,"Crt +5, Avo +10, CEv +10"
-Enchanter,StrMixed,Res,0,10,20,10,10,10,0,10,Outlaw,,Bow,Tome,,112,9,,,Enchanter,16,6,7,7,7,7,4,4,5,57,41,70,Enchanter,–
-Warden,Str,Def,20,15,0,20,10,5,15,0,Knight,,Lance,Dagger,,7,52,,,Warden,20,10,0,9,7,4,9,3,6,62,42,85,Warden,–
+Witch,Mag,Res,5,0,25,5,20,5,0,10,Diviner,,Tome,,,3,135,141,155,Witch,17,0,10,5,9,3,4,5,6,53,36,70,Witch,"Crt +10, Avo +10"
+Lodestar,Str,Def,15,10,0,20,10,25,5,5,Samurai,,Sword,,,57,39,157,133,Lodestar,19,7,0,10,9,7,7,2,6,61,42,90,Lodestar,"Hit +10, Crt +5, Avo +10"
+Vanguard,Str,Def,20,20,0,5,5,10,15,0,Fighter,,Sword,Axe,,1,85,26,80,Vanguard,21,10,0,6,7,3,9,1,6,57,36,75,Vanguard,–
+Great Lord,Str,Def,15,15,0,10,10,15,10,5,Villager,,Sword,Lance,,132,72,26,133,Great Lord,18,8,1,8,9,5,7,3,6,59,41,80,Great Lord,–
+Grandmaster,MagMixed,Res,10,15,15,15,5,0,5,15,Diviner,,Sword,Tome,,3,135,136,137,Grandmaster,18,7,6,8,7,2,6,8,6,62,44,80,Grandmaster,–
+Pegasus Knight,Str,Res,0,10,0,15,20,20,0,20,,,Lance,,,-1,-1,-1,-1,Pegasus Knight,18,6,1,7,10,5,4,9,8,60,42,85,Pegasus Knight,"Crt +5, Avo +10, CEv +10"
+Enchanter,StrMixed,Res,0,10,20,10,10,10,0,10,Outlaw,,Bow,Tome,,112,9,29,82,Enchanter,16,6,7,7,7,7,4,4,5,57,41,70,Enchanter,–
+Warden,Str,Def,20,15,0,20,10,5,15,0,Knight,,Lance,Dagger,,7,52,102,79,Warden,20,10,0,9,7,4,9,3,6,62,42,85,Warden,–

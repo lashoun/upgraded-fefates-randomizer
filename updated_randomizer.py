@@ -146,7 +146,7 @@ with open('{}/fates_class_data.csv'.format(path)) as fcsv:
                 baseClasses.pop()
             else:
                 break
-        skills = row[16:20]
+        skills = list(map(int, row[16:20]))
         classData[row[0]] = {
             'AttackType': row[1],
             'DefenseType': row[2],
