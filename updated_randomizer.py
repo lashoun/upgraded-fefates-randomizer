@@ -1619,7 +1619,7 @@ class FatesRandomizer:
             for i in [3, 4]:
                 # Faire skills
                 if skills[i] >= 65 and skills[i] <= 70:
-                    weapon = self.rng.choice(self.classData[className]["Weapons"])
+                    weapon = self.classData[className]["Weapons"][0]
                     if weapon not in ["Staff", "Beaststone"]:
                         if className not in ["Swordmaster", "Spear Master", "Berserker", "Onmyoji", "Sniper", "MasterNinja", "Lodestar"]:
                             skills[i] = self.FAIRE_SKILLS[weapon]
@@ -1631,15 +1631,15 @@ class FatesRandomizer:
 
                 # Breaker skills
                 if skills[i] >= 79 and skills[i] <= 84:
-                    weapon = self.rng.choice(self.classData[className]["Weapons"])
+                    weapon = self.classData[className]["Weapons"][0]
                     if weapon not in ["Staff", "Beaststone"]:
-                        if className not in ["Wyvern Lord", "Blacksmith", "Hero", "Maid", "Butler", "Sorcerer", "Bow Knight", "Vanguard", "Dread Fighter", "Master of Arms", "Oni Chieftain", "Basara"]:
+                        if className not in ["Wyvern Lord", "Blacksmith", "Hero", "Maid", "Butler", "Sorcerer", "Vanguard", "Dread Fighter", "Master of Arms", "Oni Chieftain", "Basara", "Enchanter", "Warden"]:
                             skills[i] = self.BREAKER_SKILLS[weapon]
                         else:
                             skills[i] = self.FAIRE_SKILLS[weapon]
-                    else:
-                        while skills[i] >= 79 and skills[i] <= 84:
-                            skills[i] = self.rng.choice(allPromotedSkills2)
+                    # else:  # not that bad if someone else gets a breaker skill
+                    #     while skills[i] >= 79 and skills[i] <= 84:
+                    #         skills[i] = self.rng.choice(allPromotedSkills2)
 
         for i in range(nSkills, 5):  # erase added skills if needed
             skills[i] = 0
