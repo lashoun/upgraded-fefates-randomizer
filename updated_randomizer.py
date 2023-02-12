@@ -1815,8 +1815,6 @@ class FatesRandomizer:
 
     def adjustCharacterStrMag(self, characterData):
         className = characterData['NewClass']
-        if className == 'Basara':
-            className = characterData['NewBaseClass']
         classAttackType = self.readClassAttackType(className)
         i, j = 1, 2  # default: 'Str'
         if classAttackType in ['Mag', 'MagMixed']:
