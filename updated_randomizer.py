@@ -1851,8 +1851,8 @@ class FatesRandomizer:
             probas2 = self.addmax(probas2)
             diff_stats = stats[i] - stats[j]
             diff_growths = growths[i] - growths[j]
-            n_rounds_stats = self.rng.choice(diff_stats+1)
-            n_rounds_growths = self.rng.choice(diff_growths//5 + 1)
+            n_rounds_stats = self.rng.choice(diff_stats)
+            n_rounds_growths = self.rng.choice(diff_growths//5)
             for _ in range(n_rounds_stats):
                 s = self.rng.choice(8, p=probas)
                 if stats[s] > 0:
