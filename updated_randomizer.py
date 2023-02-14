@@ -80,7 +80,7 @@ parser.add_argument('-pmu', '--pmu-mode', action='store_true', help="`ClassSprea
 parser.add_argument('-rlp', '--rng-levelup-p', type=float, default=0.2, help="probability of a character having RNG level ups versus average level ups")
 parser.add_argument('-s', '--seed', type=int, default=None, help="RNG seed")
 parser.add_argument('-sp', '--stat-p', type=float, default=0.5, help="probability of editing stats in a variability pass")
-parser.add_argument('-smap', '--str-mixed-attacker-p', type=float, default=0.1, help="probability of a character being a Str mixed character (positive Mag stat/growth/mod with pure Str class")
+parser.add_argument('-smap', '--str-mixed-attacker-p', type=float, default=0.2, help="probability of a character being a Str mixed character (positive Mag stat/growth/mod with pure Str class")
 parser.add_argument('-sadp', '--swap-atk-def-p', type=float, default=0.2, help="probability of swapping Str/Mag (higher one) with Def/Res (higher one) growths / stats / modifiers")
 parser.add_argument('-sdrp', '--swap-def-res-p', type=float, default=0.2, help="probability of swapping Def and Res growths / stats / modifiers")
 parser.add_argument('-slp', '--swap-lck-p', type=float, default=-1., help="probability of swapping Lck and a random stat's growths / stats / modifiers; random if between 0 and 1, else [(Lck Growth)%% and swap only if Lck is superior]")
@@ -225,7 +225,7 @@ class FatesRandomizer:
         rngLevelupP=0.2,
         seed=None,
         statP=0.5,  # proba of editing stats in AddVariancetoData
-        strMixedAttackerP=0.1,  # probability of a character being a Str mixed attacker (positive Mag stat/growth with pure Str class)
+        strMixedAttackerP=0.2,  # probability of a character being a Str mixed attacker (positive Mag stat/growth with pure Str class)
         swapAtkDefP=0,  # according to class before random
         swapDefResP=0.2,  # according to class before random
         swapLckP=-1, # random if between 0 and 1, else [(Lck Growth)% and only swap if Lck is superior]
@@ -1173,8 +1173,8 @@ class FatesRandomizer:
                         corrinClass = self.rng.choice(self.FINAL_CLASSES)
             self.randomizedClasses['Corrin'] = corrinClass
 
-        if self.corrinClass in self.imposedClasses:
-            self.imposedClasses.remove(self.corrinClass)
+        if corrinClass in self.imposedClasses:
+            self.imposedClasses.remove(corrinClass)
         classes = [c for c in self.FINAL_CLASSES if c not in (self.imposedClasses + [self.corrinClass])]
 
         self.rng.shuffle(classes)
@@ -1837,7 +1837,7 @@ class FatesRandomizer:
             modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
         # buffing the other atk stat
-        if 'Mixed' in classAttackType or (classAttackType == 'Str' and self.rng.random() < self.strMixedAttackerP):
+        if 'Mixed' in classAttackType or (classAttackType == 'Str' and self.rng.random() < self.strMixedAttackerP and className not in ['Wolfssegner', 'Nine-Tails']):
             probas = np.ones(8)
             probas[i] = 0
             probas[j] = 0
@@ -1916,12 +1916,12 @@ class FatesRandomizer:
 
         if classAttackType in ['Str', 'StrMixed']:
             i = 1  # Str
-            j = np.argsort(stats)[-4] # 4th highest base stat
+            j = np.argsort(stats)[-3] # 4th highest base stat
             if stats[i] > stats[j]:
                 stats[i], stats[j] = stats[j], stats[i]
         else:
             i = 2  # Mag
-            j = np.argsort(stats)[-4] # 4th highest base stat
+            j = np.argsort(stats)[-3] # 4th highest base stat
             if stats[i] > stats[j]:
                 stats[i], stats[j] = stats[j], stats[i]
 
