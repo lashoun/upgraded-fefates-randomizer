@@ -1851,25 +1851,27 @@ class FatesRandomizer:
             probas2 = self.addmax(probas2)
             diff_stats = stats[i] - stats[j]
             diff_growths = growths[i] - growths[j]
-            n_rounds_stats = self.rng.choice(diff_stats)
-            n_rounds_growths = self.rng.choice(diff_growths//5)
-            for _ in range(n_rounds_stats):
-                s = self.rng.choice(8, p=probas)
-                if stats[s] > 0:
-                    stats[s] -= 1
-                    stats[j] += 1
-                else:
-                    probas[s] = 0
-                    probas = self.addmax(probas)
+            if diff_stats > 0:
+                n_rounds_stats = self.rng.choice(diff_stats)
+                for _ in range(n_rounds_stats):
+                    s = self.rng.choice(8, p=probas)
+                    if stats[s] > 0:
+                        stats[s] -= 1
+                        stats[j] += 1
+                    else:
+                        probas[s] = 0
+                        probas = self.addmax(probas)
 
-            for _ in range(n_rounds_growths):
-                s = self.rng.choice(8, p=probas2)
-                if growths[s] > 0:
-                    growths[s] -= 5
-                    growths[j] += 5
-                else:
-                    probas2[s] = 0
-                    probas2 = self.addmax(probas2)
+            if diff_growths > 0:
+                n_rounds_growths = self.rng.choice(diff_growths//5)
+                for _ in range(n_rounds_growths):
+                    s = self.rng.choice(8, p=probas2)
+                    if growths[s] > 0:
+                        growths[s] -= 5
+                        growths[j] += 5
+                    else:
+                        probas2[s] = 0
+                        probas2 = self.addmax(probas2)
 
         else:  # pure Str or Mag attacker
             probas = self.addmax(np.ones(8))
