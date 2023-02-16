@@ -58,7 +58,7 @@ All credits are due to the original mod authors.
 - Endgame chapters of each route should allow the player to save (not tested)
 - Birthright Lunatic has been made more difficult: most enemies now have skills
 - Birthright Chapter 10 and Revelations Chapter 11 (Ninja village) have one tile changed so that the door is accessible without flier
-- Birthright Chapter 11: Reina now spanws on the boat
+- Birthright Chapter 11: Reina now spawns on the boat
 
 #### Weapons
 - Changes to weapon triangles: Tome <-> Axe, Dagger <-> Sword, and Bow <-> Lance become neutral
@@ -218,9 +218,8 @@ The instructions can look daunting but once you understand how it works it takes
 
 0. Begin by either cloning the repository or downloading and extracting the zip.
 1. First, choose which version of Fates you want to play (all versions except Vanilla are only compatible with the Special Edition, unfortunately):
-    - _Vanilla Fates_: for copyright-related reasons, you will have to dump your own romfs. Follow the instructions in thane89's original readme below.
-    - **_Upgraded Fates_ (recommended)**: patched with my curated upgrades listed above. Extract all the `.7z` archives, i.e., `fates_upgraded_decompressed.7z` and `fates_upgraded_fixed{/2/3}.7z`.
-The extracted `decompressed` folder will be referred to as the `romfs` folder.
+    - _Vanilla Fates_: for copyright-related reasons, you will have to dump your own romfs. Follow the instructions in thane89's original readme below. Copy the `castle`, `GameData`, `m`, `Scripts` folders into a folder that will be hence called the `romfs` folder.
+    - **_Upgraded Fates_ (recommended)**: patched with my curated upgrades listed above. Extract all the `.7z` archives, i.e., `fates_upgraded_decompressed.7z` into a `fates_upgraded_decompressed` folder and `fates_upgraded_fixed{/2/3}.7z` into a single `fates_upgraded_fixed` folder. The `fixed` folder contains mainly visuals and things the randomizer does not affect so you do not have to manipulate it until step 12. The `decompressed` folder will henceforth be referred to as the `romfs` folder.
 2. Run `Fates Randomizer Beta 5-5.jar`, click "Open and Verify", and select the `romfs` folder. You should see a new window pop up with options. If you do not, the window will show you which file was not found. Make sure that the selected folder has folders named `castle`, `GameData`, `m`, `Scripts` directly inside it.
 3. Select a path and options. Refer to the [original post](https://gbatemp.net/threads/wip-fire-emblem-fates-randomizer.452268/) if you do not understand an option. I recommend selecting `All Routes` (even if you plan to play Birthright or Conquest, the Python script has route options too) and all options except the experimental ones and the stat randomization.
 4. Hit "Randomize" and let the program sit. When the program finishes, a little notification will pop up in the corner of the window.
@@ -237,13 +236,13 @@ python updated_randomizer.py -h
   - Refer to the section "All Options" below for the details.
   - If you did not select the option "Anna" / "Amiibo characters" / "Children" in the randomizer, you have to use the options `-ba` / `-bac` / `-bc` respectively.
 
-8. If the script ran successfully, you should have two files named `RandomizerSettingsUpdated.xml` and `ClassSpread.csv` in the `data` folder. Otherwise, try to run one more time, and if it fails again, raise an issue on this repository.
+8. If the script ran successfully, you should have three files named `RandomizerSettingsUpdated.xml`, `ClassSpread.csv` and `PMUClassSpread.csv` in the `data` folder. Otherwise, try to run one more time, and if it fails again, raise an issue on this repository.
+    - `RandomizerSettingsUpdated.xml` contains the detailed information of the randomized run. For each character, the `StringData` and `ClassData` fields are tied to the character while the other fields are tied to their spot. If Ryoma has as "switchingCharacter" Hinata, he will have the stats that are written in Hinata's `Stats` field (but those stats will have been computed as Ryoma's "expected" stats at this spot). I recommend not looking at it for more fun.
     - `ClassSpread.csv` contains on each line the original character, their replacement and the class assigned to the replacement. I recommend respecting the file's assignements for more fun and challenge.
     - `PMUClassSpread.csv` (if you selected the `-pmu` option) contains a PMU subset of the previous file.
-    - `RandomizerSettingsUpdated.xml` contains the detailed information of the randomized run. For each character, the `StringData` and `ClassData` fields are tied to the character while the other fields are tied to their spot. If Ryoma has as "switchingCharacter" Hinata, he will have the stats that are written in Hinata's `Stats` field (but those stats will have been computed as Ryoma's "expected" stats at this spot). I recommend not looking at it for more fun.
-10. Delete the `romfs` folder and repeat steps 1-5 but, in step 3, choose "Custom Path" and select `RandomizerSettingsUpdated.xml`. Don't forget to check the "Join Order" options again if you did previously.
+10. Delete the `romfs` folder and repeat steps 1-5 but, in step 3, choose "Custom Path" and select `RandomizerSettingsUpdated.xml`. Check the "Join Order" options, otherwise the randomization will not be complete. (In particular, the characters will have the same weapons as vanilla when they join, which is problematic if their class changed as they will not be able to use them.)
 11. Close `Fates Randomizer Beta 5-5.jar`. Open `FEAT.exe`. Drag the `romfs` folder into FEAT: this will recompress the files. Once FEAT is done, you can close it.
-12. Phew! You're done! Now you can copy your `romfs` folder to the mods folder of your gaming medium. If you chose the upgraded version, also copy the content of the `fixed` folder inside the `romfs` folder, and the `exefs` folder to the mods folder.
+12. Phew! You're done! Now you can copy your `romfs` folder to the mods folder of your gaming medium. If you chose the upgraded version, also copy the contents of the `fixed` folder inside the `romfs` folder if you did not do so already, and the `exefs` folder to the mods folder.
 13. As a final note, DO NOT use this on top of an existing save or branch of fate. Use a fresh save starting from the very beginning if you want a stable playthrough.
 
 ## All Available Options
