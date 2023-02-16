@@ -774,11 +774,12 @@ class FatesRandomizer:
 
         return characterData
 
-    def checkQuality(self, characterNames, classes):
+    def checkQuality(self, characterNames, classes, secondary=False):
         """ in place, ugly loop that ends only if:
             - no character has a gender-locked class of the wrong gender
             - no prepromoted character is a Hoshido Noble or Nohr Noble
             - Gunter and Camilla have a Def > Res class
+            The `secondary` flag means that we can be more flexible in solving conflicts: we will sample another class which does not cause problems.
         """
         assert len(characterNames) == len(classes), "characterNames and classes have different lengths: {} and {}".format(len(characterNames), len(classes))
         qualityPass = False
@@ -787,20 +788,35 @@ class FatesRandomizer:
             for i, className in enumerate(classes):
                 characterName = characterNames[i]
                 if (className in self.MALE_CLASSES or (className in self.TRUE_MALE_CLASSES and characterName in self.PREPROMOTED_CHARACTERS)) and characterName not in self.MALE_CHARACTERS:
-                    newCharacterName = self.rng.choice([x for x in self.MALE_CHARACTERS if x in characterNames])
-                    j = characterNames.index(newCharacterName)
-                    classes[i], classes[j] = classes[j], classes[i]
-                    qualityPass = False
+                    if secondary:
+                        if characterName in self.PREPROMOTED_CHARACTERS:
+                            classes[i] = self.rng.choice([x for x in self.PROMOTED_CLASSES if x not in self.TRUE_FEMALE_CLASSES])
+                        else:
+                            classes[i] = self.rng.choice([x for x in self.UNPROMOTED_CLASSES if x != 'Monk'])
+                    else:
+                        newCharacterName = self.rng.choice([x for x in self.MALE_CHARACTERS if x in characterNames])
+                        j = characterNames.index(newCharacterName)
+                        classes[i], classes[j] = classes[j], classes[i]
+                        qualityPass = False
                 elif (className in self.FEMALE_CLASSES or (className in self.TRUE_FEMALE_CLASSES and characterName in self.PREPROMOTED_CHARACTERS)) and characterName not in self.FEMALE_CHARACTERS:
-                    newCharacterName = self.rng.choice([x for x in self.FEMALE_CHARACTERS if x in characterNames])
-                    j = characterNames.index(newCharacterName)
-                    classes[i], classes[j] = classes[j], classes[i]
-                    qualityPass = False
+                    if secondary:
+                        if characterName in self.PREPROMOTED_CHARACTERS:
+                            classes[i] = self.rng.choice([x for x in self.PROMOTED_CLASSES if x not in self.TRUE_MALE_CLASSES])
+                        else:
+                            classes[i] = self.rng.choice([x for x in self.UNPROMOTED_CLASSES if x != 'Shrine Maiden'])
+                    else:
+                        newCharacterName = self.rng.choice([x for x in self.FEMALE_CHARACTERS if x in characterNames])
+                        j = characterNames.index(newCharacterName)
+                        classes[i], classes[j] = classes[j], classes[i]
+                        qualityPass = False
                 elif className in ["Hoshido Noble", "Nohr Noble"] and characterName in self.PREPROMOTED_CHARACTERS:
-                    newCharacterName = self.rng.choice([x for x in self.ROUTE_CHARACTERS if (x in characterNames and x not in self.PREPROMOTED_CHARACTERS)])
-                    j = characterNames.index(newCharacterName)
-                    classes[i], classes[j] = classes[j], classes[i]
-                    qualityPass = False
+                    if secondary:
+                        classes[i] = self.rng.choice([x for x in self.PROMOTED_CLASSES if x not in self.TRUE_MALE_CLASSES and x not in self.TRUE_FEMALE_CLASSES])
+                    else:
+                        newCharacterName = self.rng.choice([x for x in self.ROUTE_CHARACTERS if (x in characterNames and x not in self.PREPROMOTED_CHARACTERS)])
+                        j = characterNames.index(newCharacterName)
+                        classes[i], classes[j] = classes[j], classes[i]
+                        qualityPass = False
                 elif self.readClassDefenseType(className) != 'Def' and ((characterName == "Gunter" and self.forceGunterDef) or (characterName == "Camilla" and self.forceCamillaDef)):
                     newClass = self.rng.choice([x for x in classes if self.readClassDefenseType(x) == 'Def'])
                     j = classes.index(newClass)
@@ -1304,14 +1320,15 @@ class FatesRandomizer:
             else:
                 classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
 
-        characterNames2 = [x for x in self.ROUTE_CHARACTERS if (x not in characterNames and x not in removedCharacters)]
+        characterNames2 = [x for x in self.ALL_CHARACTERS if (x not in characterNames and x not in removedCharacters)]
 
         self.rng.shuffle(classes)
         self.checkQuality(characterNames, classes)
+
+        classes2 = classes2[:len(characterNames2)]
         if len(characterNames2) > 0:
-            classes2 = classes2[:len(characterNames2)]
             self.rng.shuffle(classes2)
-            self.checkQuality(characterNames2, classes2)
+            self.checkQuality(characterNames2, classes2, secondary=True)
 
         # if self.banChildren:
         #     self.rng.shuffle(classes)
