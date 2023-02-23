@@ -76,7 +76,7 @@ parser.add_argument('-mc', '--modifier-coefficient', type=int, default=0, help="
 parser.add_argument('-mp', '--mod-p', type=float, default=0.25, help="probability of editing modifiers in a variability pass")
 parser.add_argument('-np', '--n-passes', type=int, default=10, help="number of variability passes (swap +/- 5 growths, +/- 1 stats and mods per pass")
 parser.add_argument('-ns', '--n-skills', type=int, default=-1, choices=[-1, 0, 1, 2, 3, 4, 5], help="number of randomized skills; if -1, randomize existing skills")
-parser.add_argument('-pmu', '--pmu-mode', action='store_true', help="`ClassSpread.csv` will only contain the 16 allowed characters for the run")
+parser.add_argument('-pmu', '--pmu-mode', action='store_true', help="will output a `PMUClassSpread.csv` file that contains the 16 allowed characters for the run")
 parser.add_argument('-rlp', '--rng-levelup-p', type=float, default=0.2, help="probability of a character having RNG level ups versus average level ups")
 parser.add_argument('-s', '--seed', type=int, default=None, help="RNG seed")
 parser.add_argument('-sp', '--stat-p', type=float, default=0.5, help="probability of editing stats in a variability pass")
