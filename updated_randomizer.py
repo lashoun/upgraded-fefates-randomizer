@@ -1189,8 +1189,8 @@ class FatesRandomizer:
                         corrinClass = self.rng.choice(self.FINAL_CLASSES)
             self.randomizedClasses['Corrin'] = corrinClass
 
-        if corrinClass in self.imposedClasses:
-            self.imposedClasses.remove(corrinClass)
+        if self.corrinClass in self.imposedClasses:
+            self.imposedClasses.remove(self.corrinClass)
         classes = [c for c in self.FINAL_CLASSES if c not in (self.imposedClasses + [self.corrinClass])]
 
         self.rng.shuffle(classes)
