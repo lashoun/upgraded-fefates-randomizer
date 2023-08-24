@@ -5,8 +5,8 @@ This is a barbaric but working improvement of thane89's [Fire Emblem Fates Rando
 ## Screenshots
 
 <p align="center">
-	<img src="https://i.imgur.com/XCS6NH0.png" />
-	<img src="https://i.imgur.com/8oh3vWK.png" />
+	<img width="500px" src="https://i.imgur.com/P60wH7P.png" />
+	<img width="500px" src="https://i.imgur.com/jjDBF9Q.png" />
 </p>
 
 ## Features
