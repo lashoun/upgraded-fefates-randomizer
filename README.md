@@ -137,45 +137,47 @@ All credits are due to the original mod authors.
     Wolfskin | Wolfssegner |
 - Detailed class changes:
     - Basara:
-        - Quixotic → Swordbreaker
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_90.png" /> Quixotic → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_79.png" /> Swordbreaker
         - Pair Up Stats: Lck +5, Res +3 -> Spd +2, Lck +3, Res +3
-    - Blacksmith: Salvage Blow → Death Blow
+    - Blacksmith: <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_104.png" /> Salvage Blow → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_59.png" /> Death Blow
     - Bow Knight:
-        - Bows A→B, Swords B→A
-        - Shurikenbreaker → Galeforce
-    - Dark Falcon: Lances B→A, Tomes A→B
-    - Dark Knight: Seal Magic → Luna
-    - Diviner: Future Sight → Solidarity
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-bow.png" /> Bows A→B, <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-sword.png" /> Swords B→A
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_82.png" /> Shurikenbreaker → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_110.png" /> Galeforce
+    - Dark Falcon: <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-lance.png" /> Lances B→A, <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-tome.png" /> Tomes A→B
+    - Dark Knight: <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_12.png" /> Seal Magic → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_30.png" /> Luna
+    - Diviner: <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_107.png" /> Future Sight → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_204.png" /> Solidarity
     - Dread Fighter:
-        - Daggers B→A, Swords A→B
-        - Clarity → Iron Will
-        - Aggressor → Tomebreaker
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-kunai.png" /> Daggers B→A, <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-sword.png" /> Swords A→B
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_199.png" /> Clarity → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_198.png" /> Iron Will
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_200.png" /> Aggressor → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_84.png" /> Tomebreaker
     - Enchanter (new class):
-        - Bows A, Tomes B
-        - Lvl 5 Sol, Lvl 15 Shurikenbreaker
-    - Grandmaster: Shurikens ∅→B, Swords B→∅
-    - Great Lord: Lances B→A, Swords A→B
-    - Lodestar: Speedtaker → Awakening
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-bow.png" /> Bows A, <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-tome.png" /> Tomes B
+        - Lvl 5 <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_29.png" /> Sol, Lvl 15 <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_82.png" /> Shurikenbreaker
+    - Grandmaster: <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-kunai.png" /> Shurikens ∅→B, <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-sword.png" /> Swords B→∅
+    - Great Lord: <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-lance.png" /> Lances B→A, <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-sword.png" /> Swords A→B
+    - Lodestar: <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_214.png" /> Speedtaker → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_202.png" /> Awakening
     - Master of Arms:
-        - Lances B→A, Swords A→B
-        - Seal Strength → Astra
-        - Life or Death → Swordbreaker
-    - Mechanist: Daggers A→B, Bow B→A
-    - Oni Chieftain: Death Blow → Rend Heaven, Counter → Lifetaker
-    - Priestess / Great Master: Countermagic → Inspiration
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-lance.png" /> Lances B→A, <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-sword.png" /> Swords A→B
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_11.png" /> Seal Strength → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_27.png" /> Astra
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_55.png" /> Life or Death → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_79.png" /> Swordbreaker
+    - Mechanist: <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-kunai.png" /> Daggers A→B, <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-bow.png" /> Bow B→A
+    - Oni Chieftain:
+    	- <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_59.png" /> Death Blow → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_31.png" /> Rend Heaven
+	- <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_37.png" /> Counter → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_98.png" /> Lifetaker
+    - Priestess / Great Master: <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_38.png" /> Countermagic → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_75.png" /> Inspiration
     - Vanguard:
-        - Swords A→B, Axes B→A
-        - Strengthtaker → Lancebreaker
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-sword.png" /> Swords A→B, <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-axe.png" /> Axes B→A
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_211.png" /> Strengthtaker → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_80.png" /> Lancebreaker
     - Villager:
-        - Lances C→B
-        - Aptitude → Dual Striker
-        - Underdog → Charm
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-lance.png" /> Lances C→B
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_108.png" /> Aptitude → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_201.png" /> Dual Striker
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_86.png" /> Underdog → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_72.png" /> Charm
     - Warden (new class):
-        - Lances A, Daggers B
-        - Lvl 5 Savage Blow, Lvl 15 Swordbreaker
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-lance.png" /> Lances A, <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-kunai.png" /> Daggers B
+        - Lvl 5 <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_102.png" /> Savage Blow, Lvl 15 <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_103.png" /> Grisly Wound
     - Witch:
-        - Warp → Shadowgift
-    - Wyvern Lord: Swordbreaker → Lancebreaker
+        - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_223.png" /> Warp → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_210.png" /> Shadowgift
+    - Wyvern Lord: <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_79.png" /> Swordbreaker → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_80.png" /> Lancebreaker
 
 - Enchanter Data
 
