@@ -163,7 +163,7 @@ All credits are due to the original mod authors.
     - Mechanist: <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-kunai.png" /> Daggers A→B, <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-bow.png" /> Bow B→A
     - Oni Chieftain:
     	- <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_59.png" /> Death Blow → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_31.png" /> Rend Heaven
-	- <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_37.png" /> Counter → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_98.png" /> Lifetaker
+    	- <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_37.png" /> Counter → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_98.png" /> Lifetaker
     - Priestess / Great Master: <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_38.png" /> Countermagic → <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fe15skill_75.png" /> Inspiration
     - Vanguard:
         - <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-sword.png" /> Swords A→B, <img width="20px" src="https://serenesforest.net/wp-content/uploads/2015/06/fefates-icon-axe.png" /> Axes B→A
