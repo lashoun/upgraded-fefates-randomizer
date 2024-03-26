@@ -186,7 +186,7 @@ Data | HP  | Str | Mag | Skl | Spd | Lck | Def | Res | Mov
 Bases | 16 | 6 | 7 | 7 | 7 | 4 | 4 | 5 | 6
 Growths | 0 | 10 | 20 | 10 | 10 | 10 | 0 | 10 | -
 Max Stats | 48 | 29 | 33 | 29 | 31 | 29 | 26 | 30 | -
-Pair Up Bonuses | 0 | 0 | 3 | 0 | 2 | 0 | 0 | 1 | 1
+Pair Up Bonuses | - | 0 | 3 | 0 | 2 | 0 | 0 | 1 | 1
 
 - Warden Data
 
