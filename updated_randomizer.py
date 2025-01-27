@@ -324,12 +324,12 @@ class FatesRandomizer:
 
         if self.enableGenderlessDLC:
             self.MALE_CLASSES = ['Great Master', 'Butler']
-            self.FEMALE_CLASSES = ['Priestess', 'Maid']
+            self.FEMALE_CLASSES = ['Priestess', 'Maid', 'Songstress']
         else:
             self.MALE_CLASSES = ['Great Master', 'Butler', 'Lodestar', 'Vanguard', 'Grandmaster', 'Ballistician']
-            self.FEMALE_CLASSES = ['Priestess', 'Maid', 'Witch', 'Great Lord']
+            self.FEMALE_CLASSES = ['Priestess', 'Maid', 'Songstress', 'Witch', 'Great Lord']
         self.TRUE_MALE_CLASSES = ['Great Master', 'Butler', 'Lodestar', 'Vanguard', 'Grandmaster', 'Ballistician']
-        self.TRUE_FEMALE_CLASSES = ['Priestess', 'Maid', 'Witch', 'Great Lord']
+        self.TRUE_FEMALE_CLASSES = ['Priestess', 'Maid', 'Songstress', 'Witch', 'Great Lord']
 
         if self.fatesUpgraded:
             self.DLC_CLASSES = ['Ballistician']
@@ -790,9 +790,9 @@ class FatesRandomizer:
                 if (className in self.MALE_CLASSES or (className in self.TRUE_MALE_CLASSES and characterName in self.PREPROMOTED_CHARACTERS)) and characterName not in self.MALE_CHARACTERS:
                     if secondary:
                         if characterName in self.PREPROMOTED_CHARACTERS:
-                            classes[i] = self.rng.choice([x for x in self.PROMOTED_CLASSES if x not in self.TRUE_FEMALE_CLASSES])
+                            classes[i] = self.rng.choice([x for x in self.PROMOTED_CLASSES if x not in self.TRUE_MALE_CLASSES])
                         else:
-                            classes[i] = self.rng.choice([x for x in self.UNPROMOTED_CLASSES if x != 'Monk'])
+                            classes[i] = self.rng.choice([x for x in self.UNPROMOTED_CLASSES if x not in ['Monk', 'Nohr Prince']])
                     else:
                         newCharacterName = self.rng.choice([x for x in self.MALE_CHARACTERS if x in characterNames])
                         j = characterNames.index(newCharacterName)
@@ -801,9 +801,9 @@ class FatesRandomizer:
                 elif (className in self.FEMALE_CLASSES or (className in self.TRUE_FEMALE_CLASSES and characterName in self.PREPROMOTED_CHARACTERS)) and characterName not in self.FEMALE_CHARACTERS:
                     if secondary:
                         if characterName in self.PREPROMOTED_CHARACTERS:
-                            classes[i] = self.rng.choice([x for x in self.PROMOTED_CLASSES if x not in self.TRUE_MALE_CLASSES])
+                            classes[i] = self.rng.choice([x for x in self.PROMOTED_CLASSES if x not in self.TRUE_FEMALE_CLASSES])
                         else:
-                            classes[i] = self.rng.choice([x for x in self.UNPROMOTED_CLASSES if x != 'Shrine Maiden'])
+                            classes[i] = self.rng.choice([x for x in self.UNPROMOTED_CLASSES if x not in ['Shrine Maiden', 'Nohr Princess', 'Songstress']])
                     else:
                         newCharacterName = self.rng.choice([x for x in self.FEMALE_CHARACTERS if x in characterNames])
                         j = characterNames.index(newCharacterName)
