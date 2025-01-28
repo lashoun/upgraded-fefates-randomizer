@@ -505,23 +505,6 @@ class FatesRandomizer:
         self.PARTNER_PERSONAL_SKILLS = ['Devoted Partner', 'Evasive Partner', 'Forceful Partner']
         self.SONGSTRESS_PERSONAL_SKILLS = ['Healing Descant', 'Quiet Strength', 'Rallying Cry', 'Perspicacious', "Lily's Poise", "Rose's Thorns", 'Fierce Mien', 'Fortunate Son']
 
-        # if self.gameRoute == 'Birthright':
-        #     self.allowedCharacters = [
-        #     'Felicia', 'Jakob', 'Kaze', 'Rinkah', 'Azura', 'Sakura', 'Hana', 'Subaki',
-        #     'Silas', 'Saizo', 'Orochi', 'Mozu', 'Hinoka', 'Azama', 'Setsuna', 'Oboro'
-        # ]
-        # elif self.gameRoute == 'Conquest':
-        #     self.allowedCharacters = [
-        #     'Felicia', 'Jakob', 'Elise', 'Silas', 'Arthur', 'Effie', 'Mozu', 'Odin',
-        #     'Niles', 'Azura', 'Nyx', 'Camilla', 'Selena', 'Benny', 'Kaze', 'Laslow',
-        # ]
-        # else:
-        #     self.allowedCharacters = [
-        #     'Azura', 'Felicia', 'Jakob', 'Mozu', 'Sakura', 'Hana',
-        #     'Subaki', 'Kaze', 'Rinkah', 'Hayato', 'Takumi', 'Oboro', 'Hinata',
-        #     'Saizo', 'Orochi', 'Kaden'
-        # ]
-
         if self.enableDLCBaseClass:
             self.PROMOTED_CLASSES += self.DLC_CLASSES
         else:
@@ -680,7 +663,6 @@ class FatesRandomizer:
             if x < self.modP:
                 mods[i] += 1
                 mods[j] -= 1
-        # return growths, stats, mods
         return None
 
     def adjustBaseStatsAndGrowths(self, characterData):
@@ -703,12 +685,8 @@ class FatesRandomizer:
         if self.randomizeStatsAndGrowthsSum:
             newGrowthsSum = self.growthsSumMin + 10 * self.rng.choice((self.growthsSumMax-self.growthsSumMin+10)//10)
             newBaseStatsSum = self.baseStatsSumMin + self.rng.choice(self.baseStatsSumMax-self.baseStatsSumMin+1)
-            baseStatCap = self.baseStatCap
             if characterData["SwitchingCharacterName"] == "Gunter":
                 newGrowthsSum = 80  # nerf Gunter's replacement's growths
-            # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats  # actually, they're good enough without this
-            # if characterData["SwitchingCharacterName"] in ["Reina", "Camilla"]:  # Reina and Camilla deserve the buff to be equivalent to their vanilla counterparts
-            #     newBaseStatsSum += 5
             if characterData["SwitchingCharacterName"] == "Mozu" and self.forceParalogueAptitude:
                 newBaseStatsSum -= 10  # nerf Mozu's replacement's base stats
                 newBaseStatsSum = max(newBaseStatsSum, 0)
@@ -745,9 +723,6 @@ class FatesRandomizer:
 
         else:
             baseStatsSumMax = self.baseStatsSumMax
-            # if characterData["SwitchingCharacterName"] in ["Shura", "Izana", "Reina", "Camilla", "Leo", "Fuga"]: # prepromotes have higher base stats
-            # if characterData["SwitchingCharacterName"] in ["Camilla"]:  # Camilla deserves the buff to be equivalent to her vanilla counterpart
-                # baseStatsSumMax += 10
             if growthsSum < self.growthsSumMin or self.forceStatDecrease:
                 while growthsSum < self.growthsSumMin:
                     s = self.rng.choice(8, p=probas)
@@ -770,10 +745,9 @@ class FatesRandomizer:
         characterData['Growths'] = growths
         characterData['BaseStats'] = baseStats
 
-        # if self.verbose:
-        #     print("{}, {}, {}, {}, {}, {}".format(characterData['Name'], characterData['SwitchingCharacterName'], newGrowthsSum, newBaseStatsSum, growths, baseStats))
+        if self.verbose:
+            print("{}, {}, {}, {}, {}, {}".format(characterData['Name'], characterData['SwitchingCharacterName'], newGrowthsSum, newBaseStatsSum, growths, baseStats))
 
-        # return characterData
         return None
 
     def checkQuality(self, characterNames, classes, secondary=False):
@@ -819,62 +793,7 @@ class FatesRandomizer:
                     classes[i], classes[j] = classes[j], classes[i]
                     qualityPass = False
 
-        # return characterNames, classes
         return None
-
-    # def computeBaseStats(self, characterName):
-    #     """ returns the lvl 1 stats of the character """
-    #
-    #     characterStats = self.readCharacterStats(characterName)
-    #     characterGrowths = self.readCharacterGrowths(characterName)
-    #
-    #     level = self.readCharacterLevel(characterName)
-    #     promotionLevel = self.readCharacterPromotionLevel(characterName)
-    #     baseClass = self.readCharacterBaseClass(characterName)
-    #     originalClass = self.readCharacterOriginalClass(characterName)
-    #     baseClassGrowths = self.readClassGrowths(baseClass)
-    #     originalClassGrowths = self.readClassGrowths(originalClass)
-    #
-    #     minusStats = np.zeros(8)
-    #     if level > 1:
-    #         minusStats += (characterGrowths + originalClassGrowths) * (level - 1)
-    #     if promotionLevel > 1:
-    #         minusStats += (characterGrowths + baseClassGrowths) * (promotionLevel - 1)
-    #     minusStats = np.floor(minusStats/100)
-    #
-    #     characterBaseStats = characterStats - minusStats
-    #
-    #     return characterBaseStats
-
-    # def computeNewStats(self, character):
-    #     """ Returns the new stats of the character: base stats are
-    #     scaled up to the new level with the new class growths """
-    #
-    #     characterName = self.readCharacterName(character)
-    #     characterBaseStats = self.readCharacterBaseStats(characterName)
-    #     characterGrowths = self.readCharacterGrowths(characterName)
-    #
-    #     switchingCharacterName = self.readSwitchingCharacterName(character)
-    #     switchingCharacter = self.getCharacter(switchingCharacterName)
-    #
-    #     newLevel = self.readCharacterLevel(switchingCharacterName)  # rebalanceLevels / Revelations effects are inside the function call
-    #     self.setCharacterLevel(switchingCharacter, newLevel)  # worst case: it does nothing
-    #     newPromotionLevel = self.readCharacterPromotionLevel(switchingCharacterName)
-    #     newClass = self.readClassName(character)
-    #     newBaseClass = self.readBaseClass(newClass, characterName)
-    #     newClassGrowths = self.readClassGrowths(newClass)
-    #     newBaseClassGrowths = self.readClassGrowths(newBaseClass)
-    #
-    #     plusStats = np.zeros(8)
-    #     if newLevel > 1:
-    #         plusStats += (characterGrowths + newClassGrowths) * (newLevel - 1)
-    #     if promotionLevel > 1:
-    #         plusStats += (characterGrowths + newBaseClassGrowths) * (newPromotionLevel - 1)
-    #     plusStats = np.around((plusStats-25)/100) # if decimal part is above 0.75, round to superior
-    #
-    #     characterNewStats = characterBaseStats + plusStats
-    #
-    #     return characterNewStats
 
     def dataToString(self, data):
         return ','.join(list(map(str, list(map(int, data)))))
@@ -904,11 +823,6 @@ class FatesRandomizer:
                 newClass = self.randomizedClasses[switchingCharacterName]  # take the class of the switching character
                 newBaseClass = self.readBaseClass(newClass, characterName)
                 if newPromotionLevel > 0 or (switchingCharacterName in ['Jakob', 'Felicia']):
-                    # if switchingCharacterName == 'Reina' and self.gameRoute == 'Birthright':  # to prevent crash in Birthright  # spawn tile modified, should be ok now
-                    #     self.setCharacterClass(character, 'Kinshi Knight')
-                    #     self.setCharacterReclassOne(character, newBaseClass)
-                    # else:
-                    #     self.setCharacterClass(character, newClass)
                     if newClass == 'Enchanter':  # a heart seal will be needed
                         self.setCharacterClass(character, 'Adventurer')
                     elif newClass == 'Warden':  # a heart seal will be needed
@@ -1008,29 +922,6 @@ class FatesRandomizer:
         characterData['OldBaseStats'] = characterData['BaseStats']
         characterData['OldGrowths'] = characterData['Growths']
 
-        # # Fix Bitflags
-        # bitflags = self.readCharacterBitflags(character)
-        # bitflags[1:] = np.zeros(7)
-        # bitflags[5] = 64  # MyCastle shops
-        # if newClass in self.DRAGON_CLASSES:
-        #     bitflags[2] -= 128
-        # if newClass in self.BEAST_CLASSES:
-        #     bitflags[3] += 1
-        # if switchingCharacterName in self.ROYALS:
-        #     bitflags[4] += 8
-        # if switchingCharacterName == 'Takumi':
-        #     bitflags[3] += 64
-        # elif switchingCharacterName == 'Ryoma':
-        #     bitflags[3] -= 128
-        # elif switchingCharacterName == 'Leo':
-        #     bitflags[4] += 1
-        # elif switchingCharacterName == 'Xander':
-        #     bitflags[4] += 2
-        # elif switchingCharacterName == 'Ophelia':
-        #     bitflags[6] += 1
-        # self.setCharacterBitflags(switchingCharacter, bitflags)  # --- DOESN'T WORK
-        # self.setCharacterBitflags(character, bitflags)  # --- DOESN'T WORK
-
         # Adjust Base Stats and Growths
         self.adjustBaseStatsAndGrowths(characterData)
 
@@ -1110,30 +1001,26 @@ class FatesRandomizer:
 
         characterData['OldStats'] = characterData['Stats']
         characterData['Stats'] = characterNewStats
-        # characterData['Stats'] = characterData['BaseStats']  # test
 
-        # if self.verbose:
-        #     print("switchingCharacterName: {}".format(switchingCharacterName))
-        #     print("newLevel, newPromotionLevel: {}, {}".format(newLevel, newPromotionLevel))
-        #     print("OldStats: {}, total: {}".format(characterData['OldStats'], np.sum(characterData['OldStats'])))
-        #     print("OldBaseStats: {}, total: {}".format(characterData['OldBaseStats'], np.sum(characterData['OldBaseStats'])))
-        #     print("OldGrowths: {}, total: {}".format(characterData['OldGrowths'], np.sum(characterData['OldGrowths'])))
-        #     print("Growths: {}, total: {} -> {}".format(characterData['Growths'], np.sum(characterData['OldGrowths']), np.sum(characterData['Growths'])))
-        #     print("plusStats: {}, total: {}".format(plusStats, np.sum(plusStats)))
-        #     print("BaseStats: {}, total: {} -> {}".format(characterData['BaseStats'], np.sum(characterData['OldBaseStats']), np.sum(characterData['BaseStats'])))
-        #     print("Stats: {}, total: {} -> {}".format(characterData['Stats'], np.sum(characterData['OldStats']), np.sum(characterData['Stats'])))
+        if self.verbose:
+            print("switchingCharacterName: {}".format(switchingCharacterName))
+            print("newLevel, newPromotionLevel: {}, {}".format(newLevel, newPromotionLevel))
+            print("OldStats: {}, total: {}".format(characterData['OldStats'], np.sum(characterData['OldStats'])))
+            print("OldBaseStats: {}, total: {}".format(characterData['OldBaseStats'], np.sum(characterData['OldBaseStats'])))
+            print("OldGrowths: {}, total: {}".format(characterData['OldGrowths'], np.sum(characterData['OldGrowths'])))
+            print("Growths: {}, total: {} -> {}".format(characterData['Growths'], np.sum(characterData['OldGrowths']), np.sum(characterData['Growths'])))
+            print("plusStats: {}, total: {}".format(plusStats, np.sum(plusStats)))
+            print("BaseStats: {}, total: {} -> {}".format(characterData['BaseStats'], np.sum(characterData['OldBaseStats']), np.sum(characterData['BaseStats'])))
+            print("Stats: {}, total: {} -> {}".format(characterData['Stats'], np.sum(characterData['OldStats']), np.sum(characterData['Stats'])))
 
         # Increase Modifiers
         self.increaseModifiers(characterData['Modifiers'])
 
         # Set Data
-        if not (self.gameRoute == 'Birthright' and switchingCharacterName == "Reina") and newClass in self.DLC_CLASSES and newPromotionLevel > 0:
-            # Reina has to stay Kinshi Knight when she comes so no need to adjust the level
-            self.setCharacterLevel(switchingCharacter, newLevel + newPromotionLevel)
-            self.setCharacterPromotionLevel(switchingCharacter, -1)
+        if newClass in self.DLC_CLASSES and newPromotionLevel > 0:
+            self.setCharacterLevel(switchingCharacter, newLevel + 20)
         else:
             self.setCharacterLevel(switchingCharacter, newLevel)
-        self.setCharacterLevel(switchingCharacter, newLevel)
         self.setCharacterStats(switchingCharacter, characterData['Stats'])
         self.setCharacterGrowths(switchingCharacter, characterData['Growths'])
         if self.forceViableCharacters:
@@ -1148,7 +1035,6 @@ class FatesRandomizer:
         if self.disableModelSwitch:
             self.setSwitchingCharacterName(characterOriginal, characterNameOriginal)
 
-        # return switchingCharacter
         return None
 
     def getCharacter(self, characterName):
@@ -1319,7 +1205,7 @@ class FatesRandomizer:
             characterNames.remove('Mozu')
             removedCharacters.append('Mozu')
             if villagerPromotedClass in classes:
-                classes.remove(villagerPromoted)
+                classes.remove(villagerPromotedClass)
             else:
                 classes.remove(self.rng.choice([c for c in classes if c not in self.imposedClasses]))
 
@@ -1358,23 +1244,6 @@ class FatesRandomizer:
             v_zips2_after = list(zip(characterNames2, classes2))
             print("(characterNames2, classes2): {}".format(v_zips2_after))
             print("gendered-only (characterNames2, classes): {}".format([x for x in v_zips2_after if x[1] in self.TRUE_MALE_CLASSES + self.TRUE_FEMALE_CLASSES]))
-
-        # if self.banChildren:
-        #     self.rng.shuffle(classes)
-        #     classes = classes[:len(characterNames)]
-        #     self.checkQuality(characterNames, classes)
-        # else:  # prioritize variance in parent classes
-        #     childrenStart = characterNames.index('Shigure')
-        #     parentCharacterNames = characterNames[:childrenStart]
-        #     childrenCharacterNames = characterNames[childrenStart:]
-        #     parentClasses = classes[:childrenStart]
-        #     childrenClasses = classes[childrenStart:]
-        #     self.rng.shuffle(parentClasses)  # in place
-        #     self.rng.shuffle(childrenClasses)  # in place
-        #     self.checkQuality(parentCharacterNames, parentClasses)
-        #     self.checkQuality(childrenCharacterNames, childrenClasses)
-        #     classes = parentClasses + childrenClasses
-        #     classes = classes[:len(characterNames)]
 
         for i, className in enumerate(classes):
             self.randomizedClasses[characterNames[i]] = className
@@ -1417,7 +1286,6 @@ class FatesRandomizer:
                 if 149 not in skills:  # Survey skill, for identification
                     skills[-1] = 149
 
-        # return self.setCharacterSkills(switchingCharacter, skills)
         return None
 
     def randomizePersonalSkills(self):
@@ -1432,7 +1300,7 @@ class FatesRandomizer:
         self.rng.shuffle(personalSkills)
         personalSkillsBis = self.PERSONAL_SKILLS.copy()
         self.rng.shuffle(personalSkillsBis)
-        peronsalSkillsBis = personalSkills[15:] + personalSkillsBis
+        personalSkillsBis = personalSkills[15:] + personalSkillsBis
         personalSkills = [partnerSkill] + personalSkills[:15].copy()
         self.rng.shuffle(personalSkills)
         personalSkills = [corrinSkill] + personalSkills + personalSkillsBis
@@ -1651,12 +1519,12 @@ class FatesRandomizer:
                 skills[0] = 8
 
             # Malefic Aura
-            if skills[0] == 76 and not className in self.TOME_CLASSES:
+            if skills[0] == 76 and className not in self.TOME_CLASSES:
                 while skills[0] == 76:
                     skills[0] = self.rng.choice(allBaseSkills2)
 
             # Shadowgift
-            if skills[0] == 141 and not className in self.TOME_CLASSES:
+            if skills[0] == 141 and className not in self.TOME_CLASSES:
                 while skills[0] == 141:
                     skills[0] = self.rng.choice(allBaseSkills1)
 
@@ -1872,7 +1740,7 @@ class FatesRandomizer:
             if self.rng.random() < 0.5:
                 i, j = 2, 1
         elif classAttackType not in ['Str', 'StrMixed']:
-            raise ValueError("Attack type '{}' unknown".format(classDefenseType))
+            raise ValueError("Attack type '{}' unknown".format(classAttackType))
 
         growths = characterData['Growths']
         stats = characterData['BaseStats']
@@ -2025,7 +1893,6 @@ class FatesRandomizer:
                     writer.writerow(row)
 
         for character in self.settings['root']['Character']:
-            switchingcharacterName = self.readSwitchingCharacterName(character)
             self.fixCharacter(character)
 
         with open('{}/RandomizerSettingsUpdated.xml'.format(path), 'wb') as fxml:
