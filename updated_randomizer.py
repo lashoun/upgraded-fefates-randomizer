@@ -473,7 +473,7 @@ class FatesRandomizer:
         }
 
         self.PERSONAL_SKILLS = [
-            'Supportive', 'Devoted Partner', 'Evasive Partner', 'Miraculous Save',
+            'Supportive', 'Miraculous Save',
             'Healing Descant', 'Vow of Friendship', 'Highwayman', 'Peacebringer', 'Forager',
             'Fiery Blood', 'Quiet Strength', 'Fearsome Blow', 'Perfectionist', 'Pyrotechnics',
             'Capture', 'Rallying Cry', 'Divine Retribution', 'Optimist', 'Pride', 'Nohr Enmity',
@@ -1286,6 +1286,8 @@ class FatesRandomizer:
                 if 149 not in skills:  # Survey skill, for identification
                     skills[-1] = 149
 
+        self.setCharacterSkills(switchingCharacter, skills)
+
         return None
 
     def randomizePersonalSkills(self):
@@ -1554,9 +1556,6 @@ class FatesRandomizer:
                             skills[i] = self.BREAKER_SKILLS[weapon]
                         else:
                             skills[i] = self.FAIRE_SKILLS[weapon]
-                    # else:  # not that bad if someone else gets a breaker skill
-                    #     while skills[i] >= 79 and skills[i] <= 84:
-                    #         skills[i] = self.rng.choice(allPromotedSkills2)
 
         for i in range(nSkills, 5):  # erase added skills if needed
             skills[i] = 0
