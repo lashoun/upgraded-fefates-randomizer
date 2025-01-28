@@ -376,7 +376,7 @@ class FatesRandomizer:
         self.UNPROMOTED_CLASSES = [
             'Samurai', 'Oni Savage', 'Spear Fighter', 'Diviner', 'Shrine Maiden',
             'Monk', 'Sky Knight', 'Archer', 'Ninja', 'Apothecary', 'Kitsune',
-            'Songstress', 'Villager', 'Nohr Prince', 'Nohr Princess', 'Cavalier',
+            'Villager', 'Nohr Prince', 'Nohr Princess', 'Cavalier',
             'Knight', 'Fighter', 'Mercenary', 'Outlaw', 'Wyvern Rider', 'Dark Mage',
             'Troubadour', 'Wolfskin'
         ]
@@ -680,7 +680,8 @@ class FatesRandomizer:
             if x < self.modP:
                 mods[i] += 1
                 mods[j] -= 1
-        return growths, stats, mods
+        # return growths, stats, mods
+        return None
 
     def adjustBaseStatsAndGrowths(self, characterData):
         """
@@ -769,10 +770,11 @@ class FatesRandomizer:
         characterData['Growths'] = growths
         characterData['BaseStats'] = baseStats
 
-        if self.verbose:
-            print("{}, {}, {}, {}, {}, {}".format(characterData['Name'], characterData['SwitchingCharacterName'], newGrowthsSum, newBaseStatsSum, growths, baseStats))
+        # if self.verbose:
+        #     print("{}, {}, {}, {}, {}, {}".format(characterData['Name'], characterData['SwitchingCharacterName'], newGrowthsSum, newBaseStatsSum, growths, baseStats))
 
-        return characterData
+        # return characterData
+        return None
 
     def checkQuality(self, characterNames, classes, secondary=False):
         """ in place, ugly loop that ends only if:
@@ -789,10 +791,7 @@ class FatesRandomizer:
                 characterName = characterNames[i]
                 if (className in self.MALE_CLASSES or (className in self.TRUE_MALE_CLASSES and characterName in self.PREPROMOTED_CHARACTERS)) and characterName not in self.MALE_CHARACTERS:
                     if secondary:
-                        if characterName in self.PREPROMOTED_CHARACTERS:
-                            classes[i] = self.rng.choice([x for x in self.PROMOTED_CLASSES if x not in self.TRUE_MALE_CLASSES])
-                        else:
-                            classes[i] = self.rng.choice([x for x in self.UNPROMOTED_CLASSES if x not in ['Monk', 'Nohr Prince']])
+                        classes[i] = self.rng.choice([x for x in self.PROMOTED_CLASSES if x not in self.TRUE_MALE_CLASSES])
                     else:
                         newCharacterName = self.rng.choice([x for x in self.MALE_CHARACTERS if x in characterNames])
                         j = characterNames.index(newCharacterName)
@@ -800,10 +799,7 @@ class FatesRandomizer:
                         qualityPass = False
                 elif (className in self.FEMALE_CLASSES or (className in self.TRUE_FEMALE_CLASSES and characterName in self.PREPROMOTED_CHARACTERS)) and characterName not in self.FEMALE_CHARACTERS:
                     if secondary:
-                        if characterName in self.PREPROMOTED_CHARACTERS:
-                            classes[i] = self.rng.choice([x for x in self.PROMOTED_CLASSES if x not in self.TRUE_FEMALE_CLASSES])
-                        else:
-                            classes[i] = self.rng.choice([x for x in self.UNPROMOTED_CLASSES if x not in ['Shrine Maiden', 'Nohr Princess', 'Songstress']])
+                        classes[i] = self.rng.choice([x for x in self.PROMOTED_CLASSES if x not in self.TRUE_FEMALE_CLASSES])
                     else:
                         newCharacterName = self.rng.choice([x for x in self.FEMALE_CHARACTERS if x in characterNames])
                         j = characterNames.index(newCharacterName)
@@ -823,7 +819,8 @@ class FatesRandomizer:
                     classes[i], classes[j] = classes[j], classes[i]
                     qualityPass = False
 
-        return characterNames, classes
+        # return characterNames, classes
+        return None
 
     # def computeBaseStats(self, characterName):
     #     """ returns the lvl 1 stats of the character """
@@ -989,7 +986,7 @@ class FatesRandomizer:
 
             # Songstress Check
             if self.forceSongstress:
-                if switchingCharacterName == 'Azura':
+                if switchingCharacterName == 'Azura' and characterName in self.FEMALE_CHARACTERS:
                     self.setCharacterClass(character, 'Songstress')
 
         # Villager Check
@@ -1115,16 +1112,16 @@ class FatesRandomizer:
         characterData['Stats'] = characterNewStats
         # characterData['Stats'] = characterData['BaseStats']  # test
 
-        if self.verbose:
-            print("switchingCharacterName: {}".format(switchingCharacterName))
-            print("newLevel, newPromotionLevel: {}, {}".format(newLevel, newPromotionLevel))
-            print("OldStats: {}, total: {}".format(characterData['OldStats'], np.sum(characterData['OldStats'])))
-            print("OldBaseStats: {}, total: {}".format(characterData['OldBaseStats'], np.sum(characterData['OldBaseStats'])))
-            print("OldGrowths: {}, total: {}".format(characterData['OldGrowths'], np.sum(characterData['OldGrowths'])))
-            print("Growths: {}, total: {} -> {}".format(characterData['Growths'], np.sum(characterData['OldGrowths']), np.sum(characterData['Growths'])))
-            print("plusStats: {}, total: {}".format(plusStats, np.sum(plusStats)))
-            print("BaseStats: {}, total: {} -> {}".format(characterData['BaseStats'], np.sum(characterData['OldBaseStats']), np.sum(characterData['BaseStats'])))
-            print("Stats: {}, total: {} -> {}".format(characterData['Stats'], np.sum(characterData['OldStats']), np.sum(characterData['Stats'])))
+        # if self.verbose:
+        #     print("switchingCharacterName: {}".format(switchingCharacterName))
+        #     print("newLevel, newPromotionLevel: {}, {}".format(newLevel, newPromotionLevel))
+        #     print("OldStats: {}, total: {}".format(characterData['OldStats'], np.sum(characterData['OldStats'])))
+        #     print("OldBaseStats: {}, total: {}".format(characterData['OldBaseStats'], np.sum(characterData['OldBaseStats'])))
+        #     print("OldGrowths: {}, total: {}".format(characterData['OldGrowths'], np.sum(characterData['OldGrowths'])))
+        #     print("Growths: {}, total: {} -> {}".format(characterData['Growths'], np.sum(characterData['OldGrowths']), np.sum(characterData['Growths'])))
+        #     print("plusStats: {}, total: {}".format(plusStats, np.sum(plusStats)))
+        #     print("BaseStats: {}, total: {} -> {}".format(characterData['BaseStats'], np.sum(characterData['OldBaseStats']), np.sum(characterData['BaseStats'])))
+        #     print("Stats: {}, total: {} -> {}".format(characterData['Stats'], np.sum(characterData['OldStats']), np.sum(characterData['Stats'])))
 
         # Increase Modifiers
         self.increaseModifiers(characterData['Modifiers'])
@@ -1151,7 +1148,8 @@ class FatesRandomizer:
         if self.disableModelSwitch:
             self.setSwitchingCharacterName(characterOriginal, characterNameOriginal)
 
-        return switchingCharacter
+        # return switchingCharacter
+        return None
 
     def getCharacter(self, characterName):
         """ Returns a reference to the character in the dictionary """
@@ -1225,6 +1223,11 @@ class FatesRandomizer:
         classes = self.imposedClasses + classes + classes2
         classes2 = classes[len(characterNames):]
         classes = classes[:len(characterNames)]
+
+        if self.verbose:
+            print("randomizeAllClasses, classes init")
+            print("classes: {}".format(classes))
+            print("classes2: {}".format(classes2))
 
         # Staff Early Recruit Check
         staffClass = ''
@@ -1323,12 +1326,38 @@ class FatesRandomizer:
         characterNames2 = [x for x in self.ALL_CHARACTERS if (x not in characterNames and x not in removedCharacters)]
 
         self.rng.shuffle(classes)
+
+        if self.verbose:
+            print("before checkQuality")
+            v_zips_before = list(zip(characterNames, classes))
+            print("(characterNames, classes): {}".format(v_zips_before))
+            print("gendered-only (characterNames, classes): {}".format([x for x in v_zips_before if x[1] in self.TRUE_MALE_CLASSES + self.TRUE_FEMALE_CLASSES]))
+
         self.checkQuality(characterNames, classes)
 
+        if self.verbose:
+            print("after checkQuality")
+            v_zips_after = list(zip(characterNames, classes))
+            print("(characterNames, classes): {}".format(v_zips_after))
+            print("gendered-only (characterNames, classes): {}".format([x for x in v_zips_after if x[1] in self.TRUE_MALE_CLASSES + self.TRUE_FEMALE_CLASSES]))
+
         classes2 = classes2[:len(characterNames2)]
+
+        if self.verbose:
+            print("before checkQuality")
+            v_zips2_before = list(zip(characterNames2, classes2))
+            print("(characterNames2, classes2): {}".format(v_zips2_before))
+            print("gendered-only (characterNames2, classes): {}".format([x for x in v_zips2_before if x[1] in self.TRUE_MALE_CLASSES + self.TRUE_FEMALE_CLASSES]))
+
         if len(characterNames2) > 0:
             self.rng.shuffle(classes2)
             self.checkQuality(characterNames2, classes2, secondary=True)
+
+        if self.verbose:
+            print("after checkQuality")
+            v_zips2_after = list(zip(characterNames2, classes2))
+            print("(characterNames2, classes2): {}".format(v_zips2_after))
+            print("gendered-only (characterNames2, classes): {}".format([x for x in v_zips2_after if x[1] in self.TRUE_MALE_CLASSES + self.TRUE_FEMALE_CLASSES]))
 
         # if self.banChildren:
         #     self.rng.shuffle(classes)
@@ -1388,7 +1417,8 @@ class FatesRandomizer:
                 if 149 not in skills:  # Survey skill, for identification
                     skills[-1] = 149
 
-        return self.setCharacterSkills(switchingCharacter, skills)
+        # return self.setCharacterSkills(switchingCharacter, skills)
+        return None
 
     def randomizePersonalSkills(self):
         partnerSkill = self.rng.choice(self.PARTNER_PERSONAL_SKILLS)
@@ -1445,13 +1475,13 @@ class FatesRandomizer:
         for i, name in enumerate(names):
             self.personalSkills[name] = personalSkills[i]
 
+        return None
+
     def readBaseClass(self, className, characterName):
         """ Returns a possible base class for a promoted class
             or the same class for an unpromoted one """
         baseClasses = self.classData[className]['BaseClasses']
-        if className == 'Grandmaster' and not self.enableDLCBaseClass:
-            return 'Grandmaster'
-        elif className in ['Nohr Noble', 'Hoshido Noble'] or (className == 'Grandmaster' and not self.fatesUpgraded):
+        if className in ['Nohr Noble', 'Hoshido Noble'] or (className == 'Grandmaster' and not self.fatesUpgraded and self.enableDLCBaseClass):
             if characterName in self.MALE_CHARACTERS:
                 return 'Nohr Prince'
             elif characterName in self.FEMALE_CHARACTERS:
@@ -1459,10 +1489,12 @@ class FatesRandomizer:
             else:
                 raise ValueError('Character named "{}" not found in MALE_CHARACTERS or FEMALE_CHARACTERS'.format(characterName))
         elif className == 'Onmyoji':
+            if characterName in self.MALE_CHARACTERS:
+                return 'Monk'
             if characterName in self.FEMALE_CHARACTERS:
                 return 'Shrine Maiden'
             else:
-                return 'Monk'
+                raise ValueError('Character named "{}" not found in MALE_CHARACTERS or FEMALE_CHARACTERS'.format(characterName))
         elif len(baseClasses) == 0:
             return className
         else:
@@ -1686,43 +1718,43 @@ class FatesRandomizer:
 
     def setCharacterBitflags(self, character, bitflags):
         character['Bitflags']['@values'] = self.dataToString(bitflags)
-        return character
+        return None
 
     def setCharacterClass(self, character, className):
         character['ClassData']['@class'] = className
-        return character
+        return None
 
     def setCharacterGrowths(self, character, growths):
         character['Growths']['@values'] = self.dataToString(growths)
-        return character
+        return None
 
     def setCharacterLevel(self, character, level):
         character['LevelData']['@level'] = str(level)
-        return character
+        return None
 
     def setCharacterModifiers(self, character, modifiers):
         character['Modifiers']['@values'] = self.dataToString(modifiers)
-        return character
+        return None
 
     def setCharacterPromotionLevel(self, character, level):
         character['LevelData']['@internalLevel'] = str(level)
-        return character
+        return None
 
     def setCharacterReclassOne(self, character, className):
         character['ClassData']['@reclassOne'] = className
-        return character
+        return None
 
     def setCharacterStats(self, character, stats):
         character['Stats']['@values'] = self.dataToString(stats)
-        return character
+        return None
 
     def setCharacterSkills(self, character, skills):
         character['Skills']['@values'] = self.dataToString(skills)
-        return character
+        return None
 
     def setSwitchingCharacterName(self, character, switchingCharacterName):
         character['StringData']['@switchingCharacter'] = switchingCharacterName
-        return character
+        return None
 
     def swapCharacterAtkDef(self, characterData):
         """
@@ -1748,7 +1780,7 @@ class FatesRandomizer:
             stats[i], stats[j] = stats[j], stats[i]
             modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
-        return characterData
+        return None
 
     def swapCharacterDefRes(self, characterData):
         "by default, def and res are according to class"
@@ -1789,7 +1821,7 @@ class FatesRandomizer:
             if modifiers[i] < modifiers[j]:
                 modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
-        return characterData
+        return None
 
     def swapCharacterLck(self, characterData):
         s = self.rng.choice(7)
@@ -1815,7 +1847,7 @@ class FatesRandomizer:
             stats[5], stats[s] = stats[s], stats[5]
             modifiers[5], modifiers[s] = modifiers[s], modifiers[5]
 
-        return characterData
+        return None
 
     def swapCharacterSklSpd(self, characterData):
         if self.rng.random() < self.swapSklSpdP:
@@ -1828,7 +1860,7 @@ class FatesRandomizer:
             modifiers = characterData['Modifiers']
             modifiers[3], modifiers[4] = modifiers[4], modifiers[3]
 
-        return characterData
+        return None
 
     def adjustCharacterStrMag(self, characterData):
         className = characterData['NewClass']
@@ -1921,7 +1953,7 @@ class FatesRandomizer:
             stats[i], stats[j] = stats[j], stats[i]
             modifiers[i], modifiers[j] = modifiers[j], modifiers[i]
 
-        return characterData
+        return None
 
     def swapRetainerStats(self, characterData):
         """
@@ -1942,7 +1974,7 @@ class FatesRandomizer:
             if stats[i] > stats[j]:
                 stats[i], stats[j] = stats[j], stats[i]
 
-        return characterData
+        return None
 
     def run(self):
         if self.gameRoute == 'Revelations':
